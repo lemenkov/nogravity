@@ -14,10 +14,10 @@
 ** successor clauses in the FAR, DOD or NASA FAR Supplement. Unpublished -
 ** rights reserved under the Copyright Laws of the United States.
 **
-** $Header: /cvsroot/nogravity/nogravity/rlx32/src/renderers/glide/glidemem.cpp,v 1.1 2005/02/24 20:16:06 maffy Exp $
+** $Header: /cvsroot/nogravity/nogravity/rlx32/src/renderers/glide/glidemem.cpp,v 1.2 2005/02/26 00:15:39 realtech Exp $
 ** $Log: glidemem.cpp,v $
-** Revision 1.1  2005/02/24 20:16:06  maffy
-** Initial revision
+** Revision 1.2  2005/02/26 00:15:39  realtech
+** Release 6. BeOS bug fixes
 **
 **
 ** Description : Glide Texture Memory Manager
