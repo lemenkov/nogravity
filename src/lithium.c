@@ -495,7 +495,7 @@ void STUB_Default(void)
 
 void STUB_ReadyToRun(void)
 {
-	char *resFile = "NOGRAVITY.RMX";
+	char *resFile = "/usr/share/nogravity/NOGRAVITY.RMX";
 	
 #ifdef _DEBUG
     SYS_Debug("Open file resource : %s\n", resFile);
