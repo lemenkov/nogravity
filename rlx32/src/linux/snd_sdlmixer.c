@@ -83,7 +83,11 @@ static int Initialize(void *hnd)
 {
   // TODO: Check for failures (generally, not just in this file).
   SDL_InitSubSystem(SDL_INIT_AUDIO);
+#ifdef __powerpc__
+  Mix_OpenAudio(44100, AUDIO_S16MSB, 2, 1024);
+#else
   Mix_OpenAudio(44100, AUDIO_S16, 2, 1024);
+#endif
   Mix_ChannelFinished(ChannelFinished);
   return 0;
 }
