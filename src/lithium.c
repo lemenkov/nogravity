@@ -235,7 +235,10 @@ void STUB_MainCode(void)
 #if defined __BEOS__ || defined _DEBUG
 	RLX.Video.Config|=RLXVIDEO_Windowed;
 #else
- 	RLX.Video.Config&=~RLXVIDEO_Windowed;
+	if (g_SGSettings.Fullscreen == 1)
+	 	RLX.Video.Config&=~RLXVIDEO_Windowed;
+	 else
+	 	RLX.Video.Config|=RLXVIDEO_Windowed;
 #endif
 
 #ifdef _DEBUG

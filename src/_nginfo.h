@@ -42,6 +42,7 @@ typedef struct
     int			ResolutionX, ResolutionY, ColorDepth;
     int			ComNumber, ComTime, ComFTime;
     u_int8_t	VolDIG, VolFX, VolMusic;
+    u_int8_t Fullscreen;
     u_int8_t 	VisualsFx;
 	u_int8_t 	Interlaced;
     u_int8_t 	ZBuffer;
