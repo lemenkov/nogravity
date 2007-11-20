@@ -327,6 +327,8 @@ typedef struct _v3x_mesh{
     u_int16_t      	 	selfIllumine;   // Self illumination value (0..255)
 
     V3XSCALAR   	 	scale;          // Uniform scaling
+    /* Note an int32 of padding is added here by the compiler when compiling
+       for a platform with 64 bit pointers */
     union   
 	{
         V3XSCALAR	*	shade;
@@ -334,7 +336,6 @@ typedef struct _v3x_mesh{
     };
     V3XSCALAR	 		radius;
     u_int32_t        	pad;        // Pad
-
 }V3XMESH;
 
 /*
@@ -354,6 +355,8 @@ typedef struct _v3x_light
     V3XSCALAR    	 	range;          // Light range
     V3XSCALAR    	 	falloff;       // Spot falloff size
     rgb32_t				color;          // RGBA color
+    /* Note an int32 of padding is added here by the compiler when compiling
+       for a platform with 64 bit pointers */
     union {
 		 V3XMATERIAL 		*	material;       // Material
 		struct _v3xsprite 	*	flare;
@@ -361,6 +364,9 @@ typedef struct _v3x_light
     V3XSCALAR			flaresize;
 	rgb32_t				specular;
 	void			*	reserved[2];
+#ifdef __LP64__
+	u_int32_t alignTK_lp64[2];
+#endif    
 
     V3XKEY      		Tk;
 
@@ -369,7 +375,11 @@ typedef struct _v3x_light
     u_int8_t			alpha;
     u_int8_t       		status;
     u_int32_t			Timer, TimeOn, TimeOff;
+#ifndef __LP64__
     u_int32_t       	pad2[3];
+#else
+    u_int32_t       	pad2[5];
+#endif
 }V3XLIGHT;
 
 /*
@@ -380,9 +390,16 @@ typedef struct _v3x_camera{
     u_int32_t         matrix_Method;
     V3XVECTOR     transposed;      // Internal
     V3XSCALAR      focal;           // focal value
+#ifdef __LP64__
+    u_int32_t alignTK_lp64[6];
+#endif
     V3XMATRIX     M;               // Matrix 
     V3XKEY        Tk;              // Keyframe informations 22 q
+#ifndef __LP64__
     u_int32_t         pad[7];
+#else
+    u_int32_t         pad[9];
+#endif
 }V3XCAMERA;
 
 /*

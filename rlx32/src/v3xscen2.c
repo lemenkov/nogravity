@@ -1049,13 +1049,45 @@ static u_int32_t BGETFIELD(u_int32_t bf, int base, int length)
 V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
 {
     V3XMATERIAL *Mat;
+    u_int32_t *raw;
+    int i;
 	SYS_ASSERT(numMaterial < 255);
-	Mat = (V3XMATERIAL*)v3x_read_alloc(sizeof(V3XMATERIAL), numMaterial, -1, in);
+	
+    /* Unfortunately we cannot directly read the material struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
+       a simpler example of the same problem. */
+    raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), numMaterial * 32, -1, in);
+    Mat = (V3XMATERIAL*)MM_heap.malloc(numMaterial * sizeof(V3XMATERIAL));
 
+    /* copy the raw data to the material structs */
+    for (i=0;i<numMaterial;i++)
+    {
+      /* copy everything up to the textures */
+      memcpy(&Mat[i], raw, 14 * sizeof(u_int32_t));
+      /* each texture first has 2 ints, then 2 pointers */
+      memcpy(&Mat[i].texture[0], raw + 14, 2 * sizeof(u_int32_t));
+      Mat[i].texture[0].data = (u_int8_t *)(uintptr_t)raw[16];
+      Mat[i].texture[0].handle = (void *)(uintptr_t)raw[17];
+      memcpy(&Mat[i].texture[1], raw + 18, 2 * sizeof(u_int32_t));
+      Mat[i].texture[1].data = (u_int8_t *)(uintptr_t)raw[20];
+      Mat[i].texture[1].handle = (void *)(uintptr_t)raw[21];
+      Mat[i].reserved[0] = (void *)(uintptr_t)raw[22];
+      Mat[i].reserved[1] = (void *)(uintptr_t)raw[23];
+      Mat[i].fli = (struct _fli_struct *)(uintptr_t)raw[24];
+      Mat[i].render_clip = (void *)(uintptr_t)raw[25];
+      Mat[i].lod_near = raw[26];
+      Mat[i].lod_far  = raw[27];
+      /* copy the rest of the non ptr data starting at ambient */
+      memcpy(&Mat[i].ambient, raw + 28, 4 * sizeof(u_int32_t));
+      raw += 32;
+    }
+    raw -= numMaterial * 32;
+    MM_heap.free(raw);
+    
 #ifdef __BIG_ENDIAN__
 	{
     V3XMATERIAL *pMat = Mat;
-    int i;
     for (i=0;i<numMaterial;i++, pMat++)
     {
         u_int32_t info = pMat->lod;
@@ -1094,6 +1126,22 @@ static void V3XRGB_ConvertToMono(V3XSCALAR *mono, rgb32_t *rgb, unsigned n)
 {
     for (;n!=0L;mono++, rgb++, n--) *mono = (V3XSCALAR)RGB_ToGray(rgb->r, rgb->g, rgb->b);
 }
+
+static void v3x_raw_to_mesh(u_int32_t *raw, V3XMESH *obj)
+{
+    /* copy the raw data to the in memory mesh struct */
+    /* even though the first 6 items are pointers they contain relevant info */
+    obj->vertex       = (V3XVECTOR *)  (uintptr_t)raw[0];
+    obj->face         = (V3XPOLY *)    (uintptr_t)raw[1];
+    obj->uv           = (V3XUV *)      (uintptr_t)raw[2];
+    obj->normal       = (V3XVECTOR *)  (uintptr_t)raw[3];
+    obj->normal_face  = (V3XVECTOR *)  (uintptr_t)raw[4];
+    obj->material     = (V3XMATERIAL *)(uintptr_t)raw[5];
+    memcpy(&obj->matrix, raw + 6, 27 * sizeof(u_int32_t));
+    obj->rgb = (rgb32_t *)(uintptr_t)raw[33];
+    memcpy(&obj->radius, raw + 34, 2 * sizeof(u_int32_t));
+}
+
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  V3XMESH static RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
@@ -1104,7 +1152,15 @@ static void V3XRGB_ConvertToMono(V3XSCALAR *mono, rgb32_t *rgb, unsigned n)
 V3XNODE static RLXAPI *v3x_VMX_unpack_node(SYS_FILEHANDLE in)
 {
     V3XMESH *obj;
-    obj =(V3XMESH*)v3x_read_alloc(sizeof(V3XMESH), 1, -1, in);
+    /* Unfortunately we cannot directly read the MESH struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
+       a simpler example of the same problem. */
+    u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 36, -1, in);
+    obj =(V3XMESH*)MM_heap.malloc(sizeof(V3XMESH));
+    v3x_raw_to_mesh(raw, obj);
+    MM_heap.free(raw);
+    
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)&obj->matrix, 12);
 	BSWAP32((u_int32_t*)&obj->Tk, 3+3+1);
@@ -1118,7 +1174,16 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
     V3XMESH *obj;
     int i;
     V3XPOLY *f;
-    obj =(V3XMESH*)v3x_read_alloc(sizeof(V3XMESH), 1, -1, in);
+
+    /* Unfortunately we cannot directly read the MESH struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
+       a simpler example of the same problem. */
+    u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 36, -1, in);
+    obj =(V3XMESH*)MM_heap.malloc(sizeof(V3XMESH));
+    v3x_raw_to_mesh(raw, obj);
+    MM_heap.free(raw);
+    
 #ifdef __BIG_ENDIAN__
     BSWAP16((u_int16_t*)&obj->numVerts, 4);
     BSWAP32((u_int32_t *)&obj->flags, 1);
@@ -1132,7 +1197,28 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 #ifdef __BIG_ENDIAN__        
         BSWAP32((u_int32_t*)obj->vertex , obj->numVerts*3);
 #endif
-        obj->face = (V3XPOLY*) v3x_read_alloc(sizeof(V3XPOLY) , obj->numFaces, -1, in);
+        /* Unfortunately we cannot directly read the POLY struct from disk as
+           it contains (not used on disk) pointers, which on disk are 32 bit, but
+           may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
+           a simpler example of the same problem. */
+        raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 8 * obj->numFaces, -1, in);
+        obj->face =(V3XPOLY*)MM_heap.malloc(sizeof(V3XPOLY) * obj->numFaces);
+        /* copy the raw data to the in memory poly struct */
+        for (i = 0; i < obj->numFaces; i++)
+        {
+            u_int32_t *raw_poly = raw + i * 8;
+            V3XPOLY *poly = &obj->face[i];
+            poly->matIndex = raw_poly[0];
+            poly->faceTab  = (u_int32_t *)(uintptr_t)raw_poly[1];
+            poly->dispTab  = (V3XPTS *)(uintptr_t)raw_poly[2];
+            poly->uvTab    = (V3XUV **)(uintptr_t)raw_poly[3];
+            memcpy(&poly->distance, raw_poly + 4, sizeof(u_int32_t));
+            poly->rgb      = (rgb32_t*)(uintptr_t)raw_poly[5];
+            poly->ZTab     = (V3XWPTS*)(uintptr_t)raw_poly[6];
+            memcpy(&poly->numEdges, raw_poly + 7, sizeof(u_int32_t));
+        }
+        MM_heap.free(raw);
+
         if (obj->uv)
         {
             obj->uv =(V3XUV*) v3x_read_alloc(sizeof(V3XUV), obj->numVerts, -1, in);
@@ -1223,6 +1309,7 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
     }
     return obj;
 }
+
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
@@ -1233,7 +1320,22 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
 {
     V3XLIGHT *light;
-    light = (V3XLIGHT*)v3x_read_alloc(sizeof(V3XNODE), 1, -1, in);
+    /* Unfortunately we cannot directly read the LIGHT struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
+       a simpler example of the same problem. */
+    u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 36, -1, in);
+    light =(V3XLIGHT*)MM_heap.malloc(sizeof(V3XLIGHT));
+
+    /* copy the raw data to the in memory mesh struct */
+    memcpy(light, raw, 17 * sizeof(u_int32_t));
+    light->material = (V3XMATERIAL *)(uintptr_t)raw[17];
+    memcpy(&light->flaresize, raw + 18, 2 * sizeof(u_int32_t));
+    light->reserved[0] = (void *)(uintptr_t)raw[20];
+    light->reserved[1] = (void *)(uintptr_t)raw[21];
+    memcpy(&light->Tk, raw + 22, 14 * sizeof(u_int32_t));
+    MM_heap.free(raw);
+
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)&light->pos, 16);
 #endif
@@ -1259,7 +1361,15 @@ V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
 V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
 {
     V3XCAMERA *camera;
-    camera = (V3XCAMERA*)v3x_read_alloc(sizeof(V3XNODE), 1, -1, in);
+    /* Unfortunately we cannot directly read the CAMERA struct from disk as
+       we've added aditional padding to compensate for 64 bits pointers in
+       other structs with which we are in a union. */
+    u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 36, -1, in);
+    camera =(V3XCAMERA*)MM_heap.malloc(sizeof(V3XCAMERA));
+    memcpy(camera, raw, 6 * sizeof(u_int32_t));
+    memcpy(&camera->M, raw + 6, 30 * sizeof(u_int32_t));
+    MM_heap.free(raw);
+
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)&camera->M, 16);
 #endif
@@ -1274,20 +1384,70 @@ V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
 */
 V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
 {
-    V3XCL *Cs = (V3XCL*) v3x_read_alloc(sizeof(V3XCL), 1, -1, in);
+    V3XCL *Cs =(V3XCL*)MM_heap.malloc(sizeof(V3XCL));
+    int i;
+
+    /* Unfortunately we cannot directly read the collision struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
+       a simpler example of the same problem. */
+    u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 22, -1, in);
+    
+    /* copy the raw data to the in memory struct */
+    memcpy(Cs, raw, 2 * sizeof(u_int32_t));
+    Cs->item = (V3XCL_ITEM *)(uintptr_t)raw[2];
+    memcpy(&Cs->global, raw + 3, 12 * sizeof(u_int32_t)); /* sphere */
+    Cs->mesh_ref = (V3XMESH *)(uintptr_t)raw[15];
+    memcpy(&Cs->flags, raw + 16, 2 * sizeof(u_int32_t));
+    memcpy(&Cs->old, raw + 18, sizeof(u_int32_t));
+    memcpy(&Cs->hitCount, raw + 19, 2 * sizeof(u_int32_t));
+    Cs->last_hit = (V3XCL_ITEM *)(uintptr_t)raw[21];
+    MM_heap.free(raw);
+
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)Cs, 2);
 #endif
-	SYS_ASSERT(sizeof(V3XCL_ITEM) == 64);
-    Cs->item = (V3XCL_ITEM*)v3x_read_alloc(sizeof(V3XCL_ITEM), Cs->numItem, -1, in);
+    Cs->item = (V3XCL_ITEM*)MM_heap.malloc(sizeof(V3XCL_ITEM) * Cs->numItem);
+    /* Unfortunately we cannot directly read the collision item struct from
+       disk as it contains (not used on disk) pointers, which on disk are 32
+       bit, buts may in reality be different (64 bits) */
+    raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 16 * Cs->numItem, -1, in);
+    
+    for (i = 0; i < Cs->numItem; i++)
+    {
+        V3XCL_ITEM *item = &Cs->item[i];
+        u_int32_t *raw_item = raw + 16 * i;
+
+        item->type = raw_item[0];
+#ifdef __BIG_ENDIAN__
+        BSWAP32((u_int32_t*)&item->type, 1);
+#endif
+        if (item->type != V3XCTYPE_MESH)
+        {
+            /* disk and memory layout identical */
+            memcpy(((u_int32_t*)&item->type) + 1, raw_item + 1,
+                   15 * sizeof(u_int32_t));
+        }
+        else
+        {
+            /* copy the raw data to the in memory struct */
+            memcpy(&item->mesh.center, raw_item + 1, 7 * sizeof(u_int32_t));
+            item->mesh.face = (V3XCL_FACE *)(uintptr_t)raw_item[8];
+            item->mesh.sectorList = (u_int16_t *)(uintptr_t)raw_item[9];
+            item->mesh.maxsectors = raw_item[10];
+            item->mesh.mesh_ref = (V3XMESH *)(uintptr_t)raw_item[11];
+            /* skip 4 ints of unused padding (not there when using
+               64 bits pointers) */
+        }
+    }
+    
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)&Cs->global, 9);
     {
         V3XCL_ITEM *item = Cs->item;
-        int i;
         for (i=Cs->numItem;i!=0;item++, i--)
         {
-            BSWAP32((u_int32_t*)&item->box.type , 16);
+            BSWAP32(((u_int32_t*)&item->box.type) + 1 , 15);
         }
     }
 #endif
@@ -1309,12 +1469,32 @@ V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
 V3XTWEEN static RLXAPI *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
 {
     unsigned int i;
-    V3XTWEEN *Mo;
-    Mo = (V3XTWEEN*)v3x_read_alloc(sizeof(V3XTWEEN), 1, -1, in);
+    /* The V3XTWEEN struct looks like this:
+    
+    typedef struct _v3x_morph{
+
+     V3XTWEENFRAME *frame; // Morphing frame
+     u_int32_t numFrames; // Number of frame
+     u_int32_t numVerts; // Number of vertex
+     u_int32_t numFaces; // Number of face
+    }V3XTWEEN;
+    
+    Unfortunately we cannot read this directly from disk as the on disk
+    format contains 32 bits (unused) frame pointers, and our pointers may
+    have a different size, so instead we read 4 32 bit ints and copy the
+    results to a V3XTWEEN structure */
+
+    V3XTWEEN *Mo = (V3XTWEEN *)MM_heap.malloc(sizeof(V3XTWEEN));
+    u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 4, -1, in);
 #ifdef __BIG_ENDIAN__
-    BSWAP32((u_int32_t*)&Mo->numFrames, 3);
+    BSWAP32(raw + 1, 3);
 #endif
-    if ((!Mo->numFrames)||(!Mo->numVerts)) return NULL;
+    Mo->frame     = (V3XTWEENFRAME *)(uintptr_t)raw[0];
+    Mo->numFrames = raw[1];
+    Mo->numVerts  = raw[2];
+    Mo->numFaces  = raw[3];
+    MM_heap.free(raw);
+    if ((!Mo->numFrames)||(!Mo->numVerts)) { MM_heap.free(Mo); return NULL; }
     Mo->frame = (V3XTWEENFRAME*) MM_heap.malloc(Mo->numFrames*sizeof(V3XTWEENFRAME));
     for (i=0;i<Mo->numFrames;i++)
     {
@@ -1383,8 +1563,17 @@ static void RLXAPI v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
 * DESCRIPTION :
 *
 */
-static void RLXAPI v3x_VMX_unpack_TRI(V3XTRI *TRI, SYS_FILEHANDLE in)
+static void RLXAPI v3x_VMX_unpack_TRI(u_int32_t *rawTRI, V3XTRI *TRI,
+    SYS_FILEHANDLE in)
 {
+    /* Translate raw (on disk, pointers 32 bits, might be different in memory)
+       format to our in memory format */
+    TRI->keys = (V3XKEY *)(uintptr_t)rawTRI[0];
+    TRI->index_NEXT = rawTRI[1];
+    TRI->ORI_ref = (void *)(uintptr_t)rawTRI[2];
+    TRI->index_CHAIN = rawTRI[3];
+    memcpy(&TRI->pad, rawTRI + 4, 4 * sizeof(u_int32_t));
+        
 #ifdef __BIG_ENDIAN__
 	BSWAP32((u_int32_t *)&TRI->index_CHAIN, 1);
 	BSWAP16((u_int16_t*)&TRI->numFrames, 3);
@@ -1394,6 +1583,8 @@ static void RLXAPI v3x_VMX_unpack_TRI(V3XTRI *TRI, SYS_FILEHANDLE in)
     {
         if (TRI->flags&V3XKF_KEYEX)
         {
+            /* In this rare case  we can directly read the V3XKEYEX struct from disk as
+               it does not contain pointers! */
             TRI->keyEx=(V3XKEYEX*)v3x_read_alloc(sizeof(V3XKEYEX), TRI->numKeys, -1, in);
 #ifdef __BIG_ENDIAN__
             {
@@ -1409,6 +1600,8 @@ static void RLXAPI v3x_VMX_unpack_TRI(V3XTRI *TRI, SYS_FILEHANDLE in)
         }
         else
         {
+            /* In this rare case we can directly read the V3XKEY struct from
+               disk as it does not contain pointers! */
             TRI->keys=(V3XKEY*)v3x_read_alloc(sizeof(V3XKEY), TRI->numFrames, -1, in);
 #ifdef __BIG_ENDIAN__
             BSWAP32((u_int32_t*)TRI->keys, TRI->numFrames*7);
@@ -1427,34 +1620,47 @@ static void RLXAPI v3x_VMX_unpack_TRI(V3XTRI *TRI, SYS_FILEHANDLE in)
 
 static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
 {
-    V3XORI97	*ori97A = (V3XORI97*)MM_std.malloc(pScene->numORI*sizeof(V3XORI97));
-    V3XORI97	*ori97;
+    V3XORI97	ori97;
     V3XORI		*ori;
+    u_int32_t *rawORIs = (u_int32_t *)MM_std.malloc(pScene->numORI * 16 *
+                                                    sizeof(u_int32_t));
     int i;
-    FIO_gzip.fread(ori97A, pScene->numORI, sizeof(V3XORI97), in);
+
+    /* Unfortunately we cannot directly read the struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) */
+    FIO_gzip.fread(rawORIs, pScene->numORI, 16 * sizeof(u_int32_t), in);
     pScene->ORI = MM_CALLOC(pScene->numORI, V3XORI);
-    for (ori97 = ori97A, ori = pScene->ORI, i=0;i<pScene->numORI;i++, ori97++, ori++)
+    for (ori = pScene->ORI, i=0;i<pScene->numORI;i++, ori++)
     {
         const u_int8_t objTable[8] = { V3XOBJ_NONE, V3XOBJ_MESH, V3XOBJ_DUMMY, V3XOBJ_LIGHT, V3XOBJ_NONE, V3XOBJ_CAMERA, V3XOBJ_VIEWPORT};
+        u_int32_t *rawORI = rawORIs + 16 * i;
+        
+        /* copy the raw data to the in memory structs */
+        ori97.mesh  = (V3XMESH *) (uintptr_t)rawORI[0];
+        ori97.morph = (V3XTWEEN *)(uintptr_t)rawORI[1];
+        ori97.Cs    = (V3XCL *)   (uintptr_t)rawORI[2];
+        ori97.data  = (void *)    (uintptr_t)rawORI[3];
+        memcpy(&ori97.global_rayon, rawORI + 4, 12 * sizeof(u_int32_t));
 
 #ifdef __BIG_ENDIAN__
-        BSWAP32((u_int32_t* )&ori97->global_rayon, 1);
-        BSWAP32((u_int32_t* )&ori97->global_pivot, 3);
-        BSWAP16((u_int16_t*)&ori97->index_Parent, 1);
+        BSWAP32((u_int32_t* )&ori97.global_rayon, 1);
+        BSWAP32((u_int32_t* )&ori97.global_pivot, 3);
+        BSWAP16((u_int16_t*)&ori97.index_Parent, 1);
 #endif
         ori->flags = 0;
-        sysStrnCpy(ori->name, ori97->name, 16);
-        ori->type = objTable[ori97->Type];
-        ori->mesh = ori97->mesh;
-        ori->morph = ori97->morph;
-        ori->Cs = ori97->Cs;
-        ori->global_center = ori97->global_pivot;
-        ori->global_rayon = ori97->global_rayon;
-        ori->dataSize = ori97->index_Parent;
-        ori->pad2[0]  = ori97->matrix_Method;
-        ori->index_color = ori97->index_Color;
+        sysStrnCpy(ori->name, ori97.name, 16);
+        ori->type = objTable[ori97.Type];
+        ori->mesh = ori97.mesh;
+        ori->morph = ori97.morph;
+        ori->Cs = ori97.Cs;
+        ori->global_center = ori97.global_pivot;
+        ori->global_rayon = ori97.global_rayon;
+        ori->dataSize = ori97.index_Parent;
+        ori->pad2[0]  = ori97.matrix_Method;
+        ori->index_color = ori97.index_Color;
     }
-    MM_std.free(ori97A);
+    MM_std.free(rawORIs);
     return;
 }
 /*------------------------------------------------------------------------
@@ -1466,29 +1672,47 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
 */
 static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
 {
-    V3XOVI97 *ovi97A = (V3XOVI97*)MM_std.malloc(pScene->numOVI*sizeof(V3XOVI97));
-    V3XOVI97  *ovi97;
+    V3XOVI97 ovi97;
     V3XOVI *ovi;
+    u_int32_t *rawOVIs = (u_int32_t *)MM_std.malloc(pScene->numOVI * 16 *
+                                                    sizeof(u_int32_t));
     int i;
-    FIO_gzip.fread(ovi97A, pScene->numOVI, sizeof(V3XOVI97), in);
+
+    /* Unfortunately we cannot directly read the struct from disk as
+       it contains (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) */
+    FIO_gzip.fread(rawOVIs, pScene->numOVI, 16 * sizeof(u_int32_t), in);
     pScene->OVI = MM_CALLOC(pScene->numOVI, V3XOVI);
     
-	for (ovi97 = ovi97A, ovi = pScene->OVI, i = 0; i < pScene->numOVI; i++, ovi97++, ovi++)
+    for (ovi = pScene->OVI, i = 0; i < pScene->numOVI; i++, ovi++)
     {
+        u_int32_t *rawOVI = rawOVIs + 16 * i;
+        
+        /* copy the raw data to the in memory structs */
+        ovi97.mesh  = (V3XMESH *) (uintptr_t)rawOVI[0];
+        ovi97.data  = (void *)    (uintptr_t)rawOVI[1];
+        ovi97.Tk    = (V3XKEY *)  (uintptr_t)rawOVI[2];
+        ovi97.ORI   = (V3XORI *)  (uintptr_t)rawOVI[3];
+        ovi97.TVI   = (V3XTVI *)  (uintptr_t)rawOVI[4];
+        ovi97.Parent= (struct _ovi97 *) (uintptr_t)rawOVI[5];
+        ovi97.Child = (struct _ovi97 **)(uintptr_t)rawOVI[6];
+        ovi97.collisionList  = (struct _ovi97 *)(uintptr_t)rawOVI[7];
+        memcpy(&ovi97.distance, rawOVI + 8, 8 * sizeof(u_int32_t));
+        
 #ifdef __BIG_ENDIAN__
-        BSWAP16((u_int16_t*)&ovi97->index_OVI, 3);
+        BSWAP16((u_int16_t*)&ovi97.index_OVI, 3);
 #endif
         ovi->state = V3XSTATE_MATRIXUPDATE;
-        if (ovi97->Hide_Never)     
+        if (ovi97.Hide_Never)     
 			ovi->state|=V3XSTATE_CULLNEVER;
 			
-        if (ovi97->Hide_ByDisplay) 
+        if (ovi97.Hide_ByDisplay) 
 			ovi->state|=V3XSTATE_HIDDEN;
         
-		ovi->mesh = ovi97->mesh;
-        ovi->index_ORI = ovi97->index_ORI;
-        ovi->index_INSTANCE = ovi97->index_OVI;
-        ovi->index_TVI = ovi97->index_TVI;
+		ovi->mesh = ovi97.mesh;
+        ovi->index_ORI = ovi97.index_ORI;
+        ovi->index_INSTANCE = ovi97.index_OVI;
+        ovi->index_TVI = ovi97.index_TVI;
         ovi->matrix_Method = pScene->ORI[ovi->index_ORI].pad2[0];
         ovi->index_PARENT = pScene->ORI[ovi->index_ORI].dataSize;
     }
@@ -1500,13 +1724,15 @@ static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
             ovi->index_PARENT = V3XScene_OVI_GetByName(pScene, pScene->ORI[j].name) - pScene->OVI;
         }
     }
-    MM_std.free(ovi97A);
+    MM_std.free(rawOVIs);
     return;
 }
 
 static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
 {
     unsigned i;
+    u_int32_t *rawTRIs;
+    u_int32_t *rawTVIs;
     V3XLAYER *layer = &pScene->Layer;
     layer->tm.numFrames = 0;
     layer->tm.firstFrame = 0;
@@ -1514,6 +1740,7 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
     if (bFormat97)
 		v3xORI_Convert97(pScene, in);
     else
+                /* Note: not fixed for 64 bits, currently bFormat97 always is true */
 		pScene->ORI = (V3XORI*)v3x_read_alloc(sizeof(V3XORI), pScene->numORI, V3X.Setup.MaxExtentableObjet, in);
     for (i=0;i<V3X.Setup.MaxExtentableObjet;i++)
     {
@@ -1523,9 +1750,25 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
     if (bFormat97)
 		v3xOVI_Convert97(pScene, in);
     else
+                /* Note: not fixed for 64 bits, currently bFormat97 always is true */
 		pScene->OVI = (V3XOVI*) v3x_read_alloc(sizeof(V3XOVI), pScene->numOVI, V3X.Setup.MaxExtentableObjet, in);
-    pScene->TRI = (V3XTRI*) v3x_read_alloc(sizeof(V3XTRI), pScene->numTRI, V3X.Setup.MaxExtentableObjet, in);
-    pScene->TVI = (V3XTVI*) v3x_read_alloc(sizeof(V3XTVI), pScene->numTVI, V3X.Setup.MaxExtentableObjet, in);
+
+    /* Unfortunately we cannot directly read the structs from disk as
+       tkey contain (not used on disk) pointers, which on disk are 32 bit, but
+       may in reality be different (64 bits) */
+    pScene->TRI = (V3XTRI*)MM_heap.malloc(V3X.Setup.MaxExtentableObjet * sizeof(V3XTRI));
+    rawTRIs = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), pScene->numTRI * 8, -1, in);
+    pScene->TVI = (V3XTVI*)MM_heap.malloc(V3X.Setup.MaxExtentableObjet * sizeof(V3XTVI));
+    rawTVIs = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), pScene->numTVI * 4, -1, in);
+    /* copy the raw data to the in memory structs */
+    for (i = 0; i < pScene->numTVI; i++)
+    {
+        u_int32_t *rawTVI = rawTVIs + 4 * i;
+        pScene->TVI[i].index_TRI = rawTVI[0];
+        memcpy(&(pScene->TVI[i].frame), rawTVI + 1, 3 * sizeof(u_int32_t));
+    }
+    MM_heap.free(rawTVIs);
+
     if (bFormat97)
     {
         V3XTVI *TVI = pScene->TVI;
@@ -1546,16 +1789,18 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
  	for (i=0;i<pScene->numTRI;i++)
     {
         V3XTRI *TRI = pScene->TRI + i;
-        v3x_VMX_unpack_TRI(pScene->TRI+i, in);
+        u_int32_t *rawTRI = rawTRIs + 8 * i;
+        v3x_VMX_unpack_TRI(rawTRI, TRI, in);
         if ( layer->tm.firstFrame < TRI->startFrame )
 			layer->tm.firstFrame = TRI->startFrame;
         if ( layer->tm.numFrames < TRI->numFrames )
 			layer->tm.numFrames = TRI->numFrames;
     }
+    MM_heap.free(rawTRIs);
     return;
 }
 
-#define HEAD1 sizeof(V3XSCENE) - sizeof(V3XLAYER)
+#define HEAD1 28
 _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
 {
     u_int8_t *temp, *sy;
@@ -1564,6 +1809,7 @@ _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
     V3XLAYER97 *bk;
     V3XLAYER *layer = &pScene->Layer;
     V3X.Setup.flags|=V3XOPTION_97;
+    
     temp = (u_int8_t*) MM_std.malloc(HEAD1 + sizeof(V3XLAYER97));
     FIO_gzip.fread(temp, HEAD1 + sizeof(V3XLAYER97), 1, in);
     sysMemCpy(pScene, temp, HEAD1);
@@ -1689,6 +1935,8 @@ V3XSCENE RLXAPI *V3XScene_GetFromFile(const char *filename)
     }
     return pScene;
 }
+
+#if 0 /* not used! */
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  V3XOVI RLXAPI *V3XOVI_GetFromFile(V3XSCENE *pScene, char *filename)
@@ -1736,6 +1984,7 @@ V3XOVI RLXAPI *V3XOVI_GetFromFile(V3XSCENE *pScene, const char *filename, int do
             int k;
             j++;
             FIO_gzip.fread(ORI, 1, sizeof(V3XORI), in);
+            FIXME make 64 bits clean!
             v3x_VMX_unpack_ORI(ORI, in, 0);
             *OVI->node =* ORI->node;
             k = (flags>>8);
@@ -1753,6 +2002,8 @@ V3XOVI RLXAPI *V3XOVI_GetFromFile(V3XSCENE *pScene, const char *filename, int do
     FIO_gzip.fclose(in);
     return master;
 }
+#endif
+
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  V3XTVI RLXAPI *V3XTVI_GetFromFile(V3XSCENE *pScene, char *filename)
@@ -1763,6 +2014,7 @@ V3XOVI RLXAPI *V3XOVI_GetFromFile(V3XSCENE *pScene, const char *filename, int do
 V3XTVI RLXAPI *V3XTVI_GetFromFile(V3XSCENE *pScene, const char *filename)
 {
     u_int32_t flags;
+    u_int32_t rawTRI[8];
     SYS_FILEHANDLE in = FIO_gzip.fopen(filename, "rb");
     V3XTVI *master=NULL;
     if (!in)    return NULL;
@@ -1782,8 +2034,11 @@ V3XTVI RLXAPI *V3XTVI_GetFromFile(V3XSCENE *pScene, const char *filename)
 #ifdef __BIG_ENDIAN__
         BSWAP32(&flags, 1);
 #endif
-        FIO_gzip.fread(TRI, 1, sizeof(V3XTRI), in);
-        v3x_VMX_unpack_TRI(TRI, in);
+        /* Unfortunately we cannot directly read the material struct from disk
+           as it contains (not used on disk) pointers, which on disk are 32
+           bits, but may in reality be different (64 bits) */
+        FIO_gzip.fread(rawTRI, 1, 8 * sizeof(u_int32_t), in);
+        v3x_VMX_unpack_TRI(rawTRI, TRI, in);
     }while((flags&4)==0);
     return master;
 }
@@ -1797,6 +2052,7 @@ V3XTVI RLXAPI *V3XTVI_GetFromFile(V3XSCENE *pScene, const char *filename)
 V3XTRI RLXAPI *V3XTRI_GetFromFile(V3XSCENE *pScene, char *filename)
 {
     u_int32_t flags;
+    u_int32_t rawTRI[8];
     SYS_FILEHANDLE in = FIO_gzip.fopen(filename, "rb");
     V3XTRI *master=NULL;
     if (!in)    return NULL;
@@ -1812,8 +2068,11 @@ V3XTRI RLXAPI *V3XTRI_GetFromFile(V3XSCENE *pScene, char *filename)
 #ifdef __BIG_ENDIAN__
         BSWAP32(&flags, 1);
 #endif
-        FIO_gzip.fread(TRI, 1, sizeof(V3XTRI), in);
-        v3x_VMX_unpack_TRI(TRI, in);
+        /* Unfortunately we cannot directly read the material struct from disk
+           as it contains (not used on disk) pointers, which on disk are 32
+           bits, but may in reality be different (64 bits) */
+        FIO_gzip.fread(rawTRI, 1, 8 * sizeof(u_int32_t), in);
+        v3x_VMX_unpack_TRI(rawTRI, TRI, in);
     }while((flags&4)==0);
     return master;
 }

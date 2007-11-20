@@ -496,7 +496,7 @@ void sysConRender()
 
 	CSP_Color(0);
 	CSP_Alpha(128);
-	GX.gi.drawShadedRect(m_x, m_y, m_w, m_cH, (void*)cl);
+	GX.gi.drawShadedRect(m_x, m_y, m_w, m_cH, (void*)(uintptr_t)cl);
 
 	CSP_Color(0xffffffff);
 

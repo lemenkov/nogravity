@@ -66,7 +66,7 @@ typedef struct{
     int32_t        frame1;
     int32_t        frame2;
     char        reserved3[40];
-}FLC_FileHeader;  // FIXME : pas tres align‚
+} __attribute__((__packed__)) FLC_FileHeader;
 
 typedef union {
     FLC_FileHeader Struct;
@@ -83,7 +83,7 @@ typedef struct _fli_struct {
 
     GXSPRITE      bitmap;
     u_int32_t       start;
-    u_int32_t       start_buf;
+    uintptr_t       start_buf;
     u_int32_t       LastTime;
     u_int16_t      CurrentFrame;
     u_int16_t      MaximumFrame;

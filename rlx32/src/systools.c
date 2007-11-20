@@ -313,7 +313,7 @@ u_int8_t static *MM_heap_reserve(size_t size)
     u_int8_t *v = MM_heap.heapAddress     + MM_heap.CurrentAddress;
     MM_heap.PreviousAddress = MM_heap.CurrentAddress;
     {
-        int32_t off = ((u_int32_t)v+size)&31;
+        int32_t off = ((uintptr_t)v+size)&31;
         if (off) size+=32-off;           // Alignement sur 32 octets
     }
     MM_heap.CurrentAddress+=size;

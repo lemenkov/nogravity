@@ -68,8 +68,12 @@ typedef struct _v3xcl_mesh{                  // 64b
     u_int16_t	      *sectorList;// Sector list
     u_int32_t	       maxsectors; // maxSectors
     V3XMESH	      *mesh_ref;
+/* No padding when using 64 bit pointers to make this the same size as
+   V3XCL_SPHERE and V3XCL_BOX. We are 3 ints bigger due to the 3 pointers,
+   and one additional int to align the last pointer on a 64 bit boundary */
+#ifndef __LP64__
     u_int32_t              pad[4];    // pad
-
+#endif
 }V3XCL_MESH;
 
 typedef struct _v3x_cl_sphere{                  // 64b

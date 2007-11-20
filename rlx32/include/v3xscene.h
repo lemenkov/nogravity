@@ -112,17 +112,31 @@ typedef struct _v3x_morph{
 
 typedef struct _v3x_dummy{
  u_int32_t pad[6];
+#ifdef __LP64__
+ u_int32_t alignTK_lp64[6];
+#endif
  V3XMATRIX matrix;
  V3XKEY Tk;
- u_int32_t pad0[3];
+#ifndef __LP64__
+ u_int32_t pad0[3+4];
+#else
+ u_int32_t pad0[3+4+2];
+#endif
 }V3XDUMMY;
 
 
 typedef struct _v3x_node{
  u_int32_t pad[6];
+#ifdef __LP64__
+ u_int32_t alignTK_lp64[6];
+#endif
  V3XMATRIX matrix;
  V3XKEY Tk;
+#ifndef __LP64__
  u_int32_t pad0[3+4];
+#else
+ u_int32_t pad0[3+4+2];
+#endif
 }V3XNODE;
 
 
