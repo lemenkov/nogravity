@@ -1,5 +1,5 @@
 ===================================================================
-No Gravity (v1.99 Version) Source Code Release - February 13, 2005
+No Gravity (v2.00 Version) Source Code and Data Release
 ===================================================================
 
  ===========================================================
@@ -10,13 +10,9 @@ No Gravity (v1.99 Version) Source Code Release - February 13, 2005
 
 "No Gravity" copyright 1996 - 2005 RealTech. All trademarks and copyrights reserved.
 
-This is the complete source code for No Gravity version 1.98, buildable as detailed in the next section.
+This is the complete source code for No Gravity version 2.00, buildable as detailed in the next section.
 
-The code is licensed under the terms of the GPL (gnu public license).  You should read the entire license (filename "GNU.TXT" in this archive), so you understand your rights and what you can and cannot do with the source code from this release.
-
-All of the No Gravity data files remain copyrighted and licensed by RealTech under the original terms. You can use our data for personal entertainment or educational purposes.
-
-Please do not contact us for possible commercial exploitation of No Gravity -- we will not be interested.
+The code and data are licensed under the terms of the GPL (gnu public license).  You should read the entire license (filename "GNU.TXT" in this archive), so you understand your rights and what you can and cannot do with the source code from this release.
 
 Please note that this is being released without any kind of support from RealTech.
 
