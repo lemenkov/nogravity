@@ -81,7 +81,7 @@ V3XRESOURCE_ITEM *V3XResources_Put(V3XRESOURCE *bm, const char *filename, void *
     }
     if (bi)
     {
-        sysStrnCpy(bi->filename, filename, 56);
+        sysStrnCpy(bi->filename, filename, 55);
         bi->data = data;
         bi->flags   |= 1;
         bi->type = (u_int8_t)type;

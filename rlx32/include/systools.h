@@ -111,10 +111,11 @@ __end_extern_c
 #define sysMemSet memset
 #define sysMemCpy memcpy
 #define sysStrCpy strcpy
-#define sysStrnCpy strncpy
 #define sysStrLen strlen
 #define sysMemZero(a, b) sysMemSet(a, 0, b)
 #define sysRand(a)  (rand()%(a))
+
+void sysStrnCpy(char *dest, const char *src, size_t n);
 
 #ifndef min
 #define min(a,b) ((a)<(b) ? a : b) 

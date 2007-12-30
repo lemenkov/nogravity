@@ -515,3 +515,10 @@ char *file_searchpathES(char *fileName, const char *pathSearch)
     }
     return NULL;
 }
+
+void sysStrnCpy(char *dest, const char *src, size_t n)
+{
+    strncpy(dest, src, n);
+    /* important, n must be one less then the actual buffersize ! */
+    dest[n] = 0;
+}

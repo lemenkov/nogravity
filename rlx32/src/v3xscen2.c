@@ -1649,7 +1649,7 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
         BSWAP16((u_int16_t*)&ori97.index_Parent, 1);
 #endif
         ori->flags = 0;
-        sysStrnCpy(ori->name, ori97.name, 16);
+        sysStrnCpy(ori->name, ori97.name, 15);
         ori->type = objTable[ori97.Type];
         ori->mesh = ori97.mesh;
         ori->morph = ori97.morph;
@@ -2142,7 +2142,7 @@ V3XOVI *V3XOVI_InstanceOVI(V3XSCENE *pScene, V3XOVI *cOVI, int mode)
         *ORI = *cORI;
         ORI->Cs = NULL;//cORI->Cs;  
         sprintf(tex, "%s~%x", cOVI->ORI->name, (unsigned)(OVI-pScene->OVI));
-        sysStrnCpy(ORI->name, tex, 16);
+        sysStrnCpy(ORI->name, tex, 15);
         ORI->flags|=V3XORI_DUPLICATED|V3XORI_CSDUPLICATED;
         OVI->index_INSTANCE = cORI - pScene->ORI;  
 		assert(OVI->ORI!=NULL);		

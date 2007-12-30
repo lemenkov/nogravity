@@ -48,7 +48,7 @@ static char *YesNo[]={"no", "yes"};
 
 char static *SaveKey(u_int8_t *table)
 {
-	char tex[256];
+    static char tex[256];
     char *s=tex;
     int i;
     *s = 0;
@@ -63,8 +63,8 @@ char static *SaveKey(u_int8_t *table)
 
 static int ReadKey(char *s, u_int8_t *table)
 {
-    int i, d;
-    for (i=0, d=0;i<LK_MAX;i++, s+=3)
+    int i, d, len = strlen(s);
+    for (i=0, d=0;i<LK_MAX && (i*3) < len;i++, s+=3)
     {
         char te[4];
         sysStrnCpy(te, s, 3);

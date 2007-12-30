@@ -26,7 +26,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#if defined __GNU_ || __BEOS__
+#if defined __unix__ || defined __GNU__ || defined __BEOS__
 #include <unistd.h>
 #endif
 #if defined _MSC_VER 
@@ -65,7 +65,7 @@ static void AppendTrail(char *p)
 }
 void MakePathUUU(char *dest, const char *path, const char *lpFilename)
 {
-	sysStrnCpy(dest, path, _MAX_PATH);
+	sysStrnCpy(dest, path, _MAX_PATH - 2);
 	AppendTrail(dest);
 	strcat(dest, lpFilename);
 }
@@ -105,7 +105,7 @@ SYS_WAD *filewad_open(const char *lpFilename, int flags)
 		return NULL;
 
 	filewad_setcurrent( pWad );
-	sysStrnCpy(pWad->s_FileName, lpFilename, _MAX_PATH);
+	sysStrnCpy(pWad->s_FileName, lpFilename, _MAX_PATH - 1);
 	pWad->mode |= (u_int8_t) flags;
 	pWad->mode &= ~SYS_WAD_STATUS_ENABLED;
 
@@ -581,7 +581,7 @@ void filewad_getcwd(const SYS_WAD *pWad, char *curpath, int len)
 		pWad = filewad_getcurrent();
 
 	if (pWad)
-		sysStrnCpy(curpath, pWad->s_Path, len);
+		sysStrnCpy(curpath, pWad->s_Path, len - 1);
 #if !defined __MACOS__ && !defined _WINCE && !defined SN_TARGET_PS2 && !defined _XBOX
 	else
 		getcwd(curpath, len);

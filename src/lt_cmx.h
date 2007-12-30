@@ -25,8 +25,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 //-------------------------------------------------------------------------
 typedef struct _sg_script
 {	
-	char Basename[12];
-	char Realname[12];
+	char Basename[13];
+	char Realname[13];
 	int32_t Shield, ShieldMax, Scoring, Sight, Poids;
 	int32_t Wait, ShootOk, Appear, AfterDeath;
 	float fSpeed, fFrozen, fSpeedMax;

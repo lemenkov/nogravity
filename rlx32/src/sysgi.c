@@ -341,6 +341,10 @@ static int GetText(char *texte, unsigned maxCharacters, int (*callback)(char *, 
     int ok = 0;
     char __temp[256];
     unsigned l = strlen(texte);
+    
+    if (maxCharacters >= sizeof(__temp))
+        maxCharacters = sizeof(__temp) - 1;
+
     sysStrnCpy(__temp, texte, maxCharacters);
     do
     {
