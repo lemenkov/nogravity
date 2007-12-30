@@ -414,6 +414,7 @@ int NG_Audio3DUpdate(V3XVECTOR *pos, V3XVECTOR *speed, int playChannel, int inde
     if (RLX.Audio.Config&RLXAUDIO_Use3D)
     {
         V3XA.Client->ChannelSetParms(playChannel, pos, speed, NULL);
+        V3XA.Client->ChannelSetVolume(playChannel, (float)g_SGSettings.VolFX / 100);
 		return 1;
     }
     else
@@ -444,7 +445,7 @@ int NG_Audio3DPlay(int index, V3XVECTOR *pos, V3XVECTOR *speed)
         {
             V3XRANGE range = {1000.f, 100000.f};
             info.smpHandle->sampleFormat|=V3XA_FMT3D;
-            V3XA.Client->ChannelPlay(info.playChannel, 44100, 1, 0, info.smpHandle);
+            V3XA.Client->ChannelPlay(info.playChannel, 44100, (float)g_SGSettings.VolFX / 100, 0, info.smpHandle);
             V3XA.Client->ChannelSetParms(info.playChannel, pos, speed, &range);
         }
         else

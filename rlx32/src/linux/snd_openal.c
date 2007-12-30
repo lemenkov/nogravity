@@ -184,7 +184,8 @@ static void RLXAPI UserSetParms(V3XMATRIX *lpMAT,
   }
   if (lpDistanceF != NULL)
   {
-    for (channel = 0; channel < g_nchannels; channel ++)
+    // g_nchannels - 1, highest channel is reserver for music / streams
+    for (channel = 0; channel < (g_nchannels - 1); channel ++)
     {
       alSourcef(g_pchannels[channel].src, AL_REFERENCE_DISTANCE, (ALfloat)*lpDistanceF);
     }
@@ -194,7 +195,8 @@ static void RLXAPI UserSetParms(V3XMATRIX *lpMAT,
   }
   if (lpRolloffF != NULL)
   {
-    for (channel = 0; channel < g_nchannels; channel ++)
+    // g_nchannels - 1, highest channel is reserver for music / streams
+    for (channel = 0; channel < (g_nchannels - 1); channel ++)
     {
       alSourcef(g_pchannels[channel].src, AL_ROLLOFF_FACTOR, (ALfloat)*lpRolloffF);
     }
@@ -233,7 +235,9 @@ static void ChannelSetPanning(int channel, float pan)
 
 static void ChannelSetSamplingRate(int channel, int sampleRate)
 {
-   alSourcef(g_pchannels[channel].src, AL_PITCH, 44100.0 / sampleRate);
+   float bufferSampleRate = g_pchannels[channel].sam?
+      g_pchannels[channel].sam->samplingRate : 44100.0;
+   alSourcef(g_pchannels[channel].src, AL_PITCH, bufferSampleRate / sampleRate);
 }
 
 static void ChannelSetParms(int channel, V3XVECTOR *pos, V3XVECTOR *velocity, V3XRANGE *fRange)
@@ -277,6 +281,8 @@ static int ChannelPlay(int channel, int sampleRate, float volume, float pan, V3X
 static void ChannelStop(int channel)
 {
   alSourceStop(g_pchannels[channel].src);
+  g_pchannels[channel].sam = NULL;
+  g_pchannels[channel].play = FALSE;
 }
 
 static int ChannelGetStatus(int channel)
@@ -293,7 +299,8 @@ static int ChannelSetEnvironment(V3XA_CHANNEL channel, V3XA_REVERBPROPERTIES *cf
 static int ChannelGetFree(V3XA_HANDLE *sam)
 {
   int channel;
-  for (channel = 0; channel < g_nchannels; channel ++)
+  // g_nchannels - 1, highest channel is reserver for music / streams
+  for (channel = 0; channel < (g_nchannels - 1); channel ++)
   {
     if ((!g_pchannels[channel].play) &&
         (!g_pchannels[channel].stream))
@@ -301,7 +308,7 @@ static int ChannelGetFree(V3XA_HANDLE *sam)
       break;
     }
   }
-  if (channel >= g_nchannels)
+  if (channel >= (g_nchannels - 1))
   {
     channel = -1;
   }
@@ -311,7 +318,8 @@ static int ChannelGetFree(V3XA_HANDLE *sam)
 static void ChannelFlushAll(int mode)
 {
   int channel;
-  for (channel = 0; channel < g_nchannels; channel ++)
+  // g_nchannels - 1, highest channel is reserver for music / streams
+  for (channel = 0; channel < (g_nchannels - 1); channel ++)
   {
     if (ChannelGetStatus(channel))
     {
@@ -323,7 +331,8 @@ static void ChannelFlushAll(int mode)
 static void ChannelInvalidate(V3XA_HANDLE *sam)
 {
   int channel;
-  for (channel = 0; channel < g_nchannels; channel ++)
+  // g_nchannels - 1, highest channel is reserver for music / streams
+  for (channel = 0; channel < (g_nchannels - 1); channel ++)
   {
     if ((g_pchannels[channel].sam == sam) &&
 	(ChannelGetStatus(channel)))
@@ -347,7 +356,7 @@ static void StreamRelease(V3XA_STREAM handle)
     alSourceUnqueueBuffers(g_pchannels[g_pstreams[handle].chan].src, 1, &g_pstreams[handle].bufs[g_pstreams[handle].first]);
     alDeleteBuffers(1, &g_pstreams[handle].bufs[g_pstreams[handle].first]);
     g_pstreams[handle].first ++;
-    if (g_pstreams[handle].first > g_nbufsperstream)
+    if (g_pstreams[handle].first >= g_nbufsperstream)
     {
       g_pstreams[handle].first = 0;
     }
@@ -368,12 +377,11 @@ static void StreamReset(int stream)
 	g_pstreams[stream].first = 0;
 	g_pstreams[stream].last = 0;
 	g_pchannels[g_pstreams[stream].chan].stream = TRUE;
-	ChannelSetSamplingRate(g_pstreams[stream].chan, g_pstreams[stream].rate);
 	ChannelSetVolume(g_pstreams[stream].chan, 1.0);
 	ChannelSetPanning(g_pstreams[stream].chan, 0.0);
 	ChannelSetParms(g_pstreams[stream].chan, (V3XVECTOR *)&vector, (V3XVECTOR *)&vector, (V3XRANGE *)&range);
 	alSourcei(g_pchannels[g_pstreams[stream].chan].src, AL_LOOPING, AL_FALSE);
- 
+	alSourcef(g_pchannels[g_pstreams[stream].chan].src, AL_PITCH, 1.0);
 }
 
 static V3XA_STREAM StreamInitialize(int sampleFormat, int sampleRate, size_t size)
@@ -389,19 +397,12 @@ static V3XA_STREAM StreamInitialize(int sampleFormat, int sampleRate, size_t siz
   }
   if (stream < g_nstreams)
   {
-    channel = 31;
-    if (channel != -1)
-    {
+	   channel = g_nchannels - 1;
 	   g_pstreams[stream].chan = channel;
 	   g_pstreams[stream].fmt = (sampleFormat & V3XA_FMTSTEREO) ?  ((sampleFormat & V3XA_FMT16BIT) ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16) : ((sampleFormat & V3XA_FMT16BIT) ? AL_FORMAT_STEREO8 : AL_FORMAT_MONO8);
    	   g_pstreams[stream].rate = sampleRate;
 
    	   StreamReset(stream);
-	}
-    else
-    {
-      stream = -1;
-    }
   }
   else
   {
@@ -442,16 +443,16 @@ static int StreamPoll(V3XA_STREAM handle)
     g_pstreams[handle].pos += size;
     alDeleteBuffers(1, &g_pstreams[handle].bufs[g_pstreams[handle].first]);
     g_pstreams[handle].first ++;
-    if (g_pstreams[handle].first > g_nbufsperstream)
+    if (g_pstreams[handle].first >= g_nbufsperstream)
     {
       g_pstreams[handle].first = 0;
     }
     processed --;
    }
   if (((g_pstreams[handle].last >= g_pstreams[handle].first) &&
-       (g_pstreams[handle].last - g_pstreams[handle].first <= 20)) ||
+       (g_pstreams[handle].last - g_pstreams[handle].first <= 25)) ||
       ((g_pstreams[handle].last < g_pstreams[handle].first) &&
-       (g_pstreams[handle].last + g_nbufsperstream - g_pstreams[handle].first <= 20)))
+       (g_pstreams[handle].last + g_nbufsperstream - g_pstreams[handle].first <= 25)))
   {
     ret_code = 0;
   }
@@ -475,7 +476,7 @@ static int StreamLoad(V3XA_STREAM handle, void *data, size_t size)
     alBufferData(g_pstreams[handle].bufs[g_pstreams[handle].last], g_pstreams[handle].fmt, data, size, g_pstreams[handle].rate);
     alSourceQueueBuffers(g_pchannels[g_pstreams[handle].chan].src, 1, &g_pstreams[handle].bufs[g_pstreams[handle].last]);
     g_pstreams[handle].last ++;
-    if (g_pstreams[handle].last > g_nbufsperstream)
+    if (g_pstreams[handle].last >= g_nbufsperstream)
     {
       g_pstreams[handle].last = 0;
     }
