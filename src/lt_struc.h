@@ -501,7 +501,7 @@ enum COM_COMMAND
 
 typedef struct {
 	u_int16_t track, mode;
-	char filename[16];
+	char filename[17];
 }SGMusic;
 
 enum Ms_Enum

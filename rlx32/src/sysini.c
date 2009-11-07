@@ -174,7 +174,7 @@ static void trimSpace(char *str)
 {
     char    *orgStr = str;
     while( isspace(*str) ) str++;
-    sysStrCpy(orgStr, str);
+    memmove(orgStr, str, strlen(str) + 1);
 }
 /*------------------------------------------------------------------------
 *

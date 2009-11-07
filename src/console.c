@@ -114,7 +114,7 @@ void sysConPrint(const char *newmsg, ...)
 	p = (struct sys_console_item*) malloc (sizeof(struct sys_console_item));
 	p->prev = 0;
 	p->next = 0;
-	sysStrnCpy(p->text, msg, MAX_SYS_CONSOLE_TEXT);
+	sysStrnCpy(p->text, msg, MAX_SYS_CONSOLE_TEXT-1);
 
 	if (!m_pFirst)
 		m_pFirst = m_pLast = p;
@@ -321,7 +321,7 @@ sysConBindCmd(const char *szCmd, PFV3XCNLCMD pfFunc)
 {
 	struct sys_console_cmd *p = (struct sys_console_cmd*) malloc(sizeof(struct sys_console_cmd ));
 	p->next = 0;
-	sysStrnCpy(p->szCmd, szCmd, MAX_SYS_CONSOLE_TEXT);
+	sysStrnCpy(p->szCmd, szCmd, MAX_SYS_CONSOLE_TEXT-1);
 	p->pfFunc = pfFunc;
 
 	if (!m_pFirstCmd)
@@ -340,7 +340,7 @@ sysConBindCVar(const char *szVar, const void *pData)
 {
 	struct sys_console_cvar *p = (struct sys_console_cvar*) malloc(sizeof(struct sys_console_cvar));
 	p->next = 0;
-	sysStrnCpy(p->szVar, szVar, MAX_SYS_CONSOLE_TEXT);
+	sysStrnCpy(p->szVar, szVar, MAX_SYS_CONSOLE_TEXT-1);
 	p->pData = (void*)pData;
 
 	if (!m_pFirstCvar)
