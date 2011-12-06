@@ -77,7 +77,7 @@ static void pngx_error(png_structp png_ptr, png_const_charp message)
 #ifdef _DEBUG
 	SYS_Msg("!%s", message);
 #endif
-#ifndef LIBPNG_VERSION_12
+#if PNG_LIBPNG_VER >= 10400
 	png_longjmp(png_ptr, 1);
 #else
 	longjmp(png_ptr->jmpbuf, 1);
@@ -125,7 +125,7 @@ if (!pClut)
 	info_ptr = png_create_info_struct(png_ptr);
 	png_read_info(png_ptr, info_ptr);  /* read all PNG info up to image data */
 
-#ifndef LIBPNG_VERSION_12
+#if PNG_LIBPNG_VER >= 10400
 	if (setjmp(png_jmpbuf(png_ptr)))
 #else
 	if (setjmp(png_ptr->jmpbuf))
