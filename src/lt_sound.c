@@ -261,11 +261,13 @@ static u_int32_t CALLING_STD Thread(void *context)
 {
 	UNUSED(context);
 	
-	while (m_Status)
+	while (1)
 	{	
 #ifdef USE_MUTEX
 		mutex_lock(&m_Mutex);
 #endif
+		if (!m_Status)
+			break;
 		V3XAStream_Poll(g_pWavStream);
 #ifdef USE_MUTEX
 		mutex_unlock(&m_Mutex);		
@@ -304,10 +306,10 @@ void NG_AudioPlayTrack(int i)
 	m_Thread.pArgument = NULL;
 	m_Thread.pFunc = Thread;
 	m_Status = 1;
-	thread_begin(&m_Thread, SYS_THREAD_PRIORITY_NORMAL);
 #ifdef USE_MUTEX
 	mutex_init(&m_Mutex);	
 #endif
+	thread_begin(&m_Thread, SYS_THREAD_PRIORITY_NORMAL);
 #endif
 
     return;
@@ -510,6 +512,10 @@ void NG_AudioStopMusic(void)
 
 	if (g_pWavStream)
 	{
+#ifdef USE_MUTEX
+		m_Status = 0;
+		mutex_lock(&m_Mutex);
+#endif
 		for(i=g_SGSettings.VolMusic;i!=0;i--)
 		{
 			V3XAStream_SetVolume(g_pWavStream, 0, (float)i/100);
@@ -518,10 +524,6 @@ void NG_AudioStopMusic(void)
 			timer_snooze((64L*12L)/((g_SGSettings.VolMusic*4)+1));
 		}
 		
-#ifdef USE_MUTEX		
-		mutex_lock(&m_Mutex);
-		m_Status = 0;
-#endif
 		V3XAStream_Release(g_pWavStream);
 		
 #ifdef USE_MUTEX
