@@ -77,7 +77,11 @@ static void pngx_error(png_structp png_ptr, png_const_charp message)
 #ifdef _DEBUG
 	SYS_Msg("!%s", message);
 #endif
+#ifndef LIBPNG_VERSION_12
 	png_longjmp(png_ptr, 1);
+#else
+	longjmp(png_ptr->jmpbuf, 1);
+#endif
 }
 
 static void pngx_warning(png_structp png_ptr, png_const_charp message)
@@ -121,7 +125,11 @@ if (!pClut)
 	info_ptr = png_create_info_struct(png_ptr);
 	png_read_info(png_ptr, info_ptr);  /* read all PNG info up to image data */
 
+#ifndef LIBPNG_VERSION_12
 	if (setjmp(png_jmpbuf(png_ptr)))
+#else
+	if (setjmp(png_ptr->jmpbuf))
+#endif
 	{
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return NULL;
