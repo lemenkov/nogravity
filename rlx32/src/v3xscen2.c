@@ -1627,28 +1627,27 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
     layer->tm.numFrames = 0;
     layer->tm.firstFrame = 0;
 
-    if (bFormat97)
-		v3xORI_Convert97(pScene, in);
-    else
-                /* Note: not fixed for 64 bits, currently bFormat97 always is true */
-		pScene->ORI = (V3XORI*)v3x_read_alloc(sizeof(V3XORI), pScene->numORI, V3X.Setup.MaxExtentableObjet, in);
-    for (i=0;i<V3X.Setup.MaxExtentableObjet;i++)
+    if (!bFormat97) {
+        fprintf(stderr, "Fatal error non Format97 is NOT supported\n");
+        abort();
+    }
+
+    v3xORI_Convert97(pScene, in);
+
+    for (i=0;i<pScene->numORI;i++)
     {
         if (pScene->ORI[i].type == 0) 
 		pScene->ORI[i].type = V3XOBJ_NONE;
     }
-    if (bFormat97)
-		v3xOVI_Convert97(pScene, in);
-    else
-                /* Note: not fixed for 64 bits, currently bFormat97 always is true */
-		pScene->OVI = (V3XOVI*) v3x_read_alloc(sizeof(V3XOVI), pScene->numOVI, V3X.Setup.MaxExtentableObjet, in);
+
+    v3xOVI_Convert97(pScene, in);
 
     /* Unfortunately we cannot directly read the structs from disk as
        tkey contain (not used on disk) pointers, which on disk are 32 bit, but
        may in reality be different (64 bits) */
-    pScene->TRI = (V3XTRI*)MM_heap.malloc(V3X.Setup.MaxExtentableObjet * sizeof(V3XTRI));
+    pScene->TRI = (V3XTRI*)MM_heap.malloc(pScene->numTRI * sizeof(V3XTRI));
     rawTRIs = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), pScene->numTRI * 8, -1, in);
-    pScene->TVI = (V3XTVI*)MM_heap.malloc(V3X.Setup.MaxExtentableObjet * sizeof(V3XTVI));
+    pScene->TVI = (V3XTVI*)MM_heap.malloc(pScene->numTVI * sizeof(V3XTVI));
     rawTVIs = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), pScene->numTVI * 4, -1, in);
     /* copy the raw data to the in memory structs */
     for (i = 0; i < pScene->numTVI; i++)

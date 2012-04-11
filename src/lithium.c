@@ -537,7 +537,6 @@ void STUB_ReadyToRun(void)
 	NG_SetGameInfo();
 	
     V3X.Setup.flags|=V3XOPTION_COLLISION;
-    V3X.Setup.MaxExtentableObjet = 200;
     return;
 }
 /*------------------------------------------------------------------------

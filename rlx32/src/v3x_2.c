@@ -281,7 +281,6 @@ int V3XKernel_Alloc(void)
     V3X.ViewPort.minVisibleRadius =  2.f/600;
     V3X.ViewPort.minTextureVisibleRadius = 4.f/600;
     V3X.Setup.MaxStartObjet =  32;
-    V3X.Setup.MaxExtentableObjet =  32;
     V3X.Setup.pre_render =  v3x_NothingToAdd;
     V3X.Setup.post_render =  v3x_NothingToAdd;
     V3X.Setup.add_poly =  v3x_NothingToAdd;
