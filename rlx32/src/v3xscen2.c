@@ -159,7 +159,7 @@ void RLXAPI static V3x_Create_TVI(V3XTVI  *TVI, int i)
 * DESCRIPTION :
 *
 */
-V3XORI RLXAPI *V3XScene_NewORI(V3XSCENE *pScene)
+static V3XORI RLXAPI *V3XScene_NewORI(V3XSCENE *pScene)
 {
     V3XORI *ORI = pScene->ORI;
     int p;
@@ -175,7 +175,7 @@ V3XORI RLXAPI *V3XScene_NewORI(V3XSCENE *pScene)
 * Description :  
 *
 */
-int RLXAPI V3XScene_ReleaseObject(V3XSCENE *pScene, V3XOVI *OVI, u_int32_t flags)
+static int RLXAPI V3XScene_ReleaseObject(V3XSCENE *pScene, V3XOVI *OVI, u_int32_t flags)
 {
     V3XORI *ORI = OVI->ORI;
     ORI->type = V3XOBJ_NONE;
@@ -196,7 +196,7 @@ int RLXAPI V3XScene_ReleaseObject(V3XSCENE *pScene, V3XOVI *OVI, u_int32_t flags
 * DESCRIPTION :
 *
 */
-V3XOVI RLXAPI *V3XScene_NewOVI(V3XSCENE *pScene)
+static V3XOVI RLXAPI *V3XScene_NewOVI(V3XSCENE *pScene)
 {
     V3XOVI *OVI = pScene->OVI;
     int p;
@@ -216,7 +216,7 @@ V3XOVI RLXAPI *V3XScene_NewOVI(V3XSCENE *pScene)
 * DESCRIPTION :
 *
 */
-V3XTRI * RLXAPI V3XScene_NewTRI(V3XSCENE *pScene)
+static V3XTRI * RLXAPI V3XScene_NewTRI(V3XSCENE *pScene)
 {
     V3XTRI *TRI = pScene->TRI;
     int p;
@@ -232,7 +232,7 @@ V3XTRI * RLXAPI V3XScene_NewTRI(V3XSCENE *pScene)
 * DESCRIPTION :
 *
 */
-V3XTVI * RLXAPI V3XScene_NewTVI(V3XSCENE *pScene)
+static V3XTVI * RLXAPI V3XScene_NewTVI(V3XSCENE *pScene)
 {
     V3XTVI *TVI = pScene->TVI;
     int p;
@@ -248,7 +248,7 @@ V3XTVI * RLXAPI V3XScene_NewTVI(V3XSCENE *pScene)
 * DESCRIPTION :
 *
 */
-V3XOVI *V3XScene_NewObject(V3XSCENE *pScene, u_int32_t flags)
+static V3XOVI *V3XScene_NewObject(V3XSCENE *pScene, u_int32_t flags)
 {
     V3XORI    *ORI;
     V3XOVI *OVI;
@@ -577,7 +577,7 @@ void RLXAPI static v3x_freeMorph3D(V3XTWEEN *mo)
 * Description :  
 *
 */
-void V3XLight_Release(V3XLIGHT *light)
+static void V3XLight_Release(V3XLIGHT *light)
 {
     if ((light->material)&&(light->flags&V3XLIGHTCAPS_LENZFLARE))
     {
@@ -771,116 +771,6 @@ void RLXAPI V3XScene_Release(V3XSCENE *pScene)
     MM_heap.free(layer->lt.palette.table);
     MM_heap.free(pScene);
     return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : V3XSCENE* init_V3XSCENE(void)
-*
-* DESCRIPTION :
-*
-*/
-V3XSCENE *V3XScene_New(int option)
-{
-    V3XSCENE *pScene;
-    V3XTVI  *TVI;
-    V3XTRI     *TRI;
-    V3XOVI *OVI;
-    V3XORI    *ORI;
-    unsigned int i;
-    pScene = (V3XSCENE*) MM_heap.malloc(sizeof(V3XSCENE));
-    pScene->numOVI = (u_int16_t)V3X.Setup.MaxStartObjet;
-    pScene->numTVI = (u_int16_t)V3X.Setup.MaxStartObjet;
-    pScene->numTRI = (u_int16_t)V3X.Setup.MaxStartObjet;
-    pScene->numORI = (u_int16_t)V3X.Setup.MaxStartObjet;
-    if (V3X.Setup.MaxExtentableObjet<V3X.Setup.MaxStartObjet)
-    V3X.Setup.MaxExtentableObjet=V3X.Setup.MaxStartObjet*2;
-    pScene->ORI = (V3XORI*) MM_heap.malloc(V3X.Setup.MaxExtentableObjet*sizeof(V3XORI));
-    pScene->OVI = (V3XOVI*) MM_heap.malloc(V3X.Setup.MaxExtentableObjet*sizeof(V3XOVI));
-    pScene->TRI = (V3XTRI*) MM_heap.malloc(V3X.Setup.MaxExtentableObjet*sizeof(V3XTRI));
-    pScene->TVI = (V3XTVI*) MM_heap.malloc(V3X.Setup.MaxExtentableObjet*sizeof(V3XTVI));
-    for (ORI=pScene->ORI, i=0;i<V3X.Setup.MaxExtentableObjet;i++, ORI++)
-    {
-        switch(i) {
-            case 0: if (option&V3XSCENE_NEWVIEWPORT)
-            {
-                sysMemZero(ORI, sizeof(V3XORI));
-                sprintf(ORI->name, "viewport");
-                OVI = V3XScene_NewOVI(pScene);
-                OVI->ORI = ORI;
-                ORI->type = V3XOBJ_VIEWPORT;
-                ORI->mesh = (V3XMESH*) MM_heap.malloc(sizeof(V3XNODE));
-                OVI->TVI = V3XScene_NewTVI(pScene);
-                OVI->TVI->TRI = V3XScene_NewTRI(pScene);
-            }
-            else if (option&V3XSCENE_NEWNODES) V3x_Create_ORI(ORI, i);
-            break;
-            case 1: if (option&V3XSCENE_NEWCAMERA)
-            {
-                sysMemZero(ORI, sizeof(V3XORI));
-                sprintf(ORI->name, "camera");
-                OVI = V3XScene_NewOVI(pScene);
-                OVI->ORI = ORI;
-                ORI->type = V3XOBJ_CAMERA;
-                ORI->mesh = (V3XMESH*) MM_heap.malloc(sizeof(V3XMESH));
-                OVI->TVI = V3XScene_NewTVI(pScene);
-                OVI->TVI->TRI = V3XScene_NewTRI(pScene);
-            }
-            else if (option&V3XSCENE_NEWNODES) V3x_Create_ORI(ORI, i);
-            break;
-            case 2: 
-				if (option&V3XSCENE_NEWLIGHT)
-            {
-                sysMemZero(ORI, sizeof(V3XORI));
-                sprintf(ORI->name, "light");
-                OVI = V3XScene_NewOVI(pScene);
-                OVI->ORI = ORI;
-                ORI->type = V3XOBJ_LIGHT;
-                ORI->light = (V3XLIGHT*) MM_heap.malloc(sizeof(V3XNODE));
-                ORI->light->type = V3XLIGHTTYPE_DIRECTIONAL;
-                ORI->light->intensity = 255.f;
-                RGB_Set(ORI->light->color, 180, 180, 180);
-                *OVI->node = *ORI->node;
-                OVI->TVI = V3XScene_NewTVI(pScene);
-                OVI->TVI->TRI = V3XScene_NewTRI(pScene);
-            }
-            else
-            if (option&V3XSCENE_NEWNODES)
-            {
-                V3x_Create_ORI(ORI, i);
-            }
-            break;
-            default:
-            if (option&V3XSCENE_NEWOBJECTS) V3x_Create_ORI(ORI, i);
-            else ORI->type = V3XOBJ_NONE;
-            break;
-        }
-    }
-    if (option&V3XSCENE_NEWKF)
-    for (TVI=pScene->TVI, TRI=pScene->TRI, i=0;i<V3X.Setup.MaxExtentableObjet;i++, TRI++, TVI++)
-    {
-        V3x_Create_TVI(TVI, i);
-        V3x_Create_TRI(TRI, i);
-        TVI->TRI = TRI;
-    }
-    for (OVI=pScene->OVI, i=0;i<V3X.Setup.MaxExtentableObjet;i++, OVI++)
-    {
-        if (option&V3XSCENE_NEWOBJECTS)
-        {
-            if (!OVI->ORI)
-            {
-                V3x_Create_OVI(OVI, TRUE);
-                if (option&V3XSCENE_NEWKF)
-                OVI->TVI = pScene->TVI + i;
-                OVI->ORI = pScene->ORI + i;
-            }
-        }
-        OVI->state|=V3XSTATE_VALIDPOINTER;
-    }
-    if (option&V3XSCENE_NEWNODES)
-    V3XScene_Validate(pScene);
-    sysStrCpy(pScene->Layer.bg.filename, ".");
-    pScene->Layer.bg.flags= V3XBG_BLACK;
-    return pScene;
 }
 /*------------------------------------------------------------------------
 *
@@ -2103,111 +1993,3 @@ V3XOVI *V3XScene_Mesh_Merge(V3XSCENE *pScene, V3XMESH *mesh, const char *name)
     sysStrCpy(ORI->name, name);
     return OVI;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XOVI *V3XOVI_InstanceOVI(V3XSCENE *pScene, V3XOVI *cOVI)
-*
-* Description :  
-*
-*/
-V3XOVI *V3XOVI_InstanceOVI(V3XSCENE *pScene, V3XOVI *cOVI, int mode)
-{
-    V3XORI    *cORI = cOVI->ORI;
-    V3XOVI *OVI = V3XScene_NewObject(pScene, (mode & 1) ? 6 : 2);
-	V3XORI    *ORI = OVI->ORI;
-	if (mode & 2)
-	{
-		V3XNODE *node = ORI->node;
-		*ORI = *cORI;
-		ORI->node = node;
-        ORI->Cs = NULL;
-		V3XMesh_Duplicate(OVI->mesh, cORI->mesh);
-		ORI->flags|=V3XORI_DUPLICATED;
-		OVI->index_INSTANCE = 0;
-		*ORI->mesh = *OVI->mesh;
-		sysStrCpy(ORI->name, cORI->name);
-	}
-	else
-    if (mode & 1)
-    {
-        OVI->ORI = cORI;
-        OVI->index_INSTANCE = 0;  
-		OVI->state|=V3XSTATE_INSTANCED;
-    }
-    else
-    {
-		char tex[256];
-        V3XORI *ORI = OVI->ORI;
-		assert(cORI!=NULL);
-        *ORI = *cORI;
-        ORI->Cs = NULL;//cORI->Cs;  
-        sprintf(tex, "%s~%x", cOVI->ORI->name, (unsigned)(OVI-pScene->OVI));
-        sysStrnCpy(ORI->name, tex, 15);
-        ORI->flags|=V3XORI_DUPLICATED|V3XORI_CSDUPLICATED;
-        OVI->index_INSTANCE = cORI - pScene->ORI;  
-		assert(OVI->ORI!=NULL);		
-		OVI->state|=V3XSTATE_INSTANCED;
-    }
-    OVI->state|=V3XSTATE_VALIDPOINTER;
-    return OVI;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XOVI *V3XOVI_InstanceGroup(V3XSCENE *pScene, V3XOVI *cOVI)
-*
-* Description :
-*
-*/
-V3XOVI *V3XOVI_InstanceGroup(V3XSCENE *pScene, V3XOVI *cOVI, int mode)
-{
-    V3XOVI **child = cOVI->child;
-    V3XOVI *OVI;
-    int n = 0;
-	if (!child) V3XOVI_BuildChildren(cOVI, pScene);
-	child = cOVI->child;
-	
-	while (*child!=NULL) {child++;n++;}	
-    OVI = V3XOVI_InstanceOVI(pScene, cOVI, mode);
-    OVI->parent = cOVI->parent;
-    if (!n) n++;
-    OVI->child = (V3XOVI **)MM_heap.malloc((n+1)*sizeof(V3XOVI **));
-    for (n = 0, child = cOVI->child;*child!=NULL;child++, n++)
-    {
-        OVI->child[n] = V3XOVI_InstanceOVI(pScene, *child, mode);
-    }
-    OVI->child[n] = NULL;
-    for (n = 0, child = cOVI->child;*child!=NULL;child++, n++)
-    {
-        OVI->child[n]->parent = OVI;
-    }
-    return OVI;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XOVI_Release(V3XSCENE *pScene, V3XOVI *OVI, int doChild)
-*
-* Description :  
-*
-*/
-void V3XOVI_Release(V3XSCENE *pScene, V3XOVI *OVI, int doChild)
-{
-    int i = OVI - pScene->OVI;
-    int j = OVI->ORI - pScene->ORI;
-    if ((doChild)&&(OVI->child))
-    {
-        int n;
-        V3XOVI **child = OVI->child;
-        for (n = 0, child = OVI->child;*child!=NULL;child++, n++)
-        {   
-            V3XOVI *ch = *child;
-            int k = ch->ORI - pScene->ORI;
-            v3x_Destroy_OVI(pScene, ch - pScene->OVI);
-            if (ch->ORI)
-            v3x_Destroy_ORI(pScene, k);
-        }  
-    }
-    v3x_Destroy_OVI(pScene, i);
-    v3x_Destroy_ORI(pScene, j); 
-    return;
-}
-

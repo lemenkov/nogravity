@@ -348,13 +348,6 @@ struct _gx_viewport;
 
 __extern_c
 //
-_RLXEXPORTFUNC V3XORI RLXAPI *V3XScene_NewORI(V3XSCENE *Scene);
-_RLXEXPORTFUNC V3XOVI	RLXAPI *V3XScene_NewOVI(V3XSCENE *Scene);
-_RLXEXPORTFUNC V3XTVI RLXAPI *V3XScene_NewTVI(V3XSCENE *Scene);
-_RLXEXPORTFUNC V3XTRI RLXAPI *V3XScene_NewTRI(V3XSCENE *Scene);
-_RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_NewObject(V3XSCENE *Scene, u_int32_t flags);
-_RLXEXPORTFUNC int RLXAPI V3XScene_ReleaseObject(V3XSCENE *Scene, V3XOVI *OVI, u_int32_t flags);
-//
 _RLXEXPORTFUNC int RLXAPI V3XScene_Type_Counts(V3XSCENE *Scene, int type);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_Type_GetByIndex(V3XSCENE *Scene, int index_OVI, int type);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *Scene, const char *name);
