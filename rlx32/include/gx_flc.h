@@ -27,6 +27,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __GX_FLC_H
 #define __GX_FLC_H
 
+#include <stdint.h>
+
 // Load format
 enum {
     FLI_DIRECTFROMDISK = 0x0, 
