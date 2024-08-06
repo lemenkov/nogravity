@@ -743,7 +743,7 @@ static int CALLING_C fzip_fclose(SYS_FILEHANDLE fp)
     SYS_WAD *resource = filewad_getcurrent();
 	if ((!resource)||((resource->mode & SYS_WAD_STATUS_ENABLED)==0))
 	{
-		return lib_gzclose((gzFile *)fp);
+		return lib_gzclose((gzFile)fp);
 	}
 	else
 	{
@@ -751,7 +751,7 @@ static int CALLING_C fzip_fclose(SYS_FILEHANDLE fp)
 		SYS_ASSERT(s);
 		filewad_closeFP(resource, s->file);
 		s->file = 0;
-		lib_gzclose((gzFile *)fp);
+		lib_gzclose((gzFile)fp);
 	}
 	return 1;
 }
