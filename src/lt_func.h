@@ -125,7 +125,7 @@ void NG_StretchFont(GXSPRITEGROUP *pSpriteGroup, int fx, int fy);
 void NG_GamePlay(void);    
 void NG_DrawVideoSubtitles(FLI_STRUCT *);
 void NG_ReadLanguagePack(void);
-void NG_SetLanguage();
+void NG_SetLanguage(int l);
 int NG_ExecMainMenu(char **menu, int def, u_int32_t defColor, u_int8_t spacing);
 
 // AI
