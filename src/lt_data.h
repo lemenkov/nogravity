@@ -47,7 +47,6 @@ extern "C"
     extern SGMISSION g_SGObjects;
     extern RW_Interface *g_pGameBoard;
     extern SGStarfield Starfield;
-    extern SGRecordReplay g_pRecordData;
     extern V3XOVI *g_pLockTarget;
     extern SGScript *g_pPlayerInfo;
     extern SGGameItem *g_pGameItem;

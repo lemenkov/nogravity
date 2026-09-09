@@ -90,8 +90,6 @@ void NG_CleanUp(void)
 void NG_SetGameInfo(void)
 {
     g_SGSettings.Menu = 1;
-    g_SGSettings.RecTime = 15;
-    g_SGSettings.DemoDelay = 30;
 	g_SGSettings.VerticalSync = 1;
     g_SGSettings.WorldUnit = 1;
     g_SGSettings.showInf = 1;
@@ -395,8 +393,6 @@ void STUB_MainCode(void)
                 NG_GameStop();
                 MM_heap.reset();
 				MenuChoice = 0;
-                if (!g_SGSettings.DemoMode)
-                {
                     switch(g_SGObjects.FinCode) 
 					{
                         case GAMESTATE_WON:
@@ -426,21 +422,6 @@ void STUB_MainCode(void)
 #endif
                         break;
                     }
-                }
-                else
-                {
-#if (SGTARGET != NG_DEMO_VERSION)
-                    if  (g_SGSettings.DemoMode==2)
-                    {
-                        if (g_SGGame.Demo==3) 
-							NG_MenuCredits();
-
-                        if (g_SGGame.Demo==0) 
-							NG_PlayPresentsGame();
-                    }
-#endif
-                    MenuChoice =0;
-                }
                 MM_heap.reset();
             }while(MenuChoice!=0);
             MenuChoice=1;

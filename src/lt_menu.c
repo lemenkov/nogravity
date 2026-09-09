@@ -78,7 +78,7 @@ int g_cFadeValue;
 int g_cFadeValueDir;
 static int bControlSetup = 0;
 
-static char *g_pRootMain[]={g_szGmT[45], g_szGmT[46], g_szGmT[48], g_szGmT[49], g_szGmT[50], g_szGmT[51], g_szGmT[37], g_szGmT[52], NULL};
+static char *g_pRootMain[]={g_szGmT[45], g_szGmT[46], g_szGmT[48], g_szGmT[49], g_szGmT[50], g_szGmT[51], g_szGmT[52], NULL};
 
 #if (SGTARGET ==NG_DEMO_VERSION)
 static char *g_pEpisodeMenu[]={g_szGmT[53], g_szGmT[175], g_szGmT[118], NULL};
@@ -130,11 +130,6 @@ static SGMenu g_pMenuKey[]={
 
 static SGMenu s_pMenuGame[]={
     {g_szGmT[157], &g_SGSettings.Difficulty, 0, 2, {g_szGmT[148], g_szGmT[149], g_szGmT[150]}}, 
-#ifdef LT_DEV
-    {g_szGmT[125], &g_SGSettings.DemoMode, 0, 1, {g_szGmT[69], g_szGmT[68]}},
-    {g_szGmT[127], &g_SGSettings.RecTime, 5, 30, {NULL}},
-#endif
-    {g_szGmT[128], &g_SGSettings.DemoDelay, 15, 60, {NULL}}, 
     {g_szGmT[118], NULL, 0, 0, {NULL}},
 {NULL}};
 
@@ -170,7 +165,6 @@ static SGMenu g_pMenuControl[]={
 
 static GXSPRITE			g_csBackground;
 static RW_Interface *	g_pMenu;
-static u_int32_t			g_uiDemoDelay;
 
 #if (SGTARGET ==NG_DEMO_VERSION)
 static char			*	g_szQuestionMark="?";
@@ -2032,7 +2026,6 @@ int NG_MainMenu(void)
     CSP_Color(COLOR_WHITE);
     NG_AudioPlayTrack(Ms_MENU1);
     g_SGSettings.NextMenu = g_SGSettings.GoToBrief ? 2 : 0 ;
-    g_SGSettings.DemoMode = 0;
 	sysConSetLimits(0,0,GX.View.lWidth, GX.View.lHeight/2);
 	sysConPrint("Loading main menu ...");
 	NG_ResetColor();
@@ -2067,9 +2060,7 @@ int NG_MainMenu(void)
     while(ok==0)
     {
         int32_t p = MM_heap.push();
-        g_uiDemoDelay = timer_sec();
         but = NG_ExecMainMenu(g_pRootMain, 0, 0xffffffff, 0);
-        g_uiDemoDelay=0;
         switch(but) {
             case 0: //New Game
             if (!NG_NewGameMenu())
@@ -2099,16 +2090,8 @@ int NG_MainMenu(void)
             NG_AudioStopMusic();
             ok=3;
             break;
-            case 5:
-            if (g_SGSettings.DemoMode!=4) 
-			{
-				g_SGSettings.DemoMode = 2;
-				iItem=1;
-			}
-            ok=1;
-            break;
             case -1:
-            case 6:
+            case 5:
             if (NG_ExecMainMenu(g_pExitMenu, 0, 0xffffffff, 0)==0)
 				ok=2;
             g_SGSettings.NextMenu=2;

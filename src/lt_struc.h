@@ -251,7 +251,7 @@ typedef struct _sg_game{
 	char			LangCode[4];
 	
 	u_int8_t			WarpOk;
-	u_int8_t			IdPlayer, IsHost, Demo, Session;
+	u_int8_t			IdPlayer, IsHost, Session;
 	
 	u_int8_t 			mySession;
 	rgb24_t			FlashColor;
@@ -312,22 +312,6 @@ typedef struct _sg_mission
  	char				FinCode; 	
 }SGMISSION;
 
-typedef struct {
-   u_int8_t			*	buffer;
-   u_int32_t				length;
-}SGRecordBuffer;
-
-typedef struct 
-{
-	u_int16_t				startlevel;
- 	u_int16_t				version;
- 	u_int32_t				maxstep;
- 	u_int32_t				step;
- 	SGNetData		*	pos;
-#if (SGTARGET ==NG_FULL_VERSION)
-	SGRecordBuffer *	rec;
-#endif
-}SGRecordReplay;
 
 typedef struct {
 	u_int8_t				behind, 

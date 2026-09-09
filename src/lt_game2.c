@@ -1420,8 +1420,6 @@ void NG_LevelUpdate(void)
                                 g_SGSettings.ComTime = MAX_COM_DELAY;
                                 NG_AudioStopSound(g_cFXTable.Engine);
                                 NG_AudioStopSound(g_cFXTable.Alarm );
-                                if (g_SGSettings.DemoMode) 
-                                   g_SGObjects.FinCode = GAMESTATE_ABORT;
                                 g_pPlayer->Notify+=SGNET_HASDIE;
                             }
 
@@ -1496,7 +1494,7 @@ void NG_LevelUpdate(void)
                                 OVI->state|=V3XSTATE_MATRIXUPDATE;
                                 break;
                             }
-                            if ((!g_SGGame.IsHost)||(((g_SGSettings.DemoMode>=2)&&(g_pRecordData.version == 3)))) OVI->state|=V3XSTATE_MATRIXUPDATE;
+                            if (!g_SGGame.IsHost) OVI->state|=V3XSTATE_MATRIXUPDATE;
                             else
                             {
                                 g_pPlayer->Notify|=SGNET_SHIP;

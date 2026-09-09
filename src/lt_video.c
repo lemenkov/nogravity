@@ -162,9 +162,7 @@ void NG_DrawLoadingScreen(void)
 {
 	GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
 	CSP_WriteCenterText( 
-		g_SGSettings.DemoMode 
-		? "Demo" 
-		: g_pGameItem->EI[g_pCurrentGame->episode].LI[g_pCurrentGame->level[g_pCurrentGame->episode]].name, 
+		g_pGameItem->EI[g_pCurrentGame->episode].LI[g_pCurrentGame->level[g_pCurrentGame->episode]].name, 
 		GX.View.ymax-26, g_pFontMenuSml);
 }
 

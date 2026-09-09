@@ -1237,7 +1237,7 @@ static void NG_InitGameVariables(void)
     g_SGGame.ComMode = 0;
     g_SGGame.RadarRange = RADARMAX;
     g_SGGame.DeathDist = 1400;
-    g_SGGame.CameraMode = g_SGSettings.SerialGame||g_SGSettings.DemoMode ? 0 :CAMERA_START;
+    g_SGGame.CameraMode = g_SGSettings.SerialGame ? 0 : CAMERA_START;
     g_SGGame.FlashAlpha = -32;
     g_SGSettings.ComNumber = 0;
     g_SGGame.LockMAX = 0;
@@ -1434,14 +1434,6 @@ void NG_GameStart(void)
         tex[3]= 0; // security
         sNET->SendData(NET_EVERYBODY, tex, 3);
     }
-    switch(g_SGSettings.DemoMode) {
-        case 2:
-        case 4:
-#if (SGTARGET ==NG_FULL_VERSION)
-        g_pCurrentGame->ship = sysRand(3);
-#endif
-        break;
-    }
 
     // Test Controller
     NG_CheckSystems();
@@ -1450,7 +1442,7 @@ void NG_GameStart(void)
     start_level = (g_pCurrentGame->episode+1)*10L+(g_pCurrentGame->level[g_pCurrentGame->episode]+1);
     MM_heap.reset();
 
-	g_cTimer.iMinFrame = g_SGGame.Demo ? 1 : g_SGSettings.FrameSkip;
+	g_cTimer.iMinFrame = g_SGSettings.FrameSkip;
 	if (!g_cTimer.iMinFrame)
 		g_cTimer.iMinFrame = 1;
     timer_Start(&g_cTimer, 70, 1); 
@@ -1469,18 +1461,6 @@ void NG_GameStart(void)
     // Interface
     NG_LoadGameInterface();
     NG_DrawLoadingBar(10);
-    // Enregistrement
-    switch(g_SGSettings.DemoMode) {
-        case 1:
-        NG_ReplayStart();
-        g_SGGame.IsHost=1;
-        break;
-        case 2:
-        case 4:
-        start_level = NG_ReplayLoad();
-        g_SGGame.IsHost=1;
-        break;
-    }
     // Reset Game Value
     NG_ResetGameData();
     NG_DrawLoadingBar(20);
@@ -1559,11 +1539,6 @@ void NG_GameStop(void)
     NG_AudioStopSound(g_cFXTable.Alarm );
     NG_AudioStopTrack();
     
-	if (g_SGSettings.DemoMode==1) 
-		NG_ReplaySave();
-
-    if (g_SGSettings.DemoMode)    
-		NG_ReplayRelease();
 
 	NG_ReleaseGameInterface();
     NG_FXReleaseData();

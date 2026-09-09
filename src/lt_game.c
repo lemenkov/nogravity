@@ -533,12 +533,6 @@ int NG_QuitGame(void)
         g_szGmT[52], 
     NULL};
     PauseSoundGame();
-    if (g_SGSettings.DemoMode)
-    {
-        g_SGObjects.FinCode = GAMESTATE_ABORT;
-        ret = 1;
-    }
-    else
     switch(NG_DisplayDropMenu(PauseMenu))
 	{
         case 0:
@@ -975,7 +969,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 			NG_AudioBeep(1);
 		}
 
-		if ((g_SGObjects.FinCode==GAMESTATE_DEAD)||(g_SGSettings.DemoMode>=2))
+		if (g_SGObjects.FinCode==GAMESTATE_DEAD)
         {
             if (sKEY_IsClicked(s_esc))
             {
@@ -1286,104 +1280,6 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 * DESCRIPTION :
 *
 */
-static int g_nOldTimer, g_bSaveIT;
-
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int32_t static NG_ControlGame(void)
-*
-* DESCRIPTION :
-*
-*/
-static void Demo_RecordA(void)
-{
-    SGActor *J=&g_pPlayer->J;
-    g_bSaveIT = 0;
-    if (g_SGSettings.DemoMode<=1)
-    {
-        V3XVector_Cpy(g_pPlayer->Mat->v.Pos, g_pPlayer->Rot->pos);
-        if (g_pPlayer->Mv.inert<1)               
-			g_pPlayer->Mv.inert=1;
-        if (g_pPlayer->Mv.inert>J->pInf.fSpeedMax)
-			g_pPlayer->Mv.inert=J->pInf.fSpeedMax;
-    }
-    switch(g_SGSettings.DemoMode)
-	{
-        case 1:
-        if (g_pRecordData.step<g_pRecordData.maxstep)
-        if (g_SGGame.CameraMode!=CAMERA_NEWNAV+1)
-        {
-            int t = timer_ms();
-            if (t>g_nOldTimer)
-            {
-                g_pPlayer->Mx.Mat = *(g_pPlayer->Mat);
-                g_pRecordData.pos[g_pRecordData.step]=g_pPlayer->Mx;
-                g_nOldTimer += (1000/30);
-                g_bSaveIT=1;
-            }
-        }
-        case 2:
-        case 4:
-        if (g_pRecordData.step<g_pRecordData.maxstep)
-        if (g_SGGame.CameraMode!=CAMERA_NEWNAV+1)
-        {
-            int t = timer_ms();
-            if (t>g_nOldTimer)
-            {
-                g_pPlayer->Mx = g_pRecordData.pos[g_pRecordData.step];
-                *(g_pPlayer->Mat) = g_pPlayer->Mx.Mat;
-                g_pPlayer->Rot->pos = g_pPlayer->Mat->v.Pos;
-                g_bSaveIT=1;
-                g_nOldTimer += (1000/30);
-            }
-        }
-        else g_pPlayer->Mx.but|=(1L<<20);
-        break;
-    }
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void NG_RecordReplayAction(void)
-*
-* Description :  
-*
-*/
-static void NG_RecordReplayAction(void)
-{
-#if (SGTARGET ==NG_FULL_VERSION)
-    SGRecordBuffer  *rec;
-#endif
-    g_pPlayer->Mx.but = 0;
-    if (g_pRecordData.step>=g_pRecordData.maxstep)
-    {
-        g_SGObjects.quit=1;
-        return;
-    }
-#if (SGTARGET ==NG_FULL_VERSION)
-    if (g_bSaveIT)
-    switch(g_SGSettings.DemoMode) {
-        case 1:
-        rec = g_pRecordData.rec + g_pRecordData.step;
-        rec->length = NG_NetTranslate(g_pPlayer, rec->buffer);
-        g_pRecordData.step++;
-        break;
-        case 2:
-        case 4:
-        rec = g_pRecordData.rec + g_pRecordData.step;
-        NG_NetDispatchPlayer(0, rec->buffer);
-        g_pRecordData.step++;
-        break;
-    }
-#else
-    if (g_bSaveIT)
-    switch(g_SGSettings.DemoMode) {
-        case 2:
-        case 4:
-        g_pRecordData.step++;
-        break;
-    }
-    #endif
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  int32_t static NG_ControlGame(void)
@@ -1400,7 +1296,11 @@ int32_t static NG_ControlGame(void)
     SGActor *J=&g_pPlayer->J, *JJ;
     g_pPlayer->Notify = 0;
     NG_ReadInput(&dx, &dy, &InMax);
-    Demo_RecordA();
+    V3XVector_Cpy(g_pPlayer->Mat->v.Pos, g_pPlayer->Rot->pos);
+    if (g_pPlayer->Mv.inert<1)
+    	g_pPlayer->Mv.inert=1;
+    if (g_pPlayer->Mv.inert>J->pInf.fSpeedMax)
+    	g_pPlayer->Mv.inert=J->pInf.fSpeedMax;
     if (g_SGGame.CameraMode<CAMERA_NEWNAV)
     {
         if (g_pPlayer->Mv.x||g_pPlayer->Mv.y||g_pPlayer->Mv.z) g_pPlayer->Notify+=SGNET_HASTURN;
@@ -1451,7 +1351,7 @@ int32_t static NG_ControlGame(void)
             {
                 if (g_pPlayer->Mx.but&(1L<<5))
                 {
-                    if ((g_SGGame.MaxAim[g_SGObjects.NAV])&&(!g_SGSettings.DemoMode))
+                    if (g_SGGame.MaxAim[g_SGObjects.NAV])
                     {
                         g_SGSettings.ComNumber = COM_NearBy;
                         g_SGSettings.ComTime = MAX_COM_DELAY;
@@ -1461,7 +1361,7 @@ int32_t static NG_ControlGame(void)
                         OVI = NG_AILocateNearestEnemy(&g_pPlayer->Mat->v.Pos, &b, &oV, t_SPECIAL);
                         if (OVI)
                         {
-                            if (((oV<5000L)||(g_SGSettings.DemoMode))&&(g_SGObjects.NAV<g_SGObjects.MaxNAV-1))
+                            if ((oV<5000L)&&(g_SGObjects.NAV<g_SGObjects.MaxNAV-1))
                             {
                                 g_SGSettings.ComNumber = 0;
                                 g_SGSettings.ComTime=MAX_COM_DELAY;
@@ -2707,7 +2607,7 @@ static void NG_DrawHUD()
 
 	 CSP_Color(g_SGGame.CI_WHITE);
 
-    if ((g_SGSettings.Ctrl==CTRL_Mouse)&&(g_SGSettings.DemoMode<2)&&(g_SGGame.CameraMode<CAMERA_NAV)&&(!g_SGSettings.AltMouse))
+    if ((g_SGSettings.Ctrl==CTRL_Mouse)&&(g_SGGame.CameraMode<CAMERA_NAV)&&(!g_SGSettings.AltMouse))
 		GX.csp.put(sMOU->x, sMOU->y, g_pspHud2->item + 0);
 
 	NG_HudDisplayCamera();
@@ -2755,18 +2655,6 @@ static void NG_DrawHUD()
            g_SGObjects.FinCode=GAMESTATE_FAILED;
     }
 
-    if ((g_SGSettings.DemoMode)&&(g_SGSettings.cursor))
-    {
-        if (g_SGSettings.DemoMode>=2)
-            CSP_WriteCenterText("Demo", y+=dy, g_pspDispFont);
-
-        if (g_SGSettings.DemoMode==1)
-        {
-			char tex[256];
-            sprintf(tex, "REC: %ld", (g_pRecordData.step*100L)/g_pRecordData.maxstep);
-            CSP_WriteCenterText(tex, y+=dy, g_pspDispFont);
-        }
-    }
     if (g_SGObjects.IsTimed)
     {
         if (g_SGObjects.Time==10)
@@ -2911,7 +2799,7 @@ void NG_GamePlay(void)
     V3XScene_Viewport_Build(g_SGGame.Scene, &GX.View);
 
 	g_cGameStat.time_start = timer_sec();
-    V3X.Time.ms = g_nOldTimer = timer_ms();
+    V3X.Time.ms = timer_ms();
   
     timer_Update(&g_cTimer);
 
@@ -2992,9 +2880,6 @@ void NG_GamePlay(void)
 
         if (g_SGObjects.FinCode==GAMESTATE_HELP)
         {
-            if (g_SGSettings.DemoMode) 
-				g_SGObjects.quit=1;
-            else
 				ShowHelp();
             g_SGObjects.FinCode = 0;
         }
@@ -3006,9 +2891,6 @@ void NG_GamePlay(void)
 				NG_NetTranslate(g_pPlayer, NULL);
 				NG_NetDispatch();
 			}
-			if (g_SGSettings.DemoMode)
-				NG_RecordReplayAction();
-			else  
 				g_pPlayer->Mx.but = 0;
 
 			
@@ -3027,7 +2909,7 @@ void NG_GamePlay(void)
     timer_Stop(&g_cTimer);
     g_cGameStat.time_end = timer_sec();
 
-    if ((g_SGObjects.FinCode==GAMESTATE_WON)&&(!g_SGSettings.DemoMode))
+    if (g_SGObjects.FinCode==GAMESTATE_WON)
     {
         g_pCurrentGame->score = g_pPlayer->J.pInf.Scoring;
         g_pPlayer->Notify+=SGNET_HASWON;
@@ -3043,8 +2925,6 @@ void NG_GamePlay(void)
         g_pPlayer->Notify+=SGNET_HASLEFT;
     }
 
-    if (g_SGSettings.DemoMode)
-		g_SGObjects.FinCode=GAMESTATE_DEAD;
 
     if (g_SGSettings.SerialGame)
     {

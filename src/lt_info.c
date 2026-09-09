@@ -306,7 +306,6 @@ void NG_ReadGameConfig(void)
 #endif
     {
         g_SGSettings.Difficulty = 1;
-        g_SGSettings.DemoMode = 0;
         g_SGSettings.Intro = 0;
         g_SGSettings.MouseSensitivity = 4+8;
         g_SGSettings.VisualsFx = 4;

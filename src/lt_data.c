@@ -167,7 +167,6 @@ SGShip g_cShip, g_pShip[3]=
      SGMISSION g_SGObjects;
      RW_Interface *g_pGameBoard;
      SGStarfield Starfield;
-     SGRecordReplay g_pRecordData;
      V3XOVI *g_pLockTarget;
      SGScript *g_pPlayerInfo;
      SGGameItem *g_pGameItem;

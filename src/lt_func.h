@@ -164,11 +164,6 @@ void NG_FXCreate();
 void NG_FXUpdate();
 void NG_FXRelease();
 
-// Record
-void NG_ReplayStart(void);
-int NG_ReplayLoad(void);
-void NG_ReplaySave(void);
-void NG_ReplayRelease(void);
 
 // Audio
 int  NG_AudioGetByName(char *s);

@@ -68,15 +68,12 @@ typedef struct
     u_int8_t 	showInf;    
     u_int8_t 	ticker;
     u_int8_t 	cursor;
-    u_int8_t 	DemoMode;
     u_int8_t 	SerialGame;
     u_int8_t 	Intro;
     u_int8_t 	DuoGame;
     u_int8_t 	NextMenu;    
     u_int8_t 	GoToBrief;
-    u_int8_t 	RecTime;
     u_int8_t 	Menu;
-    u_int8_t 	DemoDelay;
     u_int8_t 	rearview;
     u_int8_t 	HalfSize;   
     u_int8_t 	OS;
