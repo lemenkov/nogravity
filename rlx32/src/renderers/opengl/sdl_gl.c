@@ -52,8 +52,16 @@ static SDL_GLContext g_GLContext = NULL;
 static GXDISPLAYMODEINFO *g_pDisplays = NULL;
 static int g_Mode = -1;
 
+static int g_VSync = -1;
+
 static void RLXAPI Flip(void)
 {
+    int vsync = (g_pRLX->pGX->View.Flags & GX_CAPS_VSYNC) ? 1 : 0;
+    if (vsync != g_VSync)
+    {
+      SDL_GL_SetSwapInterval(vsync);
+      g_VSync = vsync;
+    }
     glFinish();
     SDL_GL_SwapWindow(g_pSDLWindow);
     return;
@@ -223,6 +231,26 @@ static GXDISPLAYMODEHANDLE RLXAPI SearchDisplayMode(int lx, int ly, int bpp)
   return mode;
 }
 
+// Apply size and fullscreen state to an existing window.
+static void ConfigureWindow(SDL_Window *window, int w, int h)
+{
+  if (ISFULLSCREEN())
+  {
+    SDL_DisplayMode closest;
+    SDL_DisplayID display = SDL_GetDisplayForWindow(window);
+    if (SDL_GetClosestFullscreenDisplayMode(display, w, h, 0.f, false, &closest))
+      SDL_SetWindowFullscreenMode(window, &closest);
+    SDL_SetWindowFullscreen(window, true);
+  }
+  else
+  {
+    SDL_SetWindowFullscreen(window, false);
+    SDL_SetWindowSize(window, w, h);
+    SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+  }
+  SDL_SyncWindow(window);
+}
+
 static SDL_Window *CreateGLWindow(int w, int h, int bpp, int multisampling)
 {
   SDL_WindowFlags flags = SDL_WINDOW_OPENGL;
@@ -250,13 +278,7 @@ static SDL_Window *CreateGLWindow(int w, int h, int bpp, int multisampling)
   if (window == NULL)
     return NULL;
 
-  if (ISFULLSCREEN())
-  {
-    SDL_DisplayMode closest;
-    SDL_DisplayID display = SDL_GetDisplayForWindow(window);
-    if (SDL_GetClosestFullscreenDisplayMode(display, w, h, 0.f, false, &closest))
-      SDL_SetWindowFullscreenMode(window, &closest);
-  }
+  ConfigureWindow(window, w, h);
 
   g_GLContext = SDL_GL_CreateContext(window);
   if (g_GLContext == NULL)
@@ -271,9 +293,19 @@ static SDL_Window *CreateGLWindow(int w, int h, int bpp, int multisampling)
 static int RLXAPI CreateSurface(int BackBufferCount)
 {
 	int multisampling = 0;
-  	SYS_ASSERT(g_pSDLWindow == NULL);
   	SYS_ASSERT(g_pDisplays != NULL);
 	SYS_ASSERT(g_Mode != -1);
+
+	// A mode change keeps the window and the GL context (and with it the
+	// uploaded textures); only the size and fullscreen state change.
+	if (g_pSDLWindow != NULL)
+	{
+		ConfigureWindow(g_pSDLWindow, g_pDisplays[g_Mode].lWidth, g_pDisplays[g_Mode].lHeight);
+		GL_ResetViewport();
+		g_pRLX->pGX->Surfaces.maxSurface = BackBufferCount;
+		SYS_Msg("Video: %dx%d %s", g_pDisplays[g_Mode].lWidth, g_pDisplays[g_Mode].lHeight, ISFULLSCREEN() ? "fullscreen" : "windowed");
+		return 0;
+	}
 
 	// Try multisampling first if it was asked for, then fall back.
 	if ((g_pRLX->pGX->View.Flags & GX_CAPS_MULTISAMPLING) &&
@@ -305,11 +337,12 @@ static int RLXAPI CreateSurface(int BackBufferCount)
 	{
 	  glEnable(GL_MULTISAMPLE_ARB);
 	}
+	SYS_Msg("Video: %dx%d %s, %s", g_pDisplays[g_Mode].lWidth, g_pDisplays[g_Mode].lHeight, ISFULLSCREEN() ? "fullscreen" : "windowed", (const char *)glGetString(GL_RENDERER));
 	g_pRLX->pGX->Surfaces.maxSurface = BackBufferCount;
 	return 0;
 }
 
-static void RLXAPI ReleaseSurfaces(void)
+static void DestroyGLWindow(void)
 {
   if (g_GLContext)
   {
@@ -321,6 +354,13 @@ static void RLXAPI ReleaseSurfaces(void)
     SDL_DestroyWindow(g_pSDLWindow);
     g_pSDLWindow = NULL;
   }
+  g_VSync = -1;
+}
+
+// The window itself is kept until Shutdown() so a mode change does not
+// lose the GL context.
+static void RLXAPI ReleaseSurfaces(void)
+{
   g_pRLX->pGX->Surfaces.maxSurface = 0;
   return;
 }
@@ -338,6 +378,7 @@ static int RLXAPI RegisterMode(GXDISPLAYMODEHANDLE mode)
 
 static void RLXAPI Shutdown(void)
 {
+	DestroyGLWindow();
 	if (g_pDisplays != NULL)
 	{
 		g_pRLX->mm_heap->free(g_pDisplays);

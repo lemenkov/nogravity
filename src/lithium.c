@@ -667,8 +667,6 @@ void NG_ChangeScreenMode(int mode)
 	static int n3DSystem;
 	int is3D = !!(GX.View.Flags&GX_CAPS_3DSYSTEM);
 		
-	if (RLX.Video.Config&RLXVIDEO_Windowed)
-		mode = -1;
 
     if (g_SGSettings.Multisampling)
     {
