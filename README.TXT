@@ -23,39 +23,33 @@ Please note that this is being released without any kind of support from RealTec
 2. Installation
 
 
-For MacOSX users, you need to do the following steps : 
+Building from source (Linux, macOS, Windows):
 
-Download the No Gravity (Combo Bin+Data - Mac/Linux only) package for MacOS X v10.2 or later, then double click on the .PKG file and follow the instructions. Double click on your 'Hard drive' icon and double click 'No Gravity'. 
-For MacOS X 10.3 users: Be sure to have OpenAL installed (See at the bottom of the page to get it) and MacOS 10.3.9 installed. 
+The game is plain C17 and builds with Meson. It needs SDL3, SDL3_sound,
+libpng and zlib, plus glslc (from shaderc) to compile the shaders for
+the Vulkan backend; on macOS the Metal shader is compiled at run time.
 
+  meson setup build -Dnogravity_datadir=/path/to/directory/with/NOGRAVITY.RMX
+  ninja -C build
+  ./build/nogravity
 
-For Linux users, Download the No Gravity (Combo Bin+Data - Mac/Linux only) for Linux i386 package and run the autopackage, or if you are an experienced user, recompiles the CVS version as follows :
+Without -Dnogravity_datadir the game looks for NOGRAVITY.RMX in
+<prefix>/share/nogravity, then in the current directory. Settings are
+kept in the per-user SDL preferences directory (for example
+~/.local/share/realtech/nogravity on Linux).
 
+Environment variables useful for development:
 
-Get the source from CVS. 
-cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/nogravity login
-cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/nogravity co -P nogravity
+  NOGRAVITY_SCREENSHOT=file.png     write frame NOGRAVITY_SCREENSHOT_FRAME
+                                    (default 120) to file.png; a %d in the
+                                    name writes every that many frames
+  NOGRAVITY_TEST_KEYS=ms:key,...    press keys at the given times, e.g.
+                                    "3000:Return,8000:Down" (SDL key names)
+  NOGRAVITY_GPU_DEBUG=1             enable the SDL_GPU validation layers
 
-"Bootstrap" the build environment. 
-cd nogravity/src/Linux
-./bootstrap
+Download the No Gravity (Game Data only) package for the data file
+NOGRAVITY.RMX.
 
-Configure the build (enabling SDL_mixer for sound). 
-./configure --enable-sound=sdl_mixer (add --disable-opengl for forcing software rendering)
-
-Build the binary. 
-make
-
-
-Download the No Gravity (Game Data only) for All (choose this option for Game Data), unzip the package. 
-
-If this all succeeds, now just copy NOGRAVITY.RMX into the src/Linux directory and run ./nogravity.
-
-
-For Windows users, you need to do the following steps : 
-Download the No Gravity (Binaries only) for Windows 2000/XP/DirectX 8 or later and run it. 
-Download the No Gravity (Game Data only) for All (choose this option for Game Data), unzip the package and copy NOGRAVITY.RMX into it C:\Program File\Realtech VR\No Gravity folder 
-For Windows 2000 users, you must have at least DirectX 8 or better installed
 
 
  ===========================================================
@@ -79,9 +73,10 @@ http://sourceforge.net/projects/nogravity
   OGG / Vorbis
   zLib
   LibPNG
-  SDL
-  OpenAL
-  OpenGL
+  SDL3
+  SDL3_sound
+  libpng
+  zlib
 
 
  ===========================================================
