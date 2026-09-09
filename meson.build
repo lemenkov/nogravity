@@ -38,9 +38,8 @@ endif
 incdirs = include_directories(
   'rlx32/include',
   'rlx32/src',
-  'rlx32/src/linux',
-  'rlx32/src/renderers/opengl',
-  'rlx32/src/renderers/opengl/linux')
+  'rlx32/src/sdl',
+  'rlx32/src/renderers/opengl')
 
 engine_src = files(
   'rlx32/src/gui_os.c',
@@ -77,22 +76,22 @@ engine_src = files(
 )
 
 platform_src = files(
-  'rlx32/src/linux/_stublinux.cpp',
-  'rlx32/src/linux/snd.c',
-  'rlx32/src/linux/sysdbg.c',
-  'rlx32/src/linux/sysjoy.c',
-  'rlx32/src/linux/syskeyb.c',
-  'rlx32/src/linux/sysmouse.c',
-  'rlx32/src/linux/sysnet.c',
-  'rlx32/src/linux/sysreg.c',
-  'rlx32/src/linux/systime.c',
-  'rlx32/src/linux/systool2.c',
+  'rlx32/src/sdl/_stubsdl.cpp',
+  'rlx32/src/sdl/snd.c',
+  'rlx32/src/sdl/sysdbg.c',
+  'rlx32/src/sdl/sysjoy.c',
+  'rlx32/src/sdl/syskeyb.c',
+  'rlx32/src/sdl/sysmouse.c',
+  'rlx32/src/sdl/sysnet.c',
+  'rlx32/src/sdl/sysreg.c',
+  'rlx32/src/sdl/systime.c',
+  'rlx32/src/sdl/systool2.c',
 )
 
 renderer_src = files(
   'rlx32/src/renderers/opengl/gl_gx.cpp',
   'rlx32/src/renderers/opengl/gl_v3x.cpp',
-  'rlx32/src/renderers/opengl/linux/sdl_gl.cpp',
+  'rlx32/src/renderers/opengl/sdl_gl.cpp',
 )
 
 game_src = files(
@@ -113,7 +112,7 @@ game_src = files(
   'src/lt_start.c',
   'src/lt_video.c',
   'src/lt_weap.c',
-  'src/Linux/preferences.c',
+  'src/sdl/preferences.c',
 )
 
 executable('nogravity',

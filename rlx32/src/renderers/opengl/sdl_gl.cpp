@@ -40,7 +40,7 @@ Linux/SDL Port: 2005 - Matt Williams
 #include "v3xdefs.h"
 #include "v3x_2.h"
 #include "v3xrend.h"
-#include "../gl_v3x.h"
+#include "gl_v3x.h"
 
 struct RLXSYSTEM *g_pRLX;
 
