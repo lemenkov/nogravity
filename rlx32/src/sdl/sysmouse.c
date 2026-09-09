@@ -31,6 +31,7 @@ Linux/SDL Port: 2005 - Matt Williams
 
 extern SDL_Window *g_pSDLWindow; // Owned by the display driver.
 extern int g_SDLWheelDelta;      // Accumulated by the event pump in syskeyb.c.
+extern int g_SDLCursorRefresh;   // Bumped by the event pump on enter/focus.
 
 // While the cursor is hidden and the window is fullscreen and focused,
 // the mouse runs in relative mode so aiming never stops at a screen edge;
@@ -38,6 +39,24 @@ extern int g_SDLWheelDelta;      // Accumulated by the event pump in syskeyb.c.
 // window the pointer stays free, so it can reach the window controls.
 static int g_bHidden = 0;
 static int g_bRelative = 0;
+static SDL_Window *g_pCursorWindow = NULL; // window the cursor state was applied to
+static int g_nCursorRefresh = 0;
+
+// SDL_HideCursor() only affects windows that exist when it is called, and
+// the game hides the cursor before creating its window; re-apply the state
+// on a new window and whenever the pointer or focus comes back.
+static void ApplyCursorVisibility(void)
+{
+  if ((g_pSDLWindow != g_pCursorWindow) || (g_nCursorRefresh != g_SDLCursorRefresh))
+  {
+    g_pCursorWindow = g_pSDLWindow;
+    g_nCursorRefresh = g_SDLCursorRefresh;
+    if (g_bHidden)
+      SDL_HideCursor();
+    else
+      SDL_ShowCursor();
+  }
+}
 static float g_fVirtualX = 0.f, g_fVirtualY = 0.f;
 
 static void ApplyRelativeMode(void)
@@ -109,7 +128,8 @@ static unsigned long MouseUpdate(void *dev)
   // Copy the current button state to be the old button state.
   memcpy(sMOU->steButtons, sMOU->rgbButtons, sMOU->numButtons);
 
-  // Follow fullscreen/focus changes.
+  // Follow window, fullscreen and focus changes.
+  ApplyCursorVisibility();
   ApplyRelativeMode();
 
   buttons = SDL_GetRelativeMouseState(&rx, &ry);

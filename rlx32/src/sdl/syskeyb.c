@@ -35,6 +35,10 @@ int g_bSDLQuitRequested = 0;
 // Mouse wheel movement accumulated since the last mouse update.
 int g_SDLWheelDelta = 0;
 
+// Bumped when the window (re)gains the pointer or focus, so the mouse
+// driver re-applies cursor visibility.
+int g_SDLCursorRefresh = 0;
+
 static int KeyboardOpen(void *hnd)
 {
   UNUSED(hnd);
@@ -166,6 +170,11 @@ static unsigned long KeyboardUpdate(void *dev)
 
       case SDL_EVENT_MOUSE_WHEEL:
         g_SDLWheelDelta += (int)evt.wheel.y;
+        break;
+
+      case SDL_EVENT_WINDOW_MOUSE_ENTER:
+      case SDL_EVENT_WINDOW_FOCUS_GAINED:
+        g_SDLCursorRefresh++;
         break;
 
       case SDL_EVENT_KEY_DOWN:
