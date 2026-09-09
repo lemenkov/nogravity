@@ -42,8 +42,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "gx_tools.h"
 #include "iss_defs.h"
 #include "ISS_3D.h"
-#include "iss_av.h"
-#include "iss_cd.h"
 #include "iss_fx.h"
 #include "systime.h"
 #include "v3xdefs.h"

@@ -194,32 +194,6 @@ static void SFX_SampleBatchRelease(V3XA_HANDLE *smp)
     return;
 }
 
-#ifndef __APPLE__
-
-static void Resample44Khz(V3XA_HANDLE *smp)
-{
-	u_int8_t *src = (u_int8_t*)smp->sample;
-	int factor = 44100 / smp->samplingRate;
-	short *dst = (short*)MM_std.malloc(smp->length * factor * 2);
-	unsigned i;
-	for (i=0;i<smp->length;i++)
-	{
-		int j;
-		for (j=0;j<factor;j++)
-		{
-			dst[factor*i+j] = (short)((src[i]+(src[i] << 8))-32768);
-		}
-	}
-	smp->sampleFormat|=V3XA_FMT16BIT;
-#ifdef __BIG_ENDIAN__
-	smp->sampleFormat|=V3XA_FMTBIGENDIAN;
-#endif
-	smp->samplingRate = 44100;
-	smp->sample = dst;
-	smp->length*=factor*2;
-	MM_heap.free(src);
-}
-#endif //
 
 static V3XA_HANDLE *SFX_SampleBatchLoad(SND_DWHANDLE *sef)
 {
@@ -234,11 +208,6 @@ static V3XA_HANDLE *SFX_SampleBatchLoad(SND_DWHANDLE *sef)
 		char tex[256];
 		sprintf(tex, ".\\voix\\%s.WAV", sef->name);
 		V3XA_Handle_LoadFromFn(sinfo, tex);
-#ifndef HAVE_OPENAL		
-		if (sinfo->samplingRate < 44100)
-			Resample44Khz(sinfo);
-#endif
-		V3XA.Client->SmpLoad( sinfo );
     }
     return WT;
 }
@@ -284,9 +253,6 @@ void NG_AudioPlayTrack(int i)
 	char tex[256];
 	if (!(V3XA.State & 1))
 		return;
-#ifdef __BEOS__
-     return;
-#endif
 
 	SYS_ASSERT(*g_pMusicInfo[i].filename);
 	SYS_ASSERT(g_pWavStream == 0);

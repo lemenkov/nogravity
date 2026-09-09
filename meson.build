@@ -10,12 +10,11 @@ sdl_dep    = dependency('sdl3')
 gl_dep     = dependency('gl')
 png_dep    = dependency('libpng')
 zlib_dep   = dependency('zlib')
-ogg_dep    = dependency('ogg')
-vorbis_dep = dependency('vorbis')
+sound_dep  = dependency('sdl3-sound')
 m_dep      = cc.find_library('m', required : false)
 thread_dep = dependency('threads')
 
-deps = [sdl_dep, gl_dep, png_dep, zlib_dep, ogg_dep, vorbis_dep, m_dep, thread_dep]
+deps = [sdl_dep, sound_dep, gl_dep, png_dep, zlib_dep, m_dep, thread_dep]
 
 datadir = get_option('nogravity_datadir')
 if datadir == ''
@@ -44,11 +43,6 @@ engine_src = files(
   'rlx32/src/gx_png.c',
   'rlx32/src/gx_rgb.c',
   'rlx32/src/gx_tool.c',
-  'rlx32/src/iss_av.c',
-  'rlx32/src/iss_cdc.c',
-  'rlx32/src/iss_db.c',
-  'rlx32/src/iss_form.c',
-  'rlx32/src/iss_ogg.c',
   'rlx32/src/sysgi.c',
   'rlx32/src/sysini.c',
   'rlx32/src/syslist.c',
@@ -70,7 +64,7 @@ engine_src = files(
 
 platform_src = files(
   'rlx32/src/sdl/_stubsdl.c',
-  'rlx32/src/sdl/snd.c',
+  'rlx32/src/sdl/snd_sdl3.c',
   'rlx32/src/sdl/sysdbg.c',
   'rlx32/src/sdl/sysjoy.c',
   'rlx32/src/sdl/syskeyb.c',

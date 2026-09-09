@@ -55,7 +55,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xrend.h"
 #include "iss_defs.h"
 #include "iss_fx.h"
-#include "iss_av.h"
 #include "gui_os.h"
 //
 #include "lt_struc.h"
