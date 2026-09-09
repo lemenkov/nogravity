@@ -2,3 +2,5 @@ option('nogravity_datadir', type : 'string', value : '',
        description : 'Directory holding NOGRAVITY.RMX (default: <prefix>/<datadir>/nogravity)')
 option('debug_mode', type : 'boolean', value : false,
        description : 'Enable the engine debug mode (-D_DEBUG)')
+option('spirv', type : 'feature', value : 'auto',
+       description : 'Compile the GLSL shaders to SPIR-V with glslc (needed for the Vulkan backend)')

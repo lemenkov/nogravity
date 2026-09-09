@@ -7,14 +7,13 @@ project('nogravity', 'c',
 cc = meson.get_compiler('c')
 
 sdl_dep    = dependency('sdl3')
-gl_dep     = dependency('gl')
 png_dep    = dependency('libpng')
 zlib_dep   = dependency('zlib')
 sound_dep  = dependency('sdl3-sound')
 m_dep      = cc.find_library('m', required : false)
 thread_dep = dependency('threads')
 
-deps = [sdl_dep, sound_dep, gl_dep, png_dep, zlib_dep, m_dep, thread_dep]
+deps = [sdl_dep, sound_dep, png_dep, zlib_dep, m_dep, thread_dep]
 
 datadir = get_option('nogravity_datadir')
 if datadir == ''
@@ -31,7 +30,28 @@ incdirs = include_directories(
   'rlx32/include',
   'rlx32/src',
   'rlx32/src/sdl',
-  'rlx32/src/renderers/opengl')
+  'rlx32/src/renderers/gpu')
+
+# Shaders: GLSL is compiled to SPIR-V for Vulkan with glslc; the Metal
+# source is embedded as text (Metal compiles it at run time).
+python3 = import('python').find_installation('python3')
+embed = files('tools/embed.py')
+shader_dir = 'rlx32/src/renderers/gpu/shaders'
+shader_inputs = [shader_dir / 'nogravity.metal']
+glslc = find_program('glslc', required : get_option('spirv'))
+if glslc.found()
+  foreach s : ['nogravity.vert', 'nogravity.frag']
+    shader_inputs += custom_target(s + '.spv',
+      input : shader_dir / s,
+      output : s + '.spv',
+      command : [glslc, '@INPUT@', '-o', '@OUTPUT@'])
+  endforeach
+  cflags += '-DHAVE_SPIRV'
+endif
+shaders_src = custom_target('gpu_shaders_data.c',
+  input : shader_inputs,
+  output : 'gpu_shaders_data.c',
+  command : [python3, embed, '@OUTPUT@', '@INPUT@'])
 
 engine_src = files(
   'rlx32/src/gui_os.c',
@@ -76,9 +96,9 @@ platform_src = files(
 )
 
 renderer_src = files(
-  'rlx32/src/renderers/opengl/gl_gx.c',
-  'rlx32/src/renderers/opengl/gl_v3x.c',
-  'rlx32/src/renderers/opengl/sdl_gl.c',
+  'rlx32/src/renderers/gpu/gpu_display.c',
+  'rlx32/src/renderers/gpu/gpu_2d.c',
+  'rlx32/src/renderers/gpu/gpu_3d.c',
 )
 
 game_src = files(
@@ -103,7 +123,7 @@ game_src = files(
 )
 
 executable('nogravity',
-  engine_src + platform_src + renderer_src + game_src,
+  engine_src + platform_src + renderer_src + game_src + [shaders_src],
   include_directories : incdirs,
   c_args : cflags,
   dependencies : deps,
