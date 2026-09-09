@@ -25,9 +25,7 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //------------------------------------------------------------------------- 
 #include <stdio.h>
-#include <SDL/SDL.h>
-#include <sched.h>
-
+#include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "systools.h"
 #include "systime.h"
@@ -35,29 +33,24 @@ Linux/SDL Port: 2005 - Matt Williams
 // Time in millisecond
 u_int32_t timer_ms(void)
 {
-  // Return the value from SDL_GetTicks(), which returns time in ms.
   return (u_int32_t)SDL_GetTicks();
 }
 
 // Time in seconds
 u_int32_t timer_sec(void)
 {
-  // Return the value from SDL_GetTicks(), converting to seconds.
   return (u_int32_t)(SDL_GetTicks() / 1000);
 }
 
 // Snooze (wait + release CPU)
 void timer_snooze(u_int32_t t)
 {
-  // Just call through into SDL.
   SDL_Delay(t);
 }
 
-// 1 microsecond = 0.001 millisecond
-
+// Internal clock runs in microseconds.
 static const int64_t g_iFreq = 1000000;
-
-#define GET_TICK(tmp) *tmp = (((int64_t)SDL_GetTicks()) * 1000)
+#define GET_TICK(tmp) *tmp = (int64_t)(SDL_GetTicksNS() / 1000)
 
 // stop timer
 void timer_Stop(SYS_TIMER *tm)
@@ -88,23 +81,13 @@ void timer_Update(SYS_TIMER *tm)
 		ticks_left = (int64_t)ticks_to_wait - (int64_t)ticks_passed;
 		if (ticks_left > ticks_min)
 			timer_snooze(1);
-		else
-		{
-			int i=0;
-			for (;i<10;i++)
-				#ifdef __amigaos4__
-					SDL_Delay( 0 );
-				#else
-					sched_yield();
-				#endif
-		}
-
+		else if (ticks_left > 0)
+			SDL_DelayNS(10000); // Release the CPU briefly instead of spinning.
     }while(ticks_left>=0);
 
 	tm->fFrameDelta = (float)((double)ticks_passed / (double)g_iFreq);
 	tm->fCounter = tm->fFrameDelta * (float) tm->iFreq;
     tm->iCounter = (int32_t)(tm->fCounter * 65535.f);
-
     GET_TICK(&tm->tStart);
     return;
 }
@@ -113,7 +96,6 @@ void timer_Start(SYS_TIMER *tm, int iFreq, int iMinFrame)
 {
 	tm->iFreq = iFreq;
 	tm->iMinFrame = iMinFrame;
-
     GET_TICK(&tm->tStart);
     timer_Update(tm);
     return;
@@ -121,8 +103,9 @@ void timer_Start(SYS_TIMER *tm, int iFreq, int iMinFrame)
 
 int32_t thread_begin(SYS_THREAD *pThread, enum SYS_THREAD_PRIORITY_ENUM priority)
 {
+  UNUSED(priority);
   pThread->nStatus = 0;
-  pThread->hThread = (void *)SDL_CreateThread((int(*)(void *))pThread->pFunc, pThread->pArgument);
+  pThread->hThread = (void *)SDL_CreateThread((SDL_ThreadFunction)pThread->pFunc, "nogravity", pThread->pArgument);
   if (pThread->hThread != NULL)
   {
     pThread->nStatus = 1;
@@ -134,14 +117,16 @@ int32_t thread_begin(SYS_THREAD *pThread, enum SYS_THREAD_PRIORITY_ENUM priority
 
 void thread_end(SYS_THREAD *pThread)
 {
-  SDL_WaitThread(pThread->hThread, NULL);
+  SDL_WaitThread((SDL_Thread *)pThread->hThread, NULL);
+  pThread->hThread = NULL;
   pThread->nStatus = 0;
   return;
 }
 
 void thread_exit(int code)
 {
-  // TODO: Implement. However, this function is not actually necessary for No Gravity.
+  UNUSED(code);
+  // Not needed: threads simply return from their entry function.
   return;
 }
 
@@ -153,7 +138,7 @@ int mutex_init(SYS_MUTEX *mutex)
   }
   if (mutex->hMutex != NULL)
   {
-    SDL_DestroyMutex((SDL_mutex *)mutex->hMutex);
+    SDL_DestroyMutex((SDL_Mutex *)mutex->hMutex);
   }
   mutex->hMutex = SDL_CreateMutex();
   return (mutex->hMutex != NULL) ? 0 : -1;
@@ -166,7 +151,7 @@ int mutex_destroy(SYS_MUTEX *mutex)
   {
     return -1;
   }
-  SDL_DestroyMutex((SDL_mutex *)mutex->hMutex);
+  SDL_DestroyMutex((SDL_Mutex *)mutex->hMutex);
   mutex->hMutex = NULL;
   return 0;
 }
@@ -178,7 +163,7 @@ int mutex_lock(SYS_MUTEX *mutex)
   {
     return -1;
   }
-  SDL_mutexP((SDL_mutex *)mutex->hMutex);
+  SDL_LockMutex((SDL_Mutex *)mutex->hMutex);
   return 0;
 }
 
@@ -189,6 +174,6 @@ int mutex_unlock(SYS_MUTEX *mutex)
   {
     return -1;
   }
-  SDL_mutexV((SDL_mutex *)mutex->hMutex);
+  SDL_UnlockMutex((SDL_Mutex *)mutex->hMutex);
   return 0;
 }

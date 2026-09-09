@@ -24,9 +24,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
-
-#include <SDL/SDL.h>
-
+#include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "_rlx.h"
 #include "sysctrl.h"
@@ -34,135 +32,122 @@ Linux/SDL Port: 2005 - Matt Williams
 static int JoystickOpen(void *hnd, int force_feedback)
 {
   int ok = FALSE;
-  int idx;
-  SDL_Joystick *joy;
+  int idx, count = 0;
+  SDL_JoystickID *ids;
+  UNUSED(hnd);
+  UNUSED(force_feedback);
 
-  // Initialize SDL's joystick subsystem.
-  SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+  if (!SDL_InitSubSystem(SDL_INIT_JOYSTICK))
+    return FALSE;
+  SDL_SetJoystickEventsEnabled(true);
 
-  // Ensure that joystick events are processed automatically by SDL.
-  SDL_JoystickEventState(SDL_ENABLE);
-
-  // For each joystick device...
-  for (idx = 0; idx < SDL_NumJoysticks(); idx ++)
+  ids = SDL_GetJoysticks(&count);
+  for (idx = 0; ids && (idx < count); idx ++)
   {
-    // Open the device.  If this fails, just skip it.
-    joy = SDL_JoystickOpen(idx);
+    SDL_Joystick *joy = SDL_OpenJoystick(ids[idx]);
     if (joy == NULL)
+      continue;
+
+    // Fewer than 3 axes is not enough for flying.
+    if (SDL_GetNumJoystickAxes(joy) < 3)
     {
+      SDL_CloseJoystick(joy);
       continue;
     }
 
-    // If it has fewer than 3 axes, we can't use it.
-    if (SDL_JoystickNumAxes(joy) < 3)
-    {
-      continue;
-    }
-
-    // This is a valid joystick, so increment the count.
     sJOY->numControllers++;
 
-    // If this joystick is better than the current best...
-    if (SDL_JoystickNumButtons(joy) > sJOY->numButtons)
+    // Keep the device with the most buttons.
+    if (SDL_GetNumJoystickButtons(joy) > sJOY->numButtons)
     {
-      // Close the current best joystick device.
       if (sJOY->device != NULL)
-      {
-	SDL_JoystickClose(sJOY->device);
-      }
-
-      // Update the record to point to this joystick.
+        SDL_CloseJoystick((SDL_Joystick *)sJOY->device);
       sJOY->device = joy;
-      sJOY->numButtons = SDL_JoystickNumButtons(joy);
-      sJOY->numAxes = SDL_JoystickNumAxes(joy);
-      sJOY->numPOVs = SDL_JoystickNumHats(joy);
-
-      // We've now definitely succeeded.
+      sJOY->numButtons = SDL_GetNumJoystickButtons(joy);
+      sJOY->numAxes = SDL_GetNumJoystickAxes(joy);
+      sJOY->numPOVs = SDL_GetNumJoystickHats(joy);
       ok = TRUE;
     }
-    // Alternatively, if this joystick is worse than the current best...
     else
     {
-      // Close this joystick device.
-      SDL_JoystickClose(joy);
+      SDL_CloseJoystick(joy);
     }
   }
+  SDL_free(ids);
 
-  // If we failed to get a joystick device...
+  if (sJOY->numButtons > 128) sJOY->numButtons = 128;
+  if (sJOY->numPOVs > 4) sJOY->numPOVs = 4;
+
   if (!ok)
   {
-    // Terminate SDL's joystick subsystem.
     SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
   }
-
   return ok;
 }
 
-static void JoystickRelease()
+static void JoystickRelease(void)
 {
   SDL_Joystick *joy = (SDL_Joystick *)sJOY->device;
-  int idx;
-
-  // If we have a joystick device...
   if (joy != NULL)
   {
-    // Close it.
-    SDL_JoystickClose(joy);
-
-    // Forget about the joystick device.
+    SDL_CloseJoystick(joy);
     sJOY->device = NULL;
-
-    // Terminate SDL's joystick subsystem.
     SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
   }
+}
+
+static int AxisValue(SDL_Joystick *joy, int axis)
+{
+  if (axis >= sJOY->numAxes)
+    return 32768;
+  return (int)SDL_GetJoystickAxis(joy, axis) + 32768;
 }
 
 static unsigned long JoystickUpdate(void *dev)
 {
   SDL_Joystick *joy = (SDL_Joystick *)sJOY->device;
   int idx;
-  unsigned long ok = FALSE;
+  UNUSED(dev);
 
-  // If we have a joystick device...
-  if (joy != NULL) 
+  if (joy == NULL)
+    return FALSE;
+
+  SDL_UpdateJoysticks();
+
+  // Copy the current button state to be the old button state.
+  memcpy(sJOY->steButtons, sJOY->rgbButtons, sJOY->numButtons);
+
+  for (idx = 0; idx < sJOY->numButtons; idx ++)
   {
-    // Copy the current button state to be the old button state.
-    memcpy(sJOY->steButtons, sJOY->rgbButtons, sJOY->numButtons);
-
-    // For each button, record its new state.
-    for (idx = 0; idx < sJOY->numButtons; idx ++)
-    {
-      sJOY->rgbButtons[idx] = (u_int8_t)SDL_JoystickGetButton(joy, idx);
-    }
-
-    // For each hat, record its new state.
-    for (idx = 0; idx < sJOY->numPOVs; idx ++)
-    {
-      switch (SDL_JoystickGetHat(joy, idx))
-      {
-        case SDL_HAT_CENTERED:  sJOY->rgdwPOV[idx] =     1; break;
-        case SDL_HAT_UP:        sJOY->rgdwPOV[idx] =     0; break;
-        case SDL_HAT_RIGHTUP:   sJOY->rgdwPOV[idx] =  4500; break;
-        case SDL_HAT_RIGHT:     sJOY->rgdwPOV[idx] =  9000; break;
-        case SDL_HAT_RIGHTDOWN: sJOY->rgdwPOV[idx] = 13500; break;
-        case SDL_HAT_DOWN:      sJOY->rgdwPOV[idx] = 18000; break;
-        case SDL_HAT_LEFTDOWN:  sJOY->rgdwPOV[idx] = 22500; break;
-        case SDL_HAT_LEFT:      sJOY->rgdwPOV[idx] = 27000; break;
-        case SDL_HAT_LEFTUP:    sJOY->rgdwPOV[idx] = 31500; break;
-      }
-    }
-
-    // For each axis, record its new state.
-    // TODO: Support configuration of which axis is which.
-    sJOY->lX = (int)SDL_JoystickGetAxis(joy, 0) + 32768;
-    sJOY->lY = (int)SDL_JoystickGetAxis(joy, 1) + 32768;
-    sJOY->lZ = (int)SDL_JoystickGetAxis(joy, 2) + 32768;
-
-    // We've succeeded.
-    ok = TRUE;
+    sJOY->rgbButtons[idx] = (u_int8_t)(SDL_GetJoystickButton(joy, idx) ? 1 : 0);
   }
 
-  return ok;
+  for (idx = 0; idx < sJOY->numPOVs; idx ++)
+  {
+    switch (SDL_GetJoystickHat(joy, idx))
+    {
+      case SDL_HAT_CENTERED:  sJOY->rgdwPOV[idx] =     1; break;
+      case SDL_HAT_UP:        sJOY->rgdwPOV[idx] =     0; break;
+      case SDL_HAT_RIGHTUP:   sJOY->rgdwPOV[idx] =  4500; break;
+      case SDL_HAT_RIGHT:     sJOY->rgdwPOV[idx] =  9000; break;
+      case SDL_HAT_RIGHTDOWN: sJOY->rgdwPOV[idx] = 13500; break;
+      case SDL_HAT_DOWN:      sJOY->rgdwPOV[idx] = 18000; break;
+      case SDL_HAT_LEFTDOWN:  sJOY->rgdwPOV[idx] = 22500; break;
+      case SDL_HAT_LEFT:      sJOY->rgdwPOV[idx] = 27000; break;
+      case SDL_HAT_LEFTUP:    sJOY->rgdwPOV[idx] = 31500; break;
+      default: break;
+    }
+  }
+
+  // Axes 0..5 map onto X, Y, Z and the three rotation axes; the game
+  // lets the player choose which of them drive throttle and rudder.
+  sJOY->lX  = AxisValue(joy, 0);
+  sJOY->lY  = AxisValue(joy, 1);
+  sJOY->lZ  = AxisValue(joy, 2);
+  sJOY->lRx = AxisValue(joy, 3);
+  sJOY->lRy = AxisValue(joy, 4);
+  sJOY->lRz = AxisValue(joy, 5);
+  return TRUE;
 }
 
 _RLXEXPORTFUNC JOY_ClientDriver *JOY_SystemGetInterface_STD(void)
@@ -173,9 +158,7 @@ _RLXEXPORTFUNC JOY_ClientDriver *JOY_SystemGetInterface_STD(void)
     JoystickRelease,
     JoystickUpdate
   };
-
   // Set the driver.
   sJOY = &driver;
-
   return sJOY;
 }

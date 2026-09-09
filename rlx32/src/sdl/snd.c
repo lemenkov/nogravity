@@ -25,9 +25,6 @@ Linux/SDL Port: 2005 - Matt Williams
 
 #include "_rlx32.h"
 
-/* Sound backend selected at build time (see meson_options.txt). */
-#ifdef USE_SDLMIXER
-    #include "snd_sdlmixer.c"
-#else
-    #include "snd_none.c"
-#endif
+/* The SDL_mixer backend targets SDL 1.2 and is being replaced; until then
+   only the silent driver builds. */
+#include "snd_none.c"

@@ -6,7 +6,7 @@ project('nogravity', 'c', 'cpp',
 
 cc = meson.get_compiler('c')
 
-sdl_dep    = dependency('sdl')
+sdl_dep    = dependency('sdl3')
 gl_dep     = dependency('gl')
 png_dep    = dependency('libpng')
 zlib_dep   = dependency('zlib')
@@ -22,14 +22,7 @@ if datadir == ''
   datadir = get_option('prefix') / get_option('datadir') / 'nogravity'
 endif
 
-cflags = ['-D__LINUX__', '-DNOGRAVITY_DATADIR="@0@"'.format(datadir)]
-
-sound = get_option('sound')
-mixer_dep = dependency('SDL_mixer', required : sound)
-if mixer_dep.found()
-  deps += mixer_dep
-  cflags += '-DUSE_SDLMIXER'
-endif
+cflags = ['-DNOGRAVITY_DATADIR="@0@"'.format(datadir)]
 
 if get_option('debug_mode')
   cflags += '-D_DEBUG'

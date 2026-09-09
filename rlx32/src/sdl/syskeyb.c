@@ -24,17 +24,20 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
-
-#include <SDL/SDL.h>
-
+#include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "_rlx.h"
 #include "sysctrl.h"
 
+// Set when the window manager asks us to close; polled by STUB_TaskControl().
+int g_bSDLQuitRequested = 0;
+
+// Mouse wheel movement accumulated since the last mouse update.
+int g_SDLWheelDelta = 0;
+
 static int KeyboardOpen(void *hnd)
 {
-  // Nothing to do.
-
+  UNUSED(hnd);
   return TRUE;
 }
 
@@ -55,7 +58,6 @@ static char *KeyboardNameScanCode(int scn)
     "'", "~", "LEFT SHIFT", "\\", "Z", "X", "C", "V",
     "B", "N", "M", ",", ".", "/", "RIGHT SHIFT", "PRINT SCREEN",
     "ALT", "SPACE", "CAPS LOCK", "F1", "F2", "F3", "F4", "F5",
-
     "F6", "F7", "F8", "F9", "F10", "NUM LOCK", "SCROLL LOCK", "KEYPAD 7",
     "KEYPAD 8", "KEYPAD 9", "KEYPAD -", "KEYPAD 4", "KEYPAD 5", "KEYPAD 6", "KEYPAD +", "KEYPAD 1",
     "KEYPAD 2", "KEYPAD 3", "KEYPAD 0", "KEYPAD .", "", "", "", "F11",
@@ -64,7 +66,6 @@ static char *KeyboardNameScanCode(int scn)
     "", "", "", "", "", "", "JOY LEFT", "JOY RIGHT",
     "JOY UP", "JOY DOWN", "", "", "", "", "", "",
     "JOY BUTTON 1", "JOY BUTTON 2", "JOY BUTTON 3", "", "", "", "", "",
-
     "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "",
@@ -73,7 +74,6 @@ static char *KeyboardNameScanCode(int scn)
     "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "",
-
     "", "", "", "", "", "", "", "HOME",
     "UP", "PAGE UP", "", "LEFT", "", "RIGHT", "", "END",
     "DOWN", "PAGE DOWN", "INSERT", "DELETE", "", "", "", "",
@@ -83,118 +83,124 @@ static char *KeyboardNameScanCode(int scn)
     "", "", "", "", "", "", "", "",
     "", "", "", "", "", "", "", "",
   };
-
+  if ((scn < 0) || (scn >= (int)(sizeof(name) / sizeof(name[0]))))
+    return (char *)"";
   return (char *)name[scn];
 }
 
+// SDL scancodes (USB HID usage ids, layout independent) to the engine's
+// PC scancode set.  Anything not listed is ignored.
+static const u_int8_t g_ScanMap[SDL_SCANCODE_COUNT] =
+{
+  [SDL_SCANCODE_A] = s_a, [SDL_SCANCODE_B] = s_b, [SDL_SCANCODE_C] = s_c,
+  [SDL_SCANCODE_D] = s_d, [SDL_SCANCODE_E] = s_e, [SDL_SCANCODE_F] = s_f,
+  [SDL_SCANCODE_G] = s_g, [SDL_SCANCODE_H] = s_h, [SDL_SCANCODE_I] = s_i,
+  [SDL_SCANCODE_J] = s_j, [SDL_SCANCODE_K] = s_k, [SDL_SCANCODE_L] = s_l,
+  [SDL_SCANCODE_M] = s_m, [SDL_SCANCODE_N] = s_n, [SDL_SCANCODE_O] = s_o,
+  [SDL_SCANCODE_P] = s_p, [SDL_SCANCODE_Q] = s_q, [SDL_SCANCODE_R] = s_r,
+  [SDL_SCANCODE_S] = s_s, [SDL_SCANCODE_T] = s_t, [SDL_SCANCODE_U] = s_u,
+  [SDL_SCANCODE_V] = s_v, [SDL_SCANCODE_W] = s_w, [SDL_SCANCODE_X] = s_x,
+  [SDL_SCANCODE_Y] = s_y, [SDL_SCANCODE_Z] = s_z,
+
+  [SDL_SCANCODE_1] = s_1, [SDL_SCANCODE_2] = s_2, [SDL_SCANCODE_3] = s_3,
+  [SDL_SCANCODE_4] = s_4, [SDL_SCANCODE_5] = s_5, [SDL_SCANCODE_6] = s_6,
+  [SDL_SCANCODE_7] = s_7, [SDL_SCANCODE_8] = s_8, [SDL_SCANCODE_9] = s_9,
+  [SDL_SCANCODE_0] = s_0,
+
+  [SDL_SCANCODE_RETURN] = s_return, [SDL_SCANCODE_ESCAPE] = s_esc,
+  [SDL_SCANCODE_BACKSPACE] = s_backspace, [SDL_SCANCODE_TAB] = s_tab,
+  [SDL_SCANCODE_SPACE] = s_space, [SDL_SCANCODE_MINUS] = s_minus,
+  [SDL_SCANCODE_EQUALS] = s_equals, [SDL_SCANCODE_LEFTBRACKET] = s_opensquare,
+  [SDL_SCANCODE_RIGHTBRACKET] = s_closesquare, [SDL_SCANCODE_BACKSLASH] = s_backslash,
+  [SDL_SCANCODE_NONUSHASH] = s_backslash, [SDL_SCANCODE_SEMICOLON] = s_semicolon,
+  [SDL_SCANCODE_APOSTROPHE] = s_quote, [SDL_SCANCODE_GRAVE] = s_tilda,
+  [SDL_SCANCODE_COMMA] = s_coma, [SDL_SCANCODE_PERIOD] = s_period,
+  [SDL_SCANCODE_SLASH] = s_slash, [SDL_SCANCODE_CAPSLOCK] = s_capslock,
+
+  [SDL_SCANCODE_F1] = s_f1, [SDL_SCANCODE_F2] = s_f2, [SDL_SCANCODE_F3] = s_f3,
+  [SDL_SCANCODE_F4] = s_f4, [SDL_SCANCODE_F5] = s_f5, [SDL_SCANCODE_F6] = s_f6,
+  [SDL_SCANCODE_F7] = s_f7, [SDL_SCANCODE_F8] = s_f8, [SDL_SCANCODE_F9] = s_f9,
+  [SDL_SCANCODE_F10] = s_f10, [SDL_SCANCODE_F11] = s_f11, [SDL_SCANCODE_F12] = s_f12,
+
+  [SDL_SCANCODE_PRINTSCREEN] = s_printscreen, [SDL_SCANCODE_SCROLLLOCK] = s_scrolllock,
+  [SDL_SCANCODE_INSERT] = s_insert, [SDL_SCANCODE_HOME] = s_home,
+  [SDL_SCANCODE_PAGEUP] = s_pageup, [SDL_SCANCODE_DELETE] = s_delete,
+  [SDL_SCANCODE_END] = s_end, [SDL_SCANCODE_PAGEDOWN] = s_pagedown,
+  [SDL_SCANCODE_RIGHT] = s_right, [SDL_SCANCODE_LEFT] = s_left,
+  [SDL_SCANCODE_DOWN] = s_down, [SDL_SCANCODE_UP] = s_up,
+
+  [SDL_SCANCODE_NUMLOCKCLEAR] = s_numlock, [SDL_SCANCODE_KP_MINUS] = s_numminus,
+  [SDL_SCANCODE_KP_PLUS] = s_numplus, [SDL_SCANCODE_KP_ENTER] = s_return,
+  [SDL_SCANCODE_KP_1] = s_numend, [SDL_SCANCODE_KP_2] = s_numdown,
+  [SDL_SCANCODE_KP_3] = s_numpagedown, [SDL_SCANCODE_KP_4] = s_numleft,
+  [SDL_SCANCODE_KP_5] = s_num5, [SDL_SCANCODE_KP_6] = s_numright,
+  [SDL_SCANCODE_KP_7] = s_numhome, [SDL_SCANCODE_KP_8] = s_numup,
+  [SDL_SCANCODE_KP_9] = s_numpageup, [SDL_SCANCODE_KP_0] = s_numinsert,
+  [SDL_SCANCODE_KP_PERIOD] = s_numdelete,
+
+  [SDL_SCANCODE_LCTRL] = s_ctrl, [SDL_SCANCODE_RCTRL] = s_ctrl,
+  [SDL_SCANCODE_LSHIFT] = s_leftshift, [SDL_SCANCODE_RSHIFT] = s_rightshift,
+  [SDL_SCANCODE_LALT] = s_alt, [SDL_SCANCODE_RALT] = s_alt,
+  [SDL_SCANCODE_LGUI] = s_winleft, [SDL_SCANCODE_RGUI] = s_winright,
+  [SDL_SCANCODE_APPLICATION] = s_winapp,
+};
+
+// This is the only place that pumps the SDL event queue, so window and
+// mouse wheel events are picked up here as well.
 static unsigned long KeyboardUpdate(void *dev)
 {
   SDL_Event evt;
-  static const enum s_keymap map[] =
-  {
-    0, 0, 0, 0, 0, 0, 0, 0,
-    s_backspace, s_tab, 0, 0, 0, s_return, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, s_esc, 0, 0, 0, 0,
-    s_space, 0, 0, 0, 0, 0, 0, s_quote,
-    0, 0, 0, 0, s_coma, s_minus, s_period, s_slash,
-    s_0, s_1, s_2, s_3, s_4, s_5, s_6, s_7,
-    s_8, s_9, 0, s_semicolon, 0, s_equals, 0, 0,
-
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, s_opensquare, 0, s_closesquare, 0, 0,
-    s_tilda, s_a, s_b, s_c, s_d, s_e, s_f, s_g,
-    s_h, s_i, s_j, s_k, s_l, s_m, s_n, s_o,
-    s_p, s_q, s_r, s_s, s_t, s_u, s_v, s_w,
-    s_x, s_y, s_z, 0, 0, 0, 0, s_delete,
-
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-
-    s_numinsert, s_numend, s_numdown, s_numpagedown, s_numleft, s_num5, s_numright, s_numhome,
-    s_numup, s_numpageup, s_numdelete, 0, 0, s_numminus, s_numplus, 0,
-    0, s_up, s_down, s_right, s_left, s_insert, s_home, s_end,
-    s_pageup, s_pagedown, s_f1, s_f2, s_f3, s_f4, s_f5, s_f6,
-    s_f7, s_f8, s_f9, s_f10, s_f11, s_f12, 0, 0,
-    0, 0, 0, 0, s_numlock, s_capslock, s_scrolllock, s_rightshift,
-    s_leftshift, s_ctrl, s_ctrl, s_alt, s_alt, 0, 0, s_winleft,
-    s_winright, s_alt, 0, 0, s_printscreen, s_printscreen, 0, s_winapp,
-
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-  };
   static u_int8_t keys[SKEY_SCANTABLESIZE] = {0};
+  UNUSED(dev);
 
   // Copy the current key state to be the old key state.
   memcpy(sKEY->steButtons, sKEY->rgbButtons, SKEY_SCANTABLESIZE);
 
-  // For each event we receive...
-  while (SDL_PollEvent(&evt) != 0)
+  while (SDL_PollEvent(&evt))
   {
-    // If it's a key-related event and the key is valid...
-    if (((evt.type == SDL_KEYDOWN) ||
-         (evt.type == SDL_KEYUP)) &&
-	(evt.key.keysym.sym < sizeof(map)) &&
-        (map[evt.key.keysym.sym] != 0))
+    switch (evt.type)
     {
-      // If it was a key pressed event...
-      if (evt.type == SDL_KEYDOWN)
+      case SDL_EVENT_QUIT:
+        g_bSDLQuitRequested = 1;
+        break;
+
+      case SDL_EVENT_MOUSE_WHEEL:
+        g_SDLWheelDelta += (int)evt.wheel.y;
+        break;
+
+      case SDL_EVENT_KEY_DOWN:
+      case SDL_EVENT_KEY_UP:
       {
-        // Set the relevant bit.
-        SKEY_SET_BIT(keys, map[evt.key.keysym.sym], 1);
-
-        // Update the current scan code pressed.
-        sKEY->scanCode = map[evt.key.keysym.sym];
-
-        // If the character is a valid ASCII character...
-        if ((evt.key.keysym.sym >= 32) &&
-            (evt.key.keysym.sym < 127))
+        int scan;
+        if (evt.key.repeat || (evt.key.scancode >= SDL_SCANCODE_COUNT))
+          break;
+        scan = g_ScanMap[evt.key.scancode];
+        if (scan == 0)
+          break;
+        if (evt.type == SDL_EVENT_KEY_DOWN)
         {
-	  // Update the current character pressed field.
-          sKEY->charCode = (char)evt.key.keysym.sym;
+          // Unmodified key symbol, as the engine expects plain ASCII.
+          SDL_Keycode sym = SDL_GetKeyFromScancode(evt.key.scancode, SDL_KMOD_NONE, false);
+          SKEY_SET_BIT(keys, scan, 1);
+          sKEY->scanCode = (u_int8_t)scan;
+          sKEY->charCode = ((sym >= 32) && (sym < 127)) ? (char)sym : 0;
         }
+        else
+        {
+          SKEY_SET_BIT(keys, scan, 0);
+          sKEY->scanCode = 0;
+          sKEY->charCode = 0;
+        }
+        break;
       }
-      // Alternatively, if it was a key released event...
-      else
-      {
-        // Clear the relevant bit.
-        SKEY_SET_BIT(keys, map[evt.key.keysym.sym], 0);
 
-        // Clear the current scan code pressed field.
-        sKEY->scanCode = 0;
-
-        // Clear the current character pressed field.
-        sKEY->charCode = 0;
-      }
+      default:
+        break;
     }
   }
 
   // Copy our private key state into the keyboard state structure.
   memcpy(sKEY->rgbButtons, keys, SKEY_SCANTABLESIZE);
-
   return TRUE;
 }
 
@@ -207,9 +213,7 @@ _RLXEXPORTFUNC KEY_ClientDriver *KEY_SystemGetInterface_STD(void)
     KeyboardNameScanCode,
     KeyboardUpdate
   };
-
   // Set the driver.
   sKEY = &driver;
-
   return sKEY;
 }

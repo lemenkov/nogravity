@@ -93,36 +93,17 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 
 /* Data Types */
-#if !defined __STDC_VERSION__ || __STDC_VERSION__ < 199901L
-    #if defined __LCC__ || defined __LINUX__ || defined LINUX || (defined __BEOS__ && B_BEOS_VERSION >=0x0520)
-       #include <stdint.h>
-       #include <stddef.h>       
-    #elif defined __APPLE__ && defined __MACH__
-		#include <sys/types.h>
-	#else
-	   /* 8 bit type. */
-	   typedef signed char			int8_t;
-       /* unsigned 8 bit type. */
-       typedef unsigned char		u_int8_t;
-       /* 16bit type (2 bytes). */
-       typedef short int			int16_t;
-       /* unsigned 16 bit type. */
-       typedef unsigned short int	u_int16_t;
-	   /* 32bit type (4 bytes). */
-	   typedef int					int32_t;
-       /* unsigned 32 bit type. */
-       typedef unsigned int			u_int32_t;
-    #if defined __GNUC__
-       typedef long long int		int64_t;
-       typedef unsigned long long int u_int64_t;
-    #else
-	   /* 64 bit type (8 bytes). */
-	   typedef __int64				int64_t;
-       /* unsigned 64 bit type. */
-       typedef unsigned __int64		u_int64_t;
-    #endif // __GNUC__
-   #endif // __LINUX__
-#endif // STDC_VERSION
+#include <stdint.h>
+#include <stddef.h>
+#if defined _WIN32 && !defined __CYGWIN__
+   /* BSD style unsigned names used throughout the engine. */
+   typedef uint8_t  u_int8_t;
+   typedef uint16_t u_int16_t;
+   typedef uint32_t u_int32_t;
+   typedef uint64_t u_int64_t;
+#else
+   #include <sys/types.h>
+#endif
 
 
 #define float64_t double

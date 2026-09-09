@@ -25,8 +25,9 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <stdio.h>
-#include <sys/stat.h>
+#include <string.h>
 #include <stdlib.h>
+#include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "_rlx.h"
 #include "_stub.h"
@@ -34,18 +35,27 @@ Linux/SDL Port: 2005 - Matt Williams
 
 int STUB_OsStartup(char *parms)
 {
-	char *s = (char *)getenv("HOME");
-	sysStrCpy(RLX.IniPath, s);
-	strcat(RLX.IniPath, "/.realtech");
-	mkdir(RLX.IniPath, S_IRWXU);
-	strcat(RLX.IniPath, "/nogravity");
-	mkdir(RLX.IniPath, S_IRWXU);
+	// Per-user settings directory, created by SDL if needed
+	// (e.g. ~/.local/share/realtech/nogravity on Linux).
+	char *pref = SDL_GetPrefPath("realtech", "nogravity");
+	UNUSED(parms);
+	if (pref)
+	{
+		size_t n = strlen(pref);
+		if (n && ((pref[n - 1] == '/') || (pref[n - 1] == '\\')))
+			pref[n - 1] = 0;
+		snprintf(RLX.IniPath, sizeof(RLX.IniPath), "%s", pref);
+		SDL_free(pref);
+	}
+	else
+	{
+		snprintf(RLX.IniPath, sizeof(RLX.IniPath), ".");
+	}
 	return 1;
 }
 
 int STUB_OsCustom(char *parms)
 {
+	UNUSED(parms);
     return 1;
 }
-
-

@@ -27,7 +27,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
-#include <time.h>
+#include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "_rlx.h"
 
@@ -36,9 +36,9 @@ void SYS_Msg(char *fmt, ...)
     char buffer[4096];
     va_list argptr;
     va_start(argptr, fmt);
-    vsprintf(buffer, fmt, argptr);
-    printf("%s\n", buffer);
+    vsnprintf(buffer, sizeof(buffer), fmt, argptr);
     va_end(argptr);
+    printf("%s\n", buffer);
     return;
 }
 
@@ -47,20 +47,20 @@ void SYS_Debug(char *fmt, ...)
 	char buffer[2048];
 	va_list argptr;
 	va_start(argptr, fmt);
-	vsprintf(buffer, fmt, argptr);
-	printf( "%s", buffer);
+	vsnprintf(buffer, sizeof(buffer), fmt, argptr);
 	va_end(argptr);
+	printf("%s", buffer);
     return;
 }
 
- void SYS_Error(char *fmt, ...)
+void SYS_Error(char *fmt, ...)
 {
     char buffer[2048];
     va_list argptr;
     va_start(argptr, fmt);
-    vsprintf(buffer, fmt, argptr);
-    printf("%s\n", buffer);
+    vsnprintf(buffer, sizeof(buffer), fmt, argptr);
     va_end(argptr);
+    fprintf(stderr, "%s\n", buffer);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "No Gravity", buffer, NULL);
     exit(-1);
 }
-

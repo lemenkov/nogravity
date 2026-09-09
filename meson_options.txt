@@ -1,5 +1,3 @@
-option('sound', type : 'feature', value : 'auto',
-       description : 'Build the SDL_mixer sound backend')
 option('nogravity_datadir', type : 'string', value : '',
        description : 'Directory holding NOGRAVITY.RMX (default: <prefix>/<datadir>/nogravity)')
 option('debug_mode', type : 'boolean', value : false,

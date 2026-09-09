@@ -25,23 +25,32 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <stdlib.h>
-#include <SDL/SDL.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 
 #include "_rlx32.h"
 #include "_rlx.h"
 #include "_stub.h"
 
+extern "C" int g_bSDLQuitRequested;
+
 int STUB_TaskControl(void)
 {
-  // TODO: Support application events - this probably needs to be done in the keyboard handler.
-  return FALSE;
+  // Non-zero makes the game loops bail out: the window was closed.
+  return g_bSDLQuitRequested;
 }
 
 int main(int argc, char *argv[])
 {
-  // TODO: Set up current directory.
+  UNUSED(argc);
+  UNUSED(argv);
 
-  // When we finish, call SDL_Quit to make sure we're all tidied up.
+  SDL_SetAppMetadata("No Gravity", "2.00", "com.realtech-vr.nogravity");
+  if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
+  {
+    fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
+    return 1;
+  }
   atexit(SDL_Quit);
 
   // Standard main function.

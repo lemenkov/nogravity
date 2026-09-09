@@ -83,55 +83,6 @@ __extern_c
   extern JOY_ClientDriver *sJOY;
 __end_extern_c
 
-#if defined __BEOS__
-#define SKEY_SCANTABLESIZE 16
-
-enum s_keymap
-{
-    s_none=0, s_esc=1, s_f1, s_f2, s_f3, s_f4, s_f5, s_f6, s_f7, s_f8, s_f9, s_f10, s_f11, s_f12, 
-    s_tilda=0x11, s_1, s_2, s_3, s_4, s_5, s_6, s_7, s_8, s_9, s_0, s_minus, s_equals, s_backslash=0x33, 
-    s_backspace=0x1e, s_tab=0x26, s_q, s_w, s_e, s_r, s_t, s_y, s_u, s_i, s_o, s_p, s_opensquare, s_closequare, 
-    s_capslock=0x3b, s_a, s_s, s_d, s_f, s_g, s_h, s_j, s_k, s_l, s_semicolon, s_quote, s_return,
-    s_leftshift=0x4b, s_z, s_x, s_c, s_v, s_b, s_n, s_m, s_coma, s_period, s_slash, s_rightshift,
-    s_ctrl1=0x5c, s_alt1, s_space, s_alt, s_ctrl,
-    s_printscreen=0x0e, s_scrolllock, s_pause,
-    s_numinsert=0x1f, s_home, s_pageup, s_numlock, s_numslash, s_numstar, s_numminus,
-    s_numdelete=0x34, s_end, s_pagedown, s_padhome, s_numup, s_numpageup, s_numplus=0x3a,
-    s_numleft=0x48, s_num5, s_numright,
-    s_up=0x57, s_numend, s_numdown, s_numpagedown, s_numenter,
-    s_left=0x61, s_down, s_right, s_insert, s_delete,
-    s_winleft=0x66, s_winright, s_winapp, s_sysreq=0x7e, s_break = 0x7f,
-	s_count
-};
-
-#define SKEY_MSK(x) (1L<<(7-((x)&7)))
-#define SKEY_GET_BIT(table, x) (table[(x)>>3] & SKEY_MSK(x))
-#define SKEY_SET_BIT(table, x, v) {if (v) table[(x)>>3]|=SKEY_MSK(x); else table[(x)>>3]&=~SKEY_MSK(x);}
-
-#elif defined __MACOS__
-#define SKEY_SCANTABLESIZE 16
-enum s_keymap
-{
-	s_a=0x00, s_s, s_d, s_f, s_g, s_h, s_z, s_x, s_c, s_v, s_unka, s_unkb, s_q, s_w, s_e, s_r, 
-	s_y=0x10, s_t, s_1, s_2, s_3, s_4, s_6, s_5, s_equals, s_9, s_7, s_minus, s_8, s_0, s_closesquare, s_o, 
-	s_u=0x20, s_opensquare, s_i, s_p, s_return, s_l, s_j, s_quote, s_k, semicolon, s_backslash, s_coma, s_slash, s_n, s_m, s_period, 
-	s_tab=0x30, s_space, s_tilda, s_backspace, s_unk34, s_esc, s_unk36, s_unk37, s_rightshift, s_winleft, s_capslock, s_alt, s_ctrl, s_unk3d, s_unk3e, s_unk3f, 
-	s_unk6=0x40, s_numdelete, s_unk42, s_numstar, s_unk44, s_numplus, s_unk46, s_numlock, s_unk48, s_unk49, s_unk4a, s_numslash, s_numreturn, s_unk4d, s_numminus, 
-	s_unk5=0x50, s_numslash2, s_numinsert, s_numend, s_numdown, s_numpagedown, s_numleft, s_num5, s_numright, s_numhome, s_unk5a, s_numup, s_numpageup, 
-	s_f5=0x60, s_f6, s_f7, s_f3, s_f8, s_f9, s_unk66, s_f11, s_unk68, s_f13, s_unk6a, s_f14, s_unk6c, s_f10, s_unk6e, s_f12, 
-	s_unk70=0x70, s_pause, s_insert, s_home, s_pageup, s_delete, s_f4, s_end, s_f2, s_pagedown, s_f1, s_left, s_right, s_down, s_up, 
-	s_none=0x7f
-};
-#define s_winright    s_winleft
-#define s_leftshift   s_rightshift
-#define s_winapp      s_unk70
-#define s_printscreen s_f13
-
-#define SKEY_MSK(x) (1L<<((x)&7))
-#define SKEY_GET_BIT(table, x) (table[(x)>>3] & SKEY_MSK(x))
-#define SKEY_SET_BIT(table, x, v) {if (v) table[(x)>>3]|=SKEY_MSK(x); else table[(x)>>3]&=~SKEY_MSK(x);}
-
-#else
 
 #define SKEY_SCANTABLESIZE 256
 enum s_keymap 
@@ -155,7 +106,6 @@ enum s_keymap
 #define SKEY_GET_BIT(table, x) (table[x] & 0x80)
 #define SKEY_SET_BIT(table, x, v) { table[x] = v ? 0x80 : 0;}
 
-#endif
 
 typedef struct _RClientDriver_Keybrd 
 {

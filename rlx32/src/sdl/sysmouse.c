@@ -24,72 +24,107 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
-
-#include <SDL/SDL.h>
-
+#include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "_rlx.h"
 #include "sysctrl.h"
 
+extern SDL_Window *g_pSDLWindow; // Owned by the display driver.
+extern int g_SDLWheelDelta;      // Accumulated by the event pump in syskeyb.c.
+
+// While the cursor is hidden the mouse runs in relative mode, so the
+// absolute position is tracked here as a virtual cursor instead.
+static int g_bRelative = 0;
+static float g_fVirtualX = 0.f, g_fVirtualY = 0.f;
+
 static int MouseOpen(void *hnd)
 {
-  // SDL only supports a single mouse device with 3 buttons and 3 axes.
+  UNUSED(hnd);
   sMOU->device = NULL;
   sMOU->numControllers = 1;
   sMOU->numButtons = 3;
   sMOU->numAxes = 3;
-
-  // Ensure that joystick events are processed automatically by SDL.
-  SDL_JoystickEventState(SDL_ENABLE);
-
   return TRUE;
 }
 
-static void MouseRelease()
+static void MouseRelease(void)
 {
-  // Nothing to do.
+  if (g_pSDLWindow && g_bRelative)
+    SDL_SetWindowRelativeMouseMode(g_pSDLWindow, false);
+  g_bRelative = 0;
 }
 
-static void MouseShow()
+static void MouseShow(void)
 {
-  // Just call through into SDL.
-  SDL_ShowCursor(1);
+  if (g_pSDLWindow && g_bRelative)
+  {
+    SDL_SetWindowRelativeMouseMode(g_pSDLWindow, false);
+    SDL_WarpMouseInWindow(g_pSDLWindow, g_fVirtualX, g_fVirtualY);
+  }
+  g_bRelative = 0;
+  SDL_ShowCursor();
 }
 
-static void MouseHide()
+static void MouseHide(void)
 {
-  // Just call through into SDL.
-  SDL_ShowCursor(0);
+  SDL_HideCursor();
+  if (g_pSDLWindow && !g_bRelative)
+  {
+    SDL_GetMouseState(&g_fVirtualX, &g_fVirtualY);
+    g_bRelative = SDL_SetWindowRelativeMouseMode(g_pSDLWindow, true) ? 1 : 0;
+  }
 }
 
 static void MouseSetPosition(u_int32_t x, u_int32_t y)
 {
-  // Just call through into SDL.
-  SDL_WarpMouse((Uint16)x, (Uint16)y);
+  g_fVirtualX = (float)x;
+  g_fVirtualY = (float)y;
+  if (g_pSDLWindow && !g_bRelative)
+    SDL_WarpMouseInWindow(g_pSDLWindow, (float)x, (float)y);
 }
 
 static unsigned long MouseUpdate(void *dev)
 {
-  Uint8 buttons;
+  SDL_MouseButtonFlags buttons;
+  float rx = 0.f, ry = 0.f, ax = 0.f, ay = 0.f;
+  UNUSED(dev);
 
   // Copy the current button state to be the old button state.
   memcpy(sMOU->steButtons, sMOU->rgbButtons, sMOU->numButtons);
 
-  // Get the button state and mouse movement.
-  buttons = SDL_GetRelativeMouseState(&sMOU->lX, &sMOU->lY);
+  buttons = SDL_GetRelativeMouseState(&rx, &ry);
+  sMOU->lX = (int)rx;
+  sMOU->lY = (int)ry;
+  sMOU->rgbButtons[0] = (u_int8_t)((buttons & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)) ? 1 : 0);
+  sMOU->rgbButtons[1] = (u_int8_t)((buttons & SDL_BUTTON_MASK(SDL_BUTTON_MIDDLE)) ? 1 : 0);
+  sMOU->rgbButtons[2] = (u_int8_t)((buttons & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT)) ? 1 : 0);
 
-  // For each button, record its new state.
-  sMOU->rgbButtons[0] = (u_int8_t)((buttons & SDL_BUTTON(SDL_BUTTON_LEFT)) ? 1 : 0);
-  sMOU->rgbButtons[1] = (u_int8_t)((buttons & SDL_BUTTON(SDL_BUTTON_MIDDLE)) ? 1 : 0);
-  sMOU->rgbButtons[2] = (u_int8_t)((buttons & SDL_BUTTON(SDL_BUTTON_RIGHT)) ? 1 : 0);
+  // The wheel arrives as events; report the movement since the last update.
+  sMOU->lZ = g_SDLWheelDelta;
+  g_SDLWheelDelta = 0;
 
-  // SDL treats the Z axis (mouse wheel) as buttons, rather than an axis.
-  sMOU->lZ = ((buttons & SDL_BUTTON(SDL_BUTTON_WHEELUP)) ? 1 : 0) -
-             ((buttons & SDL_BUTTON(SDL_BUTTON_WHEELDOWN)) ? 1 : 0);
-
-  // Get the absolute mouse position.
-  (void)SDL_GetMouseState(&sMOU->x, &sMOU->y);
-
+  if (g_bRelative)
+  {
+    int w = 0, h = 0;
+    if (g_pSDLWindow)
+      SDL_GetWindowSize(g_pSDLWindow, &w, &h);
+    g_fVirtualX += rx;
+    g_fVirtualY += ry;
+    if (g_fVirtualX < 0.f) g_fVirtualX = 0.f;
+    if (g_fVirtualY < 0.f) g_fVirtualY = 0.f;
+    if ((w > 0) && (g_fVirtualX > (float)(w - 1))) g_fVirtualX = (float)(w - 1);
+    if ((h > 0) && (g_fVirtualY > (float)(h - 1))) g_fVirtualY = (float)(h - 1);
+    ax = g_fVirtualX;
+    ay = g_fVirtualY;
+  }
+  else
+  {
+    (void)SDL_GetMouseState(&ax, &ay);
+    g_fVirtualX = ax;
+    g_fVirtualY = ay;
+  }
+  sMOU->x = (int)ax;
+  sMOU->y = (int)ay;
   return TRUE;
 }
 
@@ -104,9 +139,7 @@ _RLXEXPORTFUNC MSE_ClientDriver *MSE_SystemGetInterface_STD(void)
     MouseSetPosition,
     MouseUpdate
   };
-
   // Set the driver.
   sMOU = &driver;
-
   return sMOU;
 }
