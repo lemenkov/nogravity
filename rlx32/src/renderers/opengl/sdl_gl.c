@@ -46,7 +46,7 @@ struct RLXSYSTEM *g_pRLX;
 int GL_IsSupported(const char *extension);
 
 // The window is shared with the mouse driver.
-extern "C" SDL_Window *g_pSDLWindow = NULL;
+SDL_Window *g_pSDLWindow = NULL;
 
 static SDL_GLContext g_GLContext = NULL;
 static GXDISPLAYMODEINFO *g_pDisplays = NULL;

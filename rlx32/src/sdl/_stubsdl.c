@@ -32,7 +32,7 @@ Linux/SDL Port: 2005 - Matt Williams
 #include "_rlx.h"
 #include "_stub.h"
 
-extern "C" int g_bSDLQuitRequested;
+extern int g_bSDLQuitRequested;
 
 int STUB_TaskControl(void)
 {

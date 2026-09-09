@@ -28,7 +28,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xdefs.h"
 #include "v3xrend.h"
 #include "sysctrl.h"
-#include <algorithm>
 
 #define PIPE_OPEN 1
 
@@ -515,7 +514,8 @@ static const V3XMATERIAL *pipe_pMat;
 
 #define SET_VTX() glVertex3f( fce->dispTab[i].x, fce->dispTab[i].y, 1.f - (fce->dispTab[i].z * g_fInvZFar));
 
-#define SET_DIFFUSE(i) glColor4ub(std::min(255u, (pipe_pMat->ambient.r>>2) + xMUL8(fce->rgb[i].r, pipe_pMat->diffuse.r)), std::min(255u, (pipe_pMat->ambient.g>>2) + xMUL8(fce->rgb[i].g, pipe_pMat->diffuse.g)), std::min(255u, (pipe_pMat->ambient.b>>2) + xMUL8(fce->rgb[i].b, pipe_pMat->diffuse.b)), fce->rgb[i].a);
+#define GL_MIN255(x) ((x) > 255u ? 255u : (x))
+#define SET_DIFFUSE(i) glColor4ub(GL_MIN255((pipe_pMat->ambient.r>>2) + xMUL8(fce->rgb[i].r, pipe_pMat->diffuse.r)), GL_MIN255((pipe_pMat->ambient.g>>2) + xMUL8(fce->rgb[i].g, pipe_pMat->diffuse.g)), GL_MIN255((pipe_pMat->ambient.b>>2) + xMUL8(fce->rgb[i].b, pipe_pMat->diffuse.b)), fce->rgb[i].a);
 
 #define SET_CONSTANT() glColor4ub(pipe_pMat->diffuse.r, pipe_pMat->diffuse.b, pipe_pMat->diffuse.g, pipe_pMat->alpha);
 

@@ -1,8 +1,8 @@
-project('nogravity', 'c', 'cpp',
+project('nogravity', 'c',
   version : '2.00',
   license : 'GPL-2.0-or-later',
   meson_version : '>= 1.0.0',
-  default_options : ['c_std=gnu17', 'cpp_std=c++17', 'warning_level=1', 'buildtype=debugoptimized'])
+  default_options : ['c_std=gnu17,c17', 'warning_level=1', 'buildtype=debugoptimized'])
 
 cc = meson.get_compiler('c')
 
@@ -65,11 +65,11 @@ engine_src = files(
   'rlx32/src/v3xscen2.c',
   'rlx32/src/v3xscene.c',
   'rlx32/src/v3xsoft.c',
-  'rlx32/src/_stub.cpp',
+  'rlx32/src/_stub.c',
 )
 
 platform_src = files(
-  'rlx32/src/sdl/_stubsdl.cpp',
+  'rlx32/src/sdl/_stubsdl.c',
   'rlx32/src/sdl/snd.c',
   'rlx32/src/sdl/sysdbg.c',
   'rlx32/src/sdl/sysjoy.c',
@@ -82,9 +82,9 @@ platform_src = files(
 )
 
 renderer_src = files(
-  'rlx32/src/renderers/opengl/gl_gx.cpp',
-  'rlx32/src/renderers/opengl/gl_v3x.cpp',
-  'rlx32/src/renderers/opengl/sdl_gl.cpp',
+  'rlx32/src/renderers/opengl/gl_gx.c',
+  'rlx32/src/renderers/opengl/gl_v3x.c',
+  'rlx32/src/renderers/opengl/sdl_gl.c',
 )
 
 game_src = files(
@@ -112,6 +112,5 @@ executable('nogravity',
   engine_src + platform_src + renderer_src + game_src,
   include_directories : incdirs,
   c_args : cflags,
-  cpp_args : cflags,
   dependencies : deps,
   install : true)
