@@ -495,12 +495,21 @@ void STUB_Default(void)
 
 void STUB_ReadyToRun(void)
 {
-	char *resFile = "/usr/share/nogravity/NOGRAVITY.RMX";
+	const char *resFile = "NOGRAVITY.RMX";
 	
+#ifdef NOGRAVITY_DATADIR
+	resFile = NOGRAVITY_DATADIR "/NOGRAVITY.RMX";
+#endif
 #ifdef _DEBUG
     SYS_Debug("Open file resource : %s\n", resFile);
 #endif
 	FIO_wad = filewad_open(resFile, 0);
+	if (!FIO_wad)
+	{
+		// Fall back to the current directory (handy for development).
+		resFile = "NOGRAVITY.RMX";
+		FIO_wad = filewad_open(resFile, 0);
+	}
 #ifdef __APPLE__
 	if (!FIO_wad)
 	{

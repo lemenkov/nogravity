@@ -25,10 +25,8 @@ Linux/SDL Port: 2005 - Matt Williams
 
 #include "_rlx32.h"
 
-/* Determine the right sound driver based on the available libraries. */
-#if defined(HAVE_AL_ALC_H) && defined(HAVE_AL_AL_H) && defined(HAVE_LIBOPENAL)
-    #include "snd_openal.c"
-#elif defined(HAVE_SDL_SDL_MIXER_H) && defined(HAVE_LIBSDL_MIXER)
+/* Sound backend selected at build time (see meson_options.txt). */
+#ifdef USE_SDLMIXER
     #include "snd_sdlmixer.c"
 #else
     #include "snd_none.c"
