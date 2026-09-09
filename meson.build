@@ -2,7 +2,7 @@ project('nogravity', 'c', 'cpp',
   version : '2.00',
   license : 'GPL-2.0-or-later',
   meson_version : '>= 1.0.0',
-  default_options : ['c_std=gnu17', 'cpp_std=c++14', 'warning_level=1', 'buildtype=debugoptimized'])
+  default_options : ['c_std=gnu17', 'cpp_std=c++17', 'warning_level=1', 'buildtype=debugoptimized'])
 
 cc = meson.get_compiler('c')
 
