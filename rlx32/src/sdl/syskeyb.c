@@ -149,6 +149,60 @@ static const u_int8_t g_ScanMap[SDL_SCANCODE_COUNT] =
   [SDL_SCANCODE_APPLICATION] = s_winapp,
 };
 
+// Scripted key presses for automated runs: NOGRAVITY_TEST_KEYS is a
+// comma separated list of "<milliseconds>:<key>" where key is an SDL
+// key name ("Return", "Down", "A"...).  Each entry is pressed at that
+// time and released on the next update.
+static void InjectScriptedKeys(void)
+{
+  static int parsed = 0;
+  static struct { Uint64 at; SDL_Scancode scancode; } script[64];
+  static int count = 0, next = 0, release = -1;
+  SDL_Event e;
+  Uint64 now;
+
+  if (!parsed)
+  {
+    const char *env = SDL_getenv("NOGRAVITY_TEST_KEYS");
+    parsed = 1;
+    while (env && *env && (count < 64))
+    {
+      char name[32];
+      int n = 0;
+      Uint64 at = (Uint64)SDL_strtoull(env, (char **)&env, 10);
+      if (*env != ':')
+        break;
+      env++;
+      while (*env && (*env != ',') && (n < 31))
+        name[n++] = *env++;
+      name[n] = 0;
+      script[count].at = at;
+      script[count].scancode = SDL_GetScancodeFromName(name);
+      if (script[count].scancode != SDL_SCANCODE_UNKNOWN)
+        count++;
+      if (*env == ',')
+        env++;
+    }
+  }
+  memset(&e, 0, sizeof(e));
+  if (release >= 0)
+  {
+    e.type = SDL_EVENT_KEY_UP;
+    e.key.scancode = script[release].scancode;
+    SDL_PushEvent(&e);
+    release = -1;
+  }
+  now = SDL_GetTicks();
+  if ((next < count) && (now >= script[next].at))
+  {
+    e.type = SDL_EVENT_KEY_DOWN;
+    e.key.scancode = script[next].scancode;
+    SDL_PushEvent(&e);
+    release = next;
+    next++;
+  }
+}
+
 // This is the only place that pumps the SDL event queue, so window and
 // mouse wheel events are picked up here as well.
 static unsigned long KeyboardUpdate(void *dev)
@@ -159,6 +213,8 @@ static unsigned long KeyboardUpdate(void *dev)
 
   // Copy the current key state to be the old key state.
   memcpy(sKEY->steButtons, sKEY->rgbButtons, SKEY_SCANTABLESIZE);
+
+  InjectScriptedKeys();
 
   while (SDL_PollEvent(&evt))
   {
