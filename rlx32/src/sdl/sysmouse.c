@@ -32,10 +32,35 @@ Linux/SDL Port: 2005 - Matt Williams
 extern SDL_Window *g_pSDLWindow; // Owned by the display driver.
 extern int g_SDLWheelDelta;      // Accumulated by the event pump in syskeyb.c.
 
-// While the cursor is hidden the mouse runs in relative mode, so the
-// absolute position is tracked here as a virtual cursor instead.
+// While the cursor is hidden and the window is fullscreen and focused,
+// the mouse runs in relative mode so aiming never stops at a screen edge;
+// the absolute position is then tracked here as a virtual cursor.  In a
+// window the pointer stays free, so it can reach the window controls.
+static int g_bHidden = 0;
 static int g_bRelative = 0;
 static float g_fVirtualX = 0.f, g_fVirtualY = 0.f;
+
+static void ApplyRelativeMode(void)
+{
+  int want = 0;
+  if (g_pSDLWindow && g_bHidden)
+  {
+    SDL_WindowFlags flags = SDL_GetWindowFlags(g_pSDLWindow);
+    want = (flags & SDL_WINDOW_FULLSCREEN) && (flags & SDL_WINDOW_INPUT_FOCUS);
+  }
+  if (want && !g_bRelative)
+  {
+    SDL_GetMouseState(&g_fVirtualX, &g_fVirtualY);
+    g_bRelative = SDL_SetWindowRelativeMouseMode(g_pSDLWindow, true) ? 1 : 0;
+  }
+  else if (!want && g_bRelative)
+  {
+    SDL_SetWindowRelativeMouseMode(g_pSDLWindow, false);
+    if (g_pSDLWindow)
+      SDL_WarpMouseInWindow(g_pSDLWindow, g_fVirtualX, g_fVirtualY);
+    g_bRelative = 0;
+  }
+}
 
 static int MouseOpen(void *hnd)
 {
@@ -49,30 +74,22 @@ static int MouseOpen(void *hnd)
 
 static void MouseRelease(void)
 {
-  if (g_pSDLWindow && g_bRelative)
-    SDL_SetWindowRelativeMouseMode(g_pSDLWindow, false);
-  g_bRelative = 0;
+  g_bHidden = 0;
+  ApplyRelativeMode();
 }
 
 static void MouseShow(void)
 {
-  if (g_pSDLWindow && g_bRelative)
-  {
-    SDL_SetWindowRelativeMouseMode(g_pSDLWindow, false);
-    SDL_WarpMouseInWindow(g_pSDLWindow, g_fVirtualX, g_fVirtualY);
-  }
-  g_bRelative = 0;
+  g_bHidden = 0;
+  ApplyRelativeMode();
   SDL_ShowCursor();
 }
 
 static void MouseHide(void)
 {
   SDL_HideCursor();
-  if (g_pSDLWindow && !g_bRelative)
-  {
-    SDL_GetMouseState(&g_fVirtualX, &g_fVirtualY);
-    g_bRelative = SDL_SetWindowRelativeMouseMode(g_pSDLWindow, true) ? 1 : 0;
-  }
+  g_bHidden = 1;
+  ApplyRelativeMode();
 }
 
 static void MouseSetPosition(u_int32_t x, u_int32_t y)
@@ -91,6 +108,9 @@ static unsigned long MouseUpdate(void *dev)
 
   // Copy the current button state to be the old button state.
   memcpy(sMOU->steButtons, sMOU->rgbButtons, sMOU->numButtons);
+
+  // Follow fullscreen/focus changes.
+  ApplyRelativeMode();
 
   buttons = SDL_GetRelativeMouseState(&rx, &ry);
   sMOU->lX = (int)rx;
