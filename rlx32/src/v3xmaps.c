@@ -378,7 +378,6 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
             else // clone le fli
             {
                 Mat->fli = fli;
-                Mat->shift_size = 0;
                 *tex = fli->bitmap;
 				SYS_ASSERT(tex->handle);
             }

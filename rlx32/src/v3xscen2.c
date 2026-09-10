@@ -668,7 +668,6 @@ static V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
       Mat[i].reserved[0] = (void *)(uintptr_t)raw[22];
       Mat[i].reserved[1] = (void *)(uintptr_t)raw[23];
       Mat[i].fli = (struct _fli_struct *)(uintptr_t)raw[24];
-      Mat[i].render_clip = (void *)(uintptr_t)raw[25];
       Mat[i].lod_near = raw[26];
       Mat[i].lod_far  = raw[27];
       /* copy the rest of the non ptr data starting at ambient */
@@ -1427,7 +1426,7 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
     V3XOVI *OVI;
     V3XORI    *ORI;
     V3XCL             *OCs;
-    int i, j;
+    int i;
     V3X.Buffer.MaxObj = 0;
     V3X.Light.numSource = 0;
     V3X.Light.tables = &pScene->Layer.lt;
@@ -1470,11 +1469,6 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
         OCs = ORI->Cs;
         if (ORI->type == V3XOBJ_MESH )
         {
-            if (OVI->state&V3XSTATE_CULLNEVER)
-            {
-                for (j=0;j<OVI->mesh->numMaterial;j++)
-                OVI->mesh->material[j].render_far = OVI->mesh->material[j].render_near;
-            }
         }
         if (OCs)
         {

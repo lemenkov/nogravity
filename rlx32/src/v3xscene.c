@@ -776,10 +776,6 @@ static void V3x_render_buildGeometry(V3XSCENE *Scene, GXVIEWPORT *fen, int spec)
     if (V3X.Buffer.MaxFaces>1)
     {
         v3xpoly_SortByDistance(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
-        if (V3X.Client->Capabilities&(GXSPEC_ENABLEZBUFFER|GXSPEC_ENABLEWBUFFER))
-        {
-            v3xpoly_SortByID(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
-        }
     }
     GX.View  = Old;
     V3X.ViewPort = OldV;

@@ -61,37 +61,6 @@ union _v3x_2dclipInfo
 };
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void CALLING_C V3XRENDER_Wired(V3XPOLY *fce)
-*
-* DESCRIPTION :
-*
-*/
-static void CALLING_C V3XRENDER_Wired(V3XPOLY *fce)
-{
-    int32_t *s=(int32_t*)fce->shade;
-    V3XMATERIAL *mat = (V3XMATERIAL*)fce->Mat;
-    u_int32_t cl = mat ? RGB_PixelFormat(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b) : RGBA_PixelFormat(255, 255, 255, 0);
-    V3XlPTS *pt=(V3XlPTS*)fce->dispTab;
-    int i, j=fce->numEdges-1;
-	return;
-
-#ifdef CLIPPING
-    for (i=0;i<fce->numEdges;i++, s++)
-    {
-        GX_ClippedLine( pt+i, pt+j, ((V3XMATERIAL*)fce->Mat)->ColorTable[(int32_t)*s]);
-        j=i;
-    }
-#else
-    for (i=0;i<fce->numEdges;i++, s++)
-    {
-        GX.gi.drawAnyLine(pt[i].x, pt[i].y, pt[j].x, pt[j].y, cl);
-        j=i;
-    }
-#endif
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  static void Out_SetCodes(union _v3x_2dclipInfo *u, V3XSCALAR x, V3XSCALAR y)
 *
 * DESCRIPTION :
@@ -261,79 +230,6 @@ void GX_ClippedLine3D(V3XVECTOR *a, V3XVECTOR *b, u_int32_t cl)
     }
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void CALLING_C V3XRENDER_Nulll(V3XPOLY *fce)
-*
-* DESCRIPTION :
-*
-*/
-void CALLING_C V3XRENDER_Null(V3XPOLY *fce)
-{
-    fce=fce;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void CALLING_C V3XRENDER_SpriteAny(V3XPOLY *fce)
-*
-* DESCRIPTION :
-*
-*/
-void CALLING_C V3XRENDER_SpriteAny(V3XPOLY *fce)
-{
-    V3XMATERIAL *Mat = (V3XMATERIAL*)fce->Mat;
-    GXSPRITE  *sp = &Mat->texture[0];
-    V3XlPTS *pt = (V3XlPTS*)fce->dispTab;
-
-    unsigned bStretch;
-	int lx, ly;
-
-
-	lx = pt[2].x - pt[0].x;
-	ly = pt[2].y - pt[0].y;
-
-	bStretch = (lx!=(int32_t)sp->LX) || (ly!=(int32_t)sp->LY);
-
-    CSP_Color(RGB_PixelFormat(Mat->diffuse.r, Mat->diffuse.g, Mat->diffuse.b));
-	SYS_ASSERT(sp->handle);
-
-    switch(Mat->info.Transparency)
-	{
-        case V3XBLENDMODE_ADD:
-			if (!bStretch)
-				GX.csp.TrspADD(pt[0].x, pt[0].y, sp);
-			else
-				GX.csp.zoom_TrspADD( sp, pt[0].x, pt[0].y, lx, ly);
-
-		break;
-        case V3XBLENDMODE_SUB:
-			if (!bStretch)
-				GX.csp.TrspSUB(pt[0].x, pt[0].y, sp);
-			else
-				GX.csp.zoom_TrspSUB(  sp, pt[0].x, pt[0].y, lx, ly);
-
-		break;
-        case V3XBLENDMODE_ALPHA:
-			GX.csp_cfg.alpha = Mat->alpha;
-			if (!bStretch)
-				GX.csp.TrspALPHA(pt[0].x, pt[0].y, sp);
-			else
-				GX.csp.zoom_TrspALPHA(  sp, pt[0].x, pt[0].y, lx, ly);
-
-		break;
-        default:
-			if (!bStretch)
-				GX.csp.put(pt[0].x, pt[0].y, sp);
-			else
-				GX.csp.zoom_put( sp, pt[0].x, pt[0].y, lx, ly);
-
-		break;
-    }
-
-
-    return;
-}
 
 /*------------------------------------------------------------------------
 *
@@ -344,239 +240,41 @@ void CALLING_C V3XRENDER_SpriteAny(V3XPOLY *fce)
 */
 void V3XMaterial_Register(V3XMATERIAL *mat)
 {
-    V3X_GXTexPrimitives *G=NULL, *Gr=NULL;
-    V3X_GXNonTexPrimitives *Gs=NULL;
-
-    int k = mat->info.Shade & 3;
-    mat->render_clip = mat->render_near = mat->render_far = V3XRENDER_Wired;
-    mat->RenderID = V3XID_LINE;
-
-    if (V3X.Client->primitive)
-    {
-        Gs = V3X.Client->primitive->std;
-        Gr = V3X.Client->primitive->Linear256x256x8b;
-        G = Gr;
-        mat->info.Perspective = 0;
-        if (mat->shift_size)
-        {
-            G = V3X.Client->primitive->Linear128x128x8b;
-            Gr = G;
-        }
-    }
-
     if ((mat->Render == V3XRCLASS_transp_mapping) && (mat->info.Opacity))
-    mat->Render = V3XRCLASS_opacity_mapping;
-    switch(mat->Render) {
-        case V3XRCLASS_wired:
-        if (G)
-        {
-            mat->render_near = V3XRENDER_Wired;
-            mat->render_far = V3XRENDER_Wired;
-        }
-        mat->RenderID = mat->info.Transparency ? V3XID_T_LINE + mat->info.Transparency : V3XID_LINE;
-        break;
-        case V3XRCLASS_flat:
-        case V3XRCLASS_transp_flat:
-        if (mat->info.Transparency)
-        {
-            if (G)
-            {
-                mat->render_near = Gs->const_trsp;
-                mat->render_far = Gs->flat;
-            }
-            mat->RenderID = V3XID_T_FLAT;
-        }
-        else
-        {
-            if (G)
-            {
-                mat->render_near = Gs->flat;
-                mat->render_far = Gs->flat;
-            }
-            mat->RenderID = V3XID_FLAT;
-        }
-        break;
-        case V3XRCLASS_gouraud:
-        case V3XRCLASS_transp:
-        if (mat->info.Transparency)
-        {
-            if (G)
-            {
-                mat->render_near = Gs->gouraud_trsp;
-                mat->render_far = Gs->flat;
-            }
-            mat->RenderID = V3XID_T_GOURAUD;
-        }
-        else
-        {
-            if (G)
-            {
-                mat->render_near = Gs->gouraud;
-                mat->render_far = Gs->flat;
-            }
-            mat->RenderID = V3XID_GOURAUD;
-        }
-        break;
-        case V3XRCLASS_dualtex_mapping:
-        if (G)
-        {
-            mat->render_near = G->tex_2pass;
-            mat->render_far = G->tex;
-        }
-        mat->RenderID = V3XID_TEXDOUBLE;
-        break;
-        case V3XRCLASS_bump_mapping:
-        case V3XRCLASS_normal_mapping:
-        switch(k) {
-            case 3:
-            if (G)
-            {
-                mat->render_near = G->gouraud_tex;
-                mat->render_far = Gr->flat_tex;
-            }
-            mat->RenderID = V3XID_TEX_GOURAUD;
-            break;
-            case 2:
-            if (G)
-            {
-                mat->render_near = G->gouraud_tex;
-                mat->render_far = mat->info.Perspective ? Gr->gouraud_tex : Gr->flat_tex;
-            }
-            mat->RenderID = V3XID_TEX_GOURAUD;
-            break;
-            case 1:
-            if (G)
-            {
-                mat->render_near = G->flat_tex;
-                mat->render_far = Gr->flat_tex;
-            }
-            mat->RenderID = V3XID_TEX_FLAT;
-            break;
-            default:
-            if (G)
-            {
-                mat->render_near = G->tex;
-                mat->render_far = mat->info.Perspective ? Gr->tex : G->tex_rough; // selon guen
-            }
-            mat->RenderID = V3XID_TEX;
-            break;
-        }
-        break;
+        mat->Render = V3XRCLASS_opacity_mapping;
+    switch (mat->Render) {
         case V3XRCLASS_opacity_mapping:
         mat->info.Opacity = 1;
-        switch(k) {
-            case 1:
-            if (G)
-            {
-                mat->render_near= G->flat_opacity_tex;
-                mat->render_far = mat->info.Perspective ? Gr->flat_opacity_tex : G->flat_tex;
-            }
-            mat->RenderID = mat->info.Transparency ? V3XID_T_OPA_TEX_FLAT+mat->info.Transparency : V3XID_OPA_TEX_FLAT;
-            break;
-            case 3:
-            case 2:
-            if (G)
-            {
-                mat->render_near= G->flat_opacity_tex;
-                mat->render_far = mat->info.Perspective ? Gr->flat_opacity_tex : G->flat_tex;
-            }
-            mat->RenderID = mat->info.Transparency ? V3XID_T_OPA_TEX_GOURAUD+mat->info.Transparency : V3XID_OPA_TEX_GOURAUD;
-            break;
-            default:
-            if (G)
-            {
-                mat->render_near = G->tex_opacity;
-                mat->render_far = mat->info.Perspective ? Gr->tex_opacity : G->flat_tex;
-            }
-            mat->RenderID = mat->info.Transparency ? V3XID_T_OPA_TEX+mat->info.Transparency : V3XID_OPA_TEX;
-            break;
-        }
         break;
         case V3XRCLASS_transp_mapping:
-        if (!mat->info.Transparency)  mat->info.Transparency = V3XBLENDMODE_ALPHA;
-        mat->RenderID = V3XID_T_TEX;
-        if (mat->info.Shade==1) mat->RenderID = V3XID_T_TEX_FLAT;
-        else
-        if (mat->info.Shade==2) mat->RenderID = V3XID_T_TEX_GOURAUD;
-        mat->RenderID += mat->info.Transparency;
-        if (G)
-        {
-            mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
-            if (mat->info.Transparency==V3XBLENDMODE_ADD)
-            {
-                mat->render_far = mat->info.Perspective ? Gr->tex_trspAdd : G->tex;
-            }
-            else
-            mat->render_far = mat->info.Perspective ? Gr->tex_trsp : G->tex;
-        }
-        mat->RenderID = V3XID_T_TEX;
-        if (mat->info.Shade==1) mat->RenderID = V3XID_T_TEX_FLAT;
-        if (mat->info.Shade>=2) mat->RenderID = V3XID_T_TEX_GOURAUD;
+        if (!mat->info.Transparency)
+            mat->info.Transparency = V3XBLENDMODE_ALPHA;
         break;
         case V3XRCLASS_bitmap:
-        if (G)
-        {
-            mat->render_near = G->tex;
-        }
         mat->info.Opacity = 1;
         mat->info.Sprite = 1;
-        mat->RenderID = V3XID_SPRITE;
         mat->info.Transparency = V3XBLENDMODE_NONE;
         break;
         case V3XRCLASS_bitmap_transp:
-        mat->RenderID = (u_int8_t)(V3XID_T_SPRITE + mat->info.Transparency);
-        if (G)
-        {
-			mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
-            mat->render_far = mat->render_near;
-        }
         mat->info.Sprite = 1;
-        if (mat->info.Transparency == V3XBLENDMODE_NONE) mat->info.Transparency = V3XBLENDMODE_ADD;
+        if (mat->info.Transparency == V3XBLENDMODE_NONE)
+            mat->info.Transparency = V3XBLENDMODE_ADD;
         break;
         case V3XRCLASS_bitmap_any:
-        mat->RenderID = (u_int8_t)(V3XID_T_SPRITE+mat->info.Transparency);
-        if (G)
-        {
-			mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
-            mat->render_far = mat->render_near;
-        }
         mat->info.Sprite = 1;
         break;
-        // Obsolte class
-        case V3XRCLASS_blur_mapping:
-        if (G)
-        {
-            mat->render_near = G->tex_trsp;
-            mat->render_far = Gs->flat;
-        }
-        mat->RenderID = V3XID_T_TEX;
-        break;
-        case 0:
         default:
         break;
     }
     if (!mat->info.Texturized)
-		mat->info.Perspective = 0;
-    if (!G)
-    {
-        mat->lod_near = mat->lod;
-        mat->lod_far = mat->lod;
-        if (mat->info.Environment)
-        {
-            mat->info_far.Environment = 0;
-        }
-        else
-        {
-            //mat->info_far.Texturized = 0;
-        }
-        mat->info_far.Perspective = 0;
-        mat->info_far.Shade = mat->info.Shade==2 ? 1 : mat->info.Shade;
-    }
-    else
-    {
-        mat->render_clip =  mat->render_near;
-    }
-    mat->RenderID_near = mat->RenderID;
+        mat->info.Perspective = 0;
+    // Low detail variant of the material: no environment mapping, no
+    // perspective correction, flat instead of gouraud shading.
+    mat->lod_near = mat->lod;
+    mat->lod_far = mat->lod;
+    mat->info_far.Environment = 0;
+    mat->info_far.Perspective = 0;
+    mat->info_far.Shade = mat->info.Shade == 2 ? 1 : mat->info.Shade;
     return;
 }
 /*------------------------------------------------------------------------
@@ -595,7 +293,6 @@ void V3XMesh_SetRender(V3XMESH *obj)
     for (i=obj->numMaterial;i!=0;i--, mat++)
     {
         V3XMaterial_Register(mat);
-        if (obj->flags&V3XMESH_NOZSHADING) mat->render_far = mat->render_near;
         if (mat->info.Shade>1) obj->flags&=~V3XMESH_FLATSHADE;
     }
     for (fce=obj->face, i=0;i<obj->numFaces;i++, fce++)

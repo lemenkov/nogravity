@@ -174,27 +174,19 @@ typedef struct _v3xmaterial
     GXSPRITE     texture[2];       // GXSPRITE structure of the texture map
 	void	*	 reserved[2];
 	struct _fli_struct	*fli;
-    void         (* CALLING_C render_clip)(V3XPOLY *fce);  // internal
-
-	union {
-		void         (* CALLING_C render_near)(V3XPOLY *fce);  // internal
+	union {                                     // properties at near distance
 		V3XMATERIALPROPERTIES	info_near;
 		u_int32_t					lod_near;
 	};
-
-	union {
-		void         (* CALLING_C render_far )(V3XPOLY *fce);  // internal
+	union {                                     // properties at far distance (low detail)
 		V3XMATERIALPROPERTIES	info_far;
 		u_int32_t					lod_far;
 	};
 
 	rgb24_t      ambient, diffuse, specular;  // Color informations
     u_int8_t        Properties;        // Properties
-    u_int8_t        RenderID;          // Render Identifier
-    u_int8_t        Render;            // reserved
+    u_int8_t        Render;            // render class (V3XRCLASS_*)
     u_int8_t        scale;             // Sprite factor 0..255
-	u_int8_t		 RenderID_near;
-    u_int8_t        filler[2];
 }V3XMATERIAL;
 
 /*
@@ -513,49 +505,6 @@ typedef struct _v3x_time {
 }V3XTIMER;
 
 
-// Texture primitives group. (non valid with HW drivers)
-typedef struct {
-    unsigned caps;
-    // non texture primitives
-     void (* CALLING_C constc)(V3XPOLY *fce);          // Constant color (diffuse)
-     void (* CALLING_C flat)(V3XPOLY *fce);            // Flat
-     void (* CALLING_C gouraud)(V3XPOLY *fce);         // Gouraud
-     void (* CALLING_C gouraud_trsp)(V3XPOLY *fce);    // Gouraud transparency
-     void (* CALLING_C const_trsp)(V3XPOLY *fce);      // Constant transparency
-
-}V3X_GXNonTexPrimitives;
-
-
-typedef struct {
-    unsigned caps;
-    // non-shaded texture primitives
-    void (* CALLING_C tex)(V3XPOLY *fce);              // texture mapping
-    void (* CALLING_C tex_rough)(V3XPOLY *fce);        // texture mapping (rough)
-    void (* CALLING_C tex_2pass)(V3XPOLY *fce);        // multitexture mapping
-    void (* CALLING_C tex_opacity)(V3XPOLY *fce);      // texture mapping with opacity
-    void (* CALLING_C tex_trsp)(V3XPOLY *fce);         // texture mapping with transparency
-    void (* CALLING_C tex_trspAdd)(V3XPOLY *fce);         // texture mapping with transparency
-
-    // texture + shaded primtives
-    void (* CALLING_C flat_tex)(V3XPOLY *fce);         // texture with flat shading.
-    void (* CALLING_C gouraud_tex)(V3XPOLY *fce);      // gouraud textured
-    void (* CALLING_C flat_opacity_tex)(V3XPOLY *fce); // flat opacity
-
-}V3X_GXTexPrimitives;
-
-// Software rasterizer primitives (non valid with HW drivers).
-typedef struct {
-     V3X_GXNonTexPrimitives
-		    *std;
-     V3X_GXTexPrimitives
-		    *Linear256x256x8b,   //  256x256x8bit maps
-		    *Linear128x128x8b,   //  128x128x8bit maps
-		    *Corrected256x256x8b, //  256x256x8bit maps
-		    *Corrected128x128x8b, //  128x128x8bit maps
-		    *Linear256x256xbpp,  //  256x256 with current color depth.
-		    *Corrected256x256xbpp;  //  256x256 with current color depth.
-}V3X_GXRenderClass;
-
 // Software renderer class
 
 
@@ -581,7 +530,6 @@ typedef struct _v3x_layer_Clut{
 }V3XLAYER_CLUT;    //120b
 
 typedef struct {
-     V3X_GXRenderClass   *primitive;
      void        V3XAPI  (*Render)(void);
      void        V3XAPI *(*TextureDownload)(const GXSPRITE *src, const rgb24_t *colorTable, int bpp, unsigned options);
      void        V3XAPI  (*TextureFree)(void *handle);

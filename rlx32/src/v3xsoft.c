@@ -81,45 +81,6 @@ void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  #define ALGO2(fce)  (((V3XMATERIAL*)(fce).Mat)->RenderID)
-*
-* DESCRIPTION :
-*
-*/
-#define ALGO2(fce)  (((V3XMATERIAL*)(fce).Mat)->RenderID)
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RLXAPI v3xpoly_SortByTranparency( V3XPOLY **si, V3XPOLY **sj)
-*
-* DESCRIPTION :
-*
-*/
-void RLXAPI v3xpoly_SortByID( V3XPOLY **si, V3XPOLY **sj)
-{
-    V3XPOLY **p = (si+((sj-si)>>1)), **sk, **sl;
-    V3XPOLY  *q;
-    u_int32_t p0 = ALGO2(**p);
-    for ( sk = si, sl = sj ; sk<=sl ; )
-    {
-        for( ; ALGO2(**sk)<p0 ; sk++ ){}
-        for( ; p0<ALGO2(**sl); sl-- ){}
-        if (sk<=sl)
-        {
-            if (sk!=sl)
-            {
-                q = *sk;
-                *sk = *sl;
-                *sl = q;
-            }
-            sk++; sl--;
-        }
-    }
-    if (si<sl) v3xpoly_SortByID(si, sl);
-    if (sk<sj) v3xpoly_SortByID(sk, sj);
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  #define ALGO3(fce)  ((uintptr_t)(((V3XMATERIAL*)(fce).Mat)->texture[0].handle))
 *
 * Description :

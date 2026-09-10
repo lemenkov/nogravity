@@ -72,34 +72,6 @@ enum {
       V3XRCLASS_bump_mapping
 };
 
-// Render discrete categories
-
-enum {
-      V3XID_LINE = 3,
-      V3XID_FLAT = 4,
-      V3XID_GOURAUD = 5,
-      V3XID_TEX  = 16,
-      V3XID_TEX_FLAT = 16+2,
-      V3XID_TEX_GOURAUD = 16+3,
-      V3XID_TEXDOUBLE  = 16+5,
-      V3XID_OPA_TEX = 32+8,
-      V3XID_OPA_TEX_FLAT = 32+8+8,
-      V3XID_OPA_TEX_GOURAUD = 32+8+16,
-      V3XID_SPRITE = 64+0,
-	  V3XID_T_LINE			= 128,
-      V3XID_T_FLAT = 128+4,
-      V3XID_T_GOURAUD  = 128+8,
-      V3XID_T_TEX = 128+16,
-      V3XID_T_TEX_FLAT = 128+16+8,
-      V3XID_T_TEX_GOURAUD = 128+16+16,
-      V3XID_T_OPA_TEX = 128+32+8,
-      V3XID_T_OPA_TEX_FLAT = 128+32+16,
-      V3XID_T_OPA_TEX_GOURAUD = 128+32+24,
-
-      V3XID_T_SPRITE = 128+64
-};
-
-
 enum {
      V3XCMD_SETZBUFFERSTATE = 0x30,
      V3XCMD_SETZBUFFERCOMP = 0x40,
@@ -114,9 +86,6 @@ __extern_c
 _RLXEXPORTFUNC    void RLXAPI           V3XMesh_SetRender(V3XMESH *obj);
 
     // Additional Primitives
-_RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Null(V3XPOLY *fce);
-_RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Color(V3XPOLY *fce);
-_RLXEXPORTFUNC    void CALLING_C        V3XRENDER_SpriteAny(V3XPOLY *fce);
 
 
     // Primitive

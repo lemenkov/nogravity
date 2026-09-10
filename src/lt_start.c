@@ -460,7 +460,6 @@ static void NG_DrawExtra(void)
                 {
                     if (SDL_strcasecmp(Mat->mat_name, "ASTER01")==0)
                     {
-                        Mat->RenderID = V3XID_TEX_GOURAUD;
                         Mat->info.Shade = 2;
                         mesh->flags |= V3XMESH_HASDYNLIGHT;
                         p=1;
@@ -473,7 +472,6 @@ static void NG_DrawExtra(void)
                         Mat->diffuse.g =
                         Mat->diffuse.b = 255;
                         Mat->alpha  = 128;
-                        Mat->RenderID = V3XID_T_TEX;
                         Mat->Render = V3XRCLASS_transp_mapping;
                     }
                     else
@@ -482,7 +480,6 @@ static void NG_DrawExtra(void)
                         Mat->info.Transparency = V3XBLENDMODE_ADD;
                         Mat->alpha  = 200;
                         Mat->Render = V3XRCLASS_bitmap_transp;
-                        Mat->RenderID = V3XID_T_SPRITE+Mat->info.Transparency;
                     }
                     else
                     if (SDL_strcasecmp(Mat->mat_name, "REACTEURS")==0)
@@ -522,20 +519,16 @@ static void NG_DrawExtra(void)
 					if (g_SGSettings.VisualsFx==2)
 						Mat->info.Transparency=0;
 
-					if ((Mat->info.Transparency)&&(Mat->info.Sprite))
-						Mat->RenderID=V3XID_T_SPRITE + Mat->info.Transparency;
-
                     V3XMaterial_Register(Mat);
                 }
                 else
                 {
                     if (strstr(Mat->mat_name, "TUROK"))
                     {
-                        Mat->RenderID = V3XRCLASS_shadow;
+                        Mat->Render = V3XRCLASS_shadow;
                         Mat->info.Transparency = 0;
 						Mat->info.Shade = 0;
 						Mat->info.Environment = 0;
-                        Mat->render_near = Mat->render_far = Mat->render_clip = V3XRENDER_Null;
                     }
                 }
             }

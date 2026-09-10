@@ -207,18 +207,10 @@ static void V3XAPI RenderPoly(V3XPOLY **fe, int count)
 		const V3XMATERIAL *pMat = (const V3XMATERIAL *)fce->Mat;
 		int textured, perspective, smooth, i;
 
-		if (pMat->Render == 255)
-		{
-			// Software helper (wireframe, points, 2D sprites); it draws
-			// through the 2D interface.
-			SYS_ASSERT(pMat->render_clip);
-			pMat->render_clip(fce);
+		if (pMat->Render == V3XRCLASS_shadow)
 			continue;
-		}
 		if (pMat != g_pMat)
 			ChangeMaterial(pMat);
-		if (pMat->RenderID == V3XRCLASS_shadow)
-			continue;
 
 		textured = pMat->info.Texturized && g_State.texture;
 		perspective = textured && pMat->info.Perspective;
@@ -277,7 +269,6 @@ static void V3XAPI DrawPrimitives(V3XVECTOR *vertexes, u_int16_t *indexTab, unsi
 
 V3X_GXSystem V3X_GPU =
 {
-	NULL,
 	RenderDisplay,
 	UploadTexture,
 	FreeTexture,

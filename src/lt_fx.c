@@ -762,17 +762,11 @@ SGEffect *NG_FXNew(V3XVECTOR *pos, int type, int lop, SGScript *pInf, int kp, V3
 			{
 				p->material.info.Transparency = transpa==2 ? V3XBLENDMODE_SUB: V3XBLENDMODE_ADD;
 				p->material.Render = V3XRCLASS_bitmap_transp;
-				p->material.RenderID = V3XID_T_SPRITE+p->material.info.Transparency;
-				p->material.render_near = p->material.render_far =
-				p->material.render_clip  = V3XRENDER_SpriteAny;
 			}
 			else
 			{
 				p->material.info.Transparency = V3XBLENDMODE_NONE;
 				p->material.Render = V3XRCLASS_bitmap;
-				p->material.RenderID = V3XID_SPRITE;
-				p->material.render_near = p->material.render_far =
-				p->material.render_clip = V3XRENDER_SpriteAny;
             }
 
             SYS_ASSERT(p->Sprite);
@@ -786,9 +780,6 @@ void NG_ChangeGameDetail(void)
 {
     int i;
     V3XMESH *obj;
-    V3X_GXTexPrimitives *Gs = NULL;
-    if (V3X.Client->primitive)
-		Gs = V3X.Client->primitive->Linear256x256x8b;
     if (g_SGObjects.Sky)
     {
         obj = g_SGObjects.Sky->mesh;
@@ -797,22 +788,9 @@ void NG_ChangeGameDetail(void)
             V3XMATERIAL *mat = obj->material+i;
             mat->diffuse.r =  mat->diffuse.g =  mat->diffuse.b = 255;
             mat->info.Shade = 0;
-            switch(g_SGSettings.Sky)
-			{
-                case 2:
-                if (Gs) mat->render_far = Gs->tex;
-                g_SGGame.Scene->Layer.bg.flags &=~ V3XBG_COLOR|V3XBG_BLACK;
-                mat->Render = V3XRCLASS_normal_mapping;
-                V3XMaterial_Register(mat);
-                break;
-				default:
-                g_SGGame.Scene->Layer.bg.flags &=~ V3XBG_COLOR|V3XBG_BLACK;
-                mat->Render = V3XRCLASS_normal_mapping;
-                V3XMaterial_Register(mat);
-                if (Gs) mat->render_far = Gs->tex_rough;
-                break;
-
-            }
+            g_SGGame.Scene->Layer.bg.flags &=~ V3XBG_COLOR|V3XBG_BLACK;
+            mat->Render = V3XRCLASS_normal_mapping;
+            V3XMaterial_Register(mat);
         }
     }
     return;

@@ -30,7 +30,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 __extern_c
  _RLXEXPORTFUNC void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj);
- _RLXEXPORTFUNC void RLXAPI v3xpoly_SortByID(       V3XPOLY **si, V3XPOLY **sj);
 __end_extern_c
 
 #endif

@@ -340,22 +340,10 @@ static void V3XMesh_T3(V3XMESH *mesh)
     V3XPOLY   *f;
     V3XVECTOR *a = V3X.Buffer.rot_vertex;
     V3XVECTOR *d = V3X.Buffer.prj_vertex;
-    if (!V3X.Client->primitive)
+    for(  n = 0; n < mesh->numMaterial; n++)
     {
-        for(  n = 0; n < mesh->numMaterial; n++)
-        {
-            V3XMATERIAL *Mat= mesh->material + n;
-            Mat->lod = (mesh->flags&V3XMESH_LOWDETAIL) ? Mat->lod_far : Mat->lod_near;
-        }
-    }
-    else
-    {
-        for(  n = 0; n < mesh->numMaterial; n++)
-        {
-            V3XMATERIAL *Mat= mesh->material + n;
-            Mat->render_clip = (mesh->flags&V3XMESH_LOWDETAIL)
-              ? Mat->render_far : Mat->render_near;
-        }
+        V3XMATERIAL *Mat= mesh->material + n;
+        Mat->lod = (mesh->flags&V3XMESH_LOWDETAIL) ? Mat->lod_far : Mat->lod_near;
     }
     for(  n = mesh->numFaces, f =mesh->face;  n!=0;  f++, n--)
     {
@@ -464,7 +452,6 @@ static void V3XMesh_T3(V3XMESH *mesh)
                                 p.x =  V3X.Buffer.prj_vertex[fce->faceTab[0]].x;
                                 p.y =  V3X.Buffer.prj_vertex[fce->faceTab[0]].y;
                                 p.z = -V3X.Buffer.rot_vertex[fce->faceTab[0]].z;
-                                Mat->shift_size = 0;
                                 V3XPoly_SpriteZoom(fce, &Mat->texture[0], &p,
                                 V3X.Buffer.prj_vertex[fce->faceTab[1]].x,
                                 V3X.Buffer.prj_vertex[fce->faceTab[1]].y,

@@ -75,4 +75,3 @@ typedef struct _v3x_layer97
 }V3XLAYER97; //228 octets
 
 
-#define MAKEID(d, c, b, a) (((int32_t)(a)<<24) | ((int32_t)(b)<<16) | ((int32_t)(c)<<8) | ((int32_t)(d)) )
