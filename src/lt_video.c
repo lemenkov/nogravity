@@ -35,7 +35,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systools.h"
 #include "sysini.h"
 #include "sysctrl.h"
-#include "sysnetw.h"
 #include "gx_tools.h"
 #include "gx_init.h"
 #include "gx_rgb.h"

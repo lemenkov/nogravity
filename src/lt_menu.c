@@ -36,7 +36,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "sysini.h"
 #include "fixops.h"
 #include "sysctrl.h"
-#include "sysnetw.h"
 #include "gx_tools.h"
 #include "gx_init.h"
 #include "gx_rgb.h"
@@ -1201,7 +1200,7 @@ static int CallbackMenuMap(RW_Interface *pInterface, int mode)
     int sel;
     RW_Button *b;
 	
-	int numLevelAvail = (g_SGSettings.Cheater||g_SGSettings.SerialGame) 
+	int numLevelAvail = (g_SGSettings.Cheater) 
 		              ?  g_pGameItem->EI[g_pCurrentGame->episode].numLevel-1 
 					  :  g_pCurrentGame->level[g_pCurrentGame->episode];
 
@@ -1304,7 +1303,7 @@ void NG_ResizeInterface2(RW_Interface *Interf)
 
 static int NG_SelectMap(void)
 {
-	int numLevelAvail = (g_SGSettings.Cheater||g_SGSettings.SerialGame) 
+	int numLevelAvail = (g_SGSettings.Cheater) 
 					  ? g_pGameItem->EI[g_pCurrentGame->episode].numLevel-1 
 					  : g_pCurrentGame->level[g_pCurrentGame->episode];
 	char tex[256];
@@ -1339,11 +1338,6 @@ static int NG_SelectMap(void)
 	g_nShipAnim = 1;
     but = g_cCursorMenu.Max;
 
-    if (!g_SGGame.IsHost)
-    {
-        ok = 1;
-    }
-    else
     do
     {
         ok = 1;
@@ -1393,9 +1387,6 @@ static int NG_SelectPlayer(void)
 static int NG_SelectEpisode(void)
 {
     int j;
-    if (!g_SGGame.IsHost) 
-		return 1;
-
     j = NG_ExecMainMenu(g_pEpisodeMenu, 0, 0xffffffff, 1);
 
     if (j<0) 
@@ -1428,14 +1419,12 @@ static int NG_SelectMissionProfile(void)
 	SYS_ASSERT(g_pGameItem->numEpisode);
 	SYS_ASSERT(g_pCurrentGame->episode<g_pGameItem->numEpisode);
 
-    if (!g_SGGame.IsHost) 
-		return 1;
 #if (SGTARGET ==NG_DEMO_VERSION)
     g_pGameItem->EI[g_pCurrentGame->episode].numLevel = 3;
 
 #endif
     nMissionCompleted = g_pCurrentGame->level[g_pCurrentGame->episode];
-    bSpecial = (g_SGSettings.Cheater) || (g_SGSettings.SerialGame) ? 1 : 0;
+    bSpecial = g_SGSettings.Cheater ? 1 : 0;
     for (j=0;j<g_pGameItem->EI[g_pCurrentGame->episode].numLevel;j++)
     {
         g_pMissionMenu[j+1] = ((j<=nMissionCompleted) || bSpecial)
@@ -1456,118 +1445,6 @@ static int NG_SelectMissionProfile(void)
 }
 #endif
 
-static void NG_NetRenderBackground(RW_Interface *pInterface, int mode, int bAllocate)
-{
-	NG_RenderingBackground();
-	NG_NetRender();
-	
-	RW_Zone_CreateWithText(pInterface, mode ? g_szGmT[171] : g_SGGame.IsHost ? g_szGmT[107] : g_szGmT[52], g_SGMenuPos.captionX, g_SGMenuPos.captionY, bAllocate); 
-	if (mode)
-	{
-		RW_Zone_CreateWithText(pInterface, g_szGmT[172], 130*2, g_SGMenuPos.captionY, bAllocate);
-		RW_Zone_CreateWithText(pInterface, g_szGmT[118], 230*2, g_SGMenuPos.captionY, bAllocate);
-	}
-
-}
-static int callbackNetMenu(RW_Interface *pInterface, int mode)
-{
-    if (RW.dy)
-    {
-        g_SGGame.mySession+=RW.dy;
-        NG_NetDisplay(1);
-    }
-    else 
-		NG_NetDisplay(0);
-
-	if ((g_SGSettings.SerialGame==2)&&(!g_SGGame.IsHost))
-    {
-		char tex[256];
-        if (sNET->ReceiveData(NET_EVERYBODY, tex, 255))
-        {
-            if (tex[0]=='œ') 
-            {
-                g_pCurrentGame->episode = tex[1];
-                g_pCurrentGame->level[g_pCurrentGame->episode] = tex[2];
-                g_SGSettings.SerialGame = 3;
-				return 1;
-            }
-        }
-	}
-
-	GX.Client->Lock();
-	NG_NetRenderBackground(pInterface, 0, mode);	
-	CSP_Color(COLOR_GRAY4);
-    CSP_WriteText(g_SGMenuPos.name, g_SGMenuPos.Xtitle, g_SGMenuPos.Ytitle, g_pFontMenuSml);
-	RW_RenderSelection(pInterface);
-
-	GX.Client->Unlock();
-	GX.View.Flip();
-	NG_UpdateColor();
-
-	sysConHandleInput();
-	RW.isLocked = sysConIsActive();
-    return STUB_TaskControl();
-}
-
-static int NG_NetSelectSession(int mode)
-{
-    int but, ok=1;
-    RW_Interface *pInterface = RW_Interface_Create(RW_VERT);
-    g_cCursorMenu.Mode = 1;
-    g_pCurrentGame->ship = 0;
-	g_SGMenuPos.name = g_szGmT[177+7];
-    but = RW_Interface_Scan(pInterface, 0, &ok, callbackNetMenu);
-    if (mode)
-    {
-        if (ok)
-        {
-            GX.Client->Unlock();
-            switch(but){
-                case 0:
-                if (sNET->CreateNewSession(g_pCurrentGame->name, 4, NULL))
-                {
-                    NG_MenuMessage(g_szGmT[173]);
-                }
-                else
-                {
-                    g_SGGame.IsHost=1;
-                }
-                break;
-                case 1:
-                {
-                    if (sNET->JoinSession(g_SGGame.Session, NULL))
-                    {
-                        NG_MenuMessage(g_szGmT[174]);
-                    }
-                    else
-                    {
-                        g_SGGame.IsHost=0;
-                    }
-                }
-                break;
-                case 2:
-                ok = 0;
-                break;
-            }
-        }
-    }
-    RW_Interface_Release(pInterface);
-    // Cancelation
-    if (mode==0)
-    {
-        if ((g_SGGame.IsHost)&&(ok==0))
-        {
-            sNET->CloseSession();
-        }
-        if ((g_SGGame.IsHost==0)&&(g_SGSettings.SerialGame!=3))
-        {
-            ok = 0;
-            sNET->QuitSession();
-        }
-    }
-    return ok;
-}
-
 static void XCancel(void)
 {
 	NG_AudioStopTrack();
@@ -1585,37 +1462,6 @@ static int NG_NewGameMenu(void)
         if ((g_SGSettings.GoToBrief==2)||NG_SelectPlayer())
         {
             int ok2=1;
-            g_SGGame.IdPlayer = 0;
-            g_SGGame.IsHost = 1;
-            g_SGGame.numPlayer = 1;
-            g_SGSettings.SerialGame = 0;
-            if ((g_SGSettings.GoToBrief!=2)&&(RLX.System.Id==RLXOS_WIN32))
-            {
-                int m = NG_NetSelectMode();
-                switch(m) {
-                    case  0: break;
-                    case -1: return 0;
-                    case  1: g_SGSettings.SerialGame = 1; break;
-                }
-            }
-            if (g_SGSettings.SerialGame)
-            {
-                sNET->SetPlayerName(g_pCurrentGame->name);
-                // Host ou join
-                g_SGSettings.SerialGame = 1+NG_NetSelectSession(1);
-                if (g_SGSettings.SerialGame==2)
-                {
-                    // attente
-                    g_SGSettings.SerialGame = NG_NetSelectSession(0);
-                } else g_SGSettings.SerialGame = 0;
-                // Quitte ou ferme la session
-                if (!g_SGSettings.SerialGame)
-                {
-                    if (g_SGGame.IsHost) sNET->CloseSession();
-                    else sNET->QuitSession();
-                    return 0;
-                }
-            }
             do
             {
                 g_SGSettings.GoToBrief = 0;
@@ -1636,23 +1482,13 @@ static int NG_NewGameMenu(void)
                     do
                     {
                         int ok4;
-                        ok4=(g_SGGame.IsHost) ? NG_SelectMap() : 1;
+                        ok4=NG_SelectMap();
                         ok3=1;
-                        if (g_SGGame.IsHost)
-                        {
-                            ok3 = 1;
-                        }
-                        else
-                        {
-                            GX.Client->Lock();
-                            GX.gi.clearVideo();
-                            GX.Client->Unlock();
-                        }
                         if (ok4)
                         {
                             if (NG_SelectBriefing()) return 1;
                             else XCancel();
-                            ok3=g_SGGame.IsHost ? 1 : 0;
+                            ok3=1;
                         } else {XCancel();return 0;}
                     }while(ok3!=1);
                 } else {ok2=1;ok1=0;}
@@ -2150,11 +1986,6 @@ static int NG_RenderEndLevelBackground(RW_Interface *p, int mode)
     DrawValue(g_szGmT[114], g_cGameStat.killed_nmy, g_cGameStat.total_nmy, 0, l); l++;    
     DrawValue(g_szGmT[116], g_cGameStat.killed_amy, g_cGameStat.total_amy, 0, l); l++;	
     
-	if (g_SGSettings.SerialGame)
-	{
-        DrawValue("Frag", g_cGameStat.frag, g_cGameStat.frag, 2, l);
-		l++;
-	}
     
 	if (g_cGameStat.shooted)
 	{
@@ -2218,7 +2049,7 @@ int NG_EndLevel(void)
         switch(but) 
 		{
             case 0: // retry
-				g_SGSettings.GoToBrief = g_SGSettings.SerialGame ? 2 : 1;
+				g_SGSettings.GoToBrief = 1;
 				ok=1;
             break;
             case 1: // next

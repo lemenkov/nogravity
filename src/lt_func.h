@@ -191,16 +191,7 @@ void NG_AudioStopMusic(void);
 void NG_AudioPauseMusic(void);
 void NG_AudioResumeMusic(void);
 
-// Network
-void NG_NetInitialize(void);
-void NG_NetRelease(void);
 void NG_MenuMessage(char *tex);
-int NG_NetSelectMode(void);
-void NG_NetDisplay(int force);
-void NG_NetRender();
-void NG_NetDispatch(void);
-u_int32_t NG_NetDispatchPlayer(unsigned playerId, u_int8_t *buffer);
-unsigned NG_NetTranslate(SGPlayer *pInf, u_int8_t *be);
 
 __end_extern_c
 

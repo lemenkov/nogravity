@@ -33,7 +33,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systools.h"
 #include "sysctrl.h"
 #include "sysini.h"
-#include "sysnetw.h"
 //
 #include "sysresmx.h"
 #include "gx_struc.h"
@@ -327,7 +326,7 @@ static void NG_ResetGameData(void)
     g_SGGame.numEnemies = 0;
     g_SGGame.numWeapons = 0;
     sysMemZero(g_SGGame.pWea, sizeof(SGWeapon) * MAX_WEAPONS);
-    sysMemZero(g_SGGame.pPlayer, sizeof(SGPlayer) * MAX_NETWORK_PLAYER);
+    sysMemZero(g_SGGame.pPlayer, sizeof(SGPlayer));
     sysMemZero(g_SGGame.pEnemy , sizeof(SGActor) * MAX_ENEMYS);
     return;
 }
@@ -337,7 +336,7 @@ static void NG_AllocGameData(void)
     g_pPlayerInfo = (SGScript*) MM_heap.malloc(sizeof(SGScript)*MAX_PLAYER);	
     g_SGGame.numEffects = 128;
     g_SGGame.pWea = MM_CALLOC(MAX_WEAPONS, SGWeapon);
-    g_SGGame.pPlayer = MM_CALLOC(MAX_NETWORK_PLAYER, SGPlayer);
+    g_SGGame.pPlayer = MM_CALLOC(1, SGPlayer);
     g_SGGame.pEnemy = MM_CALLOC(MAX_ENEMYS, SGActor);
     g_SGGame.pExpl= MM_CALLOC(g_SGGame.numEffects, SGEffect);
     return;
@@ -832,31 +831,18 @@ static void NG_CMXToObject(void)
 //							SYS_Debug("Cmp with %s\n", g_pShip[g_pCurrentGame->ship].name);
 #endif
                             f = 2;
-                            if (((g_SGSettings.SerialGame)&&(numPlayer<g_SGGame.numPlayer))
-                            ||(!numPlayer))
+                            if (!numPlayer)
                             {
-                                if (
-                                (g_SGSettings.SerialGame)
-                                || (strstr(Sif->Basename, g_pShip[g_pCurrentGame->ship].name))
-                                )
+                                if (strstr(Sif->Basename, g_pShip[g_pCurrentGame->ship].name))
                                 {
                                     // oublie CMX
                                     Sif->CollisionStyle = t_CS_BUMP_LOSE_SHIELD;
                                     Sif->Animation  = t_MPLAYER;
                                     Sif->Tactic = 0;
-                                    g_pPlayer = g_SGGame.pPlayer + numPlayer;
+                                    g_pPlayer = g_SGGame.pPlayer;
                                     g_pPlayer->J.pInf = *Sif;
-                                    if ((numPlayer==g_SGGame.IdPlayer)||(!g_SGSettings.SerialGame))
-                                    {
                                         Jf->pInf.Type = t_PLAYER;
                                         g_pPlayer->J.pInf.ColorRadar = 7;
-                                    }
-                                    else
-                                    {
-                                        Jf->pInf.Type = t_FRIEND;
-                                        sysStrnCpy(g_pPlayer->J.pInf.Realname, g_SGGame.PlayersName[numPlayer], 12);
-                                        g_pPlayer->J.pInf.ColorRadar = 6;
-                                    }
                                     OVI->data = &g_pPlayer->J.pInf;
                                     OVI->state &= ~V3XSTATE_HIDDEN;
                                     g_pPlayer->J.OVI = OVI;
@@ -928,7 +914,7 @@ static void NG_CMXToObject(void)
         }
     }
     /* Initial g_pPlayer */
-    g_pPlayer = g_SGGame.pPlayer + g_SGGame.IdPlayer;
+    g_pPlayer = g_SGGame.pPlayer;
 	SYS_ASSERT(g_pPlayer->J.OVI);
     g_pPlayer->mode = 0;
     /* Clipping en Z */
@@ -1004,12 +990,8 @@ void NG_NAVReset(int reset)
             // Start Cam pour la camera
             g_pCamera->target = g_pCamera->pos;
             V3XVector_Madd(&g_pCamera->pos, &V3X.Camera.M.v.K, &g_pCamera->pos, 65535);
-            // Tout les joueurs
-            for (i=0;i<g_SGGame.numPlayer;i++)
-            {
-                V3XMatrix_Transpose(g_SGGame.pPlayer[i].Mat->Matrix, V3X.Camera.M.Matrix);
-                g_SGGame.pPlayer[i].Rot->pos = V3X.Camera.Tk.vinfo.pos;
-            }
+            V3XMatrix_Transpose(g_pPlayer->Mat->Matrix, V3X.Camera.M.Matrix);
+            g_pPlayer->Rot->pos = V3X.Camera.Tk.vinfo.pos;
         }
     }
     for (i=Scene->numOVI, OVI=Scene->OVI;i!=0;OVI++, i--)
@@ -1211,7 +1193,7 @@ static void NG_InitGameVariables(void)
     g_SGGame.ComMode = 0;
     g_SGGame.RadarRange = RADARMAX;
     g_SGGame.DeathDist = 1400;
-    g_SGGame.CameraMode = g_SGSettings.SerialGame ? 0 : CAMERA_START;
+    g_SGGame.CameraMode = CAMERA_START;
     g_SGGame.FlashAlpha = -32;
     g_SGSettings.ComNumber = 0;
     g_SGGame.LockMAX = 0;
@@ -1336,36 +1318,6 @@ static void NG_InitGameDisplay(void)
     return;
 }
 
-static u_int32_t time_maxi;
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static int NG_NetWaiter(void)
-*
-* DESCRIPTION :
-*
-*/
-static int NG_NetWaiter(int mode)
-{
-	char tex[128];
-    u_int32_t t = timer_sec();
-    int32_t y = GX.View.ymax/2, ly = g_pspDispFont->item[0].LY+2;
-    rgb24_t bleu = {0, 0, 64};
-    u_int32_t cl = RGB_PixelFormatEx(&bleu);
-    sKEY->Update(0);
-	sJOY->Update(0);
-    if (sKEY_IsHeld(s_esc)||(t>time_maxi)) return 0;
-    GX.Client->Lock();
-    GX.gi.drawFilledRect(0, 0, GX.View.xmax, GX.View.ymax, cl);
-    sprintf(tex, "%s", g_szGmT[193]);
-    CSP_WriteCenterText(tex, y+=ly, g_pspDispFont);
-    sprintf(tex, "%d secs.", (int)(time_maxi-t));
-    CSP_WriteCenterText(tex, y+=ly, g_pFont);
-    sprintf(tex, "%d %%", mode*50);
-    CSP_WriteCenterText(tex, y+=ly, g_pFont);
-    GX.Client->Unlock();
-    GX.View.Flip();
-    return 1;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  static int TX_Warn(void)
@@ -1396,18 +1348,9 @@ void NG_GameStart(void)
 {
 	int start_level = 0;
 	char tex[256];
-    // Envoie le level via le network
 	if (!g_pCurrentGame)
 		g_pCurrentGame = g_pSaveGames;
 
-    if ((g_SGGame.IsHost)&&(g_SGSettings.SerialGame))
-    {
-        tex[0]= 'œ';
-        tex[1]= (char)g_pCurrentGame->episode;
-        tex[2]= g_pCurrentGame->level[g_pCurrentGame->episode];
-        tex[3]= 0; // security
-        sNET->SendData(NET_EVERYBODY, tex, 3);
-    }
 
     // Test Controller
     NG_CheckSystems();
@@ -1477,16 +1420,6 @@ void NG_GameStart(void)
 
     NG_InitGameDisplay();
 
-    if (g_SGSettings.SerialGame)
-    {
-        time_maxi = timer_sec()+120;
-        PAL_Full();
-        if (!sNET->Synchronise(0, NG_NetWaiter))
-        {
-            g_SGSettings.SerialGame=0;
-        }
-        PAL_Black();
-    }
     
     if (V3X.Setup.warnings&V3XWARN_NOENOUGHSurfaces)
     {

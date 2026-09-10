@@ -334,7 +334,6 @@ void NG_WeaponUpdate(void)
                                     {
                                         NG_FXImpact(4);
                                         p->Shield-=W->pInf.Shield;
-                                        g_pPlayer->Notify+=SGNET_SHIELDCHANGE;
                                         NG_FXNew(&po, FX_IMPACT, 1, &W->pInf, 1, W->OVI);
                                         if (OVI==g_pPlayer->J.OVI)
                                         {
@@ -384,8 +383,6 @@ void NG_WeaponUpdate(void)
                                                     NG_HudLockTargetOff();
                                                     g_pLockTarget = OVI;
                                                 }
-                                                if ((g_SGSettings.SerialGame)&&(p->ColorRadar==255))
-                                                g_cGameStat.frag+=1;
                                             }
                                         }
                                         if (!((p_Sh->Type==t_ENEMY)&&(p->Type==t_ENEMY)))

@@ -30,7 +30,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "sysctrl.h"
 #include "sysini.h"
 #include "syslist.h"
-#include "sysnetw.h"
 #include "sysresmx.h"
 #include "systools.h"
 #include "_stub.h"

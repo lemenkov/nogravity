@@ -34,7 +34,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systools.h"
 #include "sysresmx.h"
 #include "systime.h"
-#include "sysnetw.h"
 #include "sysctrl.h"
 #include "gx_struc.h"
 #include "gx_csp.h"
@@ -60,12 +59,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_data.h"
 #include "lt_func.h"
 
-typedef struct {
-    char Code[32];
-    int Car, isType;
-}CheatStruct;
-
-static CheatStruct g_SGInput;
 static SGMenu *g_pComFunction;
 static int  g_nWaitAnswer;
 static char *g_szLockText[]={"Lock", "Locking...", NULL};
@@ -704,12 +697,10 @@ static void NG_UpdatePowerUps(void)
                 switch(i) {
                     case ART_STEALTH:
                     g_pPlayer->mode^=STEALTHMODE;
-                    g_pPlayer->Notify+=SGNET_MODECHANGE;
                     sysConPrint("stealth mode depleated");
                     break;
                     case ART_INVICIBLITY:
                     g_pPlayer->mode^=GODMODE;
-                    g_pPlayer->Notify+=SGNET_MODECHANGE;
                     sysConPrint("inviciblity mode depleated");
                     break;
                 }
@@ -747,7 +738,6 @@ static void PlayPowerUp(void)
                 g_pPlayer->J.pInf.Shield=g_pPlayer->J.pInf.ShieldMax;
                 g_pPlayer->Art[g_pPlayer->CurArt].val--;
                 NG_AudioPlaySound(NG_AudioGetByName("bloup")-1, 0);
-                g_pPlayer->Notify+=SGNET_SHIELDCHANGE;
                 sysConPrint("%s used super power up", g_pCurrentGame->name);
             }
             break;
@@ -757,7 +747,6 @@ static void PlayPowerUp(void)
             NG_AudioPlaySound(NG_AudioGetByName("shield")-1, 0);
             g_SGGame.FlashAlpha=32;
             g_pPlayer->mode|=STEALTHMODE;
-            g_pPlayer->Notify+=SGNET_MODECHANGE;
             RGB_Set(g_SGGame.FlashColor, 0, 0, 255);
             SetSphereColor(1, 1.);
             sysConPrint("%s used stealth mode", g_pCurrentGame->name);
@@ -767,7 +756,6 @@ static void PlayPowerUp(void)
             g_pPlayer->Art[g_pPlayer->CurArt].val--;
             NG_AudioPlaySound(NG_AudioGetByName("shield")-1, 0);
             g_pPlayer->mode|=GODMODE;
-            g_pPlayer->Notify+=SGNET_MODECHANGE;
             RGB_Set(g_SGGame.FlashColor, 255, 0, 0);
             SetSphereColor(1, 1.5);
             sysConPrint("%s used invicility", g_pCurrentGame->name);
@@ -915,13 +903,6 @@ static void setFormation(int code)
     {
         g_nWaitAnswer=128;
     }
-    if (g_SGSettings.SerialGame)
-    {
-        g_pPlayer->Notify+=SGNET_COMMUNICATE;
-        g_SGSettings.ComNumber = (u_int8_t)(COM_Request+code);
-        g_SGSettings.ComTime = MAX_COM_DELAY;
-        g_SGGame.ComMode = 0;
-    }
     NG_AISetTacticMode();
     return;
 }
@@ -957,11 +938,8 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
     if (sysConIsActive())
        return;
 
-    if (!g_SGInput.isType)
     {
 
-        if (sKEY_IsClicked(LK_TALK))
-			g_SGInput.isType = 1;
 
 		if (sKEY_IsClicked(LK_HUD))
 		{
@@ -1245,32 +1223,6 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
         if ((sKEY_IsClicked(s_f7))&&(g_SGGame.Missile)) 
 			g_pPlayer->Mx.but|=(1L<<29);
     }
-    else
-    {
-		int oV = sKEY->charCode;
-        if ((oV==8)&&(g_SGInput.Car))
-        {
-            g_SGInput.Car--;
-            g_SGInput.Code[g_SGInput.Car]=0;
-        }
-        else
-        if (oV==13)
-        {
-            g_pPlayer->Notify+= SGNET_CHAT;
-            g_szCOM[COM_Chat] = g_SGInput.Code;
-            g_SGInput.isType = 0;
-            sysConPrint("%s: %s", g_pCurrentGame->name, g_SGInput.Code);
-        }
-        else
-        {
-            if ((oV>=32) && (oV<128)&&(g_SGInput.Car<31))
-            {
-                g_SGInput.Code[g_SGInput.Car]=(char)oV;
-                g_SGInput.Code[g_SGInput.Car+1]=0;
-                g_SGInput.Car++;
-            }
-        }
-    }
     return;
 }
 /*------------------------------------------------------------------------
@@ -1294,7 +1246,6 @@ int32_t static NG_ControlGame(void)
     V3XVECTOR b;
     V3XOVI *OVI;
     SGActor *J=&g_pPlayer->J, *JJ;
-    g_pPlayer->Notify = 0;
     NG_ReadInput(&dx, &dy, &InMax);
     V3XVector_Cpy(g_pPlayer->Mat->v.Pos, g_pPlayer->Rot->pos);
     if (g_pPlayer->Mv.inert<1)
@@ -1303,8 +1254,6 @@ int32_t static NG_ControlGame(void)
     	g_pPlayer->Mv.inert=J->pInf.fSpeedMax;
     if (g_SGGame.CameraMode<CAMERA_NEWNAV)
     {
-        if (g_pPlayer->Mv.x||g_pPlayer->Mv.y||g_pPlayer->Mv.z) g_pPlayer->Notify+=SGNET_HASTURN;
-        g_pPlayer->Notify+=SGNET_HASMOVED;
         if (g_pPlayer->Mx.but)
         {
             if (g_pPlayer->Mx.but&1)
@@ -1317,7 +1266,6 @@ int32_t static NG_ControlGame(void)
                         {
                             g_cShip.wea[g_pPlayer->J.pInf.Attack-1].cur--;
                             g_cGameStat.shooted++;
-                            g_pPlayer->Notify+=SGNET_NEWSHOOT;
                         }
                     }
                     else
@@ -1366,7 +1314,6 @@ int32_t static NG_ControlGame(void)
                                 g_SGSettings.ComNumber = 0;
                                 g_SGSettings.ComTime=MAX_COM_DELAY;
                                 g_SGGame.CameraMode = CAMERA_NEWNAV;
-                                g_pPlayer->Notify+=SGNET_HASWARP;
                             }
                             else
                             {
@@ -1517,7 +1464,7 @@ int32_t static NG_ControlGame(void)
                 }
             }
 			
-            if ((g_SGGame.pReactorMaterial)&&(!g_SGSettings.SerialGame))
+            if (g_SGGame.pReactorMaterial)
             {
                 V3XMATERIAL *Mat = g_SGGame.pReactorMaterial;
 				int scale  = (u_int8_t)(J->pInf.fSpeed<0 ? 1 : (J->pInf.fSpeed * 256)/(J->pInf.fSpeedMax+1));
@@ -1567,8 +1514,6 @@ int32_t static NG_ControlGame(void)
 				{
 					g_SGObjects.NAV=JJ->pInf.Code;
 					if (g_SGObjects.NAV>=g_SGObjects.MaxNAV) g_SGObjects.NAV=g_SGObjects.MaxNAV-1;
-					if (JJ->pInf.CollisionStyle==t_CS_NAVWARP) g_pPlayer->Notify+=SGNET_HASWARP;
-					g_pPlayer->Notify+=SGNET_UPDATEAIM;
 					NG_NAVReset(JJ->pInf.CollisionStyle==t_CS_NAVWARP);
 				}
                 break;
@@ -1593,7 +1538,6 @@ int32_t static NG_ControlGame(void)
                 case t_CS_ADD_SCORE:
 				{
 					g_SGGame.MaxAim[g_SGObjects.NAV]-=JJ->pInf.Mission;
-					g_pPlayer->Notify+=SGNET_UPDATEAIM;
 					if (JJ->pInf.Mission) NG_DisplayWarp();
 					JJ->pInf.Mission = 0;
 					if (JJ->pInf.Scoring)
@@ -1612,7 +1556,6 @@ int32_t static NG_ControlGame(void)
                     NG_AudioPlaySound(NG_AudioGetByName("flag_st")-1, 0);
                     g_SGGame.FlashAlpha=16;
                     NG_FXImpact(4);
-                    g_pPlayer->Notify+=SGNET_SHIELDCHANGE;
                 }
                 case t_CS_BUMP:
                 {
@@ -1625,7 +1568,6 @@ int32_t static NG_ControlGame(void)
 					NG_AudioPlaySound(NG_AudioGetByName("flag_st")-1, 0);
 					g_SGGame.FlashColor.r=255;g_SGGame.FlashColor.g=0;g_SGGame.FlashColor.b=0;
 					g_SGGame.FlashAlpha=16;
-					g_pPlayer->Notify+=SGNET_SHIELDCHANGE;
 				}
                 break;
             }
@@ -1858,7 +1800,7 @@ static int DrawBoxTarg(V3XVECTOR *p, u_int32_t cx, V3XORI *ORI, SGScript *pInf)
             j0.x=a.x-V3X.ViewPort.center.x;
             j0.y=a.y-V3X.ViewPort.center.y;
             sx = V3X.ViewPort.center.x/4;
-            g_szLockText[2]= ((pInf->Type==t_PLAYER)&&(g_SGSettings.SerialGame)) ? pInf->Realname : NULL;
+            g_szLockText[2]= NULL;
             inf = 2;
             if (g_SGGame.LockMAX)
             {
@@ -2612,12 +2554,6 @@ static void NG_DrawHUD()
 
 	NG_HudDisplayCamera();
 
-    if (g_SGInput.isType)
-    {
-		char tex[256];
-        sprintf(tex, ":%s%c", g_SGInput.Code, g_SGSettings.cursor ? '_' : ' ');
-        CSP_WriteCenterText( tex, GX.View.ymax/3, g_pspCat );
-    }
 
     if (g_SGSettings.ComTime==MAX_COM_DELAY)
     {
@@ -2639,13 +2575,6 @@ static void NG_DrawHUD()
     {
         char *orx = g_szCOM[g_SGSettings.ComNumber];
         g_SGSettings.ComTime--;
-        if ((g_SGSettings.ComNumber==COM_Chat)&&(g_SGSettings.ComPlayer))
-        {
-			char tex[256];
-            sprintf(tex, "(%s):%s", g_SGGame.PlayersName[g_SGSettings.ComPlayer-1], orx);
-            CSP_Color(g_SGGame.pColorRadar[g_SGSettings.ComPlayer%5]);
-            orx = tex;
-        }
 		CSP_Color(g_SGGame.CI_WHITE);
         CSP_WriteCenterText(orx, y+=dy, g_pspDispFont);        
     }
@@ -2848,21 +2777,6 @@ void NG_GamePlay(void)
         switch(g_SGObjects.FinCode) 
 		{
             case GAMESTATE_DEAD:
-            if ((g_SGSettings.SerialGame)&&(g_SGObjects.quit))
-            {
-                NG_AudioStopSound(g_cFXTable.Alarm );
-                NG_InitGameShip();
-                if (g_SGObjects.NavCam)
-					V3XVector_Cpy(g_pPlayer->Rot->pos, g_SGObjects.NavCam->Tk->vinfo.pos);
-                g_pPlayer->Notify += SGNET_HASRESPAWN|SGNET_HASMOVED|SGNET_SHIELDCHANGE;
-                g_SGObjects.FinCode = 0;
-                g_SGObjects.quit = 0;
-                g_SGGame.FlashAlpha = -32;
-                g_SGGame.CameraMode = 0;
-                g_pPlayer->J.pInf.Shield = g_pPlayer->J.pInf.ShieldMax;
-                g_pPlayer->J.pInf.ShootOk = 0;
-                g_cGameStat.frag-=1;
-            }
             break;
             case GAMESTATE_ABORT:
             case GAMESTATE_RETRY:
@@ -2886,11 +2800,6 @@ void NG_GamePlay(void)
 
 		if (!g_SGObjects.quit)
 		{
-			if (g_SGSettings.SerialGame)
-			{
-				NG_NetTranslate(g_pPlayer, NULL);
-				NG_NetDispatch();
-			}
 				g_pPlayer->Mx.but = 0;
 
 			
@@ -2912,7 +2821,6 @@ void NG_GamePlay(void)
     if (g_SGObjects.FinCode==GAMESTATE_WON)
     {
         g_pCurrentGame->score = g_pPlayer->J.pInf.Scoring;
-        g_pPlayer->Notify+=SGNET_HASWON;
 #if (SGTARGET != NG_DEMO_VERSION)
         NG_AudioPlayWarp();
 #endif
@@ -2922,18 +2830,8 @@ void NG_GamePlay(void)
         if (g_SGObjects.FinCode==GAMESTATE_DEAD)
             NG_WaitForKeyWithDelay(2);
 
-        g_pPlayer->Notify+=SGNET_HASLEFT;
     }
 
 
-    if (g_SGSettings.SerialGame)
-    {
-		sysConPrint("Quit session");
-        NG_NetTranslate(g_pPlayer, NULL);
-        if (!g_SGGame.IsHost)
-			sNET->QuitSession();
-        else
-			sNET->CloseSession();
-    }
     return;
 }

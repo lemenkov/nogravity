@@ -34,7 +34,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define MAX_GAME_EPISODE 5
 
 #define MAX_SAVE_GAMES 10
-#define MAX_NETWORK_PLAYER 10
 #define MAX_POWERUP 6
 #define MAX_PLAYER 64
 #define MAX_WEAPONS 64
@@ -64,26 +63,6 @@ enum MODE_PLAYER
 	FROZENMODE = 0x10
 };
 
-enum NGNET
-{
-	SGNET_HASMOVED = 0x1, // Notifie deplacement
-	SGNET_HASTURN = 0x2, // Notifie rotation
-	SGNET_HASPAUSED = 0x4, // Notifie pause game
-	SGNET_HASRESUMED = 0x8, // Notifie resume game
-	SGNET_HASLEFT = 0x10, // Notifie quitt‚ le jeu
-	SGNET_HASDIE = 0x20, // Notifie la mort
-	SGNET_HASWARP = 0x40, // Notifie a warp‚
-	SGNET_NEWSHOOT = 0x80, // Notifie le tir
-	SGNET_COMMUNICATE = 0x100, // Message
-	SGNET_CHAT = 0x200, // Chat
-	SGNET_HASWON = 0x400, // Notifie a warp‚
-	SGNET_SHIELDCHANGE= 0x800, 
-	SGNET_HASRESPAWN = 0x1000, // Notifie la mort
-	SGNET_UPDATEAIM = 0x2000, // Notifie le nbre de aim
-	SGNET_SHIP = 0x4000, 
-	SGNET_MODECHANGE = 1L<<12, 
-	SGNET_OTHERSIDE = 1L<<13
-};
 
 typedef struct _sg_PowerUp {
 	u_int8_t				val, MAX_val;
@@ -180,12 +159,9 @@ typedef struct _sg_player{
  	SGPowerUp		Art[8]; 	
 
  	float			fBooster;
- 	u_int32_t			Notify;
- 	int32_t			NetRetry;
 
  	unsigned char	mode;
  	signed char		CurArt;
- 	u_int8_t			dispatched;
  	unsigned char	reserved;
 
 }SGPlayer;
@@ -218,7 +194,6 @@ typedef struct _sg_game{
 	int				numEffects;
 	SGEffect	*	pExpl;
 
-	int				numPlayer;
 	SGPlayer	*	pPlayer;
 
 	int				numEnemies;
@@ -237,7 +212,6 @@ typedef struct _sg_game{
 					DeathDist;
 
 	V3XMATERIAL	*	pReactorMaterial;
-	char		**	PlayersName;
 	V3XOVI		*	Missile;
 
 	u_int32_t			CI_COL2, CI_BLACK, CI_YELLOW, CI_RED, CI_WHITE, CI_GREEN, CI_BLUE, CI_BLUELIGHT;
@@ -250,9 +224,7 @@ typedef struct _sg_game{
 	char			LangCode[4];
 	
 	u_int8_t			WarpOk;
-	u_int8_t			IdPlayer, IsHost, Session;
 	
-	u_int8_t 			mySession;
 	rgb24_t			FlashColor;
 }SGGameStruct;
 
@@ -384,7 +356,6 @@ typedef struct {
 	u_int32_t 		killed_amy, total_amy;
 	u_int32_t 		bonus, total_bonus;
 	u_int32_t 		shooted, hitted, newlevel;
-	int32_t		frag;
 }SGGameStat;
 
 typedef struct {

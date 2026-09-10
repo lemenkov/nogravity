@@ -33,14 +33,12 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "_rlx.h"
 #include "systools.h"
 #include "sysresmx.h"
-#include "sysnetw.h"
 #include "sysctrl.h"
 #include "_stub.h"
 
 KEY_ClientDriver *sKEY;
 MSE_ClientDriver *sMOU;
 JOY_ClientDriver *sJOY;
-NET_ClientDriver *sNET;
 
 void BSWAP16(u_int16_t *pValue, int n)
 {

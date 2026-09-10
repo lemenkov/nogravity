@@ -742,7 +742,6 @@ static void NG_AIEnemyTrack(V3XOVI *OVI)
                 {
 					sysConPrint("Escort completed ...");
                     g_SGGame.MaxAim[g_SGObjects.NAV]-=p->Mission;
-                    g_pPlayer->Notify+=SGNET_UPDATEAIM;
                     g_SGSettings.ComNumber=COM_EscortOk; 
                     g_SGSettings.ComTime=MAX_COM_DELAY;
                     NG_DisplayWarp();
@@ -1225,10 +1224,6 @@ void NG_LevelUpdate(void)
                                 OVI->state &= ~V3XSTATE_HIDDENDISPLAY;
                                 pInf->Wait = pInf->Appear;
                             }
-                            if ((pInf->CollisionStyle==t_CS_BONUS)&&(g_SGSettings.SerialGame))
-                            {
-                                pInf->Wait = 500; // Reapparition des bonuses en multijoueur
-                            }
                         }
                     }
                     if ((pInf->Appear>0)&&(!pInf->Stealth))
@@ -1340,8 +1335,6 @@ void NG_LevelUpdate(void)
                                         g_SGGame.WarpOk=0;
                                         g_SGGame.MaxAim[g_SGObjects.NAV]=0;
                                     }
-                                    if (g_SGGame.IsHost)
-                                       g_pPlayer->Notify+=SGNET_UPDATEAIM;
                                     NG_DisplayWarp();
                                     break;
                                     case t_AD_FAILED:
@@ -1420,7 +1413,6 @@ void NG_LevelUpdate(void)
                                 g_SGSettings.ComTime = MAX_COM_DELAY;
                                 NG_AudioStopSound(g_cFXTable.Engine);
                                 NG_AudioStopSound(g_cFXTable.Alarm );
-                                g_pPlayer->Notify+=SGNET_HASDIE;
                             }
 
                             if (!pInf->AfterDeath)
@@ -1494,10 +1486,7 @@ void NG_LevelUpdate(void)
                                 OVI->state|=V3XSTATE_MATRIXUPDATE;
                                 break;
                             }
-                            if (!g_SGGame.IsHost) OVI->state|=V3XSTATE_MATRIXUPDATE;
-                            else
                             {
-                                g_pPlayer->Notify|=SGNET_SHIP;
                                 switch(pInf->Tactic) {
                                     case 0:
                                     break;

@@ -75,7 +75,6 @@ static u_int32_t g_HeapSize = 0x800000;
 */
 void NG_CleanUp(void)
 {
-    NG_NetRelease();
     if (g_HeapBuffer) 
 		free(g_HeapBuffer);
     return;
@@ -152,11 +151,8 @@ void NG_CheckSystems(void)
 static 
 int OnStealth(char *parms)
 {
-	if (!g_SGSettings.SerialGame)
-	{
 		g_pPlayer->mode^=STEALTHMODE;
 		sysConPrint("stealth mode is %s",g_pPlayer->mode&STEALTHMODE ? "on" : "off");
-	}
 	UNUSED(parms);
 	return 0;
 }
@@ -164,11 +160,8 @@ int OnStealth(char *parms)
 static 
 int OnGod(char *parms)
 {
-	if (!g_SGSettings.SerialGame)
-	{
 		g_pPlayer->mode^=GODMODE;
 		sysConPrint("god mode is %s",g_pPlayer->mode&GODMODE ? "on" : "off");
-	}
 	UNUSED(parms);
 	return 0;
 }
@@ -341,10 +334,6 @@ void STUB_MainCode(void)
 	    V3XA.Client->UserSetParms(NULL, NULL, &distance, &doppler, &rolloff);
     }
 
-#ifdef _DEBUG
-    SYS_Debug("Load network preferences...\n");
-#endif
-    NG_NetInitialize();
     
 #ifndef _DEBUG
 	NG_PlayPresentsGame();

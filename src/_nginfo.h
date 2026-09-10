@@ -68,9 +68,7 @@ typedef struct
     u_int8_t 	showInf;    
     u_int8_t 	ticker;
     u_int8_t 	cursor;
-    u_int8_t 	SerialGame;
     u_int8_t 	Intro;
-    u_int8_t 	DuoGame;
     u_int8_t 	NextMenu;    
     u_int8_t 	GoToBrief;
     u_int8_t 	Menu;
@@ -81,7 +79,6 @@ typedef struct
     u_int8_t 	FrameSkip;
 	u_int8_t 	Ctrl;
 	u_int8_t	MouseSensitivity;
-	u_int8_t    ComPlayer;
 	u_int8_t	DisplayIndex;
 	u_int8_t	AxisThrottle;
 	u_int8_t	AxisRoll;

@@ -33,7 +33,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systools.h"
 #include "sysctrl.h"
 #include "sysini.h"
-#include "sysnetw.h"
 //
 #include "sysresmx.h"
 #include "gx_struc.h"
@@ -566,7 +565,6 @@ void NG_FXAvary(V3XOVI *mOVI, SGScript *pInf)
                             {
                                 if (dii>Sif->Shield) dii = (V3XSCALAR)Sif->Shield;
                                 Sif->Shield-=(int32_t)dii;
-                                g_pPlayer->Notify+=SGNET_SHIELDCHANGE;
                                 g_SGGame.FlashColor.r=255;g_SGGame.FlashColor.g=0;g_SGGame.FlashColor.b=0;
                                 g_SGGame.FlashAlpha = (short)xADJUSTFIX(per, 5);
                                 if (g_SGObjects.FinCode!=GAMESTATE_DEAD)
