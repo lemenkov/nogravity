@@ -55,7 +55,7 @@ Environment variables useful for development:
 
 
  ===========================================================
-4.  Credits
+3. Credits
 
 Programming : Stephane Denis
 Graphics : Romuald Genevois
@@ -65,30 +65,26 @@ Amiga OS4 Port : Juha Niemimaki
 
 
  ===========================================================
-5.  Project page
+4. Project page
 http://www.realtech-vr.com/nogravity
 http://sourceforge.net/projects/nogravity
 
 
  ===========================================================
-6. DEPENDENCIES
-  OGG / Vorbis
-  zLib
-  LibPNG
-  SDL3
-  SDL3_sound
-  libpng
-  zlib
+5. Dependencies
+  Run time: SDL3, SDL3_sound, libpng, zlib
+  Build time: Meson, Ninja, a C17 compiler, glslc (from shaderc, for the
+  SPIR-V shaders of the Vulkan backend)
 
 
  ===========================================================
- 7. General Gameplay Information
+6. General Gameplay Information
   
-   7.1 Keyboard Controls
+   6.1 Keyboard Controls
 
      Help can be available during the game by pressing F1
 
-     7.1.1  Control 
+     6.1.1  Control 
 
       L                 : Lock Target
       Tab               : AfterBurner, give a boost toward
@@ -103,33 +99,33 @@ http://sourceforge.net/projects/nogravity
       Alt Gr            : Fire with select weapons, can be select with 1 to 5
                           when ammo is exhausted, it will change a other weapons
 
-     7.1.2  Communications
+     6.1.2  Communications
     
       Press C for communicate with your wingmen. Select an order. For
       Attack this Target, lock a target before. For Request status, lock
       one of your wingman.  
       During network play, use T key to send messages.
  
-     7.1.3  Views
+     6.1.3  Views
 
       F2   : Cockpit view          F3   : Cycle view clockwise
       F4   : Cycle View            F5   : MiniCam (Rear view window)
       F6   : NAV Point view        F7   : Missile view window
 
-     7.1.4  Details Level
+     6.1.4  Details Level
 
      F9   : Sky On/Low/Off        
      F11  : Filtering On/Off      
 
 
-     7.1.5  Miscellanous
+     6.1.5  Miscellanous
 
      F1                   : Help 
      PrtScrn              : Dump a .PCX or .TGA (on c:\rt)
      I                    : HUD Display On/Off (faster for 3D acceleration)          
      T                    : Talk (Netchat)
 
-     7.1.6   Weapon
+     6.1.6   Weapon
  
      TwinLaser            : Small energy shoot
      QuadLaser            : Medium energy shoot. Used for dog fight
@@ -140,7 +136,7 @@ http://sourceforge.net/projects/nogravity
      Torpedo              : Super Missile . Quite long to lock . Not recommanded
                             for dog fight but for large enemy base.
 
-     7.1.7  Bonus
+     6.1.7  Bonus
 
      Ammo                 : Give more shoots for weapons
      Cell                 : Add +25%
