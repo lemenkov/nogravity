@@ -228,7 +228,7 @@ static void NG_RenderingBackground(void)
         sprintf(tex, "%s%s", g_szGmT[163], g_szGmT[164]);
         CSP_DrawTextC(tex, g_SGMenuPos.XZoneMin, g_SGMenuPos.YZoneMax, COLOR_GRAY, COLOR_WHITE, g_SGMenuPos.Font, GX.csp_cfg.put);
         sysMemZero(tex, 16);
-        sysStrnCpy(tex, GAMEVERSION, 5);
+        sysStrnCpy(tex, GAMEVERSION_NUMBER, 15);
         CSP_DrawTextC(tex, GX.View.xmax-CSPG_TxLen(tex, g_SGMenuPos.Font)-4, g_SGMenuPos.YZoneMax, COLOR_GRAY, COLOR_WHITE, g_SGMenuPos.Font, GX.csp_cfg.put);
     }
     

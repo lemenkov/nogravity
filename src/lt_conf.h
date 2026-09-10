@@ -26,5 +26,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define NG_DEMO_VERSION 1
 #define NG_FULL_VERSION 4
 #define SGTARGET NG_FULL_VERSION
-#define GAMEVERSION "v2.00 (build "__DATE__")"
+#define GAMEVERSION_NUMBER "v3.0.0"
+#define GAMEVERSION GAMEVERSION_NUMBER " (build " __DATE__ ")"
 

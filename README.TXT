@@ -1,5 +1,5 @@
 ===================================================================
-No Gravity (v2.00 Version) Source Code and Data Release
+No Gravity 3.0.0 - Source Code and Data Release
 ===================================================================
 
  ===========================================================
@@ -10,7 +10,7 @@ No Gravity (v2.00 Version) Source Code and Data Release
 
 "No Gravity" copyright 1996 - 2005 RealTech. All trademarks and copyrights reserved.
 
-This is the complete source code for No Gravity version 2.00, buildable as detailed in the next section.
+This is the complete source code and data for No Gravity 3.0.0, the community edition of the 2005 GPL release, buildable as detailed in the next section.
 
 The code and data are licensed under the terms of the GPL (gnu public license).  You should read the entire license (filename "GNU.TXT" in this archive), so you understand your rights and what you can and cannot do with the source code from this release.
 

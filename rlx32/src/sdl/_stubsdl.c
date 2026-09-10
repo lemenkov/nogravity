@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
   UNUSED(argc);
   UNUSED(argv);
 
-  SDL_SetAppMetadata("No Gravity", "2.00", "com.realtech-vr.nogravity");
+  SDL_SetAppMetadata("No Gravity", "3.0.0", "com.realtech-vr.nogravity");
   if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
   {
     fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());

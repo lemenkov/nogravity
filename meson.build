@@ -1,5 +1,5 @@
 project('nogravity', 'c',
-  version : '2.00',
+  version : '3.0.0',
   license : 'GPL-2.0-or-later',
   meson_version : '>= 1.0.0',
   default_options : ['c_std=gnu17,c17', 'warning_level=1', 'buildtype=debugoptimized'])
