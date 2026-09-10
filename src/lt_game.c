@@ -649,13 +649,13 @@ static void NG_UpdateLights(void)
             int j;
             for (j=0;j<mesh->numMaterial;j++, Mat++)
             {
-                if (sysStriCmp(Mat->mat_name, "LIGHT2")==0)
+                if (SDL_strcasecmp(Mat->mat_name, "LIGHT2")==0)
                 {
                     Mat->diffuse.r -= (u_int8_t)t;
                     Mat->diffuse.g -= t;
                     Mat->diffuse.b -= t;
                 }
-                if (sysStriCmp(Mat->mat_name, "WARP")==0)
+                if (SDL_strcasecmp(Mat->mat_name, "WARP")==0)
                 {
                     Mat->diffuse.r = warp;
                     Mat->diffuse.g = warp;
@@ -1841,7 +1841,7 @@ static int DrawBoxTarg(V3XVECTOR *p, u_int32_t cx, V3XORI *ORI, SGScript *pInf)
             if (disp)
             {
                 V3XVector_Dif(&a, &g_pLockTarget->mesh->matrix.v.Pos, &V3X.Camera.M.v.Pos);
-                sysStrnCpy(g_SGLockMode.szText, g_szLockText[inf] ? g_szLockText[inf] : " ", 31);
+                SDL_strlcpy(g_SGLockMode.szText, g_szLockText[inf] ? g_szLockText[inf] : " ", 32);
                 g_SGLockMode.dmode   |= inf ? 2 : 1;
                 g_SGLockMode.color = cx;
                 g_SGLockMode.x = (int32_t)i0.x;

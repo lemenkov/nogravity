@@ -154,8 +154,8 @@ void NG_StageReadFile(char *fin, int extrn)
 		{
 			g_SGObjects.World.Track = GetCF_long("Music", &iniFile);
 			g_SGObjects.ParTime = GetCF_long("ParTime", &iniFile);
-			sysStrnCpy(g_SGObjects.World.scene_name, GetCF_str2("Scene", &iniFile), 31);
-			sysStrnCpy(g_SGObjects.World.path_name, GetCF_str2("Path", &iniFile), 31);
+			SDL_strlcpy(g_SGObjects.World.scene_name, GetCF_str2("Scene", &iniFile), 32);
+			SDL_strlcpy(g_SGObjects.World.path_name, GetCF_str2("Path", &iniFile), 32);
 		}
 		if (iCase>1)
 		for (i=0;i<iCase;i++, pScript++)
@@ -168,17 +168,17 @@ void NG_StageReadFile(char *fin, int extrn)
 				s = GetCF_str("SameAs", &iniFile);
 				if (s)
 				{
-					sysMemCpy(pScript, GetSifByName(s), sizeof(SGScript));
+					memcpy(pScript, GetSifByName(s), sizeof(SGScript));
 				} else
 				{
-					sysMemZero(pScript, sizeof(SGScript));
+					memset(pScript, 0, sizeof(SGScript));
 					pScript->Tactic = t_TAC_NONE;
 					pScript->SpeedTurn = 4;
 					pScript->Animation = t_FIXE;
 				}
 				s = GetCF_str("Basename", &iniFile);
 				SYS_ASSERT(s);
-				sysStrnCpy(pScript->Basename, s, 12);
+				SDL_strlcpy(pScript->Basename, s, 13);
 				s = GetCF_str("Type", &iniFile);
 				if (s)
 				{
@@ -205,9 +205,9 @@ void NG_StageReadFile(char *fin, int extrn)
 					}
 				}
 				s = GetCF_str("Realname", &iniFile);
-				if (s) sysStrnCpy(pScript->Realname, s, 12);
+				if (s) SDL_strlcpy(pScript->Realname, s, 13);
 				else
-				sysStrnCpy(pScript->Realname, pScript->Basename, 12);
+				SDL_strlcpy(pScript->Realname, pScript->Basename, 13);
 				s = GetCF_str("Movement", &iniFile);
 				if (s)
 				{
@@ -361,7 +361,7 @@ void NG_StageReadFile(char *fin, int extrn)
 				if (GetCF_long2("Stealth", &iniFile, &val))
 				{
 					pScript->Stealth = 1;
-					pScript->Appear = val+sysRand(256);
+					pScript->Appear = val+SDL_rand(256);
 					if (!pScript->Wait) pScript->Wait = pScript->Appear;
 				}
 				if (GetCF_bool2("Aim", &iniFile, &val2)) pScript->Mission=val2;

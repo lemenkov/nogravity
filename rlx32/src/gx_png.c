@@ -64,14 +64,14 @@ static png_voidp pngx_malloc(png_structp png_ptr, png_uint_32 size)
 {
 	UNUSED(png_ptr);
 	SYS_ASSERT(size>0);
-	return MM_std.malloc(size);
+	return malloc(size);
 }
 
 static void pngx_free(png_structp png_ptr, png_voidp ptr)
 {
 	UNUSED(png_ptr);
 	SYS_ASSERT(ptr!=0);
-	MM_std.free(ptr);
+	free(ptr);
 }
 
 static void pngx_error(png_structp png_ptr, png_const_charp message)
@@ -146,7 +146,7 @@ if (!pClut)
 		int num_palette;
 		png_get_PLTE(png_ptr, info_ptr, &palette, &num_palette);
 		if (palette)
-			sysMemCpy(pClut, palette, num_palette * 3);
+			memcpy(pClut, palette, num_palette * 3);
 	}
 	else
 	{
@@ -179,12 +179,12 @@ if (!pClut)
 		rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
 		out_buffer	 = (u_int8_t*) MM_heap.malloc(height * rowbytes);
-		row_pointers = (u_int8_t**) MM_std.malloc(sizeof(char*)*height);
+		row_pointers = (u_int8_t**) malloc(sizeof(char*)*height);
 		SYS_ASSERT(row_pointers!=0);
 		for (i=0;i<height;i++)
 			row_pointers[i] = out_buffer + i * rowbytes;
 		png_read_image(png_ptr, row_pointers);
-		MM_std.free(row_pointers);
+		free(row_pointers);
 		png_read_end(png_ptr, NULL);
 
 		*LX  = width;

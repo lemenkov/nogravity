@@ -98,7 +98,7 @@ V3XOVI *V3XScene_Type_GetByIndex(V3XSCENE *pScene, int index_OVI, int type)
 */
 void RLXAPI static V3x_Create_ORI(V3XORI *ORI, int i)
 {
-    sysMemZero(ORI, sizeof(V3XORI));
+    memset(ORI, 0, sizeof(V3XORI));
     sprintf(ORI->name, "object.%d", i);
     ORI->type = V3XOBJ_NONE;
     ORI->node = NULL;
@@ -114,7 +114,7 @@ void RLXAPI static V3x_Create_ORI(V3XORI *ORI, int i)
 */
 void RLXAPI static V3x_Create_OVI(V3XOVI *OVI, int al)
 {
-    sysMemZero(OVI, sizeof(V3XOVI));
+    memset(OVI, 0, sizeof(V3XOVI));
     if (al)
     {
         OVI->node = (V3XNODE*)MM_heap.malloc(sizeof(V3XNODE));
@@ -135,7 +135,7 @@ void RLXAPI static V3x_Create_OVI(V3XOVI *OVI, int al)
 */
 void RLXAPI static V3x_Create_TRI(V3XTRI *TRI, int i)
 {
-    sysMemZero(TRI, sizeof(V3XTRI));
+    memset(TRI, 0, sizeof(V3XTRI));
     TRI->flags |= V3XKF_VALID;
     UNUSED(i);
     return;
@@ -149,7 +149,7 @@ void RLXAPI static V3x_Create_TRI(V3XTRI *TRI, int i)
 */
 void RLXAPI static V3x_Create_TVI(V3XTVI  *TVI, int i)
 {
-    sysMemZero(TVI, sizeof(V3XTVI));
+    memset(TVI, 0, sizeof(V3XTVI));
     TVI->flags|=1;
     UNUSED(i);
     return;
@@ -313,7 +313,7 @@ V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *pScene, const char *name)
         if (ORI)
         {
 
-            if (sysStriCmp(ORI->name, name)==0)
+            if (SDL_strcasecmp(ORI->name, name)==0)
             {
                 f = 1;
                 OVIf = OVI;
@@ -335,7 +335,7 @@ V3XORI RLXAPI *V3XScene_ORI_GetByName(V3XSCENE *pScene, const char *name)
     V3XORI *ORI;
     for (i=0, ORI=pScene->ORI;(i<pScene->numORI)&&(f==0); ORI++, i++)
     {
-        if (sysStriCmp(ORI->name, name)==0) f = i;
+        if (SDL_strcasecmp(ORI->name, name)==0) f = i;
     }
     return f>=0 ? pScene->ORI + f : NULL;
 }
@@ -371,7 +371,7 @@ V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, const char *name)
     {
         if ((OVI->ORI)&&(OVI->ORI->type==V3XOBJ_CAMERA))
         {
-            if (sysStriCmp(OVI->ORI->name, name)==0)
+            if (SDL_strcasecmp(OVI->ORI->name, name)==0)
             {
                 OVI->state&=~V3XSTATE_HIDDEN;
                 OVIf = OVI;
@@ -586,7 +586,7 @@ static void V3XLight_Release(V3XLIGHT *light)
         V3XMaterial_Release(light->material, NULL);
         MM_heap.free(light->material);
     }
-    sysMemZero(light,sizeof(V3XLIGHT));
+    memset(light, 0, sizeof(V3XLIGHT));
     MM_heap.free(light);
     return;
 }
@@ -1514,7 +1514,7 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
 {
     V3XORI97	ori97;
     V3XORI		*ori;
-    u_int32_t *rawORIs = (u_int32_t *)MM_std.malloc(pScene->numORI * 16 *
+    u_int32_t *rawORIs = (u_int32_t *)malloc(pScene->numORI * 16 *
                                                     sizeof(u_int32_t));
     int i;
 
@@ -1541,7 +1541,7 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
         BSWAP16((u_int16_t*)&ori97.index_Parent, 1);
 #endif
         ori->flags = 0;
-        sysStrnCpy(ori->name, ori97.name, 15);
+        SDL_strlcpy(ori->name, ori97.name, 16);
         ori->type = objTable[ori97.Type];
         ori->mesh = ori97.mesh;
         ori->morph = ori97.morph;
@@ -1552,7 +1552,7 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
         ori->pad2[0]  = ori97.matrix_Method;
         ori->index_color = ori97.index_Color;
     }
-    MM_std.free(rawORIs);
+    free(rawORIs);
     return;
 }
 /*------------------------------------------------------------------------
@@ -1566,7 +1566,7 @@ static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
 {
     V3XOVI97 ovi97;
     V3XOVI *ovi;
-    u_int32_t *rawOVIs = (u_int32_t *)MM_std.malloc(pScene->numOVI * 16 *
+    u_int32_t *rawOVIs = (u_int32_t *)malloc(pScene->numOVI * 16 *
                                                     sizeof(u_int32_t));
     int i;
 
@@ -1616,7 +1616,7 @@ static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
             ovi->index_PARENT = V3XScene_OVI_GetByName(pScene, pScene->ORI[j].name) - pScene->OVI;
         }
     }
-    MM_std.free(rawOVIs);
+    free(rawOVIs);
     return;
 }
 
@@ -1701,17 +1701,17 @@ _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
     V3XLAYER *layer = &pScene->Layer;
     V3X.Setup.flags|=V3XOPTION_97;
 
-    temp = (u_int8_t*) MM_std.malloc(HEAD1 + sizeof(V3XLAYER97));
+    temp = (u_int8_t*) malloc(HEAD1 + sizeof(V3XLAYER97));
     FIO_gzip.fread(temp, HEAD1 + sizeof(V3XLAYER97), 1, in);
-    sysMemCpy(pScene, temp, HEAD1);
+    memcpy(pScene, temp, HEAD1);
 #ifdef __BIG_ENDIAN__
 	BSWAP16(&pScene->numOVI, 4);
 #endif
     ReadSceneNodes(pScene, in, 1);
     sy = temp + HEAD1;
     bk = (V3XLAYER97*)sy;
-    sysStrCpy(layer->lt.palette.filename, bk->ColorTable_name);
-    sysStrCpy(layer->bg.filename, bk->background_name);
+    strcpy(layer->lt.palette.filename, bk->ColorTable_name);
+    strcpy(layer->bg.filename, bk->background_name);
     layer->bg.BG_color = bk->SolidColor;
     layer->bg.flags  |= V3XBG_COLOR;
     layer->fg.color.r = bk->FogColor.r;
@@ -1719,7 +1719,7 @@ _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
     layer->fg.color.b = bk->FogColor.b;
     if (bk->FogActivate)
 		layer->fg.flags|= V3XFG_LIN;
-    MM_std.free(temp);
+    free(temp);
     FIO_gzip.fclose(in);
     return pScene;
 }
@@ -1802,7 +1802,7 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
     i = V3X.Setup.flags;
     V3X.Setup.flags = 0;
     V3XScene_Viewport_Build(pScene, NULL);
-    if (pScene->Layer.lt.palette.lut) sysMemCpy(GX.ColorTable, pScene->Layer.lt.palette.lut, 768);
+    if (pScene->Layer.lt.palette.lut) memcpy(GX.ColorTable, pScene->Layer.lt.palette.lut, 768);
     V3X.Setup.flags = i;
     return 0;
 }
@@ -1984,13 +1984,13 @@ V3XOVI *V3XScene_Mesh_Merge(V3XSCENE *pScene, V3XMESH *mesh, const char *name)
     OVI->TVI = NULL;
     // Reset OVI
     OVI->mesh = (V3XMESH*)MM_heap.malloc(sizeof(V3XMESH));
-    sysMemCpy(OVI->mesh, mesh, sizeof(V3XMESH));
+    memcpy(OVI->mesh, mesh, sizeof(V3XMESH));
     OVI->matrix_Method = V3XMATRIX_Euler;
     OVI->state|=V3XSTATE_MATRIXUPDATE;
     // Reset ORI
-    sysMemZero(ORI, sizeof(V3XORI));
+    memset(ORI, 0, sizeof(V3XORI));
     ORI->mesh = mesh;
     ORI->type = V3XOBJ_MESH;
-    sysStrCpy(ORI->name, name);
+    strcpy(ORI->name, name);
     return OVI;
 }

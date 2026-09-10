@@ -83,7 +83,7 @@ V3XRESOURCE_ITEM *V3XResources_Put(V3XRESOURCE *bm, const char *filename, void *
     }
     if (bi)
     {
-        sysStrnCpy(bi->filename, filename, 55);
+        SDL_strlcpy(bi->filename, filename, 56);
         bi->data = data;
         bi->flags   |= 1;
         bi->type = (u_int8_t)type;
@@ -105,7 +105,7 @@ int V3XResources_Del(V3XRESOURCE *bm, const char *filename)
     for (i=0;(i<bm->numItems) && (bi==NULL);i++, bj++)
     {
         if (bj->flags&1)
-        if (sysStriCmp(file_name(bj->filename), s)==0)
+        if (SDL_strcasecmp(file_name(bj->filename), s)==0)
         {
             if (j==0) bj->flags&=~3;
             j++;
@@ -185,7 +185,7 @@ void *V3XResources_Get(V3XRESOURCE *bm, const char *filename, int type)
         {
             if (bj->type == type)
             {
-                if (sysStriCmp(bj->filename, filename)==0)
+                if (SDL_strcasecmp(bj->filename, filename)==0)
                 {
                     bi = bj;
                 }
@@ -483,7 +483,7 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
                     if (bpp<15)
                     {
                         if ((V3X.Setup.flags&V3XOPTION_USESAMELUT)&&GX.ColorClut)
-							sysMemCpy(GX.ColorTable, GX.ColorClut, 768);
+							memcpy(GX.ColorTable, GX.ColorClut, 768);
                     }
 
 					MM_heap.active = x;

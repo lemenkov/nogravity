@@ -69,7 +69,7 @@ void TRG_Generate(void)
 {
     int i;
     V3XSCALAR *f;
-    TRG_Table = (float *) MM_std.malloc(sizeof(float)*4096);
+    TRG_Table = (float *) malloc(sizeof(float)*4096);
     for (f=(float*)TRG_Table, i=0;i<4096;i++, f++)
     {
         float a = (float)M_PI*(float)i/2048.f;
@@ -114,7 +114,7 @@ void RLXAPI static *v3x_mallocopy(void *b, u_int32_t sz)
     if (sz)
 	{
 		u_int8_t *m=(u_int8_t*)MM_heap.malloc(sz);
-		sysMemCpy(m, b, sz);
+		memcpy(m, b, sz);
 		return m;
 	}
 	else return NULL;
@@ -150,7 +150,7 @@ void V3XMesh_ReleaseDup(V3XMESH *obj)
         for (fce=obj->face, j=0;j<obj->numFaces;fce++, j++) V3XPoly_ReleaseDup(fce);
         MM_heap.free(obj->face);
     }
-    sysMemZero(obj, sizeof(V3XMESH));
+    memset(obj, 0, sizeof(V3XMESH));
     MM_heap.free(obj);
     return;
 }
@@ -159,7 +159,7 @@ void V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2)
 {
     int j;
     V3XPOLY *fa, *fb;
-    sysMemCpy(mesh1, mesh2, sizeof(V3XMESH));
+    memcpy(mesh1, mesh2, sizeof(V3XMESH));
     // Copie les faces
     mesh1->face=(V3XPOLY*)v3x_mallocopy(mesh2->face, sizeof(V3XPOLY)*mesh1->numFaces);
     for ( fa = mesh1->face, fb = mesh2->face, j = 0;j < mesh1->numFaces; j++, fa++, fb++)
@@ -212,7 +212,7 @@ void V3XMesh_Release(V3XMESH *obj)
         for (fce=obj->face, j=0;j<obj->numFaces;fce++, j++) V3XPoly_Release(fce);
         MM_heap.free(obj->face);
     }
-    sysMemZero(obj, sizeof(V3XMESH));
+    memset(obj, 0, sizeof(V3XMESH));
     MM_heap.free(obj);
     return;
 }
@@ -363,7 +363,7 @@ void V3XKernel_Release(void)
     MM_heap.free(V3X.Cache.item);
     MM_heap.free(V3X.Buffer.flag);
     if (TRG_Table)
-		MM_std.free(TRG_Table);
+		free(TRG_Table);
 	TRG_Table = 0;
     return;
 }

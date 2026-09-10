@@ -69,7 +69,7 @@ static int ReadKey(char *s, u_int8_t *table)
     for (i=0, d=0;i<LK_MAX && (i*3) < len;i++, s+=3)
     {
         char te[4];
-        sysStrnCpy(te, s, 3);
+        SDL_strlcpy(te, s, 4);
         if (strlen(te)>=2)
         {
             int j;
@@ -286,7 +286,7 @@ void NG_ReadGameConfig(void)
 			}
 			else
 			{
-#if defined __APPLE__ || defined __BEOS__
+#if defined __APPLE__
 				RLX.Joy.Config = RLXCTRL_Uncalibrated;
 #endif
 			}

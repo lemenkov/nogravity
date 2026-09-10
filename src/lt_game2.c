@@ -137,7 +137,7 @@ void CALLING_C NG_DrawCircle(V3XVECTOR2 *c, int32_t r, int32_t cx, int cote)
 */
 void NG_AIRandomAim(V3XVECTOR *a, V3XVECTOR *cent, V3XSCALAR r)
 {
-    V3XVector_PolarSet((a), (cent), ((V3XSCALAR)r), sysRand(4096), sysRand(4096));
+    V3XVector_PolarSet((a), (cent), ((V3XSCALAR)r), SDL_rand(4096), SDL_rand(4096));
     return;
 }
 /*------------------------------------------------------------------------
@@ -432,7 +432,7 @@ static void NG_AIEnemyPatrol(V3XOVI *OVI)
         V3XVector_Normalize(&data->Mv.NewAim, &data->Mv.NewAim);
         CheckAngle(&data->Mv.NewAim, &data->Mv.OldAim);
         k = p->fSpeedMax/2;
-        p->fSpeed = k + randomf(k);
+        p->fSpeed = k + ((k) * SDL_randf());
     }
     NG_AIEnemyGeneric(OVI);
     return;
@@ -485,7 +485,7 @@ static void NG_AIEnemyPatrolAndFight(V3XOVI *OVI)
                     data->Mv.aim=*targ;
                 }
                 p->fSpeed = p->fSpeedMax/2;
-                p->fSpeed = p->fSpeed+randomf(p->fSpeed+1);
+                p->fSpeed = p->fSpeed+((p->fSpeed+1) * SDL_randf());
             }
             else
             {
@@ -533,7 +533,7 @@ static void NG_AIEnemyAttack(V3XOVI *OVI)
     if ((data->OVItarget)&&(!data->pInf.ShootOk))
     {
         V3XSCALAR kx=V3XVector_DotProduct(&OVI->mesh->matrix.v.K, &di2);
-        if ((kx)&&(k2<4*p->Sight)&&sysRand(2))
+        if ((kx)&&(k2<4*p->Sight)&&SDL_rand(2))
         {
             NG_WeaponFire(data, data->pInf.Attack, data->OVItarget);
             OVI->state|=V3XSTATE_MATRIXUPDATE;
@@ -585,7 +585,7 @@ static void NG_AIEnemyKamikaze(V3XOVI *OVI)
 		V3XVector_Normalize(&data->Mv.NewAim, targ);
         data->Mv.aim = data->Mv.NewAim;
         p->fSpeed = p->fSpeedMax/2;
-        p->fSpeed = p->fSpeed+randomf(p->fSpeed+1);
+        p->fSpeed = p->fSpeed+((p->fSpeed+1) * SDL_randf());
     }
     if (k2<32)
     {

@@ -117,7 +117,7 @@ void sysConPrint(const char *newmsg, ...)
 	p = (struct sys_console_item*) malloc (sizeof(struct sys_console_item));
 	p->prev = 0;
 	p->next = 0;
-	sysStrnCpy(p->text, msg, MAX_SYS_CONSOLE_TEXT-1);
+	SDL_strlcpy(p->text, msg, MAX_SYS_CONSOLE_TEXT);
 
 	if (!m_pFirst)
 		m_pFirst = m_pLast = p;
@@ -220,7 +220,7 @@ void sysConHandleInput()
 					m_nNumSpaces = 0;
 					sysConParse(m_pInput.text);
 
-					sysMemZero(m_pInput.text, MAX_SYS_CONSOLE_TEXT);
+					memset(m_pInput.text, 0, MAX_SYS_CONSOLE_TEXT);
 
 				}break;
 			case s_down:
@@ -324,7 +324,7 @@ sysConBindCmd(const char *szCmd, PFV3XCNLCMD pfFunc)
 {
 	struct sys_console_cmd *p = (struct sys_console_cmd*) malloc(sizeof(struct sys_console_cmd ));
 	p->next = 0;
-	sysStrnCpy(p->szCmd, szCmd, MAX_SYS_CONSOLE_TEXT-1);
+	SDL_strlcpy(p->szCmd, szCmd, MAX_SYS_CONSOLE_TEXT);
 	p->pfFunc = pfFunc;
 
 	if (!m_pFirstCmd)
@@ -343,7 +343,7 @@ sysConBindCVar(const char *szVar, const void *pData)
 {
 	struct sys_console_cvar *p = (struct sys_console_cvar*) malloc(sizeof(struct sys_console_cvar));
 	p->next = 0;
-	sysStrnCpy(p->szVar, szVar, MAX_SYS_CONSOLE_TEXT-1);
+	SDL_strlcpy(p->szVar, szVar, MAX_SYS_CONSOLE_TEXT);
 	p->pData = (void*)pData;
 
 	if (!m_pFirstCvar)
@@ -436,7 +436,7 @@ void sysConCreate()
 	m_cHd = 0;
     m_cH = 0;
 
-	sysMemZero(&m_pInput, sizeof(m_pInput));
+	memset(&m_pInput, 0, sizeof(m_pInput));
 	sysConBindCmd("/clear", onClear);
 	sysConBindCmd("/close", onClose);
 	sysConBindCmd("/cmdlist", onCmdList);

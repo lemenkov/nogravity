@@ -231,7 +231,7 @@ void NG_ResetKey(void)
     if (!sJOY)
 		return;
 
-    sysMemZero(SGJOY_ButtonKeys, 32);
+    memset(SGJOY_ButtonKeys, 0, 32);
 
 	for (i=0;i<LK_MAX;i++)
     {
@@ -241,7 +241,7 @@ void NG_ResetKey(void)
         }
     }
 
-	sysMemZero(SGMOU_ButtonKeys, 32);
+	memset(SGMOU_ButtonKeys, 0, 32);
 
 	for (i=0;i<LK_MAX;i++)
     {

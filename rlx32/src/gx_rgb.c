@@ -54,7 +54,7 @@ u_int32_t static *CreateSquareArray(void)
     {
         int32_t i;
         //  Should be initialized only once
-        pTable = (u_int32_t*)MM_std.malloc(512*sizeof(u_int32_t));
+        pTable = (u_int32_t*)malloc(512*sizeof(u_int32_t));
         for (i=0;i<512;i++)
         {
             int32_t j=i-255;
@@ -153,7 +153,7 @@ void PAL_cycle(rgb24_t *pf, int start, int fin)
     r=*(st),
     g=*(st+1),
     b=*(st+2);
-    sysMemCpy(st, st+3, (fin-start)*3);
+    memcpy(st, st+3, (fin-start)*3);
     *(fi) =r;
     *(fi+1)=g;
     *(fi+2)=b;
@@ -562,7 +562,7 @@ static void RGB_Blur(GXSPRITE *sp)
     rgb24_t *edi=(rgb24_t*)sp->data, *a, *b, *c, *d, *e, *esi;
     i = sizeof(rgb24_t)*sp->LX*sp->LY;
     esi = (rgb24_t*) MM_heap.malloc(i);
-    sysMemCpy(esi, edi, i);
+    memcpy(esi, edi, i);
     a = edi+=sp->LX;
     b = esi+1+sp->LX;
     c = esi-1+sp->LX;
@@ -646,7 +646,7 @@ void RGB_AntiAlias(GXSPRITE *sp)
     size= lx * (sp->LY-2)-2;
     rgb24_t *edi = (rgb24_t*) sp->data,
     *esi = (rgb24_t*) MM_heap.malloc(i), *oesi;
-    sysMemCpy(esi, edi, i);
+    memcpy(esi, edi, i);
     oesi=esi;
     edi+=lx+1;
     esi+=lx+1;
@@ -690,7 +690,7 @@ void CSP_AntiAliasRGB(GXSPRITE *sp, int tbpp, int sbpp)
             RGB_AntiAlias(sp);
             if (a)  {MM_heap.active = a; xp=sp->data;}
             sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, tbpp, sp->data, GX.ColorTable, 3, sz);
-            if (a)  {MM_std.free(xp);}
+            if (a)  {free(xp);}
         }
         break;
     }
@@ -1009,7 +1009,7 @@ u_int8_t *REALCOLOR_Compute(rgb24_t *pal, rgb24_t *clr, int mode, int alpha, int
             {
                 *pm = (u_int16_t)RGB_PixelFormat(ppal2->r, ppal2->g, ppal2->b);
             }
-            sysMemCpy(pal2, palmap, 256*2);
+            memcpy(pal2, palmap, 256*2);
             MM_heap.free(palmap);
             return (u_int8_t*)pal2;
         }
@@ -1047,11 +1047,11 @@ void PAL_SetRedCyanPalette(void)
     int i, j;
     char bid[768];
     rgb24_t *pnew=GX.ColorTable, *pold=(rgb24_t*)bid;
-    sysMemCpy(pold, pnew, 768);
+    memcpy(pold, pnew, 768);
     if (StereoRed==NULL)
     {
-        StereoRed = (u_int8_t*)MM_std.malloc(256);
-        StereoBlue = (u_int8_t*)MM_std.malloc(256);
+        StereoRed = (u_int8_t*)malloc(256);
+        StereoBlue = (u_int8_t*)malloc(256);
     }
     // Nouvelle Palette
     for (i=0;i<16;i++)

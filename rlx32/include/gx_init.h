@@ -32,15 +32,7 @@ struct RLXSYSTEM;
 struct GXSYSTEM;
 struct _gx_viewport;
 
-#ifdef __BEOS__
-	#ifdef V3X_EXPORT_DLL
-	#define _V3XEXPORTFUNC __declspec(dllexport)
-	#else
-	#define _V3XEXPORTFUNC __declspec(dllimport)
-	#endif
-#else
-	#define _V3XEXPORTFUNC
-#endif
+#define _V3XEXPORTFUNC
 
 __extern_c
 

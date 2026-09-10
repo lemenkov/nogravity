@@ -28,9 +28,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <setjmp.h>
 #include "_rlx32.h"
 #include "_rlx.h"
 #include "systools.h"
@@ -42,29 +41,7 @@ KEY_ClientDriver *sKEY;
 MSE_ClientDriver *sMOU;
 JOY_ClientDriver *sJOY;
 
-void BSWAP16(u_int16_t *pValue, int n)
-{
-   while(n)
-	{
-		u_int16_t x = *pValue;
-		*pValue = (x<<8) | (x>>8);
-		pValue++;
-		n--;
-	}
-    return;
-}
 
-void BSWAP32(u_int32_t *pValue, int n)
-{
-   while (n)
-	{
-		u_int32_t x = *pValue;
-		*pValue = (x<<24) | ((x<<8) & 0x00ff0000) | ((x>>8) & 0x0000ff00) | (x>>24);
-		pValue++;
-		n--;
-	}
-	return;
-}
 
 
 /*------------------------------------------------------------------------
@@ -87,48 +64,6 @@ void sysStrExtChg(char *nouvo, const char *old, const char *ext)
     while(*ext) *nouvo++=*ext++;
     *nouvo=0;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int sysStriCmp(const char *s1, const char *s2)
-*
-* DESCRIPTION :
-*
-*/
-int sysStriCmp(const char *s1, const char *s2)
-{
-    while (!((toupper(*s1)!=toupper(*s2))||(*s1==0)||(*s2==0)))
-    {
-        s1++;
-        s2++;
-    }
-    return (*s1)-(*s2);
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  char *sysStrUpr(char *s1)
-*
-* DESCRIPTION :
-*
-*/
-char *sysStrUpr(char *s1)
-{
-    char *s2=s1;
-    while (*s1!=0) {*s1=(char)toupper(*s1);s1++;}
-    return s2;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  char *sysStrLwr(char *s1)
-*
-* DESCRIPTION :
-*
-*/
-char *sysStrLwr(char *s1)
-{
-    char *s2=s1;
-    while (*s1!=0) {*s1=(char)tolower(*s1);s1++;}
-    return s2;
-}
 
 
 /*------------------------------------------------------------------------
@@ -147,33 +82,6 @@ int array_size(const char **tt)
         i++;
     }
     return i;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void array_remove(void *array, int pos, int sizeitem, int sizearray)
-*
-* DESCRIPTION :
-*
-*/
-void array_remove(void *array, int pos, int sizeitem, int sizearray)
-{
-    u_int8_t *a=(u_int8_t*)array, *b=a+sizeitem*pos;
-    memmove(b, b+sizeitem, (sizearray-pos-1)*sizeitem);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void array_insert(void *array, void *data, int pos, int sizeitem, int sizearray)
-*
-* DESCRIPTION :
-*
-*/
-void array_insert(void *array, const void *data, int pos, int sizeitem, int sizearray)
-{
-    u_int8_t *a=(u_int8_t*)array, *b=a+sizeitem*pos;
-    memmove(b+sizeitem, b, (sizearray-pos)*sizeitem);
-    sysMemCpy(b, data, sizeitem);
-    return;
 }
 /*------------------------------------------------------------------------
 *
@@ -227,7 +135,7 @@ char **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx)
             {
                 unsigned l = strlen(tex);
                 t[i] = MM_CALLOC(maxx >0 ? maxx : l + 1, char);
-                sysStrnCpy(t[i], tex, l);
+                SDL_strlcpy(t[i], tex, (l) + 1);
             }
             maxy--;
 			i++;
@@ -267,41 +175,11 @@ int file_exists(const char *f)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  char *file_extension(char *t)
-*
-* DESCRIPTION :
-*
-*/
-char *file_extension(char *t)
-{
-    while ((*t!='.') && (*t!=0)) t++;
-    return t;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void file_path(char *t)
-*
-* DESCRIPTION :
-*
-*/
-void file_path(char *t)
-{
-    char *f=file_name(t);
-    if (strlen(t)>0) f--;
-    *f=0;
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :
 *
 * DESCRIPTION :
 *
 */
-SYS_MEMORYMANAGER MM_std={
-    malloc,
-    free,
-realloc };
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :
@@ -338,7 +216,7 @@ static void *MM_heap_malloc(size_t size)
     }
     else
     {
-        v = (u_int8_t*) MM_std.malloc(size);
+        v = (u_int8_t*) malloc(size);
 		SYS_ASSERT(v);
         if (!v)
             size = 0;
@@ -346,7 +224,7 @@ static void *MM_heap_malloc(size_t size)
     if (v)
     {
         MM_heap.TotalAllocated+=size;
-        sysMemZero(v, size);
+        memset(v, 0, size);
     }
     return v;
 }
@@ -369,7 +247,7 @@ static void MM_heap_free(void *block)
     }
     if (block!=NULL)
     {
-        MM_std.free(block);
+        free(block);
         block = NULL;
     }
     return;
@@ -401,7 +279,7 @@ static void *MM_heap_realloc(void *block, size_t size)
             if (block)
                 memmove(v, block, size);
         }
-    } else v=(u_int8_t*)MM_std.realloc(block, size);
+    } else v=(u_int8_t*)realloc(block, size);
     return v;
 }
 /*------------------------------------------------------------------------
@@ -444,41 +322,6 @@ static void MM_heap_pop(int32_t id)
     return;
 }
 
-void array_justifytext(const char **text, int numCharsPerLine, void (*callback)(char *text, int line))
-{
-    char __t[1024];
-    int ln = 0;
-    while (*text!=NULL)
-    {
-        char    *t1 =  __t;
-        const char    *t2 = *text;
-        unsigned l;
-        while (*t2!=0)
-        {
-            l = strlen(t2);
-            if (l<(unsigned)numCharsPerLine)
-            {
-                sysStrCpy(t1, t2);
-                callback(t1, ln);
-                ln++;
-            }
-            else
-            {
-                l = numCharsPerLine;
-                while (isspace(t2[l])==0)
-                {
-                    l--;
-                }
-                sysStrnCpy(t1, t2, l); t1[l]=0;
-                callback(t1, ln);
-                ln++;
-            }
-            t2+=l;
-        }
-        text++;
-    }
-    return;
-}
 
 static void MM_heap_reset(void)
 {
@@ -530,9 +373,3 @@ char *file_searchpathES(char *fileName, const char *pathSearch)
     return NULL;
 }
 
-void sysStrnCpy(char *dest, const char *src, size_t n)
-{
-    strncpy(dest, src, n);
-    /* important, n must be one less then the actual buffersize ! */
-    dest[n] = 0;
-}

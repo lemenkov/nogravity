@@ -346,7 +346,7 @@ static int GetText(char *texte, unsigned maxCharacters, int (*callback)(char *, 
     if (maxCharacters >= sizeof(__temp))
         maxCharacters = sizeof(__temp) - 1;
 
-    sysStrnCpy(__temp, texte, maxCharacters);
+    SDL_strlcpy(__temp, texte, (maxCharacters) + 1);
     do
     {
         unsigned ch;
@@ -366,7 +366,7 @@ static int GetText(char *texte, unsigned maxCharacters, int (*callback)(char *, 
                 }
                 break;
                 case 13: // Return
-                sysStrCpy(texte, __temp);
+                strcpy(texte, __temp);
                 case 27: // Espace
                 ok=1;
                 break;

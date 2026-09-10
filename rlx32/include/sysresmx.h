@@ -82,7 +82,6 @@ typedef struct _sys_wad
 __extern_c
 
 _RLXEXPORTFUNC		int32_t				RLXAPI	file_length(const char *filename);
-_RLXEXPORTFUNC		char			*	RLXAPI	file_searchpath(const char *name);
 
 _RLXEXPORTFUNC		SYS_WAD			*	RLXAPI	filewad_open(const char *filename, int flags);
 _RLXEXPORTFUNC		void				RLXAPI	filewad_close(SYS_WAD *resource);

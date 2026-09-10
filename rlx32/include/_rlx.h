@@ -234,7 +234,6 @@ typedef struct RLXSYSTEM{
 	PFRGB_GETPIXELFORMAT	pfGetPixelFormat;		// Get Pixel Format callback
 	PFRGB_SETPIXELFORMAT	pfSetPixelFormat;		// Set Pixel Format calbback
 	struct _sys_memory	*	mm_heap;
-	struct _sys_memory	*	mm_std;
 	struct GXSYSTEM		*	pGX;
 	struct V3XSYSTEM	*	pV3X;
 	void				*	pApplication; // BEOS specific

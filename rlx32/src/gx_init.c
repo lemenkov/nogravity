@@ -88,5 +88,5 @@ void RLXAPI GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp)
 
 void GX_KernelAlloc()
 {
-	sysStrCpy(GX.csp_cfg.ext, "png");
+	strcpy(GX.csp_cfg.ext, "png");
 }

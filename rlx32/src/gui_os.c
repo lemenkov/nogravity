@@ -302,7 +302,7 @@ int RW_Interface_Scan(RW_Interface *pInt, int pCurSel, int *ok, PFRWCALLBACK pfC
 
 void RW_Create(GXSPRITEGROUP *pFont)
 {
-    sysMemZero(&RW, sizeof(RW));
+    memset(&RW, 0, sizeof(RW));
 	RW.pFont = pFont;
     return;
 }
@@ -319,7 +319,7 @@ int RW_InputText(RW_Interface *pInt, char *t, int numChar, PFRWCALLBACK pfCallba
 	char text[256], tmp[256];
 	char m_scanCode = sKEY->scanCode;
 	SYS_ASSERT(numChar<255);
-    sysStrnCpy(text, t, 255);
+    SDL_strlcpy(text, t, 256);
 
 	RW.current = 0;
 	pfCallback(pInt, 0);
@@ -397,7 +397,7 @@ int RW_InputText(RW_Interface *pInt, char *t, int numChar, PFRWCALLBACK pfCallba
     }while(!finish);
 
 	if (finish == 1)
-		sysStrnCpy(t, text, numChar);
+		SDL_strlcpy(t, text, (numChar) + 1);
     return finish;
 }
 

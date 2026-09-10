@@ -576,25 +576,25 @@ static void V3X_FaceCopy(V3XPOLY *clip, V3XPOLY *polygon)
     // Transfer information from polygon structure to clipped polygon structure
     clip->Mat = polygon->Mat;
     clip->distance = polygon->distance;
-    sysMemCpy(&clip->numEdges, &polygon->numEdges, 4);
-    sysMemCpy(clip->dispTab, polygon->dispTab, polygon->numEdges*sizeof(V3XPTS));
+    memcpy(&clip->numEdges, &polygon->numEdges, 4);
+    memcpy(clip->dispTab, polygon->dispTab, polygon->numEdges*sizeof(V3XPTS));
     if (Mat)
     {
         if (Mat->info.Texturized)
         {
-            sysMemCpy(clip->uvTab[0], polygon->uvTab[0], polygon->numEdges*sizeof(V3XUV));
+            memcpy(clip->uvTab[0], polygon->uvTab[0], polygon->numEdges*sizeof(V3XUV));
             if (Mat->info.Perspective)
             {
-                sysMemCpy(clip->ZTab  , polygon->ZTab, polygon->numEdges*sizeof(V3XWPTS));
+                memcpy(clip->ZTab  , polygon->ZTab, polygon->numEdges*sizeof(V3XWPTS));
             }
             if (Mat->info.Environment&V3XENVMAPTYPE_DOUBLE)
             {
-                sysMemCpy(clip->uvTab[1], polygon->uvTab[1], polygon->numEdges*sizeof(V3XUV));
+                memcpy(clip->uvTab[1], polygon->uvTab[1], polygon->numEdges*sizeof(V3XUV));
             }
         }
         if (Mat->info.Shade)
         {
-            sysMemCpy(clip->shade , polygon->shade , polygon->numEdges*sizeof(V3XSCALAR));
+            memcpy(clip->shade , polygon->shade , polygon->numEdges*sizeof(V3XSCALAR));
         }
     }
     return;
@@ -620,7 +620,7 @@ V3XPOLY *V3XPoly_Duplicate(V3XPOLY *clip)
         V3X_FaceCopy(nouv, clip);
         if (clip->faceTab)
         {
-            if (nouv->faceTab) sysMemCpy(nouv->faceTab, clip->faceTab, clip->numEdges*sizeof(int32_t));
+            if (nouv->faceTab) memcpy(nouv->faceTab, clip->faceTab, clip->numEdges*sizeof(int32_t));
             else nouv->faceTab = clip->faceTab;
         }
         return nouv;
@@ -652,7 +652,7 @@ static void v3x_facedataCopy(V3XPOLY *clip, V3XPOLY *polygon, int32_t cp, int32_
     }
     if (Mat->info.Shade==2)
     {
-        sysMemCpy(clip->shade+ cp, polygon->shade + v1, sizeof(V3XSCALAR));
+        memcpy(clip->shade+ cp, polygon->shade + v1, sizeof(V3XSCALAR));
     }
     return;
 }

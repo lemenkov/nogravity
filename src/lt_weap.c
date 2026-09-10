@@ -418,7 +418,7 @@ void NG_WeaponUpdate(void)
                                                     {
                                                         g_pPlayer->mode|=DOOMEDMODE;
                                                         //g_SGObjects.CallMode[t_ENEMY] = ORDER_Attack;
-                                                        if (sysRand(2))
+                                                        if (SDL_rand(2))
 															NG_AudioSay("mes01");
                                                     }
                                                     else
@@ -426,8 +426,8 @@ void NG_WeaponUpdate(void)
                                                     {
 														char tex[256];
                                                         g_cGameStat.killed_nmy ++;
-                                                        sprintf(tex, "mes0%d", sysRand(4)+5);
-														if (sysRand(2)&&(p->Scoring>=100))
+                                                        sprintf(tex, "mes0%d", SDL_rand(4)+5);
+														if (SDL_rand(2)&&(p->Scoring>=100))
 															NG_AudioSay(tex);
                                                     }
                                                 }
@@ -436,16 +436,16 @@ void NG_WeaponUpdate(void)
                                                     if ( p_Sh->Type==t_FRIEND )
                                                     {
 														char tex[256];
-                                                        sprintf(tex, "mes0%d", sysRand(2)+6);
-                                                        if (sysRand(2))
+                                                        sprintf(tex, "mes0%d", SDL_rand(2)+6);
+                                                        if (SDL_rand(2))
 															NG_AudioSay(tex);
                                                     }
                                                     else
                                                     if ( p_Sh->Type==t_ENEMY)
                                                     {
 														char tex[256];
-                                                        sprintf(tex, "mes0%d", sysRand(4)+1);
-                                                        if (sysRand(2))
+                                                        sprintf(tex, "mes0%d", SDL_rand(4)+1);
+                                                        if (SDL_rand(2))
 															NG_AudioSay(tex);
                                                     }
                                                 }

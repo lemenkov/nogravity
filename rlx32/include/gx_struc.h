@@ -228,7 +228,7 @@ __end_extern_c
 #define GFX_memset2(target, val, size)    {int __i=size;u_int16_t *__a=(u_int16_t*)(target);for(;__i!=0;__a++, __i--) *__a=(u_int16_t)(val);}
 #define GFX_memset4(target, val, size)    {int __i=size;u_int32_t *__a=(u_int32_t*)(target);for(;__i!=0;__a++, __i--) *__a=(u_int32_t)(val);}
 
-#define GFX_memset(target, val, size)     sysMemSet(target, val, size)
-#define GFX_memcpy(target, source, size)  sysMemCpy(target, source, size)
+#define GFX_memset(target, val, size)     memset(target, val, size)
+#define GFX_memcpy(target, source, size)  memcpy(target, source, size)
 
 #endif

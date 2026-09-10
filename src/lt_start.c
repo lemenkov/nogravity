@@ -200,7 +200,7 @@ void NG_SetLanguage(int l)
 			FIO_cur->fgets(tex, 64, in);
 			s = strstr(tex, ",");
 			SYS_ASSERT(s);
-			sysStrnCpy(g_szGmT[i], s + 1, 31);
+			SDL_strlcpy(g_szGmT[i], s + 1, 32);
 			v = strstr(g_szGmT[i], szTrailer);
 			if (v)
 				*v=0;
@@ -327,9 +327,9 @@ static void NG_ResetGameData(void)
 {
     g_SGGame.numEnemies = 0;
     g_SGGame.numWeapons = 0;
-    sysMemZero(g_SGGame.pWea, sizeof(SGWeapon) * MAX_WEAPONS);
-    sysMemZero(g_SGGame.pPlayer, sizeof(SGPlayer));
-    sysMemZero(g_SGGame.pEnemy , sizeof(SGActor) * MAX_ENEMYS);
+    memset(g_SGGame.pWea, 0, sizeof(SGWeapon) * MAX_WEAPONS);
+    memset(g_SGGame.pPlayer, 0, sizeof(SGPlayer));
+    memset(g_SGGame.pEnemy, 0, sizeof(SGActor) * MAX_ENEMYS);
     return;
 }
 
@@ -482,7 +482,7 @@ static void NG_DrawExtra(void)
 		    for (j=0;j<mesh->numMaterial;j++, Mat++)
 		    {
                 Mat->scale = 255;
-                if (sysStriCmp(Mat->mat_name, "REACTEURS")==0)
+                if (SDL_strcasecmp(Mat->mat_name, "REACTEURS")==0)
                 {
                     if (OVI==g_pPlayer->J.OVI)
                     {
@@ -502,7 +502,7 @@ static void NG_DrawExtra(void)
 
                 if (((V3X.Setup.flags&V3XOPTION_TRUECOLOR))&&(g_SGSettings.VisualsFx>1)) // Ameliorations moteur 3D
                 {
-                    if (sysStriCmp(Mat->mat_name, "ASTER01")==0)
+                    if (SDL_strcasecmp(Mat->mat_name, "ASTER01")==0)
                     {
                         Mat->RenderID = V3XID_TEX_GOURAUD;
                         Mat->info.Shade = 2;
@@ -512,7 +512,7 @@ static void NG_DrawExtra(void)
 
                     if (V3X.Client->Capabilities&(GXSPEC_HARDWAREBLENDING|GXSPEC_OPACITYTRANSPARENT))
                     {
-                        if ((sysStriCmp(Mat->mat_name, "TIR1")==0))
+                        if ((SDL_strcasecmp(Mat->mat_name, "TIR1")==0))
                         {
                             Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
                             Mat->diffuse.r =
@@ -524,7 +524,7 @@ static void NG_DrawExtra(void)
                             Mat->Render = V3XRCLASS_transp_mapping;
                         }
                         else
-                        if (sysStriCmp(Mat->mat_name, "WARP")==0)
+                        if (SDL_strcasecmp(Mat->mat_name, "WARP")==0)
                         {
                             Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
                             Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
@@ -532,14 +532,14 @@ static void NG_DrawExtra(void)
                             Mat->RenderID = V3XID_T_SPRITE+Mat->info.Transparency;
                         }
                         else
-                        if (sysStriCmp(Mat->mat_name, "REACTEURS")==0)
+                        if (SDL_strcasecmp(Mat->mat_name, "REACTEURS")==0)
                         {
                             Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
                             Mat->info.TwoSide = TRUE;
                             Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
                         }
                         else
-                        if (sysStriCmp(Mat->mat_name, "LIGHT2")==0)
+                        if (SDL_strcasecmp(Mat->mat_name, "LIGHT2")==0)
                         {
                             Mat->diffuse.r = i*8;
                             Mat->diffuse.g = i*8;
@@ -662,10 +662,10 @@ static void NG_InitGameScene(void)
     // Table Realcolor
     if (GX.View.BytePerPixel==1)
     {
-        sysStrCpy(g_SGGame.Scene->Layer.lt.gouraud.filename, "!gouraud");
-        sysStrCpy(g_SGGame.Scene->Layer.lt.alpha50.filename, "!glenz");
-        sysStrCpy(g_SGGame.Scene->Layer.lt.additive.filename, "!glenz2");
-        sysStrCpy(g_SGGame.Scene->Layer.lt.blur.filename, "!blur");
+        strcpy(g_SGGame.Scene->Layer.lt.gouraud.filename, "!gouraud");
+        strcpy(g_SGGame.Scene->Layer.lt.alpha50.filename, "!glenz");
+        strcpy(g_SGGame.Scene->Layer.lt.additive.filename, "!glenz2");
+        strcpy(g_SGGame.Scene->Layer.lt.blur.filename, "!blur");
     }
     // Couleur
     V3X.Setup.flags|=V3XOPTION_COLLISION|V3XOPTION_USESAMELUT;
@@ -678,7 +678,7 @@ static void NG_InitGameScene(void)
 	V3X.Light.ambiant = V3X.Light.ambiantMaterial = AmbientLevel[g_pCurrentGame->episode>4 ? 0 : g_pCurrentGame->episode];
 
     V3XScene_LoadTextures(g_SGGame.Scene, NULL);
-	sysMemCpy(GX.ColorTable, g_SGGame.Scene->Layer.lt.palette.lut, 768);
+	memcpy(GX.ColorTable, g_SGGame.Scene->Layer.lt.palette.lut, 768);
 
 	g_SGGame.CI_COL2 = RGB_convert(212, GX.ColorTable);
     g_SGGame.CI_BLACK = RGB_convert(0, GX.ColorTable);
@@ -737,7 +737,7 @@ static void NG_CMXToObject(void)
 		OVI->mesh->scale = 1.f;
         if ((ORI->name[0])&&(ORI->type==V3XOBJ_MESH))
         {
-            sysStrnCpy(name, ORI->name, 31);
+            SDL_strlcpy(name, ORI->name, 32);
 			s = strstr(name, "_");
 #ifdef _DEBUG
 		//	SYS_Debug("%s\n", name);
@@ -754,7 +754,7 @@ static void NG_CMXToObject(void)
 //					SYS_Debug("Compare with %s vs %s\n", name, Sif->Basename);
 #endif
 
-                    if (sysStriCmp(name, Sif->Basename)==0)
+                    if (SDL_strcasecmp(name, Sif->Basename)==0)
                     {
                         f = 1;
                         Sf = Sif;
@@ -941,7 +941,7 @@ static void NG_ReadCMXFile(int level)
     char fn[32];
     int32_t p;
     p = MM_heap.push();
-    sysMemZero(g_pPlayerInfo, sizeof(SGScript)*MAX_PLAYER);
+    memset(g_pPlayerInfo, 0, sizeof(SGScript)*MAX_PLAYER);
     g_SGSettings.maxCase = 0;
     sprintf(fn, "stage_%d.cmx", level);
     NG_StageReadFile(fn, 0);
@@ -967,7 +967,7 @@ void NG_NAVReset(int reset)
     if (g_SGObjects.NAV)
 		sprintf(tex, "NAVPTS_#%d", g_SGObjects.NAV);
     else
-		sysStrCpy(tex, "NAVPTS_#");
+		strcpy(tex, "NAVPTS_#");
     OVI = V3XScene_OVI_GetByName(g_SGGame.Scene, tex);
     if (OVI==NULL)
     {
@@ -1045,7 +1045,7 @@ void NG_NAVReset(int reset)
     SETBITFIELD(!g_SGObjects.Nav->Skybox, g_SGObjects.Sky->state, V3XSTATE_HIDDEN);
     NG_WeaponCreate();
     NG_DisplayWarp();
-    sysMemZero(&g_cAI, sizeof(SGAI));
+    memset(&g_cAI, 0, sizeof(SGAI));
     NG_AISetTacticMode();
     return;
 }
@@ -1306,7 +1306,7 @@ static void NG_InitGameDisplay(void)
 
     sMOU->SetPosition(GX.View.xmax/2, GX.View.ymax/2);
 
-    sysMemCpy(GX.ColorTable, g_SGGame.Scene->Layer.lt.palette.lut, 768);
+    memcpy(GX.ColorTable, g_SGGame.Scene->Layer.lt.palette.lut, 768);
 
     if (g_SGSettings.Stereo==1)
 		PAL_SetRedCyanPalette();

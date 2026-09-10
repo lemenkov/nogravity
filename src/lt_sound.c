@@ -134,7 +134,7 @@ void NG_AudioLoadList(void)
         {
             v+=2;
             sscanf(v, "%s%hd%hd\n", fil, &g_pMusicInfo[i].track, &g_pMusicInfo[i].mode);
-            sysStrnCpy(g_pMusicInfo[i].filename, fil, 16);
+            SDL_strlcpy(g_pMusicInfo[i].filename, fil, 17);
         }
     }while(strstr(tex, "*")==NULL);
     FIO_cur->fclose(in);
@@ -175,7 +175,7 @@ int NG_AudioGetByName(char *s)
 
     while(*g_pSoundList[i].name)
     {
-        if (sysStriCmp(g_pSoundList[i].name, ss)==0)
+        if (SDL_strcasecmp(g_pSoundList[i].name, ss)==0)
 			return i+1;
         i++;
     }
@@ -284,7 +284,7 @@ static int NG_AllocSoundChannel( NG_SAMPLE_AUDIO *info, int index)
     info->smpInfo  = g_pSoundList + index;
     info->smpHandle->priority = (u_int8_t)info->smpInfo->priority;
     pitch = info->smpInfo->randomPitch+1;
-    info->samplingRate = info->smpInfo->samplingRate + sysRand(pitch)-(pitch>>1);
+    info->samplingRate = info->smpInfo->samplingRate + SDL_rand(pitch)-(pitch>>1);
 
 	if (info->playChannel == -1)
 		info->playChannel = V3XA.Client->ChannelGetFree(info->smpHandle);
@@ -528,7 +528,7 @@ void NG_AudioResumeMusic(void)
     for (i=0;i<RLX.Audio.ChannelToMix;i++)
 		V3XA.Client->ChannelSetVolume( i, ((float)g_SGSettings.VolFX)/100.f );
 
-    sysMemZero(g_ubSampleUsed, 32);
+    memset(g_ubSampleUsed, 0, 32);
 
     return;
 }

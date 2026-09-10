@@ -192,7 +192,7 @@ static void flip_string(char *str)
     if (l==0) return ;
     for (i=0;i<l;i++)  str2[i]=str[l-i-1];
     str2[l]=0;
-    sysStrCpy(str, str2);
+    strcpy(str, str2);
     return;
 }
 /*------------------------------------------------------------------------
@@ -264,7 +264,7 @@ int ReadConfig(char const *fileName, ConfigFile *c_file)
                 FIO_cur->fclose(file);
                 return -1;
             }
-            sysStrnCpy(C_class->name, str+1, a);
+            SDL_strlcpy(C_class->name, str+1, (a) + 1);
             C_class->name[a] = 0;       // Terminate string
             trimSpace(C_class->name);
             flip_string(C_class->name);
@@ -299,10 +299,10 @@ int ReadConfig(char const *fileName, ConfigFile *c_file)
                 FIO_cur->fclose(file);
                 return 2;
             }
-            sysStrCpy(C_item->data, str2+1);
+            strcpy(C_item->data, str2+1);
             trimSpace(C_item->data);
             *str2 = 0;                  // Strip the data part
-            sysStrnCpy(C_item->name, str, 31);
+            SDL_strlcpy(C_item->name, str, 32);
             C_item->name[31] = 0;
             flip_string(C_item->name);
             trimSpace(C_item->name);
@@ -325,7 +325,7 @@ ConfigItemData *GetConfigItem(char const *itemName, enum ConfigDataType type, Co
     ConfigItem  *i;
     if( c == NULL ) return NULL;    // Is there a current class selection?
     i = c->firstItem;
-    while( i != NULL && sysStriCmp(itemName, i->name) ) // Search for itemName
+    while( i != NULL && SDL_strcasecmp(itemName, i->name) ) // Search for itemName
     {
         i = i->nextItem;
     }
@@ -338,10 +338,10 @@ ConfigItemData *GetConfigItem(char const *itemName, enum ConfigDataType type, Co
         case T_BOOL :
         C_DATA.i_bool = FALSE;
         if( atol(i->data) == 1 ) C_DATA.i_bool = TRUE;
-        if( sysStriCmp(i->data, "yes") == 0 ||
-        sysStriCmp(i->data, "ok") == 0 ||
-        sysStriCmp(i->data, "y") == 0 ||
-        sysStriCmp(i->data, "true") == 0) C_DATA.i_bool = TRUE;
+        if( SDL_strcasecmp(i->data, "yes") == 0 ||
+        SDL_strcasecmp(i->data, "ok") == 0 ||
+        SDL_strcasecmp(i->data, "y") == 0 ||
+        SDL_strcasecmp(i->data, "true") == 0) C_DATA.i_bool = TRUE;
         break;
         case T_LONG :
         C_DATA.i_long = strtol(i->data, NULL, 0);
@@ -380,7 +380,7 @@ ConfigClass *GetConfigClass(char const *className, ConfigFile *c_file)
 {
     ConfigClass *c = c_file->firstClass;
     if( !c_file ) return NULL;
-    while( c != NULL && sysStriCmp(className, c->name) )
+    while( c != NULL && SDL_strcasecmp(className, c->name) )
     {
         c = c->nextClass;
     }

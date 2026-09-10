@@ -229,8 +229,8 @@ static void NG_RenderingBackground(void)
     {
         sprintf(tex, "%s%s", g_szGmT[163], g_szGmT[164]);
         CSP_DrawTextC(tex, g_SGMenuPos.XZoneMin, g_SGMenuPos.YZoneMax, COLOR_GRAY, COLOR_WHITE, g_SGMenuPos.Font, GX.csp_cfg.put);
-        sysMemZero(tex, 16);
-        sysStrnCpy(tex, GAMEVERSION_NUMBER, 15);
+        memset(tex, 0, 16);
+        SDL_strlcpy(tex, GAMEVERSION_NUMBER, 16);
         CSP_DrawTextC(tex, GX.View.xmax-CSPG_TxLen(tex, g_SGMenuPos.Font)-4, g_SGMenuPos.YZoneMax, COLOR_GRAY, COLOR_WHITE, g_SGMenuPos.Font, GX.csp_cfg.put);
     }
 
@@ -626,14 +626,14 @@ static void MedalTotal(char *tex, int medal)
     	tex[0]=0;
         return;
     }
-    sysStrnCpy(med, makeSTRING( medal % MEDAL_ODD, c++), 31); medal/=MEDAL_ODD;
+    SDL_strlcpy(med, makeSTRING( medal % MEDAL_ODD, c++), 32); medal/=MEDAL_ODD;
     for (j=0;j<g_pRewards->maxItem-1;j++)
     {
         strcat(med, makeSTRING(medal%MEDAL_ODD, c));
         c++;
         medal/=MEDAL_ODD;
     }
-    sysStrCpy(tex, med);
+    strcpy(tex, med);
     return;
 }
 
@@ -1033,14 +1033,13 @@ static int NG_PlayerRosterMenu(void)
 					char *s = g_pSaveGames[p].name;
 					szMenus[0]=g_szGmT[108];
                     NG_RosterSaveSlot(p);
-                    sysStrnCpy(s,
-						RLX.App.UserName[0] ? RLX.App.UserName : "Pilot", 16);
+                    SDL_strlcpy(s, RLX.App.UserName[0] ? RLX.App.UserName : "Pilot", 17);
 
 					g_pMenu = RW_Interface_Create(RW_VERT);
 					if (RW_InputText(g_pMenu, s, 16, NG_RenderingMainMenu) == 1)
 					{
 						if (!(*s))
-							sysStrnCpy(s, RLX.App.UserName[0] ? RLX.App.UserName : "Pilot", 16);
+							SDL_strlcpy(s, RLX.App.UserName[0] ? RLX.App.UserName : "Pilot", 17);
 						g_pSaveGames[p].active=1;
 						time(&g_pSaveGames[p].last_time);
 						ok=0;
@@ -1367,7 +1366,7 @@ static int NG_SelectMap(void)
 	}
     g_nShipAnim = 0;
 
-    sysMemCpy(GX.ColorTable, GX.ColorTables[1], 768);
+    memcpy(GX.ColorTable, GX.ColorTables[1], 768);
     GX_FadeDownPalette(0);
     MM_heap.pop(id);
 
@@ -1451,7 +1450,7 @@ static void XCancel(void)
 {
 	NG_AudioStopTrack();
     NG_AudioPlayTrack(Ms_MENU1);
-    sysMemCpy(GX.ColorTable, GX.ColorTables[0], 768);
+    memcpy(GX.ColorTable, GX.ColorTables[0], 768);
     PAL_Full();
     return;
 }
@@ -1728,7 +1727,7 @@ void NG_MenuCredits(void)
 static void NG_LoadReadMe(ReadMeStruct *r, char *filename)
 {
     SYS_FILEHANDLE in = FIO_cur->fopen(filename, "rt");
-	sysMemZero(r, sizeof(ReadMeStruct));
+	memset(r, 0, sizeof(ReadMeStruct));
 	if (in)
 	{
 		SYS_ASSERT(in);

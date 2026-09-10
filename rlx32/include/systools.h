@@ -28,35 +28,11 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __SYSTOOLS_H
 #define __SYSTOOLS_H
 
-#ifdef __WATCOMC__
- #include <direct.h>
-#else
- #include <string.h>
-#endif
+#include <stdlib.h>
+#include <string.h>
 
-// File attributes for filefirst/next
-#define _FILE_NORMAL       0x00    /* Normal file - read/write permitted */
-#define _FILE_RDONLY       0x01    /* Read-only file */
-#define _FILE_HIDDEN       0x02    /* Hidden file */
-#define _FILE_SYSTEM       0x04    /* System file */
-#define _FILE_VOLID        0x08    /* Volume-ID entry */
-#define _FILE_SUBDIR       0x10    /* Subdirectory */
-#define _FILE_ARCH         0x20    /* Archive file */
-#ifdef __BEOS__
-   #define _MAX_PATH 256
-#endif
-
-struct file_find_t
-{
-    char reserved[21];      /* reserved for use           */
-    char attrib;            /* attribute byte for file    */
-    unsigned short wr_time; /* time of last write to file */
-    unsigned short wr_date; /* date of last write to file */
-    u_int32_t  size;    /* length of file in bytes    */
-    char name[256];         /* null-terminated filename   */
-};
-
-// Memory manager
+// Memory manager: MM_heap is a bump allocator over one block while a level
+// is loaded (push/pop/reset), and plain malloc/free otherwise.
 typedef struct _sys_memory
 {
     void    	*(*malloc)(size_t size);
@@ -80,51 +56,44 @@ __extern_c
 
     // Strings operations
 _RLXEXPORTFUNC    void    RLXAPI   sysStrExtChg(char *nouvo, const char *old, const char *ext);
-_RLXEXPORTFUNC    char    RLXAPI  *sysStrUpr(char *name);
-_RLXEXPORTFUNC    char    RLXAPI  *sysStrLwr(char *name);
-_RLXEXPORTFUNC    int     RLXAPI   sysStriCmp(const char *s1, const char *s2);
 
     // Array operations
-_RLXEXPORTFUNC    void    RLXAPI   array_justifytext(const char **text, int numCharsPerLine, void (*callback)(char *text, int line));
 _RLXEXPORTFUNC    int     RLXAPI   array_size(const char **tt);
-_RLXEXPORTFUNC    void    RLXAPI   array_remove(void *array, int pos, int sizeitem, int sizearray);
-_RLXEXPORTFUNC    void    RLXAPI   array_insert(void *array, const void *data, int pos, int sizeitem, int sizearray);
 _RLXEXPORTFUNC    void    RLXAPI   array_free(char **tt);
 _RLXEXPORTFUNC    char    RLXAPI  **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx);
 
-    // Lsb Motorola/Intel conversion
-_RLXEXPORTFUNC    void    RLXAPI   BSWAP16(u_int16_t *val, int n);
-_RLXEXPORTFUNC    void    RLXAPI   BSWAP32(u_int32_t *val, int n);
-
     // File operations
 _RLXEXPORTFUNC    int      RLXAPI  file_exists(const char *filename);
-_RLXEXPORTFUNC    void     RLXAPI  file_describe(char *filename, const char *desc);
-_RLXEXPORTFUNC    char     RLXAPI *file_searchpath(const char *name);
 _RLXEXPORTFUNC    char     RLXAPI *file_searchpathES(char *fileName, const char *pathSearch);
 _RLXEXPORTFUNC    char     RLXAPI *file_name(char *a);
-_RLXEXPORTFUNC    void     RLXAPI  file_path(char *t);
-_RLXEXPORTFUNC    char     RLXAPI *file_extension(char *t);
 
-_RLXEXPORTDATA    extern    SYS_MEMORYMANAGER MM_std, MM_heap, MM_audio;
-
+_RLXEXPORTDATA    extern    SYS_MEMORYMANAGER MM_heap;
 
 __end_extern_c
 
-#define sysMemSet memset
-#define sysMemCpy memcpy
-#define sysStrCpy strcpy
-#define sysStrLen strlen
-#define sysMemZero(a, b) sysMemSet(a, 0, b)
-#define sysRand(a)  (rand()%(a))
+    // Byte order conversion of arrays: the data files are little endian.
+static inline void BSWAP16(u_int16_t *pValue, int n)
+{
+    while (n--)
+    {
+        *pValue = SDL_Swap16(*pValue);
+        pValue++;
+    }
+}
 
-void sysStrnCpy(char *dest, const char *src, size_t n);
+static inline void BSWAP32(u_int32_t *pValue, int n)
+{
+    while (n--)
+    {
+        *pValue = SDL_Swap32(*pValue);
+        pValue++;
+    }
+}
 
 #ifndef min
 #define min(a,b) ((a)<(b) ? a : b)
 #define max(a,b) ((a)>(b) ? a : b)
 #endif
-
-#define randomf(i_max) ((i_max) * (float)rand() / (float)RAND_MAX)
 
 // Macros
 #define SETBITFIELD(cond, dest, value) if (cond) dest|=value; else dest&=~value;

@@ -99,7 +99,7 @@ _RLXEXPORTFUNC void CSP_Get(int32_t xx, int32_t yy, GXSPRITE *capt, u_int8_t *bu
 	SYS_ASSERT(width);
     for (cx=capt->LY;cx>0;cx--)
     {
-        sysMemCpy(w, v, lx);
+        memcpy(w, v, lx);
         w+=lx;
         v+=lxx;
     }
@@ -452,7 +452,7 @@ _RLXEXPORTFUNC void CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp)
     IMG_stretch(sp->data, tmp, sp->LY, ly, sp->LX, lx, bpp);
     if (sz<sp->LX*sp->LY)
     {
-        sysMemCpy(sp->data, tmp, sz2);
+        memcpy(sp->data, tmp, sz2);
         MM_heap.free(tmp);
     }
     else

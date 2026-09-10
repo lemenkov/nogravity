@@ -696,7 +696,7 @@ static void V3XRender_Draw3DSprite(int32_t x, int32_t y, GXSPRITE *sp, int32_t n
     fce = V3XPoly_QAlloc();
 
     fce->Mat = Mat;
-    sysMemZero(fce->Mat, sizeof(V3XMATERIAL));
+    memset(fce->Mat, 0, sizeof(V3XMATERIAL));
     RGB_GetPixelFormat(&Mat->specular, GX.csp_cfg.color); Mat->diffuse = Mat->specular;
     Mat->info.Texturized = 1;
     Mat->info.Opacity = 1;
@@ -823,7 +823,7 @@ void RLXAPI V3X_CSP_Unload(GXSPRITE *sp)
 		MM_heap.free(f->uvTab);
 	}
 	else MM_heap.free(sp->data);
-    sysMemZero(mt, sizeof(V3XMATERIAL));
+    memset(mt, 0, sizeof(V3XMATERIAL));
     return;
 }
 /*------------------------------------------------------------------------
@@ -835,14 +835,14 @@ void RLXAPI V3X_CSP_Unload(GXSPRITE *sp)
 */
 static void V3X_CSP_Default(char *filename, V3XMATERIAL *mat, int load)
 {
-    sysMemZero(mat, sizeof(V3XMATERIAL));
+    memset(mat, 0, sizeof(V3XMATERIAL));
     RGB_Set(mat->diffuse, 255, 255, 255);
     mat->info.Sprite  = (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY) ? 1 : 2;
     mat->info.Texturized = (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY) ? 1 : 0;
     mat->info.Transparency = 0;
     mat->Render = V3XRCLASS_bitmap_any;
     sprintf(mat->mat_name, "*%s*", file_name(filename));
-    sysStrCpy(mat->tex_name, file_name(filename));
+    strcpy(mat->tex_name, file_name(filename));
     mat->info.Shade = 0;
     V3XMaterial_Register( mat );
     if (load)

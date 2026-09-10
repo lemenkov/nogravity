@@ -30,25 +30,14 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 #define __RLXVERSION__ 0x170
 
-#if defined __BEOS__
-    #include <byteorder.h>
-    #if B_HOST_IS_BENDIAN
-        #define __BIG_ENDIAN__
-    #endif
-
-#elif defined __APPLE__ && defined __MACH__
-	#define __MACOS__
-    #define __C32__
-
-#elif defined __amigaos4__ || defined __MORPHOS__
-    #define __C32__
+#if defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
     #ifndef __BIG_ENDIAN__
     #define __BIG_ENDIAN__
     #endif
 #endif
 
-#ifdef HAVE_CONFIG_H
-    #include "autoconfig.h"
+#if defined __APPLE__ && defined __MACH__
+	#define __MACOS__
 #endif
 
 #endif

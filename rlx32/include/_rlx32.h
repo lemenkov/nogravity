@@ -153,20 +153,10 @@ typedef FILE * SYS_FILEHANDLE ; /* I/O file handle. */
 
 /* Error/Debug/Trace functions *****************************************************/
 
-#if (!defined _WINCE)
-#include <assert.h>
 #if defined _DEBUG || defined DEBUG
 #define SYS_ASSERT(_condition) assert(_condition)
 #else
 #define SYS_ASSERT(_condition)
-#endif
-#else
-
-#ifdef DEBUG
-#define SYS_ASSERT(_condition) if (!(_condition)) { SYS_Msg("#Assertion failed!\n\nProgram: %s\nLine: %d\n\nExpression: %s\n", __FILE__,  __LINE__, #_condition);}
-#else
-#define SYS_ASSERT(_condition)
-#endif
 #endif
 
 #define SYS_BREAK()

@@ -1112,7 +1112,7 @@ V3XOVI *V3XOVI_ChildGetByName(V3XOVI *parent, const char *name)
     {
         V3XOVI *o = *oo;
         V3XORI *ORI = o->ORI;
-        if (sysStriCmp(ORI->name, name)==0) return o;
+        if (SDL_strcasecmp(ORI->name, name)==0) return o;
         oo++;
     }
     return 0;

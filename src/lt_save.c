@@ -74,14 +74,14 @@ void NG_GetPtsFilename(char *tex)
 void NG_ReadLevelInfo(SGLevelItem *LI, ConfigFile *iniFile)
 {
     int j;
-    sysStrnCpy(LI->name, GetCF_str2("Name", iniFile), 30);
+    SDL_strlcpy(LI->name, GetCF_str2("Name", iniFile), 31);
     for (j=0;j<15;j++)
     {
         char tx2[16];
         char *s;
         sprintf(tx2, "Line%d", j+1);
         s = GetCF_str(tx2, iniFile);
-        if (s) sysStrnCpy(LI->tex[j], s, 30);
+        if (s) SDL_strlcpy(LI->tex[j], s, 31);
         else LI->tex[j][0]=0;
     }
     LI->WeaponMax=1;
@@ -275,7 +275,7 @@ void NG_HighScoresUpdate(void)
 
 void NG_RosterSaveSlot(int i)
 {
-    sysMemZero(g_pSaveGames+i, sizeof(SGPlayerSave));
+    memset(g_pSaveGames+i, 0, sizeof(SGPlayerSave));
     sprintf(g_pSaveGames[i].name, "No Gravity");
     g_pSaveGames[i].ship = 1;
     return;

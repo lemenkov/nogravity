@@ -37,7 +37,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <sys/stat.h>
 
 #include "_rlx32.h"
 #include "systools.h"
@@ -107,15 +106,15 @@ void filewad_resolve(char *dest, const char *lpFilename)
 // Open a data directory.
 SYS_WAD *filewad_open(const char *lpDirectory, int flags)
 {
-	struct stat st;
+	SDL_PathInfo info;
 	SYS_WAD *pWad;
 
 	if (!lpDirectory || !*lpDirectory)
 		return NULL;
-	if ((stat(lpDirectory, &st) != 0) || !(st.st_mode & S_IFDIR))
+	if (!SDL_GetPathInfo(lpDirectory, &info) || (info.type != SDL_PATHTYPE_DIRECTORY))
 		return NULL;
 	pWad = MM_CALLOC(1, SYS_WAD);
-	sysStrnCpy(pWad->s_Root, lpDirectory, _MAX_PATH - 1);
+	SDL_strlcpy(pWad->s_Root, lpDirectory, _MAX_PATH);
 	pWad->s_Path[0] = 0;
 	pWad->mode = flags & ~SYS_WAD_STATUS_ENABLED;
 	return pWad;
@@ -151,7 +150,7 @@ void filewad_getcwd(const SYS_WAD *pWad, char *curpath, int len)
 	if (!pWad)
 		pWad = filewad_getcurrent();
 	if (pWad)
-		sysStrnCpy(curpath, pWad->s_Path, len - 1);
+		SDL_strlcpy(curpath, pWad->s_Path, len);
 	else
 		curpath[0] = 0;
 }

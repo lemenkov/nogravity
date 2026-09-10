@@ -32,8 +32,8 @@ enum {
 };
 #define C_CLAIR(x)                    (x)+8
 #define GXT_print(tx, X, Y, COL1, COL2)   writeStr(tx, X, Y, COLORTEXT(COL1, COL2, 0), strlen(tx));
-#define GXT_string(tx, c, len)          {sysMemSet(tx, c, len);tx[len]=0;}
-#define GXT_lineX(a, b, c, lx)           {tex[0]=a;sysMemSet(tex+1, b, lx);tex[lx+1]=c;tex[lx+2]=0;}
+#define GXT_string(tx, c, len)          {memset(tx, c, len);tx[len]=0;}
+#define GXT_lineX(a, b, c, lx)           {tex[0]=a;memset(tex+1, b, lx);tex[lx+1]=c;tex[lx+2]=0;}
 #define GXT_getColor(x, y, c)           c=GX.View.lpFrontBuffer[(y*GX.View.xmax+x)*2]
 #define GXT_getColor2(x, y, cA, cB)      {cA=GX.View.lpFrontBuffer[(y*GX.View.xmax+x)*2+1];cB=cA>>4;cA&=15;}
 __extern_c

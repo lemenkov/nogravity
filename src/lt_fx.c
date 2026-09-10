@@ -73,7 +73,7 @@ void NG_FXCreate(void)
         pExpl->fce.dispTab  = (V3XPTS*)MM_heap.malloc(4*sizeof(V3XPTS)); // 1 fois
         pExpl->fce.uvTab = (V3XUV**)MM_heap.malloc(sizeof(V3XUV*));   // 1 fois
         pExpl->fce.uvTab[0] = (V3XUV*) MM_heap.malloc(4*sizeof(V3XUV));  // 1 fois
-        sysMemZero(&pExpl->material, sizeof(V3XMATERIAL));
+        memset(&pExpl->material, 0, sizeof(V3XMATERIAL));
 
 		pExpl->fce.Mat = &pExpl->material;
         pExpl->material.info.Texturized = 1;
@@ -148,7 +148,7 @@ void NG_FXUpdate(void)
 
             if ((p->type==FX_DEBRIS)||(p->type==FX_SMOKE))
             {
-				float scale = randomf(p->type==FX_DEBRIS ? 3+4 : 2+8);
+				float scale = ((p->type==FX_DEBRIS ? 3+4 : 2+8) * SDL_randf());
                 V3XVector_PolarSet(p->pos, &p->cent, (V3XSCALAR)p->angle.x, (int32_t)p->angle.y, (int32_t)p->angle.z);
                 p->angle.x+= (int)(g_cTimer.fCounter * scale);
                 p->OVI->state|=V3XSTATE_MATRIXUPDATE;
@@ -498,7 +498,7 @@ int NG_FXGetByName(char *s)
     int i=0;
     while(g_pszAnimList[i]!=NULL)
     {
-        if (sysStriCmp(g_pszAnimList[i], s)==0)
+        if (SDL_strcasecmp(g_pszAnimList[i], s)==0)
         {
             return i+1;
         }
@@ -610,12 +610,12 @@ void NG_FXDebris(SGScript *pInf, V3XOVI *OVI)
 		i=MAX_DEBRIS;
     for (;i!=0;i--)
     {
-        x = sysRand(obj->numVerts);
+        x = SDL_rand(obj->numVerts);
         V3XVector_ApplyMatrixTrans(v, obj->vertex[x], obj->matrix.Matrix);
         p = NG_FXNew(&v, FX_DEBRIS, 8, pInf, 1, OVI);
         if (p)
         {
-            p->Step[1] = p->Step[0]= sysRand(p->Sprite->maxItem);
+            p->Step[1] = p->Step[0]= SDL_rand(p->Sprite->maxItem);
             p->Size = OVI->ORI->global_rayon / 8;
             if (p->Size < 256*g_SGSettings.WorldUnit)
 				p->Size = 256*g_SGSettings.WorldUnit;
@@ -641,7 +641,7 @@ void NG_FXBlast(SGScript *pInf, V3XOVI *OVI)
 		i=MAX_BLASTS;
     for (;i!=0;i--)
     {
-        x = sysRand(obj->numVerts);
+        x = SDL_rand(obj->numVerts);
         V3XVector_ApplyMatrixTrans(v, obj->vertex[x], obj->matrix.Matrix);
         if (!f)
 			v = obj->matrix.v.Pos;
@@ -654,7 +654,7 @@ void NG_FXBlast(SGScript *pInf, V3XOVI *OVI)
                 p->radius = CST_ZERO;
                 f = 1;
             }
-            p->Step[1] = p->Step[0] = sysRand(p->Sprite->maxItem);
+            p->Step[1] = p->Step[0] = SDL_rand(p->Sprite->maxItem);
             p->Size = OVI->ORI->global_rayon / 2;
         }
     }
@@ -717,11 +717,11 @@ SGEffect *NG_FXNew(V3XVECTOR *pos, int type, int lop, SGScript *pInf, int kp, V3
 				break;
                 case FX_SMOKE:
 					p->angle.x = 0;
-					p->angle.y = sysRand(4096);
-					p->angle.z = sysRand(4096);
+					p->angle.y = SDL_rand(4096);
+					p->angle.z = SDL_rand(4096);
 					{
 						V3XMESH *obj = OVI->mesh;
-						int x = sysRand(obj->numVerts);
+						int x = SDL_rand(obj->numVerts);
 						V3XVector_ApplyMatrixTrans(p->cent, obj->vertex[x], obj->matrix.Matrix);
 					}
                 case FX_SMOKE2:
@@ -770,12 +770,12 @@ SGEffect *NG_FXNew(V3XVECTOR *pos, int type, int lop, SGScript *pInf, int kp, V3
 					SYS_ASSERT(p->Sprite);
 					{
 						V3XMESH *obj = OVI->mesh;
-						int x = sysRand(obj->numVerts)-1;
+						int x = SDL_rand(obj->numVerts)-1;
 						V3XVector_ApplyMatrixTrans(p->cent, obj->vertex[x], obj->matrix.Matrix);
 					}
 					p->angle.x = 0;
-					p->angle.y = sysRand(4096);
-					p->angle.z = sysRand(4096);
+					p->angle.y = SDL_rand(4096);
+					p->angle.z = SDL_rand(4096);
 					transpa = 0;
 					p->FadeStart = p->Sprite->maxItem/2;
                 break;

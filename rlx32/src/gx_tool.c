@@ -59,7 +59,7 @@ void IMG_stretch(u_int8_t *old_buf, u_int8_t *new_buf, int old_ly, int new_ly, i
     int32_t ox, dx=VDIV(old_lx, new_lx);
     if ((old_ly==new_ly) && (old_lx==new_lx))
     {
-        sysMemCpy(new_buf, old_buf, new_lx*new_ly*bytes);
+        memcpy(new_buf, old_buf, new_lx*new_ly*bytes);
         return;
     }
     switch(bytes) {
@@ -115,7 +115,7 @@ void IMG_pan(u_int8_t *old_buf, u_int8_t *new_buf, int old_ly, int new_ly, int o
     int32_t i, j;
 	i=(old_ly<new_ly) ? old_ly : new_ly;
 	j=(old_lx<new_lx) ? old_lx : new_lx;
-    for (;i!=0;v+=new_lx*bytes, w+=old_lx*bytes, i--) sysMemCpy(v, w, j*bytes);
+    for (;i!=0;v+=new_lx*bytes, w+=old_lx*bytes, i--) memcpy(v, w, j*bytes);
     old_ly++;
     return;
 }
@@ -151,7 +151,7 @@ void CSP_CaptureFrom(int32_t xx, int32_t yy, GXSPRITE *capt)
     u_int32_t cx, lx=GX.View.BytePerPixel*capt->LX;
     for (cx=capt->LY;cx>0;cx--)
     {
-        sysMemCpy(w, v, lx);
+        memcpy(w, v, lx);
         w+=(int32_t)lx;
         v+=GX.View.lPitch;
     }
@@ -183,7 +183,7 @@ void IMG_StretchBilinear(GXSPRITE *_new, GXSPRITE *_old, int bp, int strides)
     if (!_new->data) _new->data = (u_int8_t*) MM_heap.malloc(new_sz);
     if (old_sz == new_sz)
     {
-        sysMemCpy(_new->data, _old->data, old_sz);
+        memcpy(_new->data, _old->data, old_sz);
         return;
     }
     {

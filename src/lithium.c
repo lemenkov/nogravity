@@ -30,7 +30,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdio.h>
 #ifdef __APPLE__
-#include <unistd.h>
 #endif
 #include "_rlx32.h"
 #include "_rlx.h"
@@ -225,7 +224,7 @@ void STUB_MainCode(void)
 	V3XPlugIn_Add(1, V3XPlug_CollisionMove);
 
     // Game Data
-#if defined __BEOS__ || defined _DEBUG
+#if defined _DEBUG
 	RLX.Video.Config|=RLXVIDEO_Windowed;
 #else
 	if (g_SGSettings.Fullscreen == 1)

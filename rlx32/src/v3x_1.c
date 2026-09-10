@@ -576,9 +576,9 @@ int32_t V3XMesh_Transform(V3XMESH *mesh)
         MatrixS.v.Pos = Matrix.v.Pos;
     }
 
-	sysMemZero(V3X.Buffer.flag, mesh->numVerts);
-	sysMemZero(V3X.Buffer.rot_vertex, mesh->numVerts * sizeof(V3XVECTOR));
-	sysMemZero(V3X.Buffer.prj_vertex, mesh->numVerts * sizeof(V3XVECTOR));
+	memset(V3X.Buffer.flag, 0, mesh->numVerts);
+	memset(V3X.Buffer.rot_vertex, 0, mesh->numVerts * sizeof(V3XVECTOR));
+	memset(V3X.Buffer.prj_vertex, 0, mesh->numVerts * sizeof(V3XVECTOR));
 
     if (mesh->flags&V3XMESH_FULLUPDATE)
     {
@@ -595,7 +595,7 @@ int32_t V3XMesh_Transform(V3XMESH *mesh)
         int n;
         V3XPOLY *f;
         // Mark visible vertices & faces
-        sysMemSet(V3X.Buffer.flag, 1, mesh->numVerts);
+        memset(V3X.Buffer.flag, 1, mesh->numVerts);
         for (b=mesh->normal_face, n=mesh->numFaces, f=mesh->face;n!=0;f++, b++, n--)
         {
             if (((V3XMATERIAL*)f->Mat)->info.TwoSide)

@@ -199,13 +199,13 @@ void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *out
                         ax=*(u_int8_t*)(esi+2);
 			esi+=3;
                         cx=-cx;
-			sysMemSet(edi, ax, cx);
+			memset(edi, ax, cx);
 		    }
 		    else
 		    {
 			esi+=2;
-			sysMemCpy(edi, esi, cx);
-			esi+=cx; // Non fait par sysMemCpy
+			memcpy(edi, esi, cx);
+			esi+=cx; // Non fait par memcpy
 		    }
 		    edi+=cx;
 		}
@@ -227,26 +227,26 @@ void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *out
 		    {
 			ax = *(u_int8_t*)(esi+1);
 			esi+=2;
-			sysMemSet(edi, ax, cx);
+			memset(edi, ax, cx);
 		    }
 		    else
 		    {
 			esi++;
 			cx=-cx;
-			sysMemCpy(edi, esi, cx);
+			memcpy(edi, esi, cx);
 			esi+=cx;
 		    }
-		    edi+=cx; // Non fait pas sysMemSet et setmem
+		    edi+=cx; // Non fait pas memset et setmem
 		}
 		edi = oedi + dwWidth;
 		bx--;
 	    }while (bx!=0);
 	    break;
 	    case CT_FLI_COPY:
-	    sysMemCpy(output, esi, dwHeight*dwWidth);
+	    memcpy(output, esi, dwHeight*dwWidth);
 	    break;
 	    case CT_FLI_BLACK:
-	    sysMemZero(output, dwHeight*dwWidth);
+	    memset(output, 0, dwHeight*dwWidth);
 	    break;
 	    default:
 	    break;
@@ -355,7 +355,7 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
         pAnim->Flags|=FLX_ISPLAYING;
         for (i=pAnim->MaximumFrame, sp= pAnim->frames;i!=0;sp++, i--)
         {
-            sysMemCpy(sp->data, pAnim->decompBuffer, s);
+            memcpy(sp->data, pAnim->decompBuffer, s);
             pAnim->decompBuffer = sp->data;
             FLI_Unpack(pAnim);
         }
@@ -485,7 +485,7 @@ _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
 				FIO_gzip.fread(j.Raw, sizeof(char), 16, pAnim->fli_stream);
             break;
             case FLI_USEMEMORY:
-				sysMemCpy(j.Raw, pAnim->fileBuffer, 16);
+				memcpy(j.Raw, pAnim->fileBuffer, 16);
 				pAnim->start      += 16;
 				pAnim->fileBuffer += 16;
             break;
@@ -583,7 +583,7 @@ static GXSPRITEGROUP *Unpack_FLI_to_SpriteGroup(SYS_FILEHANDLE in, int diet)
         sp->LX = a->Header.Struct.width;
         k = sp->LX * sp->LY;
         sp->data = (u_int8_t*)MM_heap.malloc(k);
-        sysMemCpy(sp->data, a->decompBuffer, k);
+        memcpy(sp->data, a->decompBuffer, k);
 		GX.Client->UploadSprite(sp, a->ColorTable, 1);
     }
 

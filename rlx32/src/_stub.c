@@ -151,7 +151,6 @@ static void STUB_CheckSystem(void *hwnd)
      SYS_Debug("init system engine..\n");
  #endif
  	RLX.mm_heap = &MM_heap;
-	RLX.mm_std = &MM_std;
 	RLX.pfGetPixelFormat = RGB_GetPixelFormat;
 	RLX.pfSetPixelFormat = RGB_SetPixelFormat;
 	RLX.pfSmartConverter = RGB_SmartConverter;
