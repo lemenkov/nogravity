@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 1996-2005 realtech VR
+// SPDX-License-Identifier: GPL-2.0-or-later
 //-------------------------------------------------------------------------
 /*
 Copyright (C) 1996, 2005 - realtech VR
@@ -89,6 +91,7 @@ _RLXEXPORTFUNC		void				RLXAPI	filewad_getcwd(const SYS_WAD *resource, char *cur
 _RLXEXPORTFUNC		SYS_FILEHANDLE 		RLXAPI	filewad_get(SYS_FILEHANDLE  fp);
 _RLXEXPORTFUNC		int 				RLXAPI	filewad_closeall(SYS_WAD *resource);
 _RLXEXPORTFUNC		void				RLXAPI	filewad_makepath(SYS_WAD *resource, char *_s, const char *s, int nLen);
+_RLXEXPORTFUNC		void				RLXAPI	filewad_resolve(char *dest, const char *filename);
 
 _RLXEXPORTFUNC		void				RLXAPI	sysInitZlib();
 _RLXEXPORTFUNC		void				RLXAPI	sysInitFS();

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 1996-2005 realtech VR
+// SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 //-------------------------------------------------------------------------
 /*
 Copyright (C) 1996, 2005 - realtech VR
@@ -81,7 +84,7 @@ void MakePathUUU(char *dest, const char *path, const char *lpFilename)
 }
 
 // Full path of a data file: root + current subdirectory + name.
-static void ResolvePath(char *dest, const char *lpFilename)
+void filewad_resolve(char *dest, const char *lpFilename)
 {
 	SYS_WAD *pWad = filewad_getcurrent();
 	char rel[_MAX_PATH];
@@ -173,7 +176,7 @@ static int CALLING_C filewad_fexist(const char *szFilename)
 	char name[_MAX_PATH];
 	if (!szFilename || !*szFilename)
 		return 0;
-	ResolvePath(name, szFilename);
+	filewad_resolve(name, szFilename);
 	return FIO_std.exists(name);
 }
 
@@ -181,7 +184,7 @@ static SYS_FILEHANDLE CALLING_C filewad_fopen(const char *lpFilename, const char
 {
 	char name[_MAX_PATH];
 	SYS_FILEHANDLE fp;
-	ResolvePath(name, lpFilename);
+	filewad_resolve(name, lpFilename);
 	fp = FIO_std.fopen(name, mode);
 	if (!fp && getenv("NOGRAVITY_TRACE_FILES"))
 		fprintf(stderr, "data: %s (%s) not found\n", lpFilename, name);
