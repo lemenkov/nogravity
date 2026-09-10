@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
 """Extract a realtech RMX resource archive into a directory tree.
 
 usage: rmx_extract.py NOGRAVITY.RMX OUTDIR [--keep-junk]
@@ -42,6 +44,35 @@ def read_table(data):
     return entries
 
 
+def fix_gzip_trailer(data):
+    """Return gzip data with a correct CRC32 in its trailer.
+
+    The scene files (.vmx) in the archive are gzip members whose trailer
+    holds a bogus CRC32; the 2005 reader never checked it, zlib's gz
+    functions do and drop the last block. The deflate payload is intact,
+    so only the trailer is rewritten.
+    """
+    if len(data) < 18 or data[:2] != b'\x1f\x8b' or data[2] != 8:
+        return data
+    flags = data[3]
+    pos = 10
+    if flags & 4:
+        pos += 2 + struct.unpack_from('<H', data, pos)[0]
+    if flags & 8:
+        pos = data.index(b'\0', pos) + 1
+    if flags & 16:
+        pos = data.index(b'\0', pos) + 1
+    if flags & 2:
+        pos += 2
+    inflater = zlib.decompressobj(-15)
+    payload = inflater.decompress(data[pos:])
+    tail = inflater.unused_data
+    if len(tail) < 8:
+        return data
+    trailer = struct.pack('<II', zlib.crc32(payload) & 0xffffffff, len(payload) & 0xffffffff)
+    return data[:len(data) - len(tail)] + trailer + tail[8:]
+
+
 def clean_name(name):
     name = name.replace('\\', '/').lower()
     while name.startswith('./'):
@@ -69,7 +100,7 @@ def main():
         path = os.path.join(out, rel)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, 'wb') as f:
-            f.write(data[pos:pos + size])
+            f.write(fix_gzip_trailer(data[pos:pos + size]))
         written += 1
     print(f'{written} files written to {out}, {skipped} skipped')
 
