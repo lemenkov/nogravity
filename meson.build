@@ -68,7 +68,6 @@ engine_src = files(
   'rlx32/src/gx_tool.c',
   'rlx32/src/sysgi.c',
   'rlx32/src/sysini.c',
-  'rlx32/src/syslist.c',
   'rlx32/src/sysresmx.c',
   'rlx32/src/systools.c',
   'rlx32/src/syszlib.c',

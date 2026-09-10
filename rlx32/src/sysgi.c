@@ -35,7 +35,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "gx_csp.h"
 #include "sysctrl.h"
 #include "systools.h"
-#include "syslist.h"
 #include "iss_defs.h"
 #include "sys_gi.h"
 GI_Descriptor RLX_GI;
