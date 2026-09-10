@@ -32,7 +32,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define _ZLIB_H
 #include <png.h>
 
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "gx_rgb.h"
@@ -42,7 +42,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #error "Please compile with PNG_USER_MEM_SUPPORTED"
 #endif
 
-static void CALLING_C
+static void 
 pngx_readm_pData(png_structp png_ptr, png_bytep data, png_size_t length)
 {
 	png_size_t check;

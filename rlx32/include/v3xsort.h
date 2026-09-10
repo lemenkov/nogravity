@@ -28,8 +28,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __V3XSORT_H
 #define __V3XSORT_H
 
-__extern_c
- _RLXEXPORTFUNC void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj);
-__end_extern_c
+ void v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj);
 
 #endif

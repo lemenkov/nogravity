@@ -73,28 +73,28 @@ static void Quad(float x1, float y1, float x2, float y2, const rgb32_t *cl, int 
 	SetVertex(v + 5, x2, y1, 0.f, 0.f, cl);
 }
 
-static void CALLING_C drawAnyLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
+static void drawAnyLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
 {
 	rgb32_t cl;
 	ColorOf(&cl, colour, 255);
 	Line(x1, y1, x2, y2, &cl);
 }
 
-static void CALLING_C drawHorizontalLine(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour)
+static void drawHorizontalLine(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour)
 {
 	rgb32_t cl;
 	ColorOf(&cl, colour, 255);
 	Line(x1, y1, x1 + lx, y1, &cl);
 }
 
-static void CALLING_C drawVerticalLine(int32_t x1, int32_t y1, int32_t ly, u_int32_t colour)
+static void drawVerticalLine(int32_t x1, int32_t y1, int32_t ly, u_int32_t colour)
 {
 	rgb32_t cl;
 	ColorOf(&cl, colour, 255);
 	Line(x1, y1, x1, y1 + ly, &cl);
 }
 
-static void CALLING_C drawWiredRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
+static void drawWiredRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
 {
 	rgb32_t cl;
 	ColorOf(&cl, colour, 255);
@@ -104,7 +104,7 @@ static void CALLING_C drawWiredRect(int32_t x1, int32_t y1, int32_t x2, int32_t 
 	Line(x1, y1, x1, y2, &cl);
 }
 
-static void CALLING_C drawShadedRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, void *palette)
+static void drawShadedRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, void *palette)
 {
 	rgb32_t cl;
 	UNUSED(palette);
@@ -112,21 +112,21 @@ static void CALLING_C drawShadedRect(int32_t x1, int32_t y1, int32_t x2, int32_t
 	Quad((float)x1, (float)y1, (float)(x2 + 1), (float)(y2 + 1), &cl, GPU_BLEND_ALPHA);
 }
 
-static void CALLING_C drawMeshedRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
+static void drawMeshedRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
 {
 	rgb32_t cl;
 	ColorOf(&cl, colour, (u_int8_t)g_pRLX->pGX->csp_cfg.alpha);
 	Quad((float)x1, (float)y1, (float)(x2 + 1), (float)(y2 + 1), &cl, GPU_BLEND_ALPHA);
 }
 
-static void CALLING_C drawFilledRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
+static void drawFilledRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour)
 {
 	rgb32_t cl;
 	ColorOf(&cl, colour, 255);
 	Quad((float)x1, (float)y1, (float)(x2 + 1), (float)(y2 + 1), &cl, GPU_BLEND_NONE);
 }
 
-static void CALLING_C drawPixel(int32_t x, int32_t y, u_int32_t colour)
+static void drawPixel(int32_t x, int32_t y, u_int32_t colour)
 {
 	GPU_STATE st = { GPU_PRIM_POINTS, GPU_BLEND_NONE, GPU_DEPTH_OFF, GPU_SAMPLER_CLAMP, NULL };
 	rgb32_t cl;
@@ -136,12 +136,12 @@ static void CALLING_C drawPixel(int32_t x, int32_t y, u_int32_t colour)
 	SetVertex(v, (float)x + 0.5f, (float)y + 0.5f, 0.f, 0.f, &cl);
 }
 
-static void CALLING_C clearBackBuffer(void)
+static void clearBackBuffer(void)
 {
 	GPU_ClearColor();
 }
 
-static void CALLING_C clearVideo(void)
+static void clearVideo(void)
 {
 	GPU_ClearColor();
 }
@@ -180,21 +180,21 @@ static void DrawSprite(GXSPRITE *sp, float x, float y, float lx, float ly, int m
 	SetVertex(v + 5, x + lx, y, 1.f, 0.f, &cl);
 }
 
-static void CALLING_C csp_put(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_OPACITY); }
-static void CALLING_C csp_pset(int32_t x, int32_t y, GXSPRITE *sp)  { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_OPAQUE); }
-static void CALLING_C csp_add(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ADD); }
-static void CALLING_C csp_sub(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_SUB); }
-static void CALLING_C csp_alpha(int32_t x, int32_t y, GXSPRITE *sp) { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ALPHA); }
+static void csp_put(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_OPACITY); }
+static void csp_pset(int32_t x, int32_t y, GXSPRITE *sp)  { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_OPAQUE); }
+static void csp_add(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ADD); }
+static void csp_sub(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_SUB); }
+static void csp_alpha(int32_t x, int32_t y, GXSPRITE *sp) { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ALPHA); }
 
-static void CALLING_C csp_put_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_OPACITY); }
-static void CALLING_C csp_pset_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)  { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_OPAQUE); }
-static void CALLING_C csp_add_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ADD); }
-static void CALLING_C csp_sub_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_SUB); }
-static void CALLING_C csp_alpha_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly) { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ALPHA); }
+static void csp_put_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_OPACITY); }
+static void csp_pset_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)  { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_OPAQUE); }
+static void csp_add_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ADD); }
+static void csp_sub_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_SUB); }
+static void csp_alpha_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly) { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ALPHA); }
 
 // Upload a sprite: 8 bit indexed with palette (index 0 transparent), or
 // 24 bit RGB.
-static void RLXAPI GPU_UploadSprite(GXSPRITE *sp, rgb24_t *colorTable, int bpp)
+static void GPU_UploadSprite(GXSPRITE *sp, rgb24_t *colorTable, int bpp)
 {
 	u_int8_t *pixels = NULL;
 	SDL_GPUTextureFormat fmt = SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM;
@@ -213,7 +213,7 @@ static void RLXAPI GPU_UploadSprite(GXSPRITE *sp, rgb24_t *colorTable, int bpp)
 	SDL_free(pixels);
 }
 
-static void RLXAPI GPU_ReleaseSprite(GXSPRITE *sp)
+static void GPU_ReleaseSprite(GXSPRITE *sp)
 {
 	if (sp->data)
 	{
@@ -227,7 +227,7 @@ static void RLXAPI GPU_ReleaseSprite(GXSPRITE *sp)
 	}
 }
 
-static unsigned RLXAPI GPU_UpdateSprite(GXSPRITE *sp, const u_int8_t *bitmap, const rgb24_t *colorTable)
+static unsigned GPU_UpdateSprite(GXSPRITE *sp, const u_int8_t *bitmap, const rgb24_t *colorTable)
 {
 	GPU_TEXTURE *tex = (GPU_TEXTURE *)sp->handle;
 	if (tex)

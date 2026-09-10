@@ -30,12 +30,11 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 
 #define USE_THREAD
 
-#include "_rlx.h"
-#include "_stub.h"
+#include "stub.h"
 #include "systools.h"
 
 #include "sysresmx.h"
@@ -61,7 +60,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_func.h"
 
 static SND_DWHANDLE g_pSoundList[MAX_SAMPLE];
-static void (* CALLING_C ScreenPageFlip)(void);
+static void (* ScreenPageFlip)(void);
 static V3XA_HANDLE *g_pFXTable;
 static int			g_nSample;
 static V3XA_STREAM	g_pWavStream;
@@ -554,7 +553,7 @@ void NG_AudioPlayWarp(void)
 
 extern SYS_TIMER g_cTimer;
 
-static void CALLING_C TaskFlip(void)
+static void TaskFlip(void)
 {
 	NG_AudioUpdate();
 	SYS_ASSERT(ScreenPageFlip);

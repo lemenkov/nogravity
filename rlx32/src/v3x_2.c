@@ -28,8 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 /*****/
@@ -84,12 +83,12 @@ void TRG_Generate(void)
 }
 /*------------------------------------------------------------------------ bc
 *
-* PROTOTYPE  :  void RLXAPI static *v3x_mallocopy(void *b, u_int32_t sz)
+* PROTOTYPE  :  void static *v3x_mallocopy(void *b, u_int32_t sz)
 *
 * DESCRIPTION :
 *
 */
-void RLXAPI static *v3x_mallocopy(void *b, u_int32_t sz)
+void static *v3x_mallocopy(void *b, u_int32_t sz)
 {
     if (sz)
 	{

@@ -33,7 +33,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 typedef int (*PFV3XCNLCMD)(char *parms);
 
-__extern_c
 	void sysConPrint(const char *newmsg, ...);
 	int sysConIsActive();
 	void sysConHandleInput();
@@ -42,6 +41,5 @@ __extern_c
 	void sysConSetLimits(int x, int y, int w, int h);
 	void sysConRender();
 	void sysConSetFont(GXSPRITEGROUP *font);
-__end_extern_c
 
 #endif // _CONSOLE_HH

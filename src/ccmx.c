@@ -29,11 +29,11 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysini.h"
 #include "sysctrl.h"
 #include "systools.h"
-#include "_stub.h"
+#include "stub.h"
 #include "sysresmx.h"
 #include "gx_struc.h"
 #include "gx_csp.h"

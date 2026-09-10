@@ -29,8 +29,7 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <SDL3/SDL.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "sysctrl.h"
 
 extern SDL_Window *g_pSDLWindow; // Owned by the display driver.
@@ -165,7 +164,7 @@ static unsigned long MouseUpdate(void *dev)
   return TRUE;
 }
 
-_RLXEXPORTFUNC MSE_ClientDriver *MSE_SystemGetInterface_STD(void)
+MSE_ClientDriver *MSE_SystemGetInterface_STD(void)
 {
   static MSE_ClientDriver driver =
   {

@@ -28,7 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 /*****/
@@ -43,7 +43,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3x_1.h"
 #include "v3x_2.h"
 #include "v3xrend.h"
-#include "_rlx.h"
 /******/
 #include "v3xmaps.h"
 /*------------------------------------------------------------------------

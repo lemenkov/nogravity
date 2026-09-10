@@ -79,27 +79,24 @@ enum {
 
 };
 
-__extern_c
 
 
     // Render objects
-_RLXEXPORTFUNC    void RLXAPI           V3XMesh_SetRender(V3XMESH *obj);
+void V3XMesh_SetRender(V3XMESH *obj);
 
     // Additional Primitives
 
 
     // Primitive
-_RLXEXPORTFUNC    int  RLXAPI           V2XVector_Clip( V3XVECTOR2 *a, V3XVECTOR2 *b );
-_RLXEXPORTFUNC    int  RLXAPI           GX_ClippedLine(V3XVECTOR2 *a, V3XVECTOR2 *b, u_int32_t cc);
-_RLXEXPORTFUNC    void RLXAPI           GX_ClippedLine3D(V3XVECTOR *a, V3XVECTOR *b, u_int32_t c);
+int V2XVector_Clip( V3XVECTOR2 *a, V3XVECTOR2 *b );
+int GX_ClippedLine(V3XVECTOR2 *a, V3XVECTOR2 *b, u_int32_t cc);
+void GX_ClippedLine3D(V3XVECTOR *a, V3XVECTOR *b, u_int32_t c);
 
     // RGB calculations
-_RLXEXPORTFUNC    void                  V3XRGB_Composing(rgb32_t *dest, V3XPOLY *fce);
 
     // Sprite render
 
  #ifdef _GX_CSP_H
  #endif
-__end_extern_c
 
 #endif

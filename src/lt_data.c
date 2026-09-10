@@ -26,7 +26,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 */
 //-------------------------------------------------------------------------
 #include <stdio.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysctrl.h"
 #include "systools.h"
 #include "gx_init.h"

@@ -28,8 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 #include "gx_struc.h"
@@ -72,12 +71,12 @@ static void V3X_Euler2Matrix(V3XMESH *Ob)
 */
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3XPlug_CollisionMove(const void *data)
+* PROTOTYPE  :  void V3XPlug_CollisionMove(const void *data)
 *
 * DESCRIPTION :
 *
 */
-void RLXAPI V3XPlug_CollisionMove(const void *data)
+void V3XPlug_CollisionMove(const void *data)
 {
     V3XOVI *OVI = (V3XOVI *)data;
     V3XORI    *ORI = OVI->ORI;
@@ -199,12 +198,12 @@ static void v3x_render_camera(V3XKEY *s)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  : static void RLXAPI V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
+* PROTOTYPE  : static void V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
 *
 * DESCRIPTION :  Add light in the lightner pipeline. OVI must be a light node.
 *
 */
-static void RLXAPI V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
+static void V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
 {
     unsigned tm = 0;
     V3XLIGHT *slight = OVI->light;

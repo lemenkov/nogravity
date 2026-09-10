@@ -33,7 +33,6 @@ struct _fli_struct;
 struct _v3x_ovi;
 struct _v3xvector2;
 
-__extern_c
 
 void NG_PlayPresentsGame(void);
 void NG_PlayGameOver(void);
@@ -44,8 +43,6 @@ void NG_PlayLoadingScreen(void);
 void NG_DrawLoadingScreen(void);
 void NG_PlayEndGame(void);
 void NG_MenuCredits(void);
-void NG_ExitMessage(int quit);
-int NG_BriefingGame(void);
 void NG_ReadMissionList(void);
 int NG_MainMenu(void);
 void SGMOU_MapKeyboard();
@@ -79,7 +76,7 @@ int NG_SampleButtonJoystick();
 int NG_SampleButtonMouse();
 void NG_WaitForKeyWithDelay(int temps);
 
-void CALLING_C NG_DrawCircle(struct _v3xvector2 *c, int32_t r, int32_t cx, int cote);
+void NG_DrawCircle(struct _v3xvector2 *c, int32_t r, int32_t cx, int cote);
 void NG_StageReadFile(char *fn, int extrn);
 void NG_DrawTicker(void);
 void NG_DrawBackgroundPic(char *szFilename, int TrackPlay, int mode);
@@ -98,7 +95,6 @@ void NG_DisplayWarp(void);
 
 void NG_LevelUpdate(void);
 void NG_InitAnimateStage(void);
-GXSPRITEGROUP *NG_LoadMovie(char *file, int die);
 
 // Waypoint
 void NG_WeaponCreate(void);
@@ -109,7 +105,6 @@ void NG_WeaponUpdate(void);
 void NG_NAVReset(int reset);
 
 void NG_GamePlay(void);
-void NG_DrawVideoSubtitles(FLI_STRUCT *);
 void NG_ReadLanguagePack(void);
 void NG_SetLanguage(int l);
 
@@ -136,7 +131,6 @@ void NG_FXDebris(SGScript *pInf, V3XOVI *OVI);
 void NG_FXAvary(V3XOVI *mOVI, SGScript *pInf);
 V3XOVI *NG_SetSpherePos(V3XOVI *OVI, V3XMATRIX *Mat, V3XSCALAR scale, int status);
 void NG_FXSetSceneShading(V3XSCENE *Scene, int limit);
-void NG_FXNoTextureScene(V3XSCENE *Scene);
 void NG_FXFlare(void);
 void NG_FXImpact(int power);
 void NG_FXLoadData();
@@ -147,19 +141,14 @@ void NG_FXRelease();
 
 
 // Audio
-int  NG_AudioGetByName(char *s);
-void NG_AudioPlayWave(char *wave);
-void NG_AudioStreamWave(char *wave);
+int NG_AudioGetByName(char *s);
 void NG_AudioBeep(int code);
 void NG_AudioPlayWarp(void);
 void NG_AudioPlayTrack(int ms);
 void NG_AudioLoadWave(void);
-void NG_AudioLoadSong(char *filename);
 void NG_AudioStopTrack(void);
-int  NG_AudioPlaySound(int number, float pan);
-void NG_AudioStreamStart(char *wave);
+int NG_AudioPlaySound(int number, float pan);
 void NG_AudioLoadList(void);
-void NG_AudioStreamWave(char *wave);
 void NG_AudioKickSound(int chan, int number, float pan);
 void NG_AudioSay(char *voicename);
 int NG_Audio3DUpdate(V3XVECTOR *v, V3XVECTOR *speed, int chan, int number);
@@ -173,6 +162,5 @@ void NG_AudioPauseMusic(void);
 void NG_AudioResumeMusic(void);
 
 
-__end_extern_c
 
 #endif

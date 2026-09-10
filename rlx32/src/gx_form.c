@@ -29,7 +29,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 
 #include "systools.h"
 #include "sysresmx.h"
@@ -40,7 +40,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "gx_rgb.h"
 #include "gx_flc.h"
 #include "gx_cdc.h"
-#include "_rlx.h"
 
 static IMG_Codec IMG_FormList[]={
     {".png", PNG_unpack},

@@ -60,21 +60,21 @@ static __inline void V3XVector_Set(V3XVECTOR *P, V3XSCALAR X, V3XSCALAR Y, V3XSC
 	P->z = Z;
 }
 
-static __inline void  V3XMatrix_GetCol0(V3XVECTOR *P, const V3XMATRIX *M)
+static __inline void V3XMatrix_GetCol0(V3XVECTOR *P, const V3XMATRIX *M)
 {
     P->x = M->Matrix[0];
     P->y = M->Matrix[3];
     P->z = M->Matrix[6];
 }
 
-static __inline void  V3XMatrix_GetCol1(V3XVECTOR *P, const V3XMATRIX *M)
+static __inline void V3XMatrix_GetCol1(V3XVECTOR *P, const V3XMATRIX *M)
 {
     P->x = M->Matrix[1];
     P->y = M->Matrix[4];
     P->z = M->Matrix[7];
 }
 
-static __inline void  V3XMatrix_GetCol2(V3XVECTOR *P, const V3XMATRIX *M)
+static __inline void V3XMatrix_GetCol2(V3XVECTOR *P, const V3XMATRIX *M)
 {
     P->x = M->Matrix[2];
     P->y = M->Matrix[5];
@@ -325,27 +325,25 @@ if ((A).z<CST_ZERO) \
 
 #define V3XMatrix_Rot_XYZ(M, rot)\
 { \
-    V3XSCALAR cx =  cos16(rot.y), cy=cos16(rot.z), cz=cos16(rot.x), \
-	     sx =  sin16(rot.y), sy=sin16(rot.z), sz=sin16(rot.x);\
+    V3XSCALAR cx = cos16(rot.y), cy=cos16(rot.z), cz=cos16(rot.x), \
+	     sx = sin16(rot.y), sy=sin16(rot.z), sz=sin16(rot.x);\
     \
-    M[0] =  MULF32(cy, cx) ;\
-    M[1] =  MULF32(cy, sx) ;\
+    M[0] = MULF32(cy, cx) ;\
+    M[1] = MULF32(cy, sx) ;\
     M[2] =  -sy;\
     \
-    M[3] =  MULF32(sz, MULF32(sy, cx))-MULF32(cz, sx);\
-    M[4] =  MULF32(sx, MULF32(sy, sz))+MULF32(cz, cx);\
-    M[5] =  MULF32(cy, sz);\
+    M[3] = MULF32(sz, MULF32(sy, cx))-MULF32(cz, sx);\
+    M[4] = MULF32(sx, MULF32(sy, sz))+MULF32(cz, cx);\
+    M[5] = MULF32(cy, sz);\
     \
-    M[6] =  MULF32(cz, MULF32(sy, cx))+MULF32(sz, sx);\
-    M[7] =  MULF32(cz, MULF32(sy, sx))-MULF32(sz, cx);\
-    M[8] =  MULF32(cy, cz);\
+    M[6] = MULF32(cz, MULF32(sy, cx))+MULF32(sz, sx);\
+    M[7] = MULF32(cz, MULF32(sy, sx))-MULF32(sz, cx);\
+    M[8] = MULF32(cy, cz);\
 }
 
 
-__extern_c
-_RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_X_Local(int32_t Theta, V3XSCALAR *Matrice);
-_RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_Y_Local(int32_t Theta, V3XSCALAR *Matrice);
-_RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_Z_Local(int32_t Theta, V3XSCALAR *Matrice);
-__end_extern_c
+void V3XMatrix_Rotate_X_Local(int32_t Theta, V3XSCALAR *Matrice);
+void V3XMatrix_Rotate_Y_Local(int32_t Theta, V3XSCALAR *Matrice);
+void V3XMatrix_Rotate_Z_Local(int32_t Theta, V3XSCALAR *Matrice);
 
 #endif

@@ -28,7 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "gx_struc.h"
@@ -36,7 +36,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "fixops.h"
 #include "gx_rgb.h"
 #include "gx_csp.h"
-#include "_rlx.h"
 
 static const short CSP_Offset[] =
 {
@@ -112,7 +111,7 @@ static void CSP_Get(int32_t xx, int32_t yy, GXSPRITE *capt, u_int8_t *buf, int32
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC void CSPG_Release(GXSPRITEGROUP *pSpriteGroup)
+void CSPG_Release(GXSPRITEGROUP *pSpriteGroup)
 {
     int i;
 	SYS_ASSERT(pSpriteGroup);
@@ -213,7 +212,7 @@ static int CSPG_GetES(GXSPRITEGROUP *s, const char *bitname, const char *spcname
 	return bt;
 
 }
-_RLXEXPORTFUNC GXSPRITEGROUP *CSPG_GetFn(char *filename, SYS_FILEIO *f, unsigned option)
+GXSPRITEGROUP *CSPG_GetFn(char *filename, SYS_FILEIO *f, unsigned option)
 {
     GXSPRITEGROUP *s = (GXSPRITEGROUP*) MM_heap.malloc(sizeof(GXSPRITEGROUP));
 	char bitname[256];
@@ -233,7 +232,7 @@ _RLXEXPORTFUNC GXSPRITEGROUP *CSPG_GetFn(char *filename, SYS_FILEIO *f, unsigned
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC int32_t CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte)
+int32_t CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte)
 {
     int32_t ll=0, llx = (Fonte->item[0].LX>>1);
     while ((*texte)!=0)
@@ -254,7 +253,7 @@ _RLXEXPORTFUNC int32_t CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte)
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC void CSP_DrawText(const char *texte, int32_t xx, int32_t yy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION spz)
+void CSP_DrawText(const char *texte, int32_t xx, int32_t yy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION spz)
 {
     int32_t a, l, ox=xx;
     GXSPRITE *sp0 = Fonte->item + 0, *sp;
@@ -290,7 +289,7 @@ _RLXEXPORTFUNC void CSP_DrawText(const char *texte, int32_t xx, int32_t yy, cons
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC void CSP_DrawTextC(const char *texte, int xx, int yy, int attr1, int attr2, const  GXSPRITEGROUP *Fonte, CSP_FUNCTION spz)
+void CSP_DrawTextC(const char *texte, int xx, int yy, int attr1, int attr2, const  GXSPRITEGROUP *Fonte, CSP_FUNCTION spz)
 {
     int32_t a, l, ox=xx, col=0;
     GXSPRITE *sp0=Fonte->item+0, *sp;
@@ -339,7 +338,7 @@ _RLXEXPORTFUNC void CSP_DrawTextC(const char *texte, int xx, int yy, int attr1, 
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC void CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp)
+void CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp)
 {
     u_int32_t sz = lx*ly,
     sz2 = sz*bpp,

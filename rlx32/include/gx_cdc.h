@@ -28,20 +28,16 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __GX_CDC_H
 #define __GX_CDC_H
 
-__extern_c
 
 u_int8_t *PNG_unpack(SYS_FILEHANDLE fp, u_int32_t *lx, u_int32_t *ly, int *bpp, rgb24_t *ColorTable, int options);
 
-__end_extern_c
 
 typedef struct {
     char      *ext;
-    u_int8_t   RLXAPI *(*unpack)(SYS_FILEHANDLE in, u_int32_t *lx, u_int32_t *ly, int *bpp, rgb24_t *table, int options);
+    u_int8_t   *(*unpack)(SYS_FILEHANDLE in, u_int32_t *lx, u_int32_t *ly, int *bpp, rgb24_t *table, int options);
 }IMG_Codec;
 
-__extern_c
 
 
-__end_extern_c
 
 #endif

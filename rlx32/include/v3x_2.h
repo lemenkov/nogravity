@@ -28,26 +28,25 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __V3X_2H
 #define __V3X_2H
 
-__extern_c
 
     // Kernel allocation
-_RLXEXPORTFUNC    int     RLXAPI  V3XKernel_Alloc(void);
-_RLXEXPORTFUNC    void    RLXAPI  V3XKernel_Release(void);
-_RLXEXPORTFUNC    void    RLXAPI  V3XKernel_RenderClass(void);
+int V3XKernel_Alloc(void);
+void V3XKernel_Release(void);
+void V3XKernel_RenderClass(void);
 
-_RLXEXPORTFUNC    void    RLXAPI  V3XPlugIn_Add( int id, void (* __plug)(const void *) );
+void V3XPlugIn_Add( int id, void (* __plug)(const void *) );
 
     // Meshes
-_RLXEXPORTFUNC    void    RLXAPI  V3XMesh_Release(V3XMESH *obj);
-_RLXEXPORTFUNC    void    RLXAPI V3XMesh_ReleaseDup(V3XMESH *obj);
-_RLXEXPORTFUNC    void    RLXAPI  V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2);
+void V3XMesh_Release(V3XMESH *obj);
+void V3XMesh_ReleaseDup(V3XMESH *obj);
+void V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2);
 
     // Polygons
-_RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_XYClipping(V3XPOLY *clip);
-_RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_ZClipNear(V3XPOLY *polygon);
-_RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_ZClipFar(V3XPOLY *polygon);
-_RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_Duplicate(V3XPOLY *clip);
-_RLXEXPORTFUNC    void     RLXAPI  V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *pos, V3XSCALAR lx, V3XSCALAR ly, int option);
+V3XPOLY *V3XPoly_XYClipping(V3XPOLY *clip);
+V3XPOLY *V3XPoly_ZClipNear(V3XPOLY *polygon);
+V3XPOLY *V3XPoly_ZClipFar(V3XPOLY *polygon);
+V3XPOLY *V3XPoly_Duplicate(V3XPOLY *clip);
+void V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *pos, V3XSCALAR lx, V3XSCALAR ly, int option);
 
     // Memory
     #define V3X_CALLOC(a, b) (b*)MM_heap.malloc((a)*sizeof(b))
@@ -58,6 +57,5 @@ _RLXEXPORTFUNC    void     RLXAPI  V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, 
 
     #define V3XMaterial_QAlloc() V3X.Buffer.Mat + V3X.Buffer.MaxMat
 
-__end_extern_c
 
 #endif

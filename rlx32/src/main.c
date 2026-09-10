@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 1996-2004 realtech VR
+// SPDX-FileCopyrightText: 1996-2005 realtech VR
 // SPDX-FileCopyrightText: 2005 Matt Williams
 // SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
@@ -33,9 +33,97 @@ Linux/SDL Port: 2005 - Matt Williams
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
-#include "_rlx32.h"
-#include "_rlx.h"
-#include "_stub.h"
+#include "rlx32.h"
+#include "stub.h"
+#include "systools.h"
+#include "sysctrl.h"
+#include "sysresmx.h"
+
+#include "gx_struc.h"
+#include "gx_init.h"
+#include "gx_rgb.h"
+#include "iss_defs.h"
+#include "v3xdefs.h"
+#include "v3xtrig.h"
+#include "v3x_2.h"
+
+STUB_Registry RLX = {
+	{ 8 },			// Audio: channels to mix
+	{ 0, 0 },		// Video: config, gamma
+	{ NULL, NULL, NULL },	// Control: drivers, filled in by the SDL layer
+	{ { { 0 }, { 0 } }, 0 },	// Joy: calibration
+	{ "Realtech" },		// Dev: developer logo name
+	{ "" },			// App: pilot name
+	"",			// IniPath
+};
+
+void STUB_Down(void)
+{
+ #ifdef _DEBUG
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release input devices..");
+ #endif
+  	if (sKEY)
+		sKEY->Release();
+
+	if (sJOY)
+		sJOY->Release();
+
+	if (sMOU)
+	    sMOU->Release();
+
+ #ifdef _DEBUG
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release audio device..");
+ #endif
+ 	V3XA.Client->Release();
+
+ #ifdef _DEBUG
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release 3d engine..");
+ #endif
+	V3XKernel_Release();
+
+ #ifdef _DEBUG
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release 2d engine..");
+ #endif
+
+    if (GX.Client)
+		GX.Client->Shutdown();
+
+    return;
+}
+
+// Bring everything up: memory and file system, input, audio, the 3D
+// engine and the display.
+void STUB_CheckUp(void)
+{
+	RLX.mm_heap = &MM_heap;
+	RLX.pGX = &GX;
+	RLX.pV3X = &V3X;
+
+	sKEY = KEY_SystemGetInterface_STD();
+	sKEY->Open(NULL);
+	sMOU = MSE_SystemGetInterface_STD();
+	sMOU->Open(NULL);
+	sJOY = JOY_SystemGetInterface_STD();
+	sJOY->Open(NULL, 0);
+	RLX.Control.mouse = sMOU;
+	RLX.Control.joystick = sJOY;
+	RLX.Control.keyboard = sKEY;
+
+	V3XA_EntryPoint(&RLX);
+	if (!V3XA.Client->Initialize(NULL))
+		V3XA.State |= 1;
+	else
+		V3XA.State &= ~1;
+
+	GX_KernelAlloc();
+	TRG_Generate();
+	V3X_EntryPoint(&RLX);
+	SYS_ASSERT(V3X.Client);
+	V3XKernel_Alloc();
+
+	SYS_ASSERT(GX.Client);
+	GX.Client->Open(NULL);
+}
 
 extern int g_bSDLQuitRequested;
 

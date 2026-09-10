@@ -530,16 +530,16 @@ typedef struct _v3x_layer_Clut{
 }V3XLAYER_CLUT;    //120b
 
 typedef struct {
-     void        V3XAPI  (*Render)(void);
-     void        V3XAPI *(*TextureDownload)(const GXSPRITE *src, const rgb24_t *colorTable, int bpp, unsigned options);
-     void        V3XAPI  (*TextureFree)(void *handle);
-     int         V3XAPI  (*TextureModify)(GXSPRITE *ptr, u_int8_t *newBuffer, const rgb24_t *colorTable);
-     unsigned    V3XAPI  (*SetState)(unsigned command, u_int32_t value);
-     unsigned    V3XAPI  (*ZbufferClear)(rgb24_t *color, V3XSCALAR z, void *bitmap);
-     void        V3XAPI  (*RenderPoly)(V3XPOLY **fce, int count);
-     void        V3XAPI  (*BeginList)(void);
-     void        V3XAPI  (*EndList)(void);
-     void        V3XAPI  (*DrawPrimitives)(V3XVECTOR *vertexes, u_int16_t *indexTab, unsigned NumIndexes, unsigned NumVertexes, int option, rgb32_t *color);
+     void        (*Render)(void);
+     void        *(*TextureDownload)(const GXSPRITE *src, const rgb24_t *colorTable, int bpp, unsigned options);
+     void        (*TextureFree)(void *handle);
+     int         (*TextureModify)(GXSPRITE *ptr, u_int8_t *newBuffer, const rgb24_t *colorTable);
+     unsigned    (*SetState)(unsigned command, u_int32_t value);
+     unsigned    (*ZbufferClear)(rgb24_t *color, V3XSCALAR z, void *bitmap);
+     void        (*RenderPoly)(V3XPOLY **fce, int count);
+     void        (*BeginList)(void);
+     void        (*EndList)(void);
+     void        (*DrawPrimitives)(V3XVECTOR *vertexes, u_int16_t *indexTab, unsigned NumIndexes, unsigned NumVertexes, int option, rgb32_t *color);
      char            s_DrvName[128];
      unsigned        version;
      unsigned        Capabilities;
@@ -565,8 +565,6 @@ struct V3XSYSTEM {
 
 };
 
-__extern_c
-_RLXEXPORTDATA    extern    struct V3XSYSTEM     V3X;
-__end_extern_c
+extern    struct V3XSYSTEM     V3X;
 
 #endif

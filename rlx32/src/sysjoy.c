@@ -29,8 +29,7 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <SDL3/SDL.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "sysctrl.h"
 
 static int JoystickOpen(void *hnd, int force_feedback)
@@ -154,7 +153,7 @@ static unsigned long JoystickUpdate(void *dev)
   return TRUE;
 }
 
-_RLXEXPORTFUNC JOY_ClientDriver *JOY_SystemGetInterface_STD(void)
+JOY_ClientDriver *JOY_SystemGetInterface_STD(void)
 {
   static JOY_ClientDriver driver =
   {

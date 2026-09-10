@@ -28,29 +28,25 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __V3X_1H
 #define __V3X_1H
 
-__extern_c
     // Render mesh
-_RLXEXPORTFUNC    int32_t  RLXAPI  V3XMesh_Transform(V3XMESH *Ob);
-_RLXEXPORTFUNC    void     RLXAPI  V3XMesh_RenderPoints(V3XMATRIX *Mat, V3XVECTOR *vertex_list, int32_t maxvertex, int color);
-_RLXEXPORTFUNC    int32_t     RLXAPI  V3XLight_Transform(V3XLIGHT *light, unsigned option);
+int32_t V3XMesh_Transform(V3XMESH *Ob);
+void V3XMesh_RenderPoints(V3XMATRIX *Mat, V3XVECTOR *vertex_list, int32_t maxvertex, int color);
 
     // Matrix operators
-_RLXEXPORTFUNC    void     RLXAPI V3XMatrix_MeshTransform(V3XCAMERA *Cam);
-_RLXEXPORTFUNC    void     RLXAPI V3XMatrix_BuildFromVector(V3XMATRIX *M0, V3XVECTOR *vect, int roll);
-_RLXEXPORTFUNC    void     RLXAPI V3XMatrix_BuildFromNVector(V3XMATRIX *M0, V3XVECTOR *v, int roll);
+void V3XMatrix_MeshTransform(V3XCAMERA *Cam);
+void V3XMatrix_BuildFromVector(V3XMATRIX *M0, V3XVECTOR *vect, int roll);
+void V3XMatrix_BuildFromNVector(V3XMATRIX *M0, V3XVECTOR *v, int roll);
 
     // Vector operator
-_RLXEXPORTFUNC    int      RLXAPI V3XVector_IntersectPlaneSegment(V3XVECTOR * isect, V3XVECTOR * start, V3XVECTOR * end, V3XVECTOR *normal, V3XVECTOR *point);
-_RLXEXPORTFUNC    int      RLXAPI V3XVector_IntersectSphereSegment(V3XSCALAR radius, V3XVECTOR *center, V3XVECTOR *start, V3XVECTOR *end);
-_RLXEXPORTFUNC    int      RLXAPI V3XVector_InPoly(V3XVECTOR * isect, int numVerts, V3XVECTOR *vertex, V3XVECTOR *normal);
+int V3XVector_IntersectPlaneSegment(V3XVECTOR * isect, V3XVECTOR * start, V3XVECTOR * end, V3XVECTOR *normal, V3XVECTOR *point);
+int V3XVector_IntersectSphereSegment(V3XSCALAR radius, V3XVECTOR *center, V3XVECTOR *start, V3XVECTOR *end);
+int V3XVector_InPoly(V3XVECTOR * isect, int numVerts, V3XVECTOR *vertex, V3XVECTOR *normal);
    // Bounding boxes
 
    // Transformation
-_RLXEXPORTFUNC    void     RLXAPI V3XVector_WorldPos(V3XMATRIX *Mat, V3XVECTOR *input, V3XVECTOR *result);
-_RLXEXPORTFUNC    int      RLXAPI V3XVector_TransformProject_pts(V3XVECTOR *input, V3XVECTOR *result);
+void V3XVector_WorldPos(V3XMATRIX *Mat, V3XVECTOR *input, V3XVECTOR *result);
+int V3XVector_TransformProject_pts(V3XVECTOR *input, V3XVECTOR *result);
     // Primitive graphique
-_RLXEXPORTFUNC    void     RLXAPI V3X_DrawBox(V3XVECTOR *Min1, V3XVECTOR *Max1, u_int32_t cl);
 
-__end_extern_c
 
 #endif

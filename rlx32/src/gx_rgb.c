@@ -28,8 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "fixops.h"
@@ -460,9 +459,7 @@ u_int32_t RGB_PixelFormatEx(rgb24_t *p)
 *
 */
 
-__extern_c
 static u_int8_t      *StereoRed, *StereoBlue;
-__end_extern_c
 
 void PAL_SetRedCyanPalette(void)
 {

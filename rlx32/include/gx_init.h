@@ -32,17 +32,13 @@ struct RLXSYSTEM;
 struct GXSYSTEM;
 struct _gx_viewport;
 
-#define _V3XEXPORTFUNC
 
-__extern_c
 
-_RLXEXPORTFUNC	  void  RLXAPI  GX_KernelAlloc();
-_RLXEXPORTFUNC    void  RLXAPI  GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp);
-_RLXEXPORTFUNC	  void  RLXAPI  GX_GetGraphicInterface(struct GXSYSTEM *p);
+void GX_KernelAlloc();
+void GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp);
 
-_V3XEXPORTFUNC    void  RLXAPI  V3X_EntryPoint(struct RLXSYSTEM *p);
+void V3X_EntryPoint(struct RLXSYSTEM *p);
 
-__end_extern_c
 
 
 #endif

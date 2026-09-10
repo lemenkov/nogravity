@@ -49,17 +49,17 @@ enum SYS_WAD_STATUS
 // Stream class (remapped from the standard STDIO.H functions).
 typedef struct _sys_fileio
 {
-	SYS_FILEHANDLE 	(CALLING_C *fopen )(const char *filename, const char *mode);
-	int 			(CALLING_C *fclose)(SYS_FILEHANDLE  stream);
-	int 			(CALLING_C *fseek )(SYS_FILEHANDLE  stream, long offset, int whence);
-	size_t			(CALLING_C *fread )(void *ptr, size_t size, size_t n, SYS_FILEHANDLE  stream);
-	int 			(CALLING_C *fgetc )(SYS_FILEHANDLE  stream);
-	size_t			(CALLING_C *fwrite)(const void *ptr, size_t size, size_t n, SYS_FILEHANDLE  stream);
-	long				(CALLING_C *ftell )(SYS_FILEHANDLE  stream);
-	int 			(CALLING_C *eof )(SYS_FILEHANDLE  stream);
-	char *			(CALLING_C *fgets )(char *s, int n, SYS_FILEHANDLE  stream);
-	int				(CALLING_C *fsize )(SYS_FILEHANDLE  stream);
-	int 			(CALLING_C *exists)(const char *filename);
+	SYS_FILEHANDLE 	(*fopen )(const char *filename, const char *mode);
+	int 			(*fclose)(SYS_FILEHANDLE  stream);
+	int 			(*fseek )(SYS_FILEHANDLE  stream, long offset, int whence);
+	size_t			(*fread )(void *ptr, size_t size, size_t n, SYS_FILEHANDLE  stream);
+	int 			(*fgetc )(SYS_FILEHANDLE  stream);
+	size_t			(*fwrite)(const void *ptr, size_t size, size_t n, SYS_FILEHANDLE  stream);
+	long				(*ftell )(SYS_FILEHANDLE  stream);
+	int 			(*eof )(SYS_FILEHANDLE  stream);
+	char *			(*fgets )(char *s, int n, SYS_FILEHANDLE  stream);
+	int				(*fsize )(SYS_FILEHANDLE  stream);
+	int 			(*exists)(const char *filename);
 }SYS_FILEIO;
 
 // Single file structure in a resource
@@ -72,16 +72,13 @@ typedef struct _sys_wad
 	int32_t 				mode;					//	current mode (SYS_WAD_STATUS_ENABLED, off)
 }SYS_WAD;
 
-__extern_c
 
-_RLXEXPORTFUNC		int32_t				RLXAPI	file_length(const char *filename);
 
-_RLXEXPORTFUNC		SYS_WAD			*	RLXAPI	filewad_open(const char *filename, int flags);
-_RLXEXPORTFUNC		void				RLXAPI	filewad_close(SYS_WAD *resource);
-_RLXEXPORTFUNC		void				RLXAPI	filewad_chdir(SYS_WAD *resource, const char *newpath);
-_RLXEXPORTFUNC		void				RLXAPI	filewad_resolve(char *dest, const char *filename);
+SYS_WAD			*	filewad_open(const char *filename, int flags);
+void filewad_close(SYS_WAD *resource);
+void filewad_chdir(SYS_WAD *resource, const char *newpath);
+void filewad_resolve(char *dest, const char *filename);
 
-_RLXEXPORTFUNC		void				RLXAPI	sysInitZlib();
 
 extern				SYS_FILEIO			FIO_std,
 										FIO_res;
@@ -89,7 +86,6 @@ extern				SYS_FILEIO			FIO_std,
 extern				SYS_FILEIO		*	FIO_cur;
 extern				SYS_WAD			*	FIO_wad;
 
-__end_extern_c
 
 #define filewad_setcurrent(a) FIO_wad = a
 #define filewad_getcurrent() FIO_wad

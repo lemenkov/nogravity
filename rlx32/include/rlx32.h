@@ -26,66 +26,17 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 */
 //-------------------------------------------------------------------------
 
-#ifndef __RLX32_H
-#define __RLX32_H
+#ifndef RLX32_H
+#define RLX32_H
 
 #include <assert.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdio.h>
 #include <SDL3/SDL.h>
-/* Compiler setup ***********************************************************/
-
 #include "config.h"
-#include <sys/types.h>
 
-/* C/C++ Interface **********************************************************/
-
-#ifndef __extern_c
-
-  #ifdef __cplusplus
-     #define __extern_c            extern "C" {
-     #define __end_extern_c        }
-  #else
-     #define __extern_c
-     #define __end_extern_c
-  #endif
-#endif
-
-  #define UNUSED(var)  (void)var
-
-/* Dll export  **************************************************************/
-
-  #define _RLXEXPORTDATA
-  #define _RLXEXPORTFUNC
-
-/* Functions register conventions *******************************************/
-
-#if defined _MSC_VER
-    // MS Visual C
-    #define CALLING_C
-	#define CALLING_STD __stdcall
-    #define RLXAPI
-
-#else
-    // Others compiler
-    #define CALLING_C
-	#define CALLING_STD
-    #define RLXAPI
-#endif
-
-/* Filename and stream conventions ******************************************/
-
-#ifndef DUMMYUNIONNAMEN
-  #if defined(__cplusplus) || !defined(NONAMELESSUNION)
-	#define DUMMYUNIONNAMEN(n)
-  #else
-	#define DUMMYUNIONNAMEN(n)      u##n
-  #endif
-#endif
-
-/* Low level structures *****************************************************/
-
-#ifndef _WIN32
-   typedef unsigned BOOLEAN;
-#endif
+#define UNUSED(var)  (void)var
 
 #ifndef FALSE
   enum {
@@ -94,12 +45,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
    };
 #endif
 
-
-/* Data Types */
-#include <stdint.h>
-#include <stddef.h>
 #if defined _WIN32 && !defined __CYGWIN__
-   /* BSD style unsigned names used throughout the engine. */
    typedef uint8_t  u_int8_t;
    typedef uint16_t u_int16_t;
    typedef uint32_t u_int32_t;
@@ -107,7 +53,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #else
    #include <sys/types.h>
 #endif
-
 
 typedef struct _gx_sprite
 {
@@ -135,14 +80,7 @@ typedef struct _gx_bgr32
 #define RGBENDIAN rgb32_t
 #endif
 
-
-/* Thread, and I/O handle *******************************************************/
-
-#include <stdio.h>
-
 typedef FILE * SYS_FILEHANDLE ; /* I/O file handle. */
-
-/* Error/Debug/Trace functions *****************************************************/
 
 #if defined _DEBUG || defined DEBUG
 #define SYS_ASSERT(_condition) assert(_condition)
@@ -150,9 +88,71 @@ typedef FILE * SYS_FILEHANDLE ; /* I/O file handle. */
 #define SYS_ASSERT(_condition)
 #endif
 
+// Run time configuration shared between the game and the rlx32 drivers.
 
-__extern_c
-_RLXEXPORTFUNC int      RLXAPI   RLX_ErrorGetCodeString(int error_code);
-__end_extern_c
+enum {
+    RLXVIDEO_Windowed = 0x10
+};
+
+enum {
+    RLXCTRL_Uncalibrated = 0x4
+};
+
+typedef struct {
+    u_int8_t  ChannelToMix;
+}RLX_RegisterAudio;
+
+typedef struct {
+    u_int32_t  Config;
+    u_int8_t  Gamma;
+}RLX_RegisterVideo;
+
+struct _RClientDriver_Mouse;
+struct _RClientDriver_Joystick;
+struct _RClientDriver_Keybrd;
+
+typedef struct {
+	struct _RClientDriver_Mouse *mouse;
+	struct _RClientDriver_Joystick *joystick;
+	struct _RClientDriver_Keybrd *keyboard;
+}RLX_RegisterController;
+
+typedef struct {
+    int32_t MinX, MinY;
+    int32_t MaxX, MaxY;
+    int32_t MinZ, MaxZ;
+    int32_t MinR, MaxR;
+}RLX_RegisterJoystick;
+
+typedef struct {
+    RLX_RegisterJoystick J[2];
+	u_int32_t Config;
+}RLX_RegisterJoystickCal;
+
+typedef struct {
+    char   *Developper;
+}RLX_RegisterDevelopper;
+
+typedef struct {
+    char    UserName[16];
+}RLX_RegisterApplication;
+
+
+struct _sys_memory;
+
+typedef struct RLXSYSTEM{
+    RLX_RegisterAudio       Audio;
+    RLX_RegisterVideo       Video;
+    RLX_RegisterController  Control;
+    RLX_RegisterJoystickCal Joy;
+    RLX_RegisterDevelopper  Dev;
+    RLX_RegisterApplication App;
+    char 					IniPath[256];
+	struct _sys_memory	*	mm_heap;
+	struct GXSYSTEM		*	pGX;
+	struct V3XSYSTEM	*	pV3X;
+}STUB_Registry;
+
+extern STUB_Registry RLX;
 
 #endif

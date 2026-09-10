@@ -43,13 +43,11 @@ typedef struct _sys_timerhandle
 	Uint64		tStart;		   // Time of the previous update (SDL ticks, ns)
 }SYS_TIMER;
 
-__extern_c
 
-_RLXEXPORTFUNC	void		timer_Start(SYS_TIMER *tm, int frequency, int bFrameSkip);
-_RLXEXPORTFUNC	void		timer_Stop(SYS_TIMER *tm);
-_RLXEXPORTFUNC	void		timer_Reset(SYS_TIMER *tm);
-_RLXEXPORTFUNC	void		timer_Update(SYS_TIMER *tm);
+void timer_Start(SYS_TIMER *tm, int frequency, int bFrameSkip);
+void timer_Stop(SYS_TIMER *tm);
+void timer_Reset(SYS_TIMER *tm);
+void timer_Update(SYS_TIMER *tm);
 
-__end_extern_c
 
 #endif

@@ -31,9 +31,9 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 // Joystick
 typedef struct _RClientDriver_Joystick
 {
-    int      (* RLXAPI Open)(void *, int bForceFeedback);
-    void     (* RLXAPI Release)(void);
-    unsigned long (* RLXAPI Update)(void *device);
+    int      (* Open)(void *, int bForceFeedback);
+    void     (* Release)(void);
+    unsigned long (* Update)(void *device);
 
 	int		numButtons; // Num buttons
 	int		numControllers; // Num controllers
@@ -56,10 +56,8 @@ typedef struct _RClientDriver_Joystick
 #define sJOY_IsClicked(b)  (sJOY->rgbButtons[b] && (!sJOY->steButtons[b]))
 
 
-__extern_c
-  _RLXEXPORTFUNC JOY_ClientDriver *JOY_SystemGetInterface_STD(void);
+  JOY_ClientDriver *JOY_SystemGetInterface_STD(void);
   extern JOY_ClientDriver *sJOY;
-__end_extern_c
 
 
 #define SKEY_SCANTABLESIZE 256
@@ -87,10 +85,10 @@ enum s_keymap
 
 typedef struct _RClientDriver_Keybrd
 {
-    int		(* RLXAPI Open)(void *);
-    void	(* RLXAPI Release)(void);
-    char *	(* RLXAPI NameScanCode)(int scan);
-    unsigned long (* RLXAPI Update)(void *device);
+    int		(* Open)(void *);
+    void	(* Release)(void);
+    char *	(* NameScanCode)(int scan);
+    unsigned long (* Update)(void *device);
 	void *		device;
 	u_int8_t	scanCode; // scancode (see /scancode.h for values)
 	char		charCode; // ASCII char code
@@ -104,20 +102,18 @@ typedef struct _RClientDriver_Keybrd
 #define sKEY_IsHeld(b) ( !!SKEY_GET_BIT(sKEY->rgbButtons, b) )
 #define sKEY_IsClicked(b) ( SKEY_GET_BIT(sKEY->rgbButtons, b) && (!SKEY_GET_BIT(sKEY->steButtons, b)))
 
-__extern_c
-  _RLXEXPORTFUNC KEY_ClientDriver *KEY_SystemGetInterface_STD(void);
+  KEY_ClientDriver *KEY_SystemGetInterface_STD(void);
   extern KEY_ClientDriver *sKEY;
-__end_extern_c
 
 // Mouse
 
 typedef struct _RClientDriver_Mouse
 {
-	int    (* RLXAPI Open)(void *);
-    void   (* RLXAPI Release)(void);
-	void   (* RLXAPI Hide)(void);
-	void   (* RLXAPI SetPosition)(u_int32_t x, u_int32_t y);
-	unsigned long (* RLXAPI Update)(void *device);
+	int    (* Open)(void *);
+    void   (* Release)(void);
+	void   (* Hide)(void);
+	void   (* SetPosition)(u_int32_t x, u_int32_t y);
+	unsigned long (* Update)(void *device);
 
 	int		numButtons;
 	int		numAxes;
@@ -137,11 +133,9 @@ typedef struct _RClientDriver_Mouse
 #define sMOU_IsClicked(b)  (sMOU->rgbButtons[b] && (!sMOU->steButtons[b]))
 #define sMOU_IsReleased(b)  ((!sMOU->rgbButtons[b]) && sMOU->steButtons[b])
 
-__extern_c
 
-_RLXEXPORTFUNC    MSE_ClientDriver *MSE_SystemGetInterface_STD(void);
-_RLXEXPORTDATA    extern MSE_ClientDriver *sMOU;
+MSE_ClientDriver *MSE_SystemGetInterface_STD(void);
+extern MSE_ClientDriver *sMOU;
 
-__end_extern_c
 
 #endif

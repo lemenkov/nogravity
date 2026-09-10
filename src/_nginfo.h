@@ -85,8 +85,8 @@ enum {CTRL_Mouse, CTRL_Keyb, CTRL_Joystick};
 #ifdef __cpluspluis
 extern "C" {
     #endif
-	void   NG_SaveGameInfo(void);
-	void   NG_ReadGameConfig(void);
+	void NG_SaveGameInfo(void);
+	void NG_ReadGameConfig(void);
     extern NG_GameSettings g_SGSettings;
 #ifdef __cpluspluis
 }

@@ -30,12 +30,11 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "sysctrl.h"
-#include "_stub.h"
+#include "stub.h"
 
 KEY_ClientDriver *sKEY;
 MSE_ClientDriver *sMOU;

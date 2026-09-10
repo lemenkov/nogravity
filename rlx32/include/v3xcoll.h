@@ -114,18 +114,16 @@ typedef struct _v3x_cl{
 }V3XCL;
 
 
-__extern_c
 
-_RLXEXPORTFUNC    void   RLXAPI  V3XPlug_CollisionMove(const void *OVI); // plug in for V3XSCENE
+void V3XPlug_CollisionMove(const void *OVI); // plug in for V3XSCENE
 //
-_RLXEXPORTFUNC    V3XCL  RLXAPI *V3XCL_NewFromMesh(V3XMESH *obj, int mode);
-_RLXEXPORTFUNC    void   RLXAPI  V3XCL_Release(V3XCL *Cs);
+V3XCL *V3XCL_NewFromMesh(V3XMESH *obj, int mode);
+void V3XCL_Release(V3XCL *Cs);
 //
-_RLXEXPORTFUNC    void   RLXAPI  V3XCL_Xform(V3XCL *Cs);
-_RLXEXPORTFUNC    void   RLXAPI  V3XCL_XformNoRef(V3XCL *Cs, V3XVECTOR *pos);
-_RLXEXPORTFUNC    int    RLXAPI  V3XCL_Test(V3XCL *a, V3XCL *b);
-_RLXEXPORTFUNC    void   RLXAPI  V3XCL_Draw(V3XCL *cs);
+void V3XCL_Xform(V3XCL *Cs);
+void V3XCL_XformNoRef(V3XCL *Cs, V3XVECTOR *pos);
+int V3XCL_Test(V3XCL *a, V3XCL *b);
+void V3XCL_Draw(V3XCL *cs);
 
-__end_extern_c
 
 #endif

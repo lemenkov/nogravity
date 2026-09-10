@@ -46,8 +46,7 @@ SDL3 audio backend: 2026 - Peter Lemenkov
 #include <SDL3/SDL.h>
 #include <SDL3_sound/SDL_sound.h>
 
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "iss_defs.h"
@@ -186,7 +185,7 @@ static void SDLCALL ChannelFeed(void *userdata, SDL_AudioStream *stream, int add
 	}
 }
 
-static int RLXAPI Initialize(void *hwnd)
+static int Initialize(void *hwnd)
 {
 	SDL_AudioSpec spec;
 	UNUSED(hwnd);
@@ -237,7 +236,7 @@ static void ChannelClose(void)
 	g_nChannels = 0;
 }
 
-static void RLXAPI Release(void)
+static void Release(void)
 {
 	V3XAStream_ReleaseAll();
 	ChannelClose();
@@ -255,13 +254,13 @@ static void RLXAPI Release(void)
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
-static void RLXAPI SetVolume(float volume)
+static void SetVolume(float volume)
 {
 	if (g_Device)
 		SDL_SetAudioDeviceGain(g_Device, volume);
 }
 
-static void RLXAPI ChannelStop(V3XA_CHANNEL channel)
+static void ChannelStop(V3XA_CHANNEL channel)
 {
 	SND_CHANNEL *ch;
 	if ((channel < 0) || (channel >= g_nChannels))
@@ -274,7 +273,7 @@ static void RLXAPI ChannelStop(V3XA_CHANNEL channel)
 	SDL_ClearAudioStream(ch->stream);
 }
 
-static void RLXAPI ChannelOpen(int nGain, int numChannels)
+static void ChannelOpen(int nGain, int numChannels)
 {
 	int i;
 	SDL_AudioSpec spec;
@@ -301,7 +300,7 @@ static void RLXAPI ChannelOpen(int nGain, int numChannels)
 	V3XA.numChannel = i;
 }
 
-static int RLXAPI ChannelPlay(V3XA_CHANNEL channel, int frequency, float volume, float pan, V3XA_HANDLE *handle)
+static int ChannelPlay(V3XA_CHANNEL channel, int frequency, float volume, float pan, V3XA_HANDLE *handle)
 {
 	SND_CHANNEL *ch;
 	SDL_AudioSpec spec;
@@ -328,7 +327,7 @@ static int RLXAPI ChannelPlay(V3XA_CHANNEL channel, int frequency, float volume,
 	return 0;
 }
 
-static void RLXAPI ChannelSetVolume(V3XA_CHANNEL channel, float volume)
+static void ChannelSetVolume(V3XA_CHANNEL channel, float volume)
 {
 	if ((channel < 0) || (channel >= g_nChannels))
 		return;
@@ -337,7 +336,7 @@ static void RLXAPI ChannelSetVolume(V3XA_CHANNEL channel, float volume)
 	SDL_UnlockAudioStream(g_Channels[channel].stream);
 }
 
-static void RLXAPI ChannelSetPanning(V3XA_CHANNEL channel, float pan)
+static void ChannelSetPanning(V3XA_CHANNEL channel, float pan)
 {
 	if ((channel < 0) || (channel >= g_nChannels))
 		return;
@@ -346,14 +345,14 @@ static void RLXAPI ChannelSetPanning(V3XA_CHANNEL channel, float pan)
 	SDL_UnlockAudioStream(g_Channels[channel].stream);
 }
 
-static void RLXAPI ChannelSetSamplingRate(V3XA_CHANNEL channel, int frequency)
+static void ChannelSetSamplingRate(V3XA_CHANNEL channel, int frequency)
 {
 	if ((channel < 0) || (channel >= g_nChannels) || (frequency <= 0))
 		return;
 	SDL_SetAudioStreamFrequencyRatio(g_Channels[channel].stream, (float)frequency / (float)BASE_FREQUENCY);
 }
 
-static int RLXAPI ChannelGetStatus(V3XA_CHANNEL channel)
+static int ChannelGetStatus(V3XA_CHANNEL channel)
 {
 	if ((channel < 0) || (channel >= g_nChannels))
 		return 0;
@@ -361,7 +360,7 @@ static int RLXAPI ChannelGetStatus(V3XA_CHANNEL channel)
 }
 
 // A free channel, or failing that one playing a lower priority sample.
-static V3XA_CHANNEL RLXAPI ChannelGetFree(V3XA_HANDLE *handle)
+static V3XA_CHANNEL ChannelGetFree(V3XA_HANDLE *handle)
 {
 	int i, best = -1;
 	for (i = 0; i < g_nChannels; i++)
@@ -383,7 +382,7 @@ static V3XA_CHANNEL RLXAPI ChannelGetFree(V3XA_HANDLE *handle)
 	return best;
 }
 
-static void RLXAPI ChannelFlushAll(int mode)
+static void ChannelFlushAll(int mode)
 {
 	int i;
 	UNUSED(mode);
@@ -632,7 +631,7 @@ static void V3XAStream_ReleaseAll(void)
 // Driver entry point
 //-------------------------------------------------------------------------
 
-void RLXAPI V3XA_EntryPoint(struct RLXSYSTEM *rlx)
+void V3XA_EntryPoint(struct RLXSYSTEM *rlx)
 {
 	static V3XA_WaveClientDriver SDL3_Client =
 	{

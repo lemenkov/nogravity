@@ -27,7 +27,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 //-------------------------------------------------------------------------/
 #include <stdlib.h>
 #include <stdio.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 /*****/
@@ -44,9 +44,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xmaps.h"
 #include "v3xrend.h"
 #include "fixops.h"
-__extern_c
 int V3XVECTOR_IsVisible(void *Scene, V3XVECTOR *start, V3XVECTOR *end, unsigned hint, void *who) ;
-__end_extern_c
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  #define V3XMatrix_Transform(Mat, MObj)\

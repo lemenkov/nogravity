@@ -50,7 +50,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #endif
 
 // Rasterizer call driver format
-#define V3XAPI
 
 typedef struct _v3xluv {
     int u, v;

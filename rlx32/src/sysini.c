@@ -30,7 +30,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "sysini.h"

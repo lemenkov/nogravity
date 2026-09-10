@@ -54,8 +54,8 @@ typedef struct {
 }GXSPRITEGROUP;
 
 // Sprite function pointer
-typedef void (* CALLING_C CSP_STDFUNCTION)(int32_t x, int32_t y, GXSPRITE *sp);
-typedef void (* CALLING_C CSP_STRFUNCTION)(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly);
+typedef void (* CSP_STDFUNCTION)(int32_t x, int32_t y, GXSPRITE *sp);
+typedef void (* CSP_STRFUNCTION)(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly);
 
 typedef union {
 	CSP_STDFUNCTION fonct;
@@ -75,40 +75,38 @@ typedef struct {
 typedef struct {
     u_int32_t           caps;
     // Normal GXSPRITE drawer
-    void CALLING_C  (*put)(      int32_t x, int32_t y, GXSPRITE *sp);
-    void CALLING_C  (*pset)(     int32_t x, int32_t y, GXSPRITE *sp);
+    void (*put)(      int32_t x, int32_t y, GXSPRITE *sp);
+    void (*pset)(     int32_t x, int32_t y, GXSPRITE *sp);
 
     // Blended GXSPRITE drawer (in the current depth color)
-    void CALLING_C  (*TrspADD)(  int32_t x, int32_t y, GXSPRITE *sp);
-    void CALLING_C  (*TrspSUB)(  int32_t x, int32_t y, GXSPRITE *sp);
-    void CALLING_C  (*TrspALPHA)(int32_t x, int32_t y, GXSPRITE *sp);
+    void (*TrspADD)(  int32_t x, int32_t y, GXSPRITE *sp);
+    void (*TrspSUB)(  int32_t x, int32_t y, GXSPRITE *sp);
+    void (*TrspALPHA)(int32_t x, int32_t y, GXSPRITE *sp);
 
     // Scalable GXSPRITE drawer
-    void CALLING_C  (*zoom_pset)(   GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
-    void CALLING_C  (*zoom_put)(      GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
-    void CALLING_C  (*zoom_TrspADD)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
-    void CALLING_C  (*zoom_TrspSUB)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
-    void CALLING_C  (*zoom_TrspALPHA)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
+    void (*zoom_pset)(   GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
+    void (*zoom_put)(      GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
+    void (*zoom_TrspADD)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
+    void (*zoom_TrspSUB)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
+    void (*zoom_TrspALPHA)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
 
 }GXSPRITEINTERFACE;
 
 struct _sys_fileio;
 
-__extern_c
     // Sprite
-_RLXEXPORTFUNC    void   RLXAPI  CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp);
+void CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp);
 
     // Sprite familly
-_RLXEXPORTFUNC    void   RLXAPI  CSPG_Release(GXSPRITEGROUP *pSpriteGroup);
-_RLXEXPORTFUNC    GXSPRITEGROUP   RLXAPI *CSPG_GetFn(char *filename, struct _sys_fileio *f, unsigned option);
+void CSPG_Release(GXSPRITEGROUP *pSpriteGroup);
+GXSPRITEGROUP *CSPG_GetFn(char *filename, struct _sys_fileio *f, unsigned option);
 
-_RLXEXPORTFUNC    int32_t   RLXAPI  CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte);
+int32_t CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte);
 
     // Graphic Text writer
-_RLXEXPORTFUNC    void   RLXAPI  CSP_DrawText(const char *texte, int32_t xx, int32_t yy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION sp);
-_RLXEXPORTFUNC    void   RLXAPI  CSP_DrawTextC(const char *str, int x, int y, int attr1, int attr2, const GXSPRITEGROUP *Fonte, CSP_FUNCTION spz);
+void CSP_DrawText(const char *texte, int32_t xx, int32_t yy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION sp);
+void CSP_DrawTextC(const char *str, int x, int y, int attr1, int attr2, const GXSPRITEGROUP *Fonte, CSP_FUNCTION spz);
     //
-__end_extern_c
 
 #define CSP_Color(c)     GX.csp_cfg.color = c
 #define CSP_Alpha(c)  GX.csp_cfg.alpha = c

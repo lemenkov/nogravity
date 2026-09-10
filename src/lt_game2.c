@@ -30,9 +30,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "_rlx32.h"
-#include "_stub.h"
-#include "_rlx.h"
+#include "rlx32.h"
+#include "stub.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "systime.h"
@@ -77,12 +76,12 @@ int NG_ColorToNAV(int x)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void CALLING_C NG_DrawCircle(V3XVECTOR2 *c, int32_t r, int32_t cx, int cote)
+* PROTOTYPE  :  void NG_DrawCircle(V3XVECTOR2 *c, int32_t r, int32_t cx, int cote)
 *
 * DESCRIPTION :
 *
 */
-void CALLING_C NG_DrawCircle(V3XVECTOR2 *c, int32_t r, int32_t cx, int cote)
+void NG_DrawCircle(V3XVECTOR2 *c, int32_t r, int32_t cx, int cote)
 {
     int i, p=4096/cote;
     V3XSCALAR r0=(V3XSCALAR)((r*GX.View.lRatio)>>4), r1=(V3XSCALAR)r;

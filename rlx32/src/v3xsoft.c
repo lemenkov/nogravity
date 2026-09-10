@@ -28,7 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 /*****/
@@ -50,12 +50,12 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define ALGO1(fce)  ((fce).distance)
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
+* PROTOTYPE  :  void v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
 *
 * DESCRIPTION :
 *
 */
-void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
+void v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
 {
     V3XPOLY **p = (si+((sj-si)>>1)), **sk, **sl;
     V3XPOLY  *q;

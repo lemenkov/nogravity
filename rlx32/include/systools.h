@@ -52,23 +52,21 @@ typedef struct _sys_memory
 }SYS_MEMORYMANAGER;
 
 
-__extern_c
 
     // Strings operations
-_RLXEXPORTFUNC    void    RLXAPI   sysStrExtChg(char *nouvo, const char *old, const char *ext);
+void sysStrExtChg(char *nouvo, const char *old, const char *ext);
 
     // Array operations
-_RLXEXPORTFUNC    int     RLXAPI   array_size(const char **tt);
-_RLXEXPORTFUNC    void    RLXAPI   array_free(char **tt);
-_RLXEXPORTFUNC    char    RLXAPI  **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx);
+int array_size(const char **tt);
+void array_free(char **tt);
+char **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx);
 
     // File operations
-_RLXEXPORTFUNC    char     RLXAPI *file_searchpathES(char *fileName, const char *pathSearch);
-_RLXEXPORTFUNC    char     RLXAPI *file_name(char *a);
+char *file_searchpathES(char *fileName, const char *pathSearch);
+char *file_name(char *a);
 
-_RLXEXPORTDATA    extern    SYS_MEMORYMANAGER MM_heap;
+extern    SYS_MEMORYMANAGER MM_heap;
 
-__end_extern_c
 
     // Byte order conversion of arrays: the data files are little endian.
 static inline void BSWAP16(u_int16_t *pValue, int n)

@@ -98,13 +98,11 @@ typedef struct _fli_struct {
 
 
 // Functions
-__extern_c
-_RLXEXPORTFUNC    FLI_STRUCT RLXAPI *FLI_Open(SYS_FILEHANDLE in, int mode);
-_RLXEXPORTFUNC    void       RLXAPI  FLI_Close(FLI_STRUCT *f);
-_RLXEXPORTFUNC    void       RLXAPI  FLI_Unpack(FLI_STRUCT *f);
-_RLXEXPORTFUNC    void       RLXAPI  FLI_Rewind(FLI_STRUCT *f);
-_RLXEXPORTFUNC    GXSPRITEGROUP       RLXAPI *FLI_LoadToSpriteGroup(const char *filename, int diet);
+FLI_STRUCT *FLI_Open(SYS_FILEHANDLE in, int mode);
+void FLI_Close(FLI_STRUCT *f);
+void FLI_Unpack(FLI_STRUCT *f);
+void FLI_Rewind(FLI_STRUCT *f);
+GXSPRITEGROUP *FLI_LoadToSpriteGroup(const char *filename, int diet);
 
-__end_extern_c
 
 #endif

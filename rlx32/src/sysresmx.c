@@ -38,7 +38,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdio.h>
 #include <ctype.h>
 
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 
@@ -143,7 +143,7 @@ void filewad_chdir(SYS_WAD *pWad, const char *szNewPath)
 }
 
 // Plain files: the C library, plus size and existence helpers.
-static int CALLING_C file_size(SYS_FILEHANDLE stream)
+static int file_size(SYS_FILEHANDLE stream)
 {
 	long curpos = ftell(stream), length;
 	fseek(stream, 0L, SEEK_END);
@@ -152,7 +152,7 @@ static int CALLING_C file_size(SYS_FILEHANDLE stream)
 	return (int)length;
 }
 
-static int CALLING_C file_exists(const char *filename)
+static int file_exists(const char *filename)
 {
 	SDL_PathInfo info;
 	return SDL_GetPathInfo(filename, &info) && (info.type == SDL_PATHTYPE_FILE);
@@ -161,7 +161,7 @@ static int CALLING_C file_exists(const char *filename)
 SYS_FILEIO FIO_std = {fopen, fclose, fseek, fread, fgetc, fwrite, ftell, feof, fgets, file_size, file_exists};
 
 // Data files: names resolve inside the data directory.
-static int CALLING_C filewad_fexist(const char *szFilename)
+static int filewad_fexist(const char *szFilename)
 {
 	char name[_MAX_PATH];
 	if (!szFilename || !*szFilename)
@@ -170,7 +170,7 @@ static int CALLING_C filewad_fexist(const char *szFilename)
 	return file_exists(name);
 }
 
-static SYS_FILEHANDLE CALLING_C filewad_fopen(const char *lpFilename, const char *mode)
+static SYS_FILEHANDLE filewad_fopen(const char *lpFilename, const char *mode)
 {
 	char name[_MAX_PATH];
 	SYS_FILEHANDLE fp;
@@ -181,7 +181,7 @@ static SYS_FILEHANDLE CALLING_C filewad_fopen(const char *lpFilename, const char
 	return fp;
 }
 
-static int CALLING_C filewad_fclose(SYS_FILEHANDLE fp)
+static int filewad_fclose(SYS_FILEHANDLE fp)
 {
 	return fp ? fclose(fp) : 0;
 }

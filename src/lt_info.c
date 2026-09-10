@@ -28,9 +28,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define NG_EXPORT extern
 #include <stdio.h>
 #include <string.h>
-#include "_rlx32.h"
-#include "_rlx.h"
-#include "_stub.h"
+#include "rlx32.h"
+#include "stub.h"
 #include "systools.h"
 #include "sysctrl.h"
 #include "gx_init.h"

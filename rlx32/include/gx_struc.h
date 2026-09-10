@@ -71,7 +71,7 @@ typedef struct _gx_viewport{
     int32_t              ymin;
     int32_t              xmax;
     int32_t              ymax;
-    void CALLING_C  (*Flip)(void);   // Display page function
+    void (*Flip)(void);   // Display page function
     u_int32_t            Flags;             // Flags (see "Video Caps")
 	int					 State;
     u_int16_t            DisplayMode;       // Display mode ID
@@ -106,18 +106,18 @@ typedef int GXDISPLAYMODEHANDLE;
 
 // Video Driver
 typedef struct {
-    GXDISPLAYMODEINFO*(* RLXAPI EnumDisplayList)(void);
-    void               (* RLXAPI GetDisplayInfo)(GXDISPLAYMODEHANDLE mode);
-    int	               (* RLXAPI SetDisplayMode)(GXDISPLAYMODEHANDLE mode);
-    GXDISPLAYMODEHANDLE(* RLXAPI SearchDisplayMode)(int lx, int ly);
-    int                (* RLXAPI CreateSurface)(int numberOfSparePages);
-    void               (* RLXAPI ReleaseSurfaces)(void);
-    void               (* RLXAPI UploadSprite)(GXSPRITE *sp, rgb24_t *colorTable, int bpp);
-    void               (* RLXAPI ReleaseSprite)(GXSPRITE *sp);
-    unsigned           (* RLXAPI UpdateSprite)(GXSPRITE *sp, const u_int8_t *bitmap, const rgb24_t *colorTable);
-    int                (* RLXAPI RegisterMode)(int bpp);
-    void               (* RLXAPI Shutdown)(void);
-    int                (* RLXAPI Open)(void *hwnd);
+    GXDISPLAYMODEINFO*(* EnumDisplayList)(void);
+    void               (* GetDisplayInfo)(GXDISPLAYMODEHANDLE mode);
+    int	               (* SetDisplayMode)(GXDISPLAYMODEHANDLE mode);
+    GXDISPLAYMODEHANDLE(* SearchDisplayMode)(int lx, int ly);
+    int                (* CreateSurface)(int numberOfSparePages);
+    void               (* ReleaseSurfaces)(void);
+    void               (* UploadSprite)(GXSPRITE *sp, rgb24_t *colorTable, int bpp);
+    void               (* ReleaseSprite)(GXSPRITE *sp);
+    unsigned           (* UpdateSprite)(GXSPRITE *sp, const u_int8_t *bitmap, const rgb24_t *colorTable);
+    int                (* RegisterMode)(int bpp);
+    void               (* Shutdown)(void);
+    int                (* Open)(void *hwnd);
 
 
     char               s_DrvName[64];
@@ -128,16 +128,16 @@ typedef struct {
 // Graphic driver
 typedef struct _gx_graphic_interface
 {
-    void  (* CALLING_C drawAnyLine)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-    void  (* CALLING_C drawHorizontalLine)(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour);
-    void  (* CALLING_C drawVerticalLine)(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour);
-    void  (* CALLING_C drawWiredRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-    void  (* CALLING_C drawShadedRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, void *palette);
-    void  (* CALLING_C drawMeshedRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-    void  (* CALLING_C drawFilledRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-    void  (* CALLING_C drawPixel)(int32_t x, int32_t y, u_int32_t colour);
-    void  (* CALLING_C clearBackBuffer)(void);
-    void  (* CALLING_C clearVideo)(void);
+    void  (* drawAnyLine)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
+    void  (* drawHorizontalLine)(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour);
+    void  (* drawVerticalLine)(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour);
+    void  (* drawWiredRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
+    void  (* drawShadedRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, void *palette);
+    void  (* drawMeshedRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
+    void  (* drawFilledRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
+    void  (* drawPixel)(int32_t x, int32_t y, u_int32_t colour);
+    void  (* clearBackBuffer)(void);
+    void  (* clearVideo)(void);
 }GXGRAPHICINTERFACE;
 
 #include "gx_csp.h"
@@ -158,11 +158,9 @@ struct GXSYSTEM
 	void (*init)(void);
 };
 
-__extern_c
 
 extern struct GXSYSTEM	GX;
 
-__end_extern_c
 
 
 #endif

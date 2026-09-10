@@ -40,8 +40,7 @@ SDL_GPU renderer: 2026 - Peter Lemenkov
 #define __GPU_RENDER_H
 
 #include <SDL3/SDL.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "gx_struc.h"
 #include "gx_tools.h"
 #include "systools.h"
@@ -86,18 +85,17 @@ typedef struct
 	GPU_TEXTURE	*texture;	// NULL: untextured (white)
 } GPU_STATE;
 
-__extern_c
 
 extern struct RLXSYSTEM *g_pRLX;
 
 // gpu_display.c
-int		GPU_IsReady(void);
+int GPU_IsReady(void);
 GPU_VERTEX	*GPU_AddVertices(const GPU_STATE *state, int count);
-void		GPU_ClearColor(void);
-void		GPU_ClearDepth(void);
+void GPU_ClearColor(void);
+void GPU_ClearDepth(void);
 GPU_TEXTURE	*GPU_CreateTexture(int w, int h, SDL_GPUTextureFormat format, int mipmaps, const void *pixels);
-void		GPU_UpdateTexture(GPU_TEXTURE *tex, const void *pixels);
-void		GPU_DestroyTexture(GPU_TEXTURE *tex);
+void GPU_UpdateTexture(GPU_TEXTURE *tex, const void *pixels);
+void GPU_DestroyTexture(GPU_TEXTURE *tex);
 
 // Pixel conversion helpers (gpu_display.c).  Output byte order matches
 // what the old OpenGL renderer fed to GL_BGRA / GL_RGB, so the textures
@@ -106,13 +104,12 @@ u_int8_t	*GPU_Expand8(const u_int8_t *src, const rgb24_t *pal, int n, int colork
 u_int8_t	*GPU_Expand24(const u_int8_t *src, int n, SDL_GPUTextureFormat fmt);
 
 // gpu_2d.c
-void		GPU_SetPrimitiveSprites(void);
+void GPU_SetPrimitiveSprites(void);
 extern GXGRAPHICINTERFACE	GI_GPU;
 extern GXSPRITEINTERFACE	CSP_GPU;
 
 // gpu_3d.c
 extern V3X_GXSystem		V3X_GPU;
 
-__end_extern_c
 
 #endif

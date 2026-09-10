@@ -28,11 +28,10 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 #include "gx_struc.h"
-#include "_rlx.h"
 #include "gx_csp.h"
 #include "gx_tools.h"
 #include "gx_rgb.h"
@@ -324,7 +323,7 @@ void V3XMesh_SetRender(V3XMESH *obj)
 * DESCRIPTION :
 *
 */
-static void RLXAPI V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
+static void V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
 {
     V3XSPRITEINFO   *item = (V3XSPRITEINFO*)sp->handle;
     V3XMATERIAL *mt = &item->mat;
@@ -344,7 +343,7 @@ static void RLXAPI V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
     sp->LY = mt->texture[0].LY;
     return;
 }
-void RLXAPI V3X_CSP_Unload(GXSPRITE *sp)
+void V3X_CSP_Unload(GXSPRITE *sp)
 {
     V3XSPRITEINFO  *item = (V3XSPRITEINFO*)sp->handle;
     V3XPOLY     *f = &item->poly;
@@ -363,7 +362,7 @@ void RLXAPI V3X_CSP_Unload(GXSPRITE *sp)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3X_CSP_GetFn(char *filename, V3XSPRITEINFO *item)
+* PROTOTYPE  :  void V3X_CSP_GetFn(char *filename, V3XSPRITEINFO *item)
 *
 * DESCRIPTION :
 *
@@ -389,13 +388,13 @@ static void V3X_CSP_Default(char *filename, V3XMATERIAL *mat, int load)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3X_CSP_GetFn(char *filename, GXSPRITE *sp)
+* PROTOTYPE  :  void V3X_CSP_GetFn(char *filename, GXSPRITE *sp)
 *
 * DESCRIPTION :
 *
 */
 
-void RLXAPI V3X_CSP_GetFn(char *filename, GXSPRITE *sp, int load)
+void V3X_CSP_GetFn(char *filename, GXSPRITE *sp, int load)
 {
     V3XSPRITEINFO *item = (V3XSPRITEINFO*)sp->handle;
     V3XPOLY *f = &item->poly;

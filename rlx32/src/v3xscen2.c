@@ -29,8 +29,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <assert.h>
 #include <stdlib.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "sysresmx.h"
 #include "systools.h"
 #include "gx_struc.h"
@@ -57,7 +56,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 * DESCRIPTION :
 *
 */
-void RLXAPI static V3x_Create_ORI(V3XORI *ORI, int i)
+void static V3x_Create_ORI(V3XORI *ORI, int i)
 {
     memset(ORI, 0, sizeof(V3XORI));
     sprintf(ORI->name, "object.%d", i);
@@ -73,7 +72,7 @@ void RLXAPI static V3x_Create_ORI(V3XORI *ORI, int i)
 * DESCRIPTION :
 *
 */
-void RLXAPI static V3x_Create_OVI(V3XOVI *OVI, int al)
+void static V3x_Create_OVI(V3XOVI *OVI, int al)
 {
     memset(OVI, 0, sizeof(V3XOVI));
     if (al)
@@ -89,12 +88,12 @@ void RLXAPI static V3x_Create_OVI(V3XOVI *OVI, int al)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *pScene, char *name)
+* PROTOTYPE  :  V3XOVI *V3XScene_OVI_GetByName(V3XSCENE *pScene, char *name)
 *
 * DESCRIPTION :
 *
 */
-V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *pScene, const char *name)
+V3XOVI *V3XScene_OVI_GetByName(V3XSCENE *pScene, const char *name)
 {
     int i, f=0;
     V3XOVI *OVI, *OVIf=NULL;
@@ -115,12 +114,12 @@ V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *pScene, const char *name)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI)
+* PROTOTYPE  :  void V3XScene_Camera_Select(V3XOVI *OVI)
 *
 * DESCRIPTION :
 *
 */
-void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI)
+void V3XScene_Camera_Select(V3XOVI *OVI)
 {
     if (OVI==NULL) return;
 
@@ -132,12 +131,12 @@ void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, char *name)
+* PROTOTYPE  :  V3XOVI *V3XScene_Camera_GetByName(V3XSCENE *pScene, char *name)
 *
 * DESCRIPTION :
 *
 */
-V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, const char *name)
+V3XOVI *V3XScene_Camera_GetByName(V3XSCENE *pScene, const char *name)
 {
     int i;
     V3XOVI *OVI, *OVIf=NULL;
@@ -158,12 +157,12 @@ V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, const char *name)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
+* PROTOTYPE  :  void V3XScene_CRC_Check(V3XSCENE* pScene)
 *
 * Description :
 *
 */
-static void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
+static void V3XScene_CRC_Check(V3XSCENE* pScene)
 {
     V3XOVI *OVI;
     V3XORI *nORI, *cORI;
@@ -230,7 +229,7 @@ static void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
     return;
 }
 /* 1 */
-static void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *pScene)
+static void V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *pScene)
 {
     int i, n=0, j=0;
     for (i=0;i<pScene->numOVI;i++)
@@ -252,12 +251,12 @@ static void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *pScene)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
+* PROTOTYPE  :  void V3XScene_Validate(V3XSCENE* pScene)
 *
 * DESCRIPTION :
 *
 */
-static void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
+static void V3XScene_Validate(V3XSCENE* pScene)
 {
     V3XTVI *TVI;
     V3XTRI *TRI;
@@ -338,7 +337,7 @@ static void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
 * DESCRIPTION :
 *
 */
-void RLXAPI static v3x_freeMorph3D(V3XTWEEN *mo)
+void static v3x_freeMorph3D(V3XTWEEN *mo)
 {
     unsigned int i;
     for (i=0;i<mo->numFrames;i++) MM_heap.free(mo->frame[i].vertex);
@@ -371,7 +370,7 @@ static void V3XLight_Release(V3XLIGHT *light)
 * DESCRIPTION :
 *
 */
-void RLXAPI static v3x_Destroy_ORI(V3XSCENE *pScene, int i)
+void static v3x_Destroy_ORI(V3XSCENE *pScene, int i)
 {
     V3XORI *ORI = pScene->ORI + i;
     switch(ORI->type) {
@@ -425,7 +424,7 @@ void RLXAPI static v3x_Destroy_ORI(V3XSCENE *pScene, int i)
 * DESCRIPTION :
 *
 */
-void RLXAPI static v3x_Destroy_TRI(V3XSCENE *pScene, int i)
+void static v3x_Destroy_TRI(V3XSCENE *pScene, int i)
 {
     V3XTRI *TRI = pScene->TRI + i;
     MM_heap.free(TRI->keys);
@@ -438,7 +437,7 @@ void RLXAPI static v3x_Destroy_TRI(V3XSCENE *pScene, int i)
 * DESCRIPTION :
 *
 */
-void RLXAPI static v3x_Destroy_OVI(V3XSCENE *pScene, int mp)
+void static v3x_Destroy_OVI(V3XSCENE *pScene, int mp)
 {
     V3XOVI *OVI = pScene->OVI + mp;
     if (OVI->index_INSTANCE)
@@ -466,7 +465,7 @@ void RLXAPI static v3x_Destroy_OVI(V3XSCENE *pScene, int mp)
 * DESCRIPTION :
 *
 */
-static void RLXAPI v3x_Destroy_TVI(V3XSCENE *pScene, int i)
+static void v3x_Destroy_TVI(V3XSCENE *pScene, int i)
 {
     pScene = pScene;
     i = i;
@@ -474,12 +473,12 @@ static void RLXAPI v3x_Destroy_TVI(V3XSCENE *pScene, int i)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3XScene_Release(V3XSCENE *pScene)
+* PROTOTYPE  :  void V3XScene_Release(V3XSCENE *pScene)
 *
 * DESCRIPTION :
 *
 */
-void RLXAPI V3XScene_Release(V3XSCENE *pScene)
+void V3XScene_Release(V3XSCENE *pScene)
 {
     int i;
     V3XLAYER *layer = &pScene->Layer;
@@ -509,7 +508,7 @@ void RLXAPI V3XScene_Release(V3XSCENE *pScene)
 * DESCRIPTION :
 *
 */
-static void RLXAPI V3x_GetRenderBackground(V3XSCENE *pScene)
+static void V3x_GetRenderBackground(V3XSCENE *pScene)
 {
     V3XLAYER *layer = &pScene->Layer;
     if (FIO_cur->exists(layer->bg.filename))
@@ -610,7 +609,7 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
 * DESCRIPTION :
 *
 */
-static void RLXAPI *v3x_read_alloc(int32_t sz, int32_t n, int32_t n2, SYS_FILEHANDLE in)
+static void *v3x_read_alloc(int32_t sz, int32_t n, int32_t n2, SYS_FILEHANDLE in)
 {
     u_int8_t *tmp;
     int s;
@@ -709,7 +708,7 @@ static V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XMESH static RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
+* PROTOTYPE  :  V3XMESH static *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 *
 * DESCRIPTION :
 *
@@ -731,12 +730,12 @@ static void v3x_raw_to_mesh(u_int32_t *raw, V3XMESH *obj)
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XMESH static RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
+* PROTOTYPE  :  V3XMESH static *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 *
 * Description :
 *
 */
-V3XNODE static RLXAPI *v3x_VMX_unpack_node(SYS_FILEHANDLE in)
+V3XNODE static *v3x_VMX_unpack_node(SYS_FILEHANDLE in)
 {
     V3XMESH *obj;
     /* Unfortunately we cannot directly read the MESH struct from disk as
@@ -756,7 +755,7 @@ V3XNODE static RLXAPI *v3x_VMX_unpack_node(SYS_FILEHANDLE in)
 	return (V3XNODE*)obj;
 }
 
-static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
+static V3XMESH *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 {
     V3XMESH *obj;
     int i;
@@ -895,12 +894,12 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
+* PROTOTYPE  :  V3XLIGHT static *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
 *
 * Description :
 *
 */
-V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
+V3XLIGHT static *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
 {
     V3XLIGHT *light;
     /* Unfortunately we cannot directly read the LIGHT struct from disk as
@@ -936,12 +935,12 @@ V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
+* PROTOTYPE  :  V3XCAMERA static *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
 *
 * Description :
 *
 */
-V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
+V3XCAMERA static *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
 {
     V3XCAMERA *camera;
     /* Unfortunately we cannot directly read the CAMERA struct from disk as
@@ -965,7 +964,7 @@ V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
 * DESCRIPTION :
 *
 */
-V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
+V3XCL static *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
 {
     V3XCL *Cs =(V3XCL*)MM_heap.malloc(sizeof(V3XCL));
     int i;
@@ -1049,7 +1048,7 @@ V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
 * DESCRIPTION :
 *
 */
-V3XTWEEN static RLXAPI *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
+V3XTWEEN static *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
 {
     unsigned int i;
     /* The V3XTWEEN struct looks like this:
@@ -1091,12 +1090,12 @@ V3XTWEEN static RLXAPI *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in)
+* PROTOTYPE  :  static void v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in)
 *
 * Description :
 *
 */
-static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in, int bFormat97)
+static void v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in, int bFormat97)
 {
 	if (ORI->type!=V3XOBJ_NONE)
     {
@@ -1128,12 +1127,12 @@ static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in, int bForma
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  static void RLXAPI v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
+* PROTOTYPE  :  static void v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
 *
 * DESCRIPTION :
 *
 */
-static void RLXAPI v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
+static void v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
 {
 	OVI->node = v3x_VMX_unpack_node(in);
 	return;
@@ -1141,12 +1140,12 @@ static void RLXAPI v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  static void RLXAPI v3x_VMX_unpack_TRI(V3XTRI *TRI, SYS_FILEHANDLE in)
+* PROTOTYPE  :  static void v3x_VMX_unpack_TRI(V3XTRI *TRI, SYS_FILEHANDLE in)
 *
 * DESCRIPTION :
 *
 */
-static void RLXAPI v3x_VMX_unpack_TRI(u_int32_t *rawTRI, V3XTRI *TRI,
+static void v3x_VMX_unpack_TRI(u_int32_t *rawTRI, V3XTRI *TRI,
     SYS_FILEHANDLE in)
 {
     /* Translate raw (on disk, pointers 32 bits, might be different in memory)
@@ -1383,7 +1382,7 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
 }
 
 #define HEAD1 28
-static V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
+static V3XSCENE *V3XScene_GetFromFile_VMX(const char *filename)
 {
     u_int8_t *temp, *sy;
     SYS_FILEHANDLE in = FIO_res.fopen(filename, "rb");
@@ -1416,12 +1415,12 @@ static V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void RLXAPI V3XScene_Verify(V3XSCENE *pScene)
+* PROTOTYPE  :  void V3XScene_Verify(V3XSCENE *pScene)
 *
 * DESCRIPTION :
 *
 */
-int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
+int V3XScene_Verify(V3XSCENE *pScene)
 {
     V3XOVI *OVI;
     V3XORI    *ORI;
@@ -1500,7 +1499,7 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
 *
 */
 
-V3XSCENE RLXAPI *V3XScene_GetFromFile(const char *filename)
+V3XSCENE *V3XScene_GetFromFile(const char *filename)
 {
     V3XSCENE *pScene = V3XScene_GetFromFile_VMX(filename);
 

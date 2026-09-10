@@ -58,18 +58,16 @@ typedef struct {
    ConfigClass     *firstClass;
 } ConfigFile;
 
-__extern_c
 
-_RLXEXPORTFUNC    int            RLXAPI  ReadConfig(char const *fileName, ConfigFile *c_file);
-_RLXEXPORTFUNC    void           RLXAPI  DestroyConfig(ConfigFile *q);
-_RLXEXPORTFUNC    int            RLXAPI  SelectConfigClass(char const *className, ConfigFile *c_file);
-_RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_long(char *s, ConfigFile *ini);
-_RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_bool(char *s, ConfigFile *ini);
-_RLXEXPORTFUNC    char           RLXAPI *GetCF_str(char *s, ConfigFile *ini);
-_RLXEXPORTFUNC    char           RLXAPI *GetCF_str2(char *s, ConfigFile *ini);
-_RLXEXPORTFUNC    int            RLXAPI  GetCF_long2(char *s, ConfigFile *ini, int32_t *val);
-_RLXEXPORTFUNC    int            RLXAPI  GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val);
+int ReadConfig(char const *fileName, ConfigFile *c_file);
+void DestroyConfig(ConfigFile *q);
+int SelectConfigClass(char const *className, ConfigFile *c_file);
+int32_t GetCF_long(char *s, ConfigFile *ini);
+int32_t GetCF_bool(char *s, ConfigFile *ini);
+char *GetCF_str(char *s, ConfigFile *ini);
+char *GetCF_str2(char *s, ConfigFile *ini);
+int GetCF_long2(char *s, ConfigFile *ini, int32_t *val);
+int GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val);
 
-__end_extern_c
 
 #endif

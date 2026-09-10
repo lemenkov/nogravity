@@ -29,20 +29,14 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __GX_TOOLS_H
 #define __GX_TOOLS_H
 
-__extern_c
 
     // Image operation
-_RLXEXPORTFUNC    void RLXAPI     IMG_stretch(u_int8_t *old_buf, u_int8_t *new_buf, int old_ly, int new_ly, int old_lx, int new_lx, int bytes);
+void IMG_stretch(u_int8_t *old_buf, u_int8_t *new_buf, int old_ly, int new_ly, int old_lx, int new_lx, int bytes);
 
     // Image loading
-_RLXEXPORTFUNC    int  RLXAPI     IMG_LoadFn(const char *filename, GXSPRITE *sp);
-_RLXEXPORTFUNC    void RLXAPI     IMG_DumpScreen(char *prefix);
+int IMG_LoadFn(const char *filename, GXSPRITE *sp);
 
     // Addition Primitives
-_RLXEXPORTFUNC    void CALLING_C  B_Line_8bit(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-_RLXEXPORTFUNC    void CALLING_C  A_Line_8bit(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-_RLXEXPORTFUNC    void RLXAPI     GX_filledCircle(int x, int y, int radius, unsigned colour);
 
-__end_extern_c
 
 #endif

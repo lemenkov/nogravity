@@ -66,19 +66,19 @@ typedef int V3XA_STREAM;
 typedef struct _v3xa_wave_client_driver
 {
 // Init Functions
-	int 			(RLXAPI *Initialize)(void *);	// Initialize previously detected device (0: ok)
-	void			(RLXAPI *Release)(void);		// Release driver
-	void			(RLXAPI *SetVolume)(float volume);// Set master volume
+	int 			(*Initialize)(void *);	// Initialize previously detected device (0: ok)
+	void			(*Release)(void);		// Release driver
+	void			(*SetVolume)(float volume);// Set master volume
 // Sample Functions
-	void			(RLXAPI *ChannelOpen)(int gain, int numbersOfchannel); // Open multichannel mixer
-	int 			(RLXAPI *ChannelPlay)(V3XA_CHANNEL channel, int frequency, float volume, float panning, V3XA_HANDLE *handle);
-	void			(RLXAPI *ChannelStop)(V3XA_CHANNEL channel);
-	void			(RLXAPI *ChannelSetVolume)(V3XA_CHANNEL channel, float volume);
-	void			(RLXAPI *ChannelSetPanning)(V3XA_CHANNEL channel, float panning);
-	void			(RLXAPI *ChannelSetSamplingRate)(V3XA_CHANNEL channel, int frequency);
-	int 			(RLXAPI *ChannelGetStatus)(V3XA_CHANNEL channel);
-	V3XA_CHANNEL 	(RLXAPI *ChannelGetFree)(V3XA_HANDLE *handle);
-	void			(RLXAPI *ChannelFlushAll)(int mode);
+	void			(*ChannelOpen)(int gain, int numbersOfchannel); // Open multichannel mixer
+	int 			(*ChannelPlay)(V3XA_CHANNEL channel, int frequency, float volume, float panning, V3XA_HANDLE *handle);
+	void			(*ChannelStop)(V3XA_CHANNEL channel);
+	void			(*ChannelSetVolume)(V3XA_CHANNEL channel, float volume);
+	void			(*ChannelSetPanning)(V3XA_CHANNEL channel, float panning);
+	void			(*ChannelSetSamplingRate)(V3XA_CHANNEL channel, int frequency);
+	int 			(*ChannelGetStatus)(V3XA_CHANNEL channel);
+	V3XA_CHANNEL 	(*ChannelGetFree)(V3XA_HANDLE *handle);
+	void			(*ChannelFlushAll)(int mode);
 	char			s_DrvName[MAX_V3XA_CLIENT_DRIVER_NAME];
 }V3XA_WaveClientDriver;
 
@@ -98,21 +98,19 @@ struct V3XAUDIO
 
 struct RLXSYSTEM;
 
-__extern_c
 
 // Samples
-_RLXEXPORTFUNC    int    V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename);
+int V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename);
 
 // Streams (music)
-_RLXEXPORTFUNC    int	 V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop);
-_RLXEXPORTFUNC    void   V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL channel, float volume);
-_RLXEXPORTFUNC    int    V3XAStream_Poll(V3XA_STREAM handle);
-_RLXEXPORTFUNC    int    V3XAStream_PollAll(void);
-_RLXEXPORTFUNC    void   V3XAStream_Release(V3XA_STREAM handle);
+int V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop);
+void V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL channel, float volume);
+int V3XAStream_Poll(V3XA_STREAM handle);
+int V3XAStream_PollAll(void);
+void V3XAStream_Release(V3XA_STREAM handle);
 
-_RLXEXPORTFUNC	  void	 V3XA_EntryPoint(struct RLXSYSTEM *pRlx);
-_RLXEXPORTDATA    extern struct V3XAUDIO  V3XA;
+void V3XA_EntryPoint(struct RLXSYSTEM *pRlx);
+extern struct V3XAUDIO  V3XA;
 
-__end_extern_c
 
 #endif

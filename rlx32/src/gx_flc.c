@@ -28,8 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "sysresmx.h"
 #include "systime.h"
@@ -61,12 +60,12 @@ for (;ecx!=0;edi+=2, ecx--) *(u_int16_t*)edi=ax;
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void CALLING_C Unpack_FLI_Chunk (u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight)
+* PROTOTYPE  :  void Unpack_FLI_Chunk (u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight)
 *
 * DESCRIPTION :
 *
 */
-static void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight, u_int8_t *ColorTable)
+static void FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight, u_int8_t *ColorTable)
 {
     u_int8_t *esi, *edi, *oesi, *oedi;
     u_int32_t chunk_size;
@@ -274,7 +273,7 @@ u_int32_t static DefaultDecode(unsigned id, void *data, u_int32_t size)
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
+FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
 {
     u_int32_t memleft, s;
     FLI_STRUCT *pAnim;
@@ -370,7 +369,7 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
 * DESCRIPTION : Ferme un Flc et libere la memoire
 *
 */
-_RLXEXPORTFUNC void FLI_Close(FLI_STRUCT *pAnim)
+void FLI_Close(FLI_STRUCT *pAnim)
 {
     switch(pAnim->ReadMode){
         case FLI_USEMEMORY:
@@ -401,7 +400,7 @@ _RLXEXPORTFUNC void FLI_Close(FLI_STRUCT *pAnim)
 * DESCRIPTION : Rembobinne un Flc
 *
 */
-_RLXEXPORTFUNC void FLI_Rewind(FLI_STRUCT *pAnim)
+void FLI_Rewind(FLI_STRUCT *pAnim)
 {
     switch(pAnim->ReadMode){
         case FLI_DIRECTFROMDISK:
@@ -421,7 +420,7 @@ _RLXEXPORTFUNC void FLI_Rewind(FLI_STRUCT *pAnim)
     pAnim->CurrentFrame = 1;
     return;
 }
-_RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
+void FLI_Unpack(FLI_STRUCT *pAnim)
 {
     int extended=0;
     do
@@ -542,7 +541,7 @@ static GXSPRITEGROUP *Unpack_FLI_to_SpriteGroup(SYS_FILEHANDLE in, int diet)
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC GXSPRITEGROUP *FLI_LoadToSpriteGroup(const char *filename, int diet)
+GXSPRITEGROUP *FLI_LoadToSpriteGroup(const char *filename, int diet)
 {
     SYS_FILEHANDLE in = FIO_cur->fopen(filename, "rb");
     GXSPRITEGROUP *f=NULL;

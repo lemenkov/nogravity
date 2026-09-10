@@ -779,7 +779,7 @@ static SDL_GPURenderPass *BeginPass(SDL_GPUCommandBuffer *cmd, int clear_color, 
 	return pass;
 }
 
-static void RLXAPI Flip(void)
+static void Flip(void)
 {
 	SDL_GPUCommandBuffer *cmd;
 	SDL_GPUTexture *swapchain = NULL;
@@ -904,7 +904,7 @@ static int HasMode(const GXDISPLAYMODEINFO *list, int n, int w, int h)
 
 // Every fullscreen mode of the primary display, largest first.  The
 // renderer always works in 32-bit colour.
-static GXDISPLAYMODEINFO RLXAPI *EnumDisplayList(void)
+static GXDISPLAYMODEINFO *EnumDisplayList(void)
 {
 	GXDISPLAYMODEINFO *displays;
 	int n;
@@ -953,7 +953,7 @@ static GXDISPLAYMODEINFO RLXAPI *EnumDisplayList(void)
 	return displays;
 }
 
-static void RLXAPI SetPrimitive(void)
+static void SetPrimitive(void)
 {
 	g_pRLX->pGX->View.Flip = Flip;
 	g_pRLX->pGX->gi = GI_GPU;
@@ -995,7 +995,7 @@ static void GPU_FakeViewPort(void)
 	}
 }
 
-static void RLXAPI GetDisplayInfo(GXDISPLAYMODEHANDLE mode)
+static void GetDisplayInfo(GXDISPLAYMODEHANDLE mode)
 {
 	SYS_ASSERT(g_pDisplays != NULL);
 	if ((mode < 0) && (g_pDisplays[0].BitsPerPixel != 0))
@@ -1013,7 +1013,7 @@ static void RLXAPI GetDisplayInfo(GXDISPLAYMODEHANDLE mode)
 	GPU_FakeViewPort();
 }
 
-static int RLXAPI SetDisplayMode(GXDISPLAYMODEHANDLE mode)
+static int SetDisplayMode(GXDISPLAYMODEHANDLE mode)
 {
 	if ((mode < 0) && (g_pDisplays[0].BitsPerPixel != 0))
 		mode = 0;
@@ -1021,7 +1021,7 @@ static int RLXAPI SetDisplayMode(GXDISPLAYMODEHANDLE mode)
 	return 0;
 }
 
-static GXDISPLAYMODEHANDLE RLXAPI SearchDisplayMode(int lx, int ly)
+static GXDISPLAYMODEHANDLE SearchDisplayMode(int lx, int ly)
 {
 	GXDISPLAYMODEHANDLE mode;
 	SYS_ASSERT(g_pDisplays != NULL);
@@ -1071,7 +1071,7 @@ static void ApplyVSync(void)
 	SDL_SetGPUSwapchainParameters(g_Device, g_pSDLWindow, SDL_GPU_SWAPCHAINCOMPOSITION_SDR, mode);
 }
 
-static int RLXAPI CreateSurface(int BackBufferCount)
+static int CreateSurface(int BackBufferCount)
 {
 	int w, h;
 	SYS_ASSERT(g_pDisplays != NULL);
@@ -1109,12 +1109,12 @@ static int RLXAPI CreateSurface(int BackBufferCount)
 	return 0;
 }
 
-static void RLXAPI ReleaseSurfaces(void)
+static void ReleaseSurfaces(void)
 {
 	g_pRLX->pGX->Surfaces.maxSurface = 0;
 }
 
-static int RLXAPI RegisterMode(GXDISPLAYMODEHANDLE mode)
+static int RegisterMode(GXDISPLAYMODEHANDLE mode)
 {
 	if ((mode < 0) && (g_pDisplays[0].BitsPerPixel != 0))
 		mode = 0;
@@ -1123,7 +1123,7 @@ static int RLXAPI RegisterMode(GXDISPLAYMODEHANDLE mode)
 	return g_pRLX->pGX->Client->SetDisplayMode(mode);
 }
 
-static void RLXAPI Shutdown(void)
+static void Shutdown(void)
 {
 	DestroyDevice();
 	if (g_pSDLWindow)
@@ -1176,14 +1176,14 @@ GXCLIENTDRIVER GX_GPU = {
 	"SDL_GPU"
 };
 
-static void RLXAPI GX_EntryPoint(struct RLXSYSTEM *p)
+static void GX_EntryPoint(struct RLXSYSTEM *p)
 {
 	g_pRLX = p;
 	GPU_SetPrimitiveSprites();
 	g_pRLX->pGX->Client = &GX_GPU;
 }
 
-void RLXAPI V3X_EntryPoint(struct RLXSYSTEM *p)
+void V3X_EntryPoint(struct RLXSYSTEM *p)
 {
 	GX_EntryPoint(p);
 	g_pRLX->pV3X->Client = &V3X_GPU;

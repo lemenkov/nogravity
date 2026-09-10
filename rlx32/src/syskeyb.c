@@ -29,8 +29,7 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <SDL3/SDL.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "sysctrl.h"
 
 // Set when the window manager asks us to close; polled by STUB_TaskControl().
@@ -256,7 +255,7 @@ static unsigned long KeyboardUpdate(void *dev)
   return TRUE;
 }
 
-_RLXEXPORTFUNC KEY_ClientDriver *KEY_SystemGetInterface_STD(void)
+KEY_ClientDriver *KEY_SystemGetInterface_STD(void)
 {
   static KEY_ClientDriver driver =
   {

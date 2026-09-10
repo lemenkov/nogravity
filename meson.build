@@ -74,11 +74,10 @@ engine_src = files(
   'rlx32/src/v3xscen2.c',
   'rlx32/src/v3xscene.c',
   'rlx32/src/v3xsoft.c',
-  'rlx32/src/_stub.c',
 )
 
 platform_src = files(
-  'rlx32/src/_stubsdl.c',
+  'rlx32/src/main.c',
   'rlx32/src/snd_sdl3.c',
   'rlx32/src/sysjoy.c',
   'rlx32/src/syskeyb.c',

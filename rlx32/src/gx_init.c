@@ -28,8 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "_rlx32.h"
-#include "_rlx.h"
+#include "rlx32.h"
 #include "systools.h"
 #include "gx_struc.h"
 #include "gx_init.h"
@@ -70,7 +69,7 @@ static void GX_SetupDefaultViewport(int x, int y, int bbp)
 
 
 
-void RLXAPI GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp)
+void GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp)
 {
     GX_SetupDefaultViewport(x, y>>((pView->Flags&GX_CAPS_FBINTERLEAVED)!=0 ? 1 : 0), bpp);
     // Taille

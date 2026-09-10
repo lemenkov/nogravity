@@ -66,30 +66,28 @@ enum {
 };
 
 
-__extern_c
 
 // Texture cache
-_RLXEXPORTFUNC    int            RLXAPI    V3XResources_Del(V3XRESOURCE *bm, const char *filename);
-_RLXEXPORTFUNC    void           RLXAPI    V3XResources_Animated(V3XRESOURCE *bm);
+int V3XResources_Del(V3XRESOURCE *bm, const char *filename);
+void V3XResources_Animated(V3XRESOURCE *bm);
 
 // Dynamic materials
-_RLXEXPORTFUNC    void           RLXAPI    V3XCache_Mesh(V3XMESH *Obj);
+void V3XCache_Mesh(V3XMESH *Obj);
 
 // Material upload mechanism
-_RLXEXPORTFUNC    void           RLXAPI    V3XMaterials_LoadFromMesh(V3XMESH *Obj);
+void V3XMaterials_LoadFromMesh(V3XMESH *Obj);
 
-_RLXEXPORTFUNC    void           RLXAPI    V3XMaterial_LoadTextures(V3XMATERIAL *Mat);
-_RLXEXPORTFUNC    void           RLXAPI    V3XMaterial_Release(V3XMATERIAL *map, V3XMESH *Obj);
-_RLXEXPORTFUNC    void           RLXAPI    V3XMaterial_Register(V3XMATERIAL *mat);
+void V3XMaterial_LoadTextures(V3XMATERIAL *Mat);
+void V3XMaterial_Release(V3XMATERIAL *map, V3XMESH *Obj);
+void V3XMaterial_Register(V3XMATERIAL *mat);
 
 // V3X'98 GXSPRITE upload methods (singled GXSPRITE)
-_RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_GetFn(char *filename, GXSPRITE *item, int load);
-_RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Prepare(GXSPRITE *sp, int flags);
-_RLXEXPORTFUNC    int            RLXAPI    V3X_CSP_Set3D(GXSPRITE *item, V3XVECTOR *pos, V3XSCALAR s, unsigned mode);
-_RLXEXPORTFUNC    int            RLXAPI    V3X_CSP_Draw(GXSPRITE *sp, int clip);
-_RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Unload(GXSPRITE *item);
+void V3X_CSP_GetFn(char *filename, GXSPRITE *item, int load);
+void V3X_CSP_Prepare(GXSPRITE *sp, int flags);
+int V3X_CSP_Set3D(GXSPRITE *item, V3XVECTOR *pos, V3XSCALAR s, unsigned mode);
+int V3X_CSP_Draw(GXSPRITE *sp, int clip);
+void V3X_CSP_Unload(GXSPRITE *item);
 
 
-__end_extern_c
 
 #endif

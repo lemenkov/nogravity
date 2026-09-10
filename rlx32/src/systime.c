@@ -29,7 +29,7 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <SDL3/SDL.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "systime.h"
 
 // stop timer

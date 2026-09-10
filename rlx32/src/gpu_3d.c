@@ -42,13 +42,13 @@ SDL_GPU renderer: 2026 - Peter Lemenkov
 
 static float g_fInvZFar = 1.f;
 
-static unsigned V3XAPI ZbufferClear(rgb24_t *color, V3XSCALAR z, void *bitmap)
+static unsigned ZbufferClear(rgb24_t *color, V3XSCALAR z, void *bitmap)
 {
 	UNUSED(color); UNUSED(z); UNUSED(bitmap);
 	return 0;
 }
 
-static unsigned V3XAPI SetState(unsigned command, u_int32_t value)
+static unsigned SetState(unsigned command, u_int32_t value)
 {
 	switch (command)
 	{
@@ -70,7 +70,7 @@ static unsigned V3XAPI SetState(unsigned command, u_int32_t value)
 
 // ---- textures -------------------------------------------------------------
 
-static void V3XAPI *UploadTexture(const GXSPRITE *sp, const rgb24_t *colorTable, int bpp, unsigned options)
+static void *UploadTexture(const GXSPRITE *sp, const rgb24_t *colorTable, int bpp, unsigned options)
 {
 	GPU_TEXTURE *tex;
 	u_int8_t *pixels = NULL;
@@ -98,12 +98,12 @@ static void V3XAPI *UploadTexture(const GXSPRITE *sp, const rgb24_t *colorTable,
 	return tex;
 }
 
-static void V3XAPI FreeTexture(void *handle)
+static void FreeTexture(void *handle)
 {
 	GPU_DestroyTexture((GPU_TEXTURE *)handle);
 }
 
-static int V3XAPI TextureModify(GXSPRITE *sp, u_int8_t *bitmap, const rgb24_t *colorTable)
+static int TextureModify(GXSPRITE *sp, u_int8_t *bitmap, const rgb24_t *colorTable)
 {
 	GPU_TEXTURE *tex = (GPU_TEXTURE *)sp->handle;
 	SDL_GPUTextureFormat fmt;
@@ -198,7 +198,7 @@ static void FillVertex(GPU_VERTEX *v, const V3XPOLY *fce, int i, int textured, i
 		memcpy(v->color, g_FlatColor, 4);
 }
 
-static void V3XAPI RenderPoly(V3XPOLY **fe, int count)
+static void RenderPoly(V3XPOLY **fe, int count)
 {
 	g_pMat = NULL;
 	for (; count != 0; fe++, count--)
@@ -240,7 +240,7 @@ static void V3XAPI RenderPoly(V3XPOLY **fe, int count)
 	}
 }
 
-static void V3XAPI StartList(void)
+static void StartList(void)
 {
 	g_fInvZFar = 1.f / g_pRLX->pV3X->Clip.Far;
 	if (g_pRLX->pV3X->Client->Capabilities & GXSPEC_ENABLEZBUFFER)
@@ -248,12 +248,12 @@ static void V3XAPI StartList(void)
 	g_pRLX->pGX->View.State |= GX_STATE_SCENEBEGUN;
 }
 
-static void V3XAPI EndList(void)
+static void EndList(void)
 {
 	g_pRLX->pGX->View.State &= ~GX_STATE_SCENEBEGUN;
 }
 
-static void V3XAPI RenderDisplay(void)
+static void RenderDisplay(void)
 {
 	int n = (int)g_pRLX->pV3X->Buffer.MaxFaces;
 	V3XPOLY **f = g_pRLX->pV3X->Buffer.RenderedFaces;
@@ -261,7 +261,7 @@ static void V3XAPI RenderDisplay(void)
 		RenderPoly(f, n);
 }
 
-static void V3XAPI DrawPrimitives(V3XVECTOR *vertexes, u_int16_t *indexTab, unsigned NumIndexes, unsigned NumVertexes, int option, rgb32_t *color)
+static void DrawPrimitives(V3XVECTOR *vertexes, u_int16_t *indexTab, unsigned NumIndexes, unsigned NumVertexes, int option, rgb32_t *color)
 {
 	// Disabled in the OpenGL renderer as well.
 	UNUSED(vertexes); UNUSED(indexTab); UNUSED(NumIndexes); UNUSED(NumVertexes); UNUSED(option); UNUSED(color);

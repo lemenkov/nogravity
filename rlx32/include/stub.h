@@ -28,15 +28,13 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __STUB_H
 #define __STUB_H
 
-__extern_c
 	void STUB_OsStartup(void);
 	void STUB_Default(void);
-	int  STUB_TaskControl(void);
+	int STUB_TaskControl(void);
 	void STUB_QuitRequested(void);
 	void STUB_ReadyToRun(void);
 	void STUB_CheckUp(void);
 	void STUB_MainCode(void);
 	void STUB_Down(void);
-__end_extern_c
 
 #endif

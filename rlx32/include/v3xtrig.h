@@ -48,12 +48,9 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define TRG_sin(x)        (*((float*)TRG_Table + SIN_Trunc((x)-1024)))
 
 
-__extern_c
 
-_RLXEXPORTFUNC   void           RLXAPI  TRG_Load(char *filename);
-_RLXEXPORTFUNC   void           RLXAPI  TRG_Generate(void);
-_RLXEXPORTDATA   extern void           *TRG_Table;
+void TRG_Generate(void);
+extern void           *TRG_Table;
 
-__end_extern_c
 
 #endif

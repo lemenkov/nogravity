@@ -52,31 +52,29 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 // Functions
 
-__extern_c
 
     // Pixel format
-_RLXEXPORTFUNC    void    RLXAPI  RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c);    //
+void RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c);    //
 
     // Operation Palette
 
     // Load color Table
-_RLXEXPORTFUNC    void    RLXAPI  ACT_LoadFn(rgb24_t *pal, char *filename2);
+void ACT_LoadFn(rgb24_t *pal, char *filename2);
 
     // Color converters
-_RLXEXPORTFUNC    u_int32_t   RLXAPI  RGB_convert(int c, rgb24_t *palette);
-_RLXEXPORTFUNC    u_int32_t   RLXAPI  RGB_PixelFormatEx(rgb24_t *p);
-_RLXEXPORTFUNC    u_int8_t   RLXAPI *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp,
+u_int32_t RGB_convert(int c, rgb24_t *palette);
+u_int32_t RGB_PixelFormatEx(rgb24_t *p);
+u_int8_t *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp,
       void *source, const rgb24_t *source_pal, int source_bpp, u_int32_t size);
-_RLXEXPORTFUNC    u_int32_t  RLXAPI   RGB_findNearestColor(const rgb24_t *col, const rgb24_t *pal);
+u_int32_t RGB_findNearestColor(const rgb24_t *col, const rgb24_t *pal);
 
     // RGB filtering
-_RLXEXPORTFUNC    void    RLXAPI  PAL_SetRedCyanPalette(void);
+void PAL_SetRedCyanPalette(void);
 
     // 8bit blend palette
 
     // Fast macro for color fading.
 
 
-__end_extern_c
 
 #endif

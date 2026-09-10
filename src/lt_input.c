@@ -28,7 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define NG_EXPORT
 #include <stdio.h>
 #include <stdlib.h>
-#include "_rlx32.h"
+#include "rlx32.h"
 #include "sysctrl.h"
 #include "systools.h"
 #include "gx_init.h"
@@ -51,7 +51,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_struc.h"
 #include "lt_data.h"
 #include "lt_func.h"
-#include "_stub.h"
+#include "stub.h"
 
 int NG_WaitForKeyPress(void)
 {
