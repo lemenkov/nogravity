@@ -386,8 +386,21 @@ static void *MM_heap_realloc(void *block, size_t size)
     u_int8_t *v;
     if (MM_heap.active)
     {
-        v = MM_heap_reserve(size);
-        sysMemCpy(v, block, size);
+        if (block == MM_heap.heapAddress + MM_heap.PreviousAddress)
+        {
+            // Growing the most recent block: extend it in place.
+            MM_heap.CurrentAddress = MM_heap.PreviousAddress;
+            v = MM_heap_reserve(size);
+        }
+        else
+        {
+            // The arena does not record block sizes, so copy the requested
+            // size; the ranges may overlap when the old block is the
+            // previous one, hence memmove.
+            v = MM_heap_reserve(size);
+            if (block)
+                memmove(v, block, size);
+        }
     } else v=(u_int8_t*)MM_std.realloc(block, size);
     return v;
 }
