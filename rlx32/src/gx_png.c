@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -134,10 +134,10 @@ if (!pClut)
 		png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 		return NULL;
 	}
-	
-	out_buffer = 0;	
-	
-	
+
+	out_buffer = 0;
+
+
 	if (png_get_valid(png_ptr, info_ptr, PNG_INFO_PLTE))
 	{
 		png_colorp palette;
@@ -151,7 +151,7 @@ if (!pClut)
 		for (i=0;i<256;i++)
 			pClut[i].r = pClut[i].g = pClut[i].b = (u_int8_t)i;
 	}
-	
+
 	if (png_get_valid(png_ptr, info_ptr, PNG_INFO_gAMA))
 	{
 		double gamma;
@@ -192,4 +192,3 @@ if (!pClut)
 	}
 	return out_buffer;
 }
-

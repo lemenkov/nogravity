@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -86,7 +86,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 #ifndef FALSE
   enum {
-         FALSE, 
+         FALSE,
          TRUE
    };
 #endif
@@ -138,7 +138,7 @@ typedef struct _gx_bgr32
 typedef struct _gx_sprite_sw{
 	int		bpp;
 	u_int32_t	palette[256];
-	void *  reserved;	
+	void *  reserved;
 } GXSPRITESW;
 
 
@@ -155,7 +155,7 @@ typedef void* SYS_MUTEXHANDLE; /* Mutex handle. */
 #include <pthread.h>
 typedef pthread_mutex_t SYS_MUTEXHANDLE; /* Mutex handle. */
 typedef pthread_t SYS_THREADHANDLE; /* Thread handle. */
-#elif defined __LINUX__ 
+#elif defined __LINUX__
 typedef void * SYS_MUTEXHANDLE; /* Mutex handle. */
 typedef void * SYS_THREADHANDLE; /* Thread handle. */
 #else

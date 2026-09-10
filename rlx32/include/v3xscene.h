@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -40,14 +40,14 @@ enum {
 };
 
 enum {
-	V3XORI_DUPLICATED = 0x1, 
- V3XORI_CSDUPLICATED = 0x2, 
+	V3XORI_DUPLICATED = 0x1,
+ V3XORI_CSDUPLICATED = 0x2,
  V3XORI_ABSTRACT = 0x4
 };
 
 enum {
-	V3XOVID_SHOW = 0x0, 
-	V3XOVID_HIDE = 0x1, 
+	V3XOVID_SHOW = 0x0,
+	V3XOVID_HIDE = 0x1,
 	V3XOVID_FULL = 0x2
 };
 
@@ -82,12 +82,12 @@ enum {
  V3XSTATE_CULLNEVER = 0x400, // object should be never culled (except if outside viewport).
  V3XSTATE_GIANT = 0x800, //
  V3XSTATE_DISPLAYCOL = 0x1000, // display collision mesh
- V3XSTATE_BSPCULLED = 0x2000, 
- V3XSTATE_HIDEHIEARCHY = 0x4000, 
+ V3XSTATE_BSPCULLED = 0x2000,
+ V3XSTATE_HIDEHIEARCHY = 0x4000,
  V3XSTATE_INSTANCED = 0x8000 // FULL
 };
 enum {
- V3XSUBDEF_PSECTOR = 0x1, 
+ V3XSUBDEF_PSECTOR = 0x1,
  V3XSUBDEF_GRAVITY = 0x2
 };
 
@@ -275,11 +275,11 @@ enum {
 };
 
 enum {
- V3XSCENE_NEWVIEWPORT = 0x1, 
- V3XSCENE_NEWCAMERA = 0x2, 
- V3XSCENE_NEWLIGHT = 0x4, 
- V3XSCENE_NEWNODES = 0x8, 
- V3XSCENE_NEWKF = 0x10, 
+ V3XSCENE_NEWVIEWPORT = 0x1,
+ V3XSCENE_NEWCAMERA = 0x2,
+ V3XSCENE_NEWLIGHT = 0x4,
+ V3XSCENE_NEWNODES = 0x8,
+ V3XSCENE_NEWKF = 0x10,
  V3XSCENE_NEWOBJECTS = 0x20
 };
 

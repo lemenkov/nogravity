@@ -11,7 +11,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -54,7 +54,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 //
 #include "gui_os.h"
 #include "gx_rgb.h"
-//             
+//
 #include "lt_struc.h"
 #include "lt_data.h"
 #include "lt_func.h"
@@ -76,14 +76,14 @@ static void NG_UpdateCamera(void)
     V3XVECTOR v2={CST_ZERO, (V3XSCALAR)-128, (V3XSCALAR)128}, v3={(V3XSCALAR)-128, (V3XSCALAR)-128, (V3XSCALAR)1200}, v4={(V3XSCALAR)-128, (V3XSCALAR)-128, (V3XSCALAR)-4000};
     V3XVECTOR d[]={{(V3XSCALAR)1200, CST_ZERO, CST_ZERO},
         {CST_ZERO, CST_ZERO, (V3XSCALAR)1200},
-        {(V3XSCALAR)-1200, CST_ZERO, CST_ZERO}, 
-        {CST_ZERO, CST_ZERO, (V3XSCALAR)-2}, 
+        {(V3XSCALAR)-1200, CST_ZERO, CST_ZERO},
+        {CST_ZERO, CST_ZERO, (V3XSCALAR)-2},
     {CST_ZERO, CST_ZERO, (V3XSCALAR)-600}};
     V3XVECTOR b, vTgt, vPos, vDV;
     V3XOVI *mySHIP =  g_pPlayer->J.OVI;
     V3XSCALAR sp = 2;
-    
-	if (g_SGObjects.NavCam)  
+
+	if (g_SGObjects.NavCam)
 		mySHIP->state|=V3XSTATE_MATRIXUPDATE;
 
 	mySHIP->state&=~V3XSTATE_HIDDENDISPLAY;
@@ -261,9 +261,9 @@ static void NG_UpdateCamera(void)
             NG_Audio3DUpdate(&g_pPlayer->Mat->v.Pos, &g_pPlayer->J.Mv.vel, g_cFXTable.Engine, g_cFXTable.SoundEngine);
 
         if (V3XA.State & 1)
-		{			
+		{
 			float distance = 1.f;
-			float rolloff = 0.0f;      
+			float rolloff = 0.0f;
 			float doppler = 1.0f;
             V3XA.Client->UserSetParms(&V3X.Camera.M, &g_pPlayer->J.Mv.vel, &distance, &doppler, &rolloff);
 		}
@@ -457,13 +457,13 @@ static int NG_DisplayDropMenu(char **menu)
 
 		if (!sysConIsActive())
 		{
-			if (sKEY_IsClicked(s_return)) 
+			if (sKEY_IsClicked(s_return))
 				esc=2;
 
 			dy = (sKEY_IsClicked(s_up)-sKEY_IsClicked(s_down));
-			if (dy) 
+			if (dy)
 				NG_AudioPlaySound(NG_AudioGetByName("bloup")-1, 0);
-		}       
+		}
 
         // LOCK
         GX.Client->Lock();
@@ -475,7 +475,7 @@ static int NG_DisplayDropMenu(char **menu)
         {
             GX.csp.put(stx, y, &panel);
 			y+=20;
-        }	
+        }
         DrawShadedTexte(menu[0], y, pFont, g_SGGame.CI_WHITE);
 		y+= ly*2;
         ch -= dy;
@@ -503,7 +503,7 @@ static int NG_DisplayDropMenu(char **menu)
 
     NG_AudioPlaySound(NG_AudioGetByName("door")-1, 0);
 	GX.Client->ReleaseSprite(&panel);
-	
+
     MM_heap.pop(p);
     return esc==2 ? ch : 0;
 }
@@ -518,12 +518,12 @@ static int NG_DisplayDropMenu(char **menu)
 int NG_QuitGame(void)
 {
     u_int32_t tim=timer_sec(), ret=0;
-    char *PauseMenu[]={g_szGmT[165], 
-        g_szGmT[166], 
-        g_szGmT[168], 
+    char *PauseMenu[]={g_szGmT[165],
+        g_szGmT[166],
+        g_szGmT[168],
         g_szGmT[167],
-        g_szGmT[45], 
-        g_szGmT[52], 
+        g_szGmT[45],
+        g_szGmT[52],
     NULL};
     PauseSoundGame();
     switch(NG_DisplayDropMenu(PauseMenu))
@@ -566,7 +566,7 @@ int NG_QuitGame(void)
 V3XOVI *NG_GetFreeSphere(void)
 {
     V3XOVI *OVI = g_SGObjects.Shield;
-    if (!OVI) 
+    if (!OVI)
 		return NULL;
     return OVI;
 }
@@ -615,7 +615,7 @@ static void SetSphereColor(int status, V3XSCALAR z)
 *
 * PROTOTYPE  :  static void NG_UpdateLights(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void NG_UpdateLights(void)
@@ -816,7 +816,7 @@ static int AddPowerUp(int code)
     {
         if (g_cShip.wea[c].cur>=g_cShip.wea[c].max)
 			g_cShip.wea[c].cur =g_cShip.wea[c].max;
-        else 
+        else
 			NG_AudioBeep(2);
         g_SGSettings.ComNumber = COM_Weapon + c -1;
         g_SGSettings.ComTime = MAX_COM_DELAY;
@@ -863,11 +863,11 @@ static void NG_UpdateCom(void)
                     c = 0;
                     if (J->pInf.Shield>0)
                        c=3;
-                    if (J->pInf.Shield>(J->pInf.ShieldMax>>2)) 
+                    if (J->pInf.Shield>(J->pInf.ShieldMax>>2))
                        c=2;
-                    if (J->pInf.Shield>(J->pInf.ShieldMax>>1)) 
+                    if (J->pInf.Shield>(J->pInf.ShieldMax>>1))
                        c=1;
-                    if (J->pInf.Shield==J->pInf.ShieldMax)     
+                    if (J->pInf.Shield==J->pInf.ShieldMax)
                        c=0;
                     g_SGSettings.ComTime = MAX_COM_DELAY/2;
                     g_SGSettings.ComNumber = COM_Status+c;
@@ -891,10 +891,10 @@ static void NG_UpdateCom(void)
 static void setFormation(int code)
 {
 	char tex[256];
-    sprintf(tex, "com0%d", code+1); 
+    sprintf(tex, "com0%d", code+1);
     NG_AudioSay(tex);
     sysConPrint(tex);
-    
+
     if ((code)&&(!(g_pPlayer->mode&DOOMEDMODE)))
     {
         g_SGObjects.CallMode[t_FRIEND] = (u_int8_t)code;
@@ -916,10 +916,10 @@ static void setFormation(int code)
 static void RollControl(V3XSCALAR ra)
 {
 	int dZ = 0;
-	if (sKEY_IsHeld(LK_ROLLRIGHT))  
+	if (sKEY_IsHeld(LK_ROLLRIGHT))
 		dZ = 1;
 
-	if (sKEY_IsHeld(LK_ROLLLEFT))  
+	if (sKEY_IsHeld(LK_ROLLLEFT))
 		dZ = -1;
 	{
 		static float lZ;
@@ -956,8 +956,8 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
         }
         else
         {
-			V3XSCALAR ra = 2.f*g_cTimer.fCounter*(float)(1+g_SGSettings.MouseSensitivity+8);					
-            switch(g_SGSettings.Ctrl) 
+			V3XSCALAR ra = 2.f*g_cTimer.fCounter*(float)(1+g_SGSettings.MouseSensitivity+8);
+            switch(g_SGSettings.Ctrl)
 			{
                 case CTRL_Joystick: // Joystick Control
 					*InMax= (int)(16.f*g_cTimer.fCounter);
@@ -974,7 +974,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 								*dx=-1;
 							if (sKEY_IsHeld(LK_RIGHT))
 								*dx= 1;
-							if (sKEY_IsHeld(LK_UP)) 
+							if (sKEY_IsHeld(LK_UP))
 								*dy=-1;
 							if (sKEY_IsHeld(LK_DOWN))
 								*dy= 1;
@@ -990,20 +990,20 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 						if (sJOY)
 						{
 							int axisX, axisY, axisRoll, axisThrottle, status;
-						
+
 							static float lX, lY, lZ;
 							float nlX, nlY;
 							sJOY->Update(0);
 							SGJOY_MapKeyboard();
 							SGJOY_ReadAxis(&axisX, &axisY, &axisRoll, &axisThrottle, &status);
-					
+
 							nlX = (float)axisX * g_cTimer.fCounter/512.f;
 							nlY = (float)axisY * g_cTimer.fCounter/512.f;
 
 							lX = (lX * 0.8f + nlX * 0.2f);
 							lY = (lY * 0.8f + nlY * 0.2f);
 
-							g_pPlayer->Mv.x = -lX;						
+							g_pPlayer->Mv.x = -lX;
 							g_pPlayer->Mv.y = -lY;
 
 							if (status & 4)
@@ -1020,8 +1020,8 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 							if (status & 8)
 							{
 								g_pPlayer->Mv.inert = (float)(axisThrottle*g_pPlayer->J.pInf.fSpeedMax)/65000.f;
-							}							
-							
+							}
+
 						}
                     break;
                 }
@@ -1029,7 +1029,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
                 break;
                 case CTRL_Keyb:  // Keyboard Control
 				{
-					int dX = 0, dY = 0;					
+					int dX = 0, dY = 0;
 					if (sKEY_IsHeld(LK_RIGHT))
 					{
 						*dx =  1;
@@ -1045,7 +1045,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 						*dy =  1;
 						dY = 1;
 					}
-					if (sKEY_IsHeld(LK_UP))  
+					if (sKEY_IsHeld(LK_UP))
 					{
 						*dy = -1;
 						dY = -1;
@@ -1060,7 +1060,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 						lX = (lX * 0.8f + nlX * 0.2f);
 						lY = (lY * 0.8f + nlY * 0.2f);
 
-						g_pPlayer->Mv.x= -lX;						
+						g_pPlayer->Mv.x= -lX;
 						g_pPlayer->Mv.y= lY;
 					}
 
@@ -1068,12 +1068,12 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 
 					*InMax = (int)(16.f*g_cTimer.fCounter);
 				}
-                break;				
+                break;
                 case CTRL_Mouse:
-                {                  	
+                {
                     sMOU->Update(0);
 					SGMOU_MapKeyboard();
-					
+
 					if (g_SGSettings.AltMouse)
 					{
 						static float lX, lY;
@@ -1083,7 +1083,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 						lX = (lX * 0.8f + nlX * 0.2f);
 						lY = (lY * 0.8f + nlY * 0.2f);
 
-						g_pPlayer->Mv.x= -lX;						
+						g_pPlayer->Mv.x= -lX;
 						g_pPlayer->Mv.y= lY;
 					}
 					else
@@ -1104,7 +1104,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
                 if (sKEY_IsHeld(LK_FIRE))
 					g_pPlayer->Mx.but|=1;
 
-                if (sKEY_IsHeld(LK_THROTTLE))  
+                if (sKEY_IsHeld(LK_THROTTLE))
 					g_pPlayer->Mx.but|=2;
 
                 if (sKEY_IsClicked(LK_ITEM))
@@ -1118,10 +1118,10 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 					{
 						int s = sMOU->lZ ? sMOU->lZ/abs(sMOU->lZ) : 1;
 						old_t = t;
-						
+
 						g_pPlayer->J.pInf.Attack+=s;
-					
-						if(g_pPlayer->J.pInf.Attack>6) 
+
+						if(g_pPlayer->J.pInf.Attack>6)
 							g_pPlayer->J.pInf.Attack=1;
 
 						if(g_pPlayer->J.pInf.Attack<1)
@@ -1131,26 +1131,26 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 					}
                 }
                 // Rotation
-				if (sKEY_IsHeld(LK_ANTITHRUST)) 
+				if (sKEY_IsHeld(LK_ANTITHRUST))
 					g_pPlayer->Mx.but|=(1L<<30);
 
                 if (sKEY_IsHeld(LK_SPEEDLESS))
 					g_pPlayer->Mv.inert-=g_cTimer.fCounter/2;
 
-                if (sKEY_IsHeld(LK_SPEEDPLUS))  
+                if (sKEY_IsHeld(LK_SPEEDPLUS))
 					g_pPlayer->Mv.inert+=g_cTimer.fCounter/2;
 
                 if (sKEY_IsHeld(LK_STOP))
 					g_pPlayer->Mv.inert=g_pPlayer->J.pInf.fSpeedMax;
 
-            
+
                 if (sKEY_IsClicked(LK_RADAR))
                 {
                     g_SGGame.RadarMode^=1;
                     NG_AudioBeep(1);
                 }
 				else
-                if (sKEY_IsClicked(s_esc))   
+                if (sKEY_IsClicked(s_esc))
 				{
 					g_pPlayer->Mx.but|=(1L<<20);
 				}
@@ -1161,16 +1161,16 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
                 if (sKEY_IsClicked(LK_THRUST) ||sKEY_IsClicked(s_winright))
 					g_pPlayer->Mx.but|=16;
 				else
-                if (sKEY_IsClicked(LK_NEXTNAV)||sKEY_IsClicked(s_winleft))   
+                if (sKEY_IsClicked(LK_NEXTNAV)||sKEY_IsClicked(s_winleft))
 					g_pPlayer->Mx.but|=32;
 				else
-                if (sKEY_IsClicked(s_1)) 
+                if (sKEY_IsClicked(s_1))
 					g_pPlayer->Mx.but|=1L<<(6+(g_SGGame.ComMode ? 15 : 0));
 				else
-                if (sKEY_IsClicked(s_2)) 
+                if (sKEY_IsClicked(s_2))
 					g_pPlayer->Mx.but|=1L<<(7+(g_SGGame.ComMode ? 15 : 0));
 				else
-                if (sKEY_IsClicked(s_3)) 
+                if (sKEY_IsClicked(s_3))
 					g_pPlayer->Mx.but|=1L<<(8+(g_SGGame.ComMode ? 15 : 0));
 				else
                 if (sKEY_IsClicked(s_4))
@@ -1179,9 +1179,9 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
                 if (sKEY_IsClicked(s_5))
 					g_pPlayer->Mx.but|=1L<<(10+(g_SGGame.ComMode ? 15 : 0));
 				else
-                if (sKEY_IsClicked(s_6)) 
+                if (sKEY_IsClicked(s_6))
 					g_pPlayer->Mx.but|=1L<<(11+(g_SGGame.ComMode ? 15 : 0));
-				else			
+				else
                 if (sKEY_IsClicked(LK_COM))
 					g_SGGame.ComMode^=1;
 				else
@@ -1193,7 +1193,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 				else
                 if (g_SGGame.ComMode)
                 {
-                    if (sKEY_IsClicked(s_7))             
+                    if (sKEY_IsClicked(s_7))
 						g_pPlayer->Mx.but|=1L<<27;
 					else
                     if (sKEY_IsClicked(s_8))
@@ -1202,25 +1202,25 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
             }
         }
 
-        if (sKEY_IsClicked(s_f1)) 
+        if (sKEY_IsClicked(s_f1))
 			g_pPlayer->Mx.but|=(1L<<18);
 		else
-        if (sKEY_IsClicked(s_f2)) 
+        if (sKEY_IsClicked(s_f2))
 			g_pPlayer->Mx.but|=(1L<<14);
 		else
-        if (sKEY_IsClicked(s_f3)) 
+        if (sKEY_IsClicked(s_f3))
 			g_pPlayer->Mx.but|=(1L<<15);
 		else
         if (sKEY_IsClicked(s_f4))
 			g_pPlayer->Mx.but|=(1L<<16);
 		else
-        if (sKEY_IsClicked(s_f5)) 
+        if (sKEY_IsClicked(s_f5))
 			g_pPlayer->Mx.but|=(1L<<17);
 		else
-        if (sKEY_IsClicked(s_f6)) 
+        if (sKEY_IsClicked(s_f6))
 			g_pPlayer->Mx.but|=(1L<<19);
 		else
-        if ((sKEY_IsClicked(s_f7))&&(g_SGGame.Missile)) 
+        if ((sKEY_IsClicked(s_f7))&&(g_SGGame.Missile))
 			g_pPlayer->Mx.but|=(1L<<29);
     }
     return;
@@ -1271,7 +1271,7 @@ int32_t static NG_ControlGame(void)
                     else
                     {
                         g_pPlayer->J.pInf.Attack++;
-                        if (g_pPlayer->J.pInf.Attack>6) 
+                        if (g_pPlayer->J.pInf.Attack>6)
 							g_pPlayer->J.pInf.Attack=1;
                         g_pPlayer->Mx.but|=(1L<<(5+g_pPlayer->J.pInf.Attack));
                     }
@@ -1362,7 +1362,7 @@ int32_t static NG_ControlGame(void)
                     if (g_pPlayer->Mx.but&(1L<<27))    setFormation(6);
                     if (g_pPlayer->Mx.but&(1L<<28))    setFormation(7);
                 }
-                if (g_pPlayer->Mx.but&(1L<<20))    
+                if (g_pPlayer->Mx.but&(1L<<20))
                    g_SGObjects.FinCode=GAMESTATE_QUIT;
                 if (g_pPlayer->Mx.but&(1L<<30))
                 {
@@ -1383,19 +1383,19 @@ int32_t static NG_ControlGame(void)
 
 			/*
             if (g_pPlayer->Mv.x)
-            {				
-                g_pPlayer->Mv.x=(float)NG_MomentumValue((int32_t)g_pPlayer->Mv.x, InMax);                
+            {
+                g_pPlayer->Mv.x=(float)NG_MomentumValue((int32_t)g_pPlayer->Mv.x, InMax);
             }
-            
+
 			if (g_pPlayer->Mv.y)
             {
                 g_pPlayer->Mv.y=(float)NG_MomentumValue((int)g_pPlayer->Mv.y, InMax);
-                
+
             }
-            
+
 			if ((g_pPlayer->Mv.z)||(g_pPlayer->Mv.x))
             {
-				g_pPlayer->Mv.z=(float)NG_MomentumValue((int32_t)g_pPlayer->Mv.z, InMax);			
+				g_pPlayer->Mv.z=(float)NG_MomentumValue((int32_t)g_pPlayer->Mv.z, InMax);
             }
 			*/
 
@@ -1459,20 +1459,20 @@ int32_t static NG_ControlGame(void)
 
                     g_pPlayer->fBooster-= g_cTimer.fCounter;
 
-                    if (g_pPlayer->fBooster<0) 
+                    if (g_pPlayer->fBooster<0)
 						g_pPlayer->fBooster=0;
                 }
             }
-			
+
             if (g_SGGame.pReactorMaterial)
             {
                 V3XMATERIAL *Mat = g_SGGame.pReactorMaterial;
 				int scale  = (u_int8_t)(J->pInf.fSpeed<0 ? 1 : (J->pInf.fSpeed * 256)/(J->pInf.fSpeedMax+1));
-                Mat->diffuse.r = 
-                Mat->diffuse.g = 
+                Mat->diffuse.r =
+                Mat->diffuse.g =
                 Mat->diffuse.b = (u_int8_t)scale;
             }
-			
+
 
             b.x = b.y = CST_ZERO; b.z = -J->pInf.fSpeed * g_cTimer.fCounter * 2.f;
             V3XVector_ApplyMatrix(J->Mv.vel, b, g_pPlayer->Mat->Matrix);
@@ -1869,7 +1869,7 @@ static int DrawBoxTarg(V3XVECTOR *p, u_int32_t cx, V3XORI *ORI, SGScript *pInf)
 *
 * PROTOTYPE  :  static void AddingFaceMoreDisp(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void AddingFaceMoreDisp(void)
@@ -1967,13 +1967,13 @@ void NG_InitAnimateStage(void)
             if ((pInf->Wait)||(pInf->Appear))
 				OVI->state |= V3XSTATE_HIDDEN;
 
-            if (pInf->Stealth) 
+            if (pInf->Stealth)
 				OVI->state|=V3XSTATE_HIDDENDISPLAY;
 
             pInf->fSpeed = pInf->fSpeedMax / 2;
 
             TRI = OVI->TVI->TRI;
-			
+
             switch(pInf->Animation)
 			{
                 case t_GIANT:
@@ -1993,7 +1993,7 @@ void NG_InitAnimateStage(void)
                 case t_TAC_TRACK:
                 case t_TAC_HIND:
                 case t_TAC_ATTACK1:
-					OVI->matrix_Method = V3XMATRIX_Vector2; // Calcul avec system Base				
+					OVI->matrix_Method = V3XMATRIX_Vector2; // Calcul avec system Base
                 break;
             }
 
@@ -2054,7 +2054,7 @@ static void Line3D(V3XSCALAR x, V3XSCALAR y, V3XSCALAR z, V3XSCALAR x0, V3XSCALA
     memset(&pB, 0, sizeof(pB));
 	memset(&A, 0, sizeof(A));
 	memset(&C, 0, sizeof(C));
-	
+
 	C.x=x;C.y=y; C.z=z;
     V3XVector_ApplyTransposeMatrix(A, C, mat); A.z-=g_SGGame.RadarRange*3;
     if (A.z<CST_ZERO) V3XVector_ProjectWithCenter(pA, A);
@@ -2086,7 +2086,7 @@ static void Display_Radar(void)
     g_SGGame.MaxDetect[0] = g_SGGame.MaxDetect[1] = 0;
 	memset(&pt2, 0, sizeof(pt2));
 	memset(&pt3, 0, sizeof(pt3));
-	
+
 	V3XVector_Set(&nearest, 0,0, g_SGGame.RadarRange);
     if (!g_SGGame.RadarMode)
     {
@@ -2150,7 +2150,7 @@ static void Display_Radar(void)
                     V3XVector_Dif(&dir, &OVI->mesh->matrix.v.Pos, &g_pPlayer->Rot->pos);
                     if (Data->pInf.ColorRadar==255)
                         Rad = 5;
-                    else 
+                    else
 						Rad = ((Data->pInf.ColorRadar-1)%5)+1;
                     if (g_SGGame.RadarMode)
                     {
@@ -2181,7 +2181,7 @@ static void Display_Radar(void)
 
                             di2.x = V3XVector_DotProduct(&dir, &V3X.Camera.M.v.I);
                             di2.y = V3XVector_DotProduct(&dir, &V3X.Camera.M.v.J);
-							
+
                             pt.x = pt2.x + MULF32(di2.x, (but->LX/2)-4);
                             pt.y = pt2.y - MULF32(di2.y, (but->LY/2)-4);
                             if ((pt.x>0)&&(pt.y>0))
@@ -2287,15 +2287,15 @@ static void Display_HUD(void)
 		if (bAllowTrsp)
           GX.csp.TrspADD(g_pGameBoard->item[34].X, g_pGameBoard->item[34].Y, g_pspHud2->item + 13);
     }
-    
+
     if (g_SGLockMode.dmode&31)
     {
         CSP_Color(g_SGGame.CI_WHITE);
         GX.csp.put(g_pGameBoard->item[VCfg_sp_camis].X, g_pGameBoard->item[VCfg_sp_camis].Y, g_pspHud->item+VCfg_sp_camis);
-        
+
 		if (bAllowTrsp)
     		GX.csp.TrspADD(g_pGameBoard->item[35].X, g_pGameBoard->item[35].Y, g_pspHud2->item +13);
-        
+
 		if (g_SGLockMode.dmode&3)
         {
 			char tex[256];
@@ -2313,7 +2313,7 @@ static void Display_HUD(void)
             }
         }
     }
-    if (g_SGSettings.showInf&1) 
+    if (g_SGSettings.showInf&1)
 		m=g_pGameBoard->numItem;
 	else
 		m=1;
@@ -2357,7 +2357,7 @@ static void Display_HUD(void)
             CSP_WriteText(tex, xxx, but->Y, g_pspCat);
             break;
             case 12: //  Time Game
-			sprintf(tex, "%d%c%02d", (int)g_SGObjects.Time/60, 
+			sprintf(tex, "%d%c%02d", (int)g_SGObjects.Time/60,
 				V3X.Time.ms%1000<500 ? ':' : ' ', (int)g_SGObjects.Time%60);
             if (g_SGObjects.IsTimed)
             {
@@ -2366,22 +2366,22 @@ static void Display_HUD(void)
 				int l = strlen(tex);
                 for (o=0;o<l;o++)
                 {
-					GXSPRITE *osp;				
+					GXSPRITE *osp;
 					osp = tex[o] == ':' || tex[o] == ' ' ? g_pFontMenuLrg->item+39: Pig->item + tex[o]-'0'+2;
                     ox += osp->LX;
                 }
                 ox = (GX.View.xmax-ox)/2;
                 for (o=0;o<l;o++)
-                {					
+                {
 					GXSPRITE *osp = tex[o] == ':' || tex[o] == ' ' ?  g_pFontMenuLrg->item+39: Pig->item + tex[o]-'0'+2;
 					if (tex[o]!=' ')
                     GX.csp.TrspADD(ox, GX.View.ymax/4, osp);
                     ox += osp->LX;
                 }
-                if ((g_SGObjects.Time<30)&&(g_SGGame.Count&4)) 
+                if ((g_SGObjects.Time<30)&&(g_SGGame.Count&4))
 					CSP_Color(g_SGGame.CI_YELLOW);
 
-                if ((g_SGObjects.Time<10)&&(g_SGGame.Count&4)) 
+                if ((g_SGObjects.Time<10)&&(g_SGGame.Count&4))
 					CSP_Color(g_SGGame.CI_RED);
             }
             CSP_WriteText(tex, xxx, but->Y, g_pspCat);
@@ -2533,7 +2533,7 @@ static void Display_HUD(void)
     {
         sp = g_pspMsg->item + 0;
         GX.csp.TrspADD((GX.View.xmax-sp->LX)/2, 6, sp);
-    }    
+    }
     return;
 }
 /*------------------------------------------------------------------------
@@ -2576,11 +2576,11 @@ static void NG_DrawHUD()
         char *orx = g_szCOM[g_SGSettings.ComNumber];
         g_SGSettings.ComTime--;
 		CSP_Color(g_SGGame.CI_WHITE);
-        CSP_WriteCenterText(orx, y+=dy, g_pspDispFont);        
+        CSP_WriteCenterText(orx, y+=dy, g_pspDispFont);
     }
     else
     {
-        if(g_SGObjects.FinCode==GAMESTATE_FAIL) 
+        if(g_SGObjects.FinCode==GAMESTATE_FAIL)
            g_SGObjects.FinCode=GAMESTATE_FAILED;
     }
 
@@ -2601,7 +2601,7 @@ static void NG_DrawHUD()
             }
         }
     }
-    switch (g_SGGame.CameraMode) 
+    switch (g_SGGame.CameraMode)
 	{
         case 0:
         if (g_SGSettings.showInf&1)
@@ -2660,7 +2660,7 @@ void NG_DrawOverlay(void)
 
     if (g_SGSettings.LensFX)
 		NG_FXFlare();
-		
+
     if (g_SGSettings.ticker)
 		NG_DrawTicker();
 
@@ -2729,14 +2729,14 @@ void NG_GamePlay(void)
 
 	g_cGameStat.time_start = timer_sec();
     V3X.Time.ms = timer_ms();
-  
+
     timer_Update(&g_cTimer);
 
     g_SGGame.FlashAlpha=32;
     g_SGGame.FlashColor.r=0;
     g_SGGame.FlashColor.g=0;
     g_SGGame.FlashColor.b=0;
-    
+
     sysConPrint(g_pGameItem->EI[g_pCurrentGame->episode].LI[g_pCurrentGame->level[g_pCurrentGame->episode]].name);
 
 	do
@@ -2747,7 +2747,7 @@ void NG_GamePlay(void)
         // LOCK
 		GX.Client->Lock();
         g_SGSettings.bClearView = 0;
-        
+
         // Render scene
         V3XScene_Viewport_Clear(g_SGGame.Scene);
         V3XScene_Viewport_Render(g_SGGame.Scene);
@@ -2774,7 +2774,7 @@ void NG_GamePlay(void)
         if (V3XA.State & 1)
             V3XA.Client->Render();
 
-        switch(g_SGObjects.FinCode) 
+        switch(g_SGObjects.FinCode)
 		{
             case GAMESTATE_DEAD:
             break;
@@ -2802,7 +2802,7 @@ void NG_GamePlay(void)
 		{
 				g_pPlayer->Mx.but = 0;
 
-			
+
 			V3X.Time.ms = timer_ms();
 
 			g_SGGame.Count++;

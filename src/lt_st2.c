@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -117,7 +117,7 @@ void NG_RenderDisplayBox(RW_Button *but, V3XMATRIX *Mat, V3XOVI *OVI)
         V3XScene_Viewport_Build(g_SGGame.Scene, NULL);
         v3x_RenderOneObject(g_SGGame.Scene, OVI);
     }
-    else 
+    else
 		V3XScene_Viewport_Build(g_SGGame.Scene, &GX.View);
     V3XScene_Viewport_Clear(g_SGGame.Scene);
     V3XScene_Viewport_Render(g_SGGame.Scene);
@@ -193,7 +193,7 @@ int NG_HudDisplayLocked(V3XOVI *OVI)
 void NG_HudDisplayCamera(void)
 {
     int p = 0;
-    if (g_SGSettings.rearview) 
+    if (g_SGSettings.rearview)
 		p|=1;
 
     if (g_pLockTarget)

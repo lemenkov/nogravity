@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -62,10 +62,10 @@ int NG_WaitForKeyPress(void)
 	sJOY->Update(0);
 	sMOU->Update(0);
 
-	if (sKEY_IsClicked(s_esc) || sJOY_IsClicked(1) || sMOU_IsClicked(1)) 
+	if (sKEY_IsClicked(s_esc) || sJOY_IsClicked(1) || sMOU_IsClicked(1))
 		a|=2;
 
-    if (sKEY_IsHeld(s_return) || sJOY_IsClicked(0) || sMOU_IsClicked(0)) 
+    if (sKEY_IsHeld(s_return) || sJOY_IsClicked(0) || sMOU_IsClicked(0))
 		a|=1;
 
     return a;
@@ -77,10 +77,10 @@ void NG_WaitForKeyWithDelay(int dt)
 
 	while(STUB_TaskControl() == 0)
     {
-		if (NG_WaitForKeyPress()) 
+		if (NG_WaitForKeyPress())
 			break;
 
-		if (timer_sec()>=t) 
+		if (timer_sec()>=t)
 			break;
     }
     return;
@@ -133,7 +133,7 @@ void SGJOY_ReadAxis(int *lpAxisX, int *lpAxisY, int *lpAxisRoll, int *lpAxisThro
 	*status = 0;
 
 
-	*lpAxisX = sJOY->lX - 32768;	
+	*lpAxisX = sJOY->lX - 32768;
 	if (abs(*lpAxisX)>deadZone2)
 	{
 		*status|=1;
@@ -174,16 +174,16 @@ void SGJOY_ReadAxis(int *lpAxisX, int *lpAxisY, int *lpAxisRoll, int *lpAxisThro
 		case 3:	lRz = sJOY->lRy; break;
 		case 4:	lRz = sJOY->lRz; break;
 	}
-		
+
 	if (g_SGSettings.AxisRoll)
 	{
-		*lpAxisRoll = lZ - 32768;	
+		*lpAxisRoll = lZ - 32768;
 		*status|=4;
 	}
 
 	if (g_SGSettings.AxisThrottle)
 	{
-		*lpAxisThrottle = 65535 - lRz;		
+		*lpAxisThrottle = 65535 - lRz;
 		*status|=8;
 	}
 }
@@ -230,7 +230,7 @@ void NG_ResetKey(void)
 		return;
 
     sysMemZero(SGJOY_ButtonKeys, 32);
-    
+
 	for (i=0;i<LK_MAX;i++)
     {
         if (g_SGSettings.joy[i])
@@ -240,7 +240,7 @@ void NG_ResetKey(void)
     }
 
 	sysMemZero(SGMOU_ButtonKeys, 32);
-    
+
 	for (i=0;i<LK_MAX;i++)
     {
 		if (g_SGSettings.mou[i])
@@ -256,4 +256,3 @@ void NG_ResetKey(void)
     }
     return;
 }
-

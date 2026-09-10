@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -35,11 +35,11 @@ STUB_Registry RLX={
  // System
  {
    // TODO: Understand what all these options mean and if the right ones are chosen.
-   RLXSYSTEM_Enable, 
+   RLXSYSTEM_Enable,
    RLXOS_LINUX,
    FALSE,
    5,
-   0, 
+   0,
    {
      NULL,
      NULL,
@@ -50,7 +50,7 @@ STUB_Registry RLX={
      "Pentium Pro",
      "Ix86"
    }
- }, 
+ },
  // Audio
  {
    RLXAUDIO_Enable+
@@ -60,56 +60,56 @@ STUB_Registry RLX={
    0,
    4, 32,
    {11025, 16537, 22050, 33075, 44100}
- }, 
+ },
  // Video
  {
-   RLXVIDEO_Enable, 
+   RLXVIDEO_Enable,
    RLXVIDEO_Primary,
-   70, 
+   70,
    0,
    0
- }, 
+ },
  // 3D
  {
-   0, 
+   0,
    RLX3D_OPENGL,
    2,
    {0, 0}
- }, 
+ },
 
  // Control
  {
    RLXCTRL_Enable+
    RLXCTRL_IntKeyboard,
    RLXCTRL_JoyAnalog,
- }, 
+ },
  // Joy
  {
    {
-    {0, 0, 0, 0, 0, 0}, 
-    {0, 0, 0, 0, 0, 0}, 
+    {0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0},
    }
- }, 
+ },
  // Network
  {
-   0, 
+   0,
    {0, 0, 0}
- }, 
+ },
  // Dev
  {
-   "Default", 
+   "Default",
    "application/x-vnd",
-   "Realtech", 
-   0, 
-   0, 
- }, 
+   "Realtech",
+   0,
+   0,
+ },
  // App
  {
-   "", 
+   "",
    RLXAPP_IsRunning,
-   0, 
+   0,
    1L<<20
- }, 
+ },
  "rlxreg.ini",
  ""
 };

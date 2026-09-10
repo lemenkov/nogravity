@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -43,7 +43,7 @@ enum {
     V3XCMODE_DISPLAY = 0x100, // Draw collision mesh
     V3XCMODE_INVALIDATE = 0x200, // Disable collision system (not treated)
     V3XCMODE_CALLBACKONLY = 0x400, // If collision, call callback, don't compute displacement
-    V3XCMODE_REFLEX = 0x800, // If collision, call callback, don't compute displacement	
+    V3XCMODE_REFLEX = 0x800, // If collision, call callback, don't compute displacement
 	V3XCMODE_REPLACEONPRJ = 0x1000
 };
 

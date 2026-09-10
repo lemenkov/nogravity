@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -52,7 +52,7 @@ int GetCF_uchar2(char *s, ConfigFile *ini, u_int8_t *val)
 *
 * PROTOTYPE  :  int GetCF_long2(char *s, ConfigFile *ini, int32_t *val)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int GetCF_long2(char *s, ConfigFile *ini, int32_t *val)
@@ -67,7 +67,7 @@ int GetCF_long2(char *s, ConfigFile *ini, int32_t *val)
 *
 * PROTOTYPE  :  int GetCF_hexa2(char *s, ConfigFile *ini, int32_t *val)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int GetCF_hexa2(char *s, ConfigFile *ini, int32_t *val)
@@ -82,7 +82,7 @@ int GetCF_hexa2(char *s, ConfigFile *ini, int32_t *val)
 *
 * PROTOTYPE  :  int GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val)
@@ -97,7 +97,7 @@ int GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val)
 *
 * PROTOTYPE  :  int32_t GetCF_hexa(char *s, ConfigFile *ini)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int32_t GetCF_hexa(char *s, ConfigFile *ini)
@@ -111,7 +111,7 @@ int32_t GetCF_hexa(char *s, ConfigFile *ini)
 *
 * PROTOTYPE  :  int32_t GetCF_long(char *s, ConfigFile *ini)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int32_t GetCF_long(char *s, ConfigFile *ini)
@@ -125,7 +125,7 @@ int32_t GetCF_long(char *s, ConfigFile *ini)
 *
 * PROTOTYPE  :  int32_t GetCF_bool(char *s, ConfigFile *ini)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int32_t GetCF_bool(char *s, ConfigFile *ini)
@@ -139,7 +139,7 @@ int32_t GetCF_bool(char *s, ConfigFile *ini)
 *
 * PROTOTYPE  :  char *GetCF_str(char *s, ConfigFile *ini)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 char *GetCF_str(char *s, ConfigFile *ini)
@@ -153,7 +153,7 @@ char *GetCF_str(char *s, ConfigFile *ini)
 *
 * PROTOTYPE  :  char *GetCF_str2(char *s, ConfigFile *ini)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 char *GetCF_str2(char *s, ConfigFile *ini)
@@ -180,7 +180,7 @@ static void trimSpace(char *str)
 *
 * PROTOTYPE  :  static void flip_string(char *str)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void flip_string(char *str)
@@ -356,7 +356,7 @@ ConfigItemData *GetConfigItem(char const *itemName, enum ConfigDataType type, Co
 *
 * PROTOTYPE  :  int SelectConfigClass(char const *className, ConfigFile *c_file)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int SelectConfigClass(char const *className, ConfigFile *c_file)
@@ -408,7 +408,7 @@ static void DestroyConfigItem(ConfigItem *q)
 *
 * PROTOTYPE  :  void DestroyConfig(ConfigFile *q)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void DestroyConfig(ConfigFile *q)

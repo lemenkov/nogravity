@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -31,7 +31,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 // Texture & material cache system
 
 enum {
-   V3XMAT_LOADIMAGE = 0x1, 
+   V3XMAT_LOADIMAGE = 0x1,
    V3XMAT_LOADRGB = 0x2
 };
 
@@ -71,7 +71,7 @@ typedef struct _v3xspritegroup
 enum {
     V3XRESOURCETYPE_TEXTURE = 0x1,
     V3XRESOURCETYPE_STREAM = 0x2,
-    V3XRESOURCETYPE_MATERIAL = 0x3, 
+    V3XRESOURCETYPE_MATERIAL = 0x3,
     V3XRESOURCETYPE_TEXTURE2 = 0x4
 };
 

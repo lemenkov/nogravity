@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -27,20 +27,20 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define _RLXREGISTRY
 
 enum {
-    RLXOS_DOS32  = 0x1, 
-    RLXOS_WIN32  = 0x2, 
-    RLXOS_BEOS = 0x4, 
-    RLXOS_MACOS  = 0x8, 
-    RLXOS_BEOSINTEL = 0x10, 
-    RLXOS_PSX = 0x20, 
+    RLXOS_DOS32  = 0x1,
+    RLXOS_WIN32  = 0x2,
+    RLXOS_BEOS = 0x4,
+    RLXOS_MACOS  = 0x8,
+    RLXOS_BEOSINTEL = 0x10,
+    RLXOS_PSX = 0x20,
     RLXOS_LINUX  = 0x21
 };
 enum {
-    RLXSYSTEM_Enable = 0x1, 
-    RLXSYSTEM_MultiThread = 0x2, 
+    RLXSYSTEM_Enable = 0x1,
+    RLXSYSTEM_MultiThread = 0x2,
     RLXSYSTEM_Network  = 0x4,
-    RLXSYSTEM_IntelMMX = 0x8, 
-    RLXSYSTEM_Amd3DNow = 0x10, 
+    RLXSYSTEM_IntelMMX = 0x8,
+    RLXSYSTEM_Amd3DNow = 0x10,
     RLXSYSTEM_IntelXMMX = 0x20
 };
 
@@ -51,16 +51,16 @@ typedef struct {
 }RLX_RegisterSystem;
 
 enum {
-    RLXAUDIO_Enable = 0x1, 
-    RLXAUDIO_Use16BIT  = 0x2, 
-    RLXAUDIO_UseSTEREO = 0x4, 
-    RLXAUDIO_UseSURRND = 0x8, 
-    RLXAUDIO_UseBASS = 0x10, 
-    RLXAUDIO_FlipSTEREO = 0x20, 
-    RLXAUDIO_CacheONDISK = 0x40, 
-    RLXAUDIO_DetectHARDWARE = 0x80, 
-    RLXAUDIO_EnableCDAudio = 0x100, 
-    RLXAUDIO_Use3D = 0x200, 
+    RLXAUDIO_Enable = 0x1,
+    RLXAUDIO_Use16BIT  = 0x2,
+    RLXAUDIO_UseSTEREO = 0x4,
+    RLXAUDIO_UseSURRND = 0x8,
+    RLXAUDIO_UseBASS = 0x10,
+    RLXAUDIO_FlipSTEREO = 0x20,
+    RLXAUDIO_CacheONDISK = 0x40,
+    RLXAUDIO_DetectHARDWARE = 0x80,
+    RLXAUDIO_EnableCDAudio = 0x100,
+    RLXAUDIO_Use3D = 0x200,
     RLXAUDIO_UseHwMixer = 0x400
 };
 
@@ -73,26 +73,26 @@ typedef struct {
 }RLX_RegisterAudio;
 
 enum {
-    RLXVIDEO_Enable = 0x1, 
-    RLXVIDEO_Use2DHARDWARE = 0x2, 
-    RLXVIDEO_UseLFB = 0x4, 
-    RLXVIDEO_WideDAC = 0x8, 
-    RLXVIDEO_Windowed = 0x10, 
+    RLXVIDEO_Enable = 0x1,
+    RLXVIDEO_Use2DHARDWARE = 0x2,
+    RLXVIDEO_UseLFB = 0x4,
+    RLXVIDEO_WideDAC = 0x8,
+    RLXVIDEO_Windowed = 0x10,
     RLXVIDEO_ConvertImg8bit = 0x20
 };
 
 
 enum {
-    RLXVIDEO_VGA, 
-    RLXVIDEO_SVGA, 
-    RLXVIDEO_VESA12, 
-    RLXVIDEO_VESA2, 
-    RLXVIDEO_VESA2U, 
+    RLXVIDEO_VGA,
+    RLXVIDEO_SVGA,
+    RLXVIDEO_VESA12,
+    RLXVIDEO_VESA2,
+    RLXVIDEO_VESA2U,
     RLXVIDEO_3D
 };
 
 enum {
-    RLXVIDEO_Primary, 
+    RLXVIDEO_Primary,
     RLXVIDEO_Secondary
 };
 
@@ -105,24 +105,24 @@ typedef struct {
 }RLX_RegisterVideo;
 
 enum {
-    RLX3D_none, 
-    RLX3D_Software, 
-    RLX3D_S3VIRGE, 
-    RLX3D_3DFX, 
-    RLX3D_DYNAMIC, 
-    RLX3D_DIRECT3D, 
-    RLX3D_OPENGL, 
-    RLX3D_METAL, 
+    RLX3D_none,
+    RLX3D_Software,
+    RLX3D_S3VIRGE,
+    RLX3D_3DFX,
+    RLX3D_DYNAMIC,
+    RLX3D_DIRECT3D,
+    RLX3D_OPENGL,
+    RLX3D_METAL,
 };
 enum {
-    RLX3D_Reserved = 0x1, 
-    RLX3D_NoPalettizedTex = 0x2, 
-    RLX3D_UseMultiTex = 0x4, 
+    RLX3D_Reserved = 0x1,
+    RLX3D_NoPalettizedTex = 0x2,
+    RLX3D_UseMultiTex = 0x4,
     RLX3D_UseAGP = 0x8,
-    RLX3D_AutoDetect = 0x10, 
-    RLX3D_FakeHardware = 0x20, 
-    RLX3D_TexManager = 0x40, 
-    RLX3D_NoBusMastering = 0x80, 
+    RLX3D_AutoDetect = 0x10,
+    RLX3D_FakeHardware = 0x20,
+    RLX3D_TexManager = 0x40,
+    RLX3D_NoBusMastering = 0x80,
 	RLX3D_FullQualityTex = 0x100
 };
 typedef struct {
@@ -133,18 +133,18 @@ typedef struct {
 }RLX_Register3D;
 
 enum {
-    RLXCTRL_Keyboard, 
-    RLXCTRL_Mouse, 
-    RLXCTRL_JoyAnalog, 
-    RLXCTRL_JoyPad, 
-    RLXCTRL_ThrustMaster, 
-    RLXCTRL_SWIFT, 
-    RLXCTRL_VirtualIO, 
+    RLXCTRL_Keyboard,
+    RLXCTRL_Mouse,
+    RLXCTRL_JoyAnalog,
+    RLXCTRL_JoyPad,
+    RLXCTRL_ThrustMaster,
+    RLXCTRL_SWIFT,
+    RLXCTRL_VirtualIO,
     RLXCTRL_SideWinder
 };
 
 enum {
-    RLXCTRL_Enable = 0x1, 
+    RLXCTRL_Enable = 0x1,
     RLXCTRL_IntKeyboard = 0x2,
 	RLXCTRL_Uncalibrated = 0x4
 };
@@ -165,14 +165,14 @@ typedef struct {
 
 }RLX_RegisterController;
 
-typedef struct {	
+typedef struct {
     int32_t MinX, MinY;
     int32_t MaxX, MaxY;
     int32_t MinZ, MaxZ;
     int32_t MinR, MaxR;
 }RLX_RegisterJoystick;
 
-typedef struct {	
+typedef struct {
     RLX_RegisterJoystick J[2];
 	u_int32_t Config;
 }RLX_RegisterJoystickCal;
@@ -191,9 +191,9 @@ typedef struct {
 }RLX_RegisterDevelopper;
 
 enum {
-    RLXAPP_IsRunning  = 0x1, 
-    RLXAPP_IsPaused = 0x2, 
-    RLXAPP_Signal = 0x4, 
+    RLXAPP_IsRunning  = 0x1,
+    RLXAPP_IsPaused = 0x2,
+    RLXAPP_Signal = 0x4,
     RLXAPP_DefaultRegs = 0x8
 };
 
@@ -206,7 +206,7 @@ typedef struct {
 
 
 struct _gx_rgb24;
-struct _gx_viewport; 
+struct _gx_viewport;
 
 typedef void			(*RLXAPI PFGXSETUPVIEWPORT)(struct _gx_viewport *pView, int width, int height, int bitsPerPixel); // setup viewport size
 typedef u_int8_t		*	(*RLXAPI PFRGB_SMARTCONVERTER)(void *dst, struct _gx_rgb24 *dst_pal, int dst_bpp, void *src, const struct _gx_rgb24 *src_pal, int src_bpp, u_int32_t size);

@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -54,12 +54,12 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "_nginfo.h"
 #include "lt_cmx.h"
 
-enum MODE_PLAYER 
+enum MODE_PLAYER
 {
-	GODMODE = 0x1, 
-	STEALTHMODE = 0x2, 
-	DOOMEDMODE = 0x4, 
-	TURBOMODE = 0x8, 
+	GODMODE = 0x1,
+	STEALTHMODE = 0x2,
+	DOOMEDMODE = 0x4,
+	TURBOMODE = 0x8,
 	FROZENMODE = 0x10
 };
 
@@ -81,7 +81,7 @@ typedef struct _sg_effect
  	int32_t 			Nloop;
  	int32_t 			LastFrame;
  	V3XSCALAR			Size;
- 	
+
 	V3XVECTOR			keep;
     V3XVECTOR           cent;
     V3XVECTOR           pos2D[2];
@@ -119,9 +119,9 @@ typedef struct _sg_desiredmotion{
 typedef struct _sg_actor{
  	SGScript		pInf;
 	SGDesiredMotion	Mv;
- 	V3XOVI		*	OVI, 
-				*	OVItarget; 	
- 	SGEffect	*	pEffect; 	
+ 	V3XOVI		*	OVI,
+				*	OVItarget;
+ 	SGEffect	*	pEffect;
 }SGActor;
 
 typedef struct _sg_control{
@@ -134,9 +134,9 @@ typedef struct _sg_netdata{
 }SGNetData;
 
 typedef struct _sg_weapon_info{
-	int				cur, 
-					max, 
-					reload, 
+	int				cur,
+					max,
+					reload,
 					lockTime;
 	unsigned		loadTime;
 }SGWeaponInfo;
@@ -152,11 +152,11 @@ typedef struct _sg_ship{
 typedef struct _sg_player{
 	SGActor			J;
  	V3XKEYEULER *	Rot;
- 	V3XMATRIX	*	Mat;	
-	SGShip		*	Si; 	
+ 	V3XMATRIX	*	Mat;
+	SGShip		*	Si;
  	SGControl		Mv;
  	SGNetData		Mx;
- 	SGPowerUp		Art[8]; 	
+ 	SGPowerUp		Art[8];
 
  	float			fBooster;
 
@@ -168,13 +168,13 @@ typedef struct _sg_player{
 
 typedef struct _sg_weapon {
 	SGScript		pInf;
-	V3XOVI		*	OVI, 
+	V3XOVI		*	OVI,
 				*	TargetLock;
 	SGActor		*	Attacker;
 
-	V3XVECTOR		vel, 
-					Target;	
-	 
+	V3XVECTOR		vel,
+					Target;
+
 	float			fTime;
 	float			Delay;
 
@@ -186,7 +186,7 @@ typedef struct _sg_weapon {
 }SGWeapon;
 
 typedef struct _sg_game{
-	V3XSCENE	*	Scene;	
+	V3XSCENE	*	Scene;
 
 	int				numWeapons;
 	SGWeapon	*	pWea;
@@ -199,16 +199,16 @@ typedef struct _sg_game{
 	int				numEnemies;
 	SGActor		*	pEnemy;
 
-	int				CameraMode;	
+	int				CameraMode;
 
-	int				MaxAim[8], 
+	int				MaxAim[8],
 					MaxProtect[8];
 
-	int32_t			Count, 
-					oldTimer, 
+	int32_t			Count,
+					oldTimer,
 					Shock;
 
-	float			RadarRange, 
+	float			RadarRange,
 					DeathDist;
 
 	V3XMATERIAL	*	pReactorMaterial;
@@ -216,15 +216,15 @@ typedef struct _sg_game{
 
 	u_int32_t			CI_COL2, CI_BLACK, CI_YELLOW, CI_RED, CI_WHITE, CI_GREEN, CI_BLUE, CI_BLUELIGHT;
 	u_int32_t			pColorRadar[8];
-	u_int32_t			pDisplayModes[32];	
+	u_int32_t			pDisplayModes[32];
 
 	short int		LockMAX, FlashAlpha;
 	u_int8_t			RadarMode, ComMode, MaxDetect[2];
-	
+
 	char			LangCode[4];
-	
+
 	u_int8_t			WarpOk;
-	
+
 	rgb24_t			FlashColor;
 }SGGameStruct;
 
@@ -240,16 +240,16 @@ typedef struct _sg_AI
 {
  	V3XOVI		*	OVI[HIND_MAXPLAYER];
  	V3XOVI		*	Target;
- 	int				mode, 
+ 	int				mode,
 					nHind;
 	float			fTime;
 }SGAI;
 
 
 typedef struct _sg_environment{
-	 char			SunFlare, 
-					SpaceDebris, 
-					Skybox, 
+	 char			SunFlare,
+					SpaceDebris,
+					Skybox,
 					Check;
 }SGENVIRONMENT;
 
@@ -271,75 +271,75 @@ typedef struct _sg_mission
 {
 	SGWORLD				World;
 	SGENVIRONMENT	*	Nav;
- 	V3XOVI			*	Sky, 
-					*	Ship, 
-					*	Laser, 
-					*	NavCam, 
-					*	Shield, 
+ 	V3XOVI			*	Sky,
+					*	Ship,
+					*	Laser,
+					*	NavCam,
+					*	Shield,
 					*	Cam;
  	V3XVECTOR		*	defTarget[2];
- 	int32_t				Time, ParTime; 	
+ 	int32_t				Time, ParTime;
  	u_int8_t				IsTimed, quit, MaxNAV, NAV, CallMode[2];
- 	char				FinCode; 	
+ 	char				FinCode;
 }SGMISSION;
 
 
 typedef struct {
-	u_int8_t				behind, 
-						led, 
-						radar, 
-						win_radar, 
+	u_int8_t				behind,
+						led,
+						radar,
+						win_radar,
 						sp_radar,
-						win_rear, 
-						sp_rear, 
-						win_camis, 
-						sp_camis, 
-						win_radar2, 
+						win_rear,
+						sp_rear,
+						win_camis,
+						sp_camis,
+						win_radar2,
 						sp_radar2;
 }SGHudDisplay;
 
 enum NG_GAMESTATE{
- 	GAMESTATE_PLAY, 
- 	GAMESTATE_DEAD, 
- 	GAMESTATE_WON, 
- 	GAMESTATE_FAIL, 
- 	GAMESTATE_FAILED, 
- 	GAMESTATE_QUIT, 
- 	GAMESTATE_PAUSE, 
- 	GAMESTATE_HELP, 
- 	GAMESTATE_ABORT, 
+ 	GAMESTATE_PLAY,
+ 	GAMESTATE_DEAD,
+ 	GAMESTATE_WON,
+ 	GAMESTATE_FAIL,
+ 	GAMESTATE_FAILED,
+ 	GAMESTATE_QUIT,
+ 	GAMESTATE_PAUSE,
+ 	GAMESTATE_HELP,
+ 	GAMESTATE_ABORT,
  	GAMESTATE_RETRY
 };
 
 enum NG_FX {
- 	FX_CUSTOM, 
- 	FX_EXPLODE_1, 
- 	FX_IMPACT, 
- 	FX_SHIELD_1, 
- 	FX_DEBRIS, 
- 	FX_FLARE, 
- 	FX_FINISH, 
- 	FX_WARPIN, 
- 	FX_SMOKE, 
+ 	FX_CUSTOM,
+ 	FX_EXPLODE_1,
+ 	FX_IMPACT,
+ 	FX_SHIELD_1,
+ 	FX_DEBRIS,
+ 	FX_FLARE,
+ 	FX_FINISH,
+ 	FX_WARPIN,
+ 	FX_SMOKE,
  	FX_SMOKE2
 };
 
 enum NG_PowerUp {
-	 ART_NONE=0, 
-	 ART_CLOAK, 
-	 ART_SUPERPOWER, 
-	 ART_STEALTH, 
-	 ART_POWER, 
-	 ART_INVICIBLITY, 
+	 ART_NONE=0,
+	 ART_CLOAK,
+	 ART_SUPERPOWER,
+	 ART_STEALTH,
+	 ART_POWER,
+	 ART_INVICIBLITY,
 	 ART_MEGABANG
 };
 
-typedef struct 
+typedef struct
 {
 	float		fAlarmTime;
-	int			Engine, 
-				SoundEngine, 
-				Alarm, 
+	int			Engine,
+				SoundEngine,
+				Alarm,
 				SoundAlarm;
 }SGFXAudioTable;
 
@@ -395,17 +395,17 @@ typedef struct {
 
 enum {
 	CAMERA_SHIP=5,
-	CAMERA_NAV=7,  
-	CAMERA_DEATH=8, 
-	CAMERA_NEWNAV=10, 
-	CAMERA_START=12, 
-	CAMERA_MISSILE=14 
+	CAMERA_NAV=7,
+	CAMERA_DEATH=8,
+	CAMERA_NEWNAV=10,
+	CAMERA_START=12,
+	CAMERA_MISSILE=14
 };
 
 typedef struct {
 	char		name[32];
 	u_int8_t		level[16]; // Level done
-	
+
 	int32_t		episode;
 	u_int32_t		score;
 	u_int32_t		life;
@@ -417,39 +417,39 @@ typedef struct {
 }SGPlayerSave;
 
 enum VCfg{
-	VCfg_behind=5, VCfg_led=12, VCfg_radar=4, VCfg_sp_radar=14, VCfg_sp_rear=5, VCfg_sp_camis=6, 
-	VCfg_win_radar=36, VCfg_win_rear=28, VCfg_win_camis=29, VCfg_win_radar2, 
+	VCfg_behind=5, VCfg_led=12, VCfg_radar=4, VCfg_sp_radar=14, VCfg_sp_rear=5, VCfg_sp_camis=6,
+	VCfg_win_radar=36, VCfg_win_rear=28, VCfg_win_camis=29, VCfg_win_radar2,
 	VCfg_radar2
 };
 
 enum COM_ORDER
 {
- 	ORDER_Status, 
- 	ORDER_AttackTarget, 
- 	ORDER_Protect, 
- 	ORDER_StayAlert, 
- 	ORDER_Attack, 
- 	ORDER_TargetWeakest, 
- 	ORDER_TargetStrongest, 
+ 	ORDER_Status,
+ 	ORDER_AttackTarget,
+ 	ORDER_Protect,
+ 	ORDER_StayAlert,
+ 	ORDER_Attack,
+ 	ORDER_TargetWeakest,
+ 	ORDER_TargetStrongest,
  	ORDER_Retreat
 };
 
 enum COM_COMMAND
 {
- 	COM_ShipAttacked=1, 
- 	COM_HelpMe, 
- 	COM_Complete, 
- 	COM_FindWarp, 
- 	COM_FriendDead, 
- 	COM_Failed, 
- 	COM_TimeShort, 
- 	COM_NearBy, 
- 	COM_TooFar, 
- 	COM_EscortOk, 
- 	COM_Status, 
- 	COM_Bonus=15, 
- 	COM_Weapon=21, 
- 	COM_Request=27, 
+ 	COM_ShipAttacked=1,
+ 	COM_HelpMe,
+ 	COM_Complete,
+ 	COM_FindWarp,
+ 	COM_FriendDead,
+ 	COM_Failed,
+ 	COM_TimeShort,
+ 	COM_NearBy,
+ 	COM_TooFar,
+ 	COM_EscortOk,
+ 	COM_Status,
+ 	COM_Bonus=15,
+ 	COM_Weapon=21,
+ 	COM_Request=27,
  	COM_Chat=33
 };
 
@@ -510,4 +510,3 @@ typedef struct {
 #define LK_RIGHT g_SGSettings.key[20]
 #define LK_LEFT g_SGSettings.key[21]
 #define LK_TALK g_SGSettings.key[22]
-

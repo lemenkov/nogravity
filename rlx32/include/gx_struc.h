@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -46,7 +46,7 @@ enum {
 
 enum
 {
-	GX_STATE_BACKBUFFERPAGE = 0x100,    // Internal (buffer page 0/1)      
+	GX_STATE_BACKBUFFERPAGE = 0x100,    // Internal (buffer page 0/1)
 	GX_STATE_LOCKED = 0x800,    // FB is locked (write is allowed)
     GX_STATE_SCENEBEGUN = 0x1000,   // 3D Scene has begun.
 	GX_STATE_MENUBAR = 0x2000,
@@ -81,7 +81,7 @@ typedef struct _gx_viewport{
     int32_t              lHeight;           // Height size of the screen
     int32_t              lRatio;            // Ratio
     u_int32_t            lVideoSize;        // Video memory size
-    int32_t              xmin;              // Viewport coordinates 
+    int32_t              xmin;              // Viewport coordinates
     int32_t              ymin;
     int32_t              xmax;
     int32_t              ymax;
@@ -155,7 +155,7 @@ typedef struct {
     int	               (* RLXAPI SetDisplayMode)(GXDISPLAYMODEHANDLE mode);
     GXDISPLAYMODEHANDLE(* RLXAPI SearchDisplayMode)(int lx, int ly, int bpp);
     int                (* RLXAPI CreateSurface)(int numberOfSparePages);
-    void               (* RLXAPI ReleaseSurfaces)(void); 
+    void               (* RLXAPI ReleaseSurfaces)(void);
     void               (* RLXAPI UploadSprite)(GXSPRITE *sp, rgb24_t *colorTable, int bpp);
     void               (* RLXAPI ReleaseSprite)(GXSPRITE *sp);
     unsigned           (* RLXAPI UpdateSprite)(GXSPRITE *sp, const u_int8_t *bitmap, const rgb24_t *colorTable);
@@ -163,7 +163,7 @@ typedef struct {
     void               (* RLXAPI Shutdown)(void);
     int                (* RLXAPI Open)(void *hwnd);
     unsigned           (* RLXAPI NotifyEvent)(enum GX_EVENT_MODE mode, int x, int y);
-  
+
 
     char               s_DrvName[64];
 	int				   Capabilities;
@@ -204,7 +204,7 @@ struct GXSYSTEM
 	GX_HardwareInfo		Accel;
 	GXCLIENTDRIVER *	Client;
 	GXSPRITEINTERFACE			csp;
-	CSP_Config			csp_cfg;	
+	CSP_Config			csp_cfg;
 	rgb24_t			 *  ColorClut;
 	rgb24_t				ColorTables[4][256];
 	rgb24_t				ColorTable[256];

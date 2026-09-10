@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -131,7 +131,7 @@ void V3XCL_findGlobalSphere(V3XMESH *obj, V3XCL_SPHERE *Cs)
 *
 * PROTOTYPE  :  V3XCL_MESH *V3XCL_GenerateFromMesh(V3XCL_MESH *mc, V3XMESH *mesh)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 #define TESSLATE_CMESH
@@ -139,7 +139,7 @@ void V3XCL_findGlobalSphere(V3XMESH *obj, V3XCL_SPHERE *Cs)
 *
 * PROTOTYPE  :  V3XCL_MESH *V3XCL_GenerateFromMesh(V3XCL_MESH *mc, V3XMESH *mesh)
 *
-* Description :  
+* Description :
 *
 */
 V3XCL_MESH *V3XCL_GenerateFromMesh(V3XCL_MESH *mc, V3XMESH *mesh)
@@ -153,13 +153,13 @@ V3XCL_MESH *V3XCL_GenerateFromMesh(V3XCL_MESH *mc, V3XMESH *mesh)
     {
         mc->numFaces+=fm->numEdges-2;
     }
-    mc->face = (V3XCL_FACE*)MM_heap.malloc(mc->numFaces * sizeof(V3XCL_FACE));    
+    mc->face = (V3XCL_FACE*)MM_heap.malloc(mc->numFaces * sizeof(V3XCL_FACE));
     for (fc=mc->face, fm=mesh->face, i=0;i<mesh->numFaces;i++, fm++, nm++)
     {
         int nbFan = fm->numEdges - 2;
         int j, k;
         for (j=0;j<nbFan;j++, fc++)
-        {        
+        {
             fc->numEdges = 3;
             fc->edges = (V3XVECTOR*)MM_heap.malloc((u_int32_t)fc->numEdges*sizeof(V3XVECTOR));
             fc->sectorID = 0;
@@ -175,7 +175,7 @@ V3XCL_MESH *V3XCL_GenerateFromMesh(V3XCL_MESH *mc, V3XMESH *mesh)
     }
 #else
     if (!mc->numFaces) mc->numFaces = mesh->numFaces;
-    if (!mc->face)     mc->face = (V3XCL_FACE*)MM_heap.malloc(mc->numFaces * sizeof(V3XCL_FACE));    
+    if (!mc->face)     mc->face = (V3XCL_FACE*)MM_heap.malloc(mc->numFaces * sizeof(V3XCL_FACE));
     for (fc=mc->face, fm=mesh->face, i=0;i<mesh->numFaces;i++, fm++, fc++, nm++)
     {
         int k;
@@ -242,8 +242,8 @@ void V3XCL_Xform(V3XCL *Cs)
     V3XCL_ITEM *a;
     if (Cs->mesh_ref)
     {
-        V3XVector_ApplyMatrixTrans(Cs->global.center, 
-        Cs->global._center, 
+        V3XVector_ApplyMatrixTrans(Cs->global.center,
+        Cs->global._center,
         Cs->mesh_ref->matrix.Matrix);
     }
     for (i=Cs->numItem, a=Cs->item;i!=0;i--, a++)
@@ -257,7 +257,7 @@ void V3XCL_Xform(V3XCL *Cs)
                 break;
                 case V3XCTYPE_AXISBOX:
                 V3XVector_ApplyMatrixTrans(a->box.center, a->box._center, Cs->mesh_ref->matrix.Matrix);
-                break;            
+                break;
             }
         }
         else
@@ -278,14 +278,14 @@ void V3XCL_Xform(V3XCL *Cs)
 *
 * PROTOTYPE  :  void V3XCL_XformNoRef(V3XCL *Cs, V3XVECTOR *pos)
 *
-* Description :  
+* Description :
 *
 */
 void V3XCL_XformNoRef(V3XCL *Cs, V3XVECTOR *pos)
 {
     int i;
     V3XCL_ITEM *a;
-    Cs->global.center = *pos;     
+    Cs->global.center = *pos;
     for (i=Cs->numItem, a=Cs->item;i!=0;i--, a++)
     {
         switch(a->type) {
@@ -294,9 +294,9 @@ void V3XCL_XformNoRef(V3XCL *Cs, V3XVECTOR *pos)
             a->sh.center = *pos;
             break;
             case V3XCTYPE_AXISBOX:
-            a->box.center = *pos;     
-            break;                
-        }       
+            a->box.center = *pos;
+            break;
+        }
     }
     return;
 }
@@ -318,8 +318,8 @@ static int V3XCL_Test_SphSph(V3XCL *a, V3XCL *b, V3XCL_SPHERE *aa, V3XCL_SPHERE 
     Pb = &bb->center;
     V3XVector_Dif(&k1, Pb, Pa);
     d = V3XVector_Normalize(&k1, &k1);
-    r = aa->radius + bb->radius; 
-	if (r<CST_EPSILON) 
+    r = aa->radius + bb->radius;
+	if (r<CST_EPSILON)
 		r=CST_EPSILON;
     if ( (r>=d) ^ inv)
     {
@@ -459,7 +459,7 @@ static int V3XCL_Test_BoxSph(V3XCL *a, V3XCL *b, V3XCL_BOX *m1, V3XCL_SPHERE *m2
 int V3XCL_Test(V3XCL *a, V3XCL *b)
 {
     int i, mm=0;
-    V3XCL_ITEM *aa, *bb; 
+    V3XCL_ITEM *aa, *bb;
     for (i=a->numItem, aa=a->item;i!=0;i--, aa++)
     {
         int j;
@@ -472,10 +472,10 @@ int V3XCL_Test(V3XCL *a, V3XCL *b)
                 {
                     switch(bb->type) {
                         case V3XCTYPE_SPHERE:
-                        m = V3XCL_Test_SphSph(a, b, &aa->sh, &bb->sh, 1);      
+                        m = V3XCL_Test_SphSph(a, b, &aa->sh, &bb->sh, 1);
                         break;
                         case V3XCTYPE_AXISBOX:
-                        m = V3XCL_Test_BoxSph(b, a, &bb->box, &aa->sh);      
+                        m = V3XCL_Test_BoxSph(b, a, &bb->box, &aa->sh);
                         break;
                     }
                 }
@@ -495,8 +495,8 @@ int V3XCL_Test(V3XCL *a, V3XCL *b)
             }
             if (m)
             {
-                a->last_hit = bb; 
-                b->last_hit = aa; 
+                a->last_hit = bb;
+                b->last_hit = aa;
                 mm = 1;//return 1;
             }
         }
@@ -575,7 +575,7 @@ void V3XCL_Draw(V3XCL *cs)
         u_int32_t cl = RGB_PixelFormat(0xff, 0xff, 0x80);
         switch(aa->type) {
             case V3XCTYPE_SPHERE:
-			{	
+			{
 				V3X_DrawSphere(&cs->mesh_ref->matrix, &aa->sh._center, aa->sh.radius, cl);
 			}
             break;
@@ -591,4 +591,3 @@ void V3XCL_Draw(V3XCL *cs)
     }
     return;
 }
-

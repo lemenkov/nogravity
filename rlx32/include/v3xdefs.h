@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -41,21 +41,21 @@ enum {
       V3XOPTION_DEBUG = 0x2, // Enable debug output
       V3XOPTION_AMBIANT = 0x4, // Enable ambiant override
       V3XOPTION_COLLISION = 0x8, // Enable collision detection
-      V3XOPTION_ADDMESH = 0x10, 
-      V3XOPTION_DUPPOLY = 0x20, 
-      V3XOPTION_COLLISIONDRAW = 0x40, 
-      V3XOPTION_97  = 0x80, 
-      V3XOPTION_PUSHSCENE = 0x100, 
-      V3XOPTION_USESAMELUT = 0x200, 
-      V3XOPTION_TRUECOLOR = 0x400, 
-      V3XOPTION_TRACER = 0x800, 
-      V3XOPTION_PORTALCULL = 0x1000, 
+      V3XOPTION_ADDMESH = 0x10,
+      V3XOPTION_DUPPOLY = 0x20,
+      V3XOPTION_COLLISIONDRAW = 0x40,
+      V3XOPTION_97  = 0x80,
+      V3XOPTION_PUSHSCENE = 0x100,
+      V3XOPTION_USESAMELUT = 0x200,
+      V3XOPTION_TRUECOLOR = 0x400,
+      V3XOPTION_TRACER = 0x800,
+      V3XOPTION_PORTALCULL = 0x1000,
 	  V3XOPTION_RAYTRACE  = 0x2000
 
 };
 
 enum {
-      V3XWARN_NOENOUGHSurfaces = 0x2, 
+      V3XWARN_NOENOUGHSurfaces = 0x2,
 	  V3XWARN_MISSINGTEXTURES = 0x4
 };
 
@@ -123,7 +123,7 @@ enum {
 struct _v3xmaterial;
 
 typedef struct _v3xpoly{
-    union 
+    union
 	{
          struct _v3xmaterial        *Mat;            // Material structures
          int         matIndex;       // Material index in the mesh
@@ -132,7 +132,7 @@ typedef struct _v3xpoly{
     V3XPTS      *	dispTab;             // projected points (on screen)
     V3XUV       **	uvTab;              // texture coordinates
     V3XSCALAR		distance;             // distance (for Z Sort)
-    union 
+    union
 	{
         V3XSCALAR   *shade;
         rgb32_t		*rgb;             // light intensity
@@ -146,7 +146,7 @@ typedef struct _v3xpoly{
 }V3XPOLY;
 
 typedef struct _v3xpoly_l{
-    union 
+    union
 	{
          struct _v3xmaterial        *Mat;            // Material structures
          int        matIndex;       // Material index in the mesh
@@ -194,7 +194,7 @@ typedef struct _v3x_materialProperties{
 		unsigned AlphaComponent: 1;
 		unsigned HiColorTex    : 1;
 
-		unsigned LightMap	   : 1;	
+		unsigned LightMap	   : 1;
 		unsigned filler        : 3;  // reserved
 }V3XMATERIALPROPERTIES;
 
@@ -209,26 +209,26 @@ typedef struct _v3xmaterial
     u_int8_t        shift_size;        // texture scale factor (2^shift_size)
     u_int8_t        alpha;             // alpha 0..255
     u_int8_t        shiness;           // shiness strength 0..255
-    u_int8_t        strength;          // strength 0..255    
+    u_int8_t        strength;          // strength 0..255
 
     char         mat_name[16];      // material name
     char         ref_name[16];      // reflection mapping filename
     char         tex_name[16];      // texture mapping filename
-    GXSPRITE     texture[2];       // GXSPRITE structure of the texture map 
-	void	*	 reserved[2];    
+    GXSPRITE     texture[2];       // GXSPRITE structure of the texture map
+	void	*	 reserved[2];
 	struct _fli_struct	*fli;
     void         (* CALLING_C render_clip)(V3XPOLY *fce);  // internal
-	
+
 	union {
 		void         (* CALLING_C render_near)(V3XPOLY *fce);  // internal
 		V3XMATERIALPROPERTIES	info_near;
 		u_int32_t					lod_near;
-	};      
-    	
+	};
+
 	union {
 		void         (* CALLING_C render_far )(V3XPOLY *fce);  // internal
 		V3XMATERIALPROPERTIES	info_far;
-		u_int32_t					lod_far;		
+		u_int32_t					lod_far;
 	};
 
 	rgb24_t      ambient, diffuse, specular;  // Color informations
@@ -237,7 +237,7 @@ typedef struct _v3xmaterial
     u_int8_t        Render;            // reserved
     u_int8_t        scale;             // Sprite factor 0..255
 	u_int8_t		 RenderID_near;
-    u_int8_t        filler[2];          
+    u_int8_t        filler[2];
 }V3XMATERIAL;
 
 /*
@@ -251,7 +251,7 @@ typedef struct _v3x_key_euler{
 
 typedef struct _v3x_key_postarget{
     V3XVECTOR    target;  // target
-    V3XVECTOR    pos;     // position 
+    V3XVECTOR    pos;     // position
     V3XSCALAR     roll;    // rol (0..4096)
 }V3XKEYCAMERA;
 
@@ -298,11 +298,11 @@ enum {
     V3XMESH_HASNORMAL = 0x200, // Have normal edge mesh
     V3XMESH_EXCPTDYNLIGHT = 0x400, // do not shaded by dynamic light
     V3XMESH_HASSHADETABLE = 0x800, // Contains pre-shading value
-    V3XMESH_NOOPTIMIZE = 0x1000, 
+    V3XMESH_NOOPTIMIZE = 0x1000,
     V3XMESH_HASMIRRORMATERIAL = 0x2000, // Is a 'mirror' object.
-    V3XMESH_NOZSORT			 = 0x4000, 
-	V3XMESH_LOWDETAIL		 = 0x8000, 
-	V3XMESH_LODNEVER		 = 0x10000, 
+    V3XMESH_NOZSORT			 = 0x4000,
+	V3XMESH_LOWDETAIL		 = 0x8000,
+	V3XMESH_LODNEVER		 = 0x10000,
 	V3XMESH_FLATSHADE		 = 0x20000
 
 };
@@ -329,7 +329,7 @@ typedef struct _v3x_mesh{
     V3XSCALAR   	 	scale;          // Uniform scaling
     /* Note an int32 of padding is added here by the compiler when compiling
        for a platform with 64 bit pointers */
-    union   
+    union
 	{
         V3XSCALAR	*	shade;
         rgb32_t		*	rgb;
@@ -366,7 +366,7 @@ typedef struct _v3x_light
 	void			*	reserved[2];
 #ifdef __LP64__
 	u_int32_t alignTK_lp64[2];
-#endif    
+#endif
 
     V3XKEY      		Tk;
 
@@ -393,7 +393,7 @@ typedef struct _v3x_camera{
 #ifdef __LP64__
     u_int32_t alignTK_lp64[6];
 #endif
-    V3XMATRIX     M;               // Matrix 
+    V3XMATRIX     M;               // Matrix
     V3XKEY        Tk;              // Keyframe informations 22 q
 #ifndef __LP64__
     u_int32_t         pad[7];
@@ -415,7 +415,7 @@ typedef struct _v3x_light_mgr{
     rgb32_t    ambiant;         // ambiant color
     rgb32_t    ambiantMaterial; // ambiant material override
     u_int8_t        fogFactor;       // fog factor (should obsolete)
-    u_int8_t        numColor;        // numbers of colors 
+    u_int8_t        numColor;        // numbers of colors
     u_int8_t        numSource;       // numbers of light sources
     u_int8_t        pad;
 }V3XLIGHTS;
@@ -452,13 +452,13 @@ typedef struct _v3x_buffer{
     u_int8_t      **OVI;             // array of OVI to treat
     V3XMATERIAL *Mat;             // temporay array of material
 
-    unsigned     MaxFaces;        // number of displayed faces  
+    unsigned     MaxFaces;        // number of displayed faces
     unsigned     MaxFacesDisplay; // number of displayable face
     unsigned     MaxClipped;      // number of clipped faces
     unsigned     MaxClippedFaces; // number of clippable faces
-    unsigned     MaxMat;          // number of material dynamically allocated 
+    unsigned     MaxMat;          // number of material dynamically allocated
     unsigned     MaxTmpMaterials;     // number of dynamicallable material
-    unsigned     MaxLight;        // number of available light 
+    unsigned     MaxLight;        // number of available light
     unsigned     MaxObj;          // number of object
     unsigned     MaxSceneNodes;
     unsigned     MaxPointsPerMesh;// number of vertex per objects
@@ -650,7 +650,7 @@ typedef struct {
      unsigned    V3XAPI  (*ZbufferClear)(rgb24_t *color, V3XSCALAR z, void *bitmap);
      void        V3XAPI  (*RenderPoly)(V3XPOLY **fce, int count);
      void        V3XAPI  (*BeginList)(void);
-     void        V3XAPI  (*EndList)(void);     
+     void        V3XAPI  (*EndList)(void);
      void        V3XAPI  (*DrawPrimitives)(V3XVECTOR *vertexes, u_int16_t *indexTab, unsigned NumIndexes, unsigned NumVertexes, int option, rgb32_t *color);
      char            s_DrvName[128];
      unsigned        version;

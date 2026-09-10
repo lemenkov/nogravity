@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -115,7 +115,7 @@ int V3XResources_Del(V3XRESOURCE *bm, const char *filename)
 *
 * PROTOTYPE  :  void V3XResources_Purge(V3XRESOURCE *bm, int purge)
 *
-* Description :  
+* Description :
 *
 */
 void V3XResources_Purge(V3XRESOURCE *bm, int purge)
@@ -125,34 +125,34 @@ void V3XResources_Purge(V3XRESOURCE *bm, int purge)
     for (i=0;i<bm->numItems;i++, bj++)
     {
         if (bj->flags&1)
-        { 
+        {
             if (purge)
             {
-                if ((bj->type == V3XRESOURCETYPE_TEXTURE2)||(bj->type==V3XRESOURCETYPE_TEXTURE))   
+                if ((bj->type == V3XRESOURCETYPE_TEXTURE2)||(bj->type==V3XRESOURCETYPE_TEXTURE))
                 {
                     if (bj->flags&2)
-                    {     
+                    {
                         FLI_STRUCT *fli = (FLI_STRUCT*)bj->data;
                         if (fli->frames)
                         {
                             GXSPRITE *sp;
                             int j;
                             for (sp=fli->frames, j=fli->MaximumFrame;j!=0;sp++, j--)
-                            {   
+                            {
 								if (sp->handle)
 								{
 									V3X.Client->TextureFree(sp->handle);
 									sp->handle = NULL;
 								}
-                                sp->data = NULL; 
-								
+                                sp->data = NULL;
+
                             }
                         }
                         FLI_Close(fli);
                     }
                     else
                     {
-                        GXSPRITE *texmap = (GXSPRITE*)bj->data;                        
+                        GXSPRITE *texmap = (GXSPRITE*)bj->data;
 						if (texmap->handle)
 						{
 							V3X.Client->TextureFree(texmap->handle);
@@ -160,7 +160,7 @@ void V3XResources_Purge(V3XRESOURCE *bm, int purge)
 						}
                     }
                     bj->flags&=~3;
-                }      
+                }
             }
         }
     }
@@ -242,19 +242,19 @@ int V3XCache_Material(V3XMATERIAL *Mat, int option)
         {
             if ((option&2)==0)
 			{
-				FLI_Unpack(a);   
+				FLI_Unpack(a);
 				if (a->decompBuffer)
 					V3X.Client->TextureModify(Mat->texture+0, a->decompBuffer, a->ColorTable);
 			}
 
-            if (option&1) 
+            if (option&1)
             {
-                if (( a->Flags & FLX_ISPLAYING)==0) 
+                if (( a->Flags & FLX_ISPLAYING)==0)
                 {
                     FLI_Rewind(a);
                     return -2;
                 }
-            }      
+            }
         }
     }
     return 0;
@@ -270,7 +270,7 @@ void V3XCache_Mesh(V3XMESH *Obj)
 {
     int i;
     V3XMATERIAL *Mat = Obj->material;
-    for (i=0;i<Obj->numMaterial;i++, Mat++)  
+    for (i=0;i<Obj->numMaterial;i++, Mat++)
 		V3XCache_Material(Mat, 0);
     return;
 }
@@ -296,13 +296,13 @@ static void V3x_Mapper_del(V3XMESH *Obj, V3XMATERIAL *Mat, GXSPRITE *texmap, cha
             {
                 GXSPRITE *sp;
                 for (sp=fli->frames, i=fli->MaximumFrame;i!=0;sp++, i--)
-                {     
+                {
 					if (sp->handle)
 					{
 						V3X.Client->TextureFree(sp->handle);
 						sp->handle = NULL;
 					}
-                    sp->data = NULL; 					
+                    sp->data = NULL;
                 }
             }
             FLI_Close(fli);
@@ -316,10 +316,10 @@ static void V3x_Mapper_del(V3XMESH *Obj, V3XMATERIAL *Mat, GXSPRITE *texmap, cha
             V3XMATERIAL *tos = Obj->material;
             for (i=0;i<Obj->numMaterial;i++, tos++)
             {
-                if (tos->texture[0].data==texmap->data) 
+                if (tos->texture[0].data==texmap->data)
 					tos->texture[0].data=NULL;
 
-                if (tos->texture[1].data==texmap->data) 
+                if (tos->texture[1].data==texmap->data)
 					tos->texture[1].data=NULL;
             }
         }
@@ -353,18 +353,18 @@ void V3XMaterial_Release(V3XMATERIAL *Mat, V3XMESH *Obj)
 *
 * PROTOTYPE  : void V3XMaterial_UploadTexture(GXSPRITE *texture[0], GXSPRITE *surface, int bpp, int option)
 *
-* DESCRIPTION : 
+* DESCRIPTION :
 *
 */static void V3XMaterial_UploadTexture(GXSPRITE *pDst, const GXSPRITE *pSrc, int bpp, int option)
 {
     *pDst = *pSrc;
-    pDst->handle = V3X.Client->TextureDownload(pSrc, GX.ColorTable, bpp, option);	
+    pDst->handle = V3X.Client->TextureDownload(pSrc, GX.ColorTable, bpp, option);
 
     SYS_ASSERT(pDst->handle);
 
     if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
     {
-        pDst->data = (u_int8_t*)pDst->handle;		
+        pDst->data = (u_int8_t*)pDst->handle;
     }
 	else
 	{
@@ -390,7 +390,7 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
 {
     int   texMode = (nTMU==1) ? V3XRESOURCETYPE_TEXTURE2 : V3XRESOURCETYPE_TEXTURE;
     char *szFullPathName;
-    if (!szFilename[0]) 
+    if (!szFilename[0])
 		return;
 		szFullPathName = file_searchpathES(szFilename, V3X.Setup.texturePath);
 	if (!szFullPathName)
@@ -415,7 +415,7 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
                 fp = FIO_cur->fopen(szFullPathName, "rb");
                 if (fp)
 				   fli = FLI_Open(fp, FLI_USEMEMORY);
-				   
+
 				SYS_ASSERT(fli);
                 if (!fli)
                 {
@@ -427,7 +427,7 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
                     V3XRESOURCE_ITEM *item;
                     Mat->fli = fli;
                     item = V3XResources_Put(&V3X.Cache, szFullPathName, fli, texMode);
-                    if (item) 
+                    if (item)
 						item->flags = 3;
 
                     if (fli->frames)
@@ -437,8 +437,8 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
                         for (sp=fli->frames, i=fli->MaximumFrame;i!=0;sp++, i--)
                         {
                             FLI_Unpack(fli);
-                            surface = *sp;				
-							
+                            surface = *sp;
+
 							V3XMaterial_UploadTexture(sp, &surface, 8, V3XTEXDWNOPTION_DYNAMIC | (Mat->info.Opacity ? V3XTEXDWNOPTION_COLORKEY : 0) );
                         }
                         *tex = fli->bitmap;
@@ -459,23 +459,23 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
             {
                 Mat->fli = fli;
                 Mat->shift_size = 0;
-                *tex = fli->bitmap;		
+                *tex = fli->bitmap;
 				SYS_ASSERT(tex->handle);
             }
-			
+
         }
         /* ************** mapping fixe ****************** */
         else
-        {			
+        {
             sp = (GXSPRITE*) V3XResources_Get(&V3X.Cache, szFilename, texMode);
             if (sp==NULL)
             {
                 int x = MM_heap.active, bpp;
 
-                MM_heap.active = 0;				
-				bpp = IMG_LoadFn(szFullPathName, &surface);	
+                MM_heap.active = 0;
+				bpp = IMG_LoadFn(szFullPathName, &surface);
 				SYS_ASSERT(bpp == 8);
-			
+
 				if (bpp)
                 {
                     if (bpp<15)
@@ -485,11 +485,11 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
                     }
 
 					MM_heap.active = x;
-					V3XMaterial_UploadTexture(tex, &surface, bpp, (Mat->info.Opacity ? V3XTEXDWNOPTION_COLORKEY : 0));				
+					V3XMaterial_UploadTexture(tex, &surface, bpp, (Mat->info.Opacity ? V3XTEXDWNOPTION_COLORKEY : 0));
 					MM_heap.active = 0;
 					MM_heap.free(surface.data);
                     MM_heap.active = x;
-                   
+
                     V3XResources_Put(&V3X.Cache, szFilename, tex, texMode);
                 }
             }
@@ -514,7 +514,7 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
             SYS_Msg(tex);
             SYS_Debug(tex);
         }
-        V3X.Setup.warnings|=V3XWARN_MISSINGTEXTURES;        
+        V3X.Setup.warnings|=V3XWARN_MISSINGTEXTURES;
         Mat->info.Texturized = 0;
         Mat->Render = Mat->info.Shade ? V3XRCLASS_gouraud : V3XRCLASS_flat;
         Mat->texture[0].handle = NULL;
@@ -548,7 +548,7 @@ void V3XMaterials_LoadFromMesh(V3XMESH *Obj)
 {
     int i;
     V3XMATERIAL *Mat = Obj->material;
-    for (i=Obj->numMaterial;i!=0;Mat++, i--) 
+    for (i=Obj->numMaterial;i!=0;Mat++, i--)
 		V3XMaterial_LoadTextures( Mat );
     return;
 }

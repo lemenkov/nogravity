@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -31,20 +31,20 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 // Load format
 enum {
-    FLI_DIRECTFROMDISK = 0x0, 
-    FLI_USEMEMORY  = 0x1, 
-    FLI_LZWPACKED  = 0x2, 
+    FLI_DIRECTFROMDISK = 0x0,
+    FLI_USEMEMORY  = 0x1,
+    FLI_LZWPACKED  = 0x2,
     FLI_EXPANDED = 0x4};
 
 // Play status
 enum {
-    FLX_ISPLAYING  = 0x1, 
-    FLX_LOOPANIMATION = 0x2, 
-    FLX_DECOMPRESSFRAME = 0x4, 
-    FLX_RESETPALETTE = 0x8, 
-    FLX_INSurfaces = 0x10, 
-    FLX_DOUBLEBUFFERING = 0x20, 
-    FLX_FORMARD1FRAME = 0x40, 
+    FLX_ISPLAYING  = 0x1,
+    FLX_LOOPANIMATION = 0x2,
+    FLX_DECOMPRESSFRAME = 0x4,
+    FLX_RESETPALETTE = 0x8,
+    FLX_INSurfaces = 0x10,
+    FLX_DOUBLEBUFFERING = 0x20,
+    FLX_FORMARD1FRAME = 0x40,
     FLX_EXPANDED = 0x80};
 
 // FLC Header

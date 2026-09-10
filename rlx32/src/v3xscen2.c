@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -172,7 +172,7 @@ static V3XORI RLXAPI *V3XScene_NewORI(V3XSCENE *pScene)
 *
 * PROTOTYPE  :  int RLXAPI V3XScene_ReleaseObject(V3XSCENE *pScene, V3XOVI *OVI, u_int32_t flags)
 *
-* Description :  
+* Description :
 *
 */
 static int RLXAPI V3XScene_ReleaseObject(V3XSCENE *pScene, V3XOVI *OVI, u_int32_t flags)
@@ -204,7 +204,7 @@ static V3XOVI RLXAPI *V3XScene_NewOVI(V3XSCENE *pScene)
     {
         OVI++;
     }
-    p = OVI - pScene->OVI + 1; 
+    p = OVI - pScene->OVI + 1;
 	if (p>pScene->numOVI) pScene->numOVI = (u_int16_t)p;
     V3x_Create_OVI(OVI, TRUE);
     return OVI;
@@ -310,7 +310,7 @@ V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *pScene, const char *name)
         V3XORI *ORI = (OVI->index_ORI<0xffff) ? pScene->ORI + OVI->index_ORI : OVI->ORI;
         if (ORI)
         {
-			
+
             if (sysStriCmp(ORI->name, name)==0)
             {
                 f = 1;
@@ -324,7 +324,7 @@ V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *pScene, const char *name)
 *
 * PROTOTYPE  :  V3XORI RLXAPI *V3XScene_ORI_GetByName(V3XSCENE *pScene, char *name)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XORI RLXAPI *V3XScene_ORI_GetByName(V3XSCENE *pScene, const char *name)
@@ -341,15 +341,15 @@ V3XORI RLXAPI *V3XScene_ORI_GetByName(V3XSCENE *pScene, const char *name)
 *
 * PROTOTYPE  :  void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI)
 {
     if (OVI==NULL) return;
-	
+
     V3X.Camera.matrix_Method = V3XMATRIX_Vector;
-	
+
     V3X.Camera.Tk = OVI->mesh->Tk;
     V3XMatrix_MeshTransform(&V3X.Camera);
     return;
@@ -358,7 +358,7 @@ void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI)
 *
 * PROTOTYPE  :  V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, char *name)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, const char *name)
@@ -393,9 +393,9 @@ void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
     V3XORI *nORI, *cORI;
     int i;
     for (OVI=pScene->OVI, i=0;i<pScene->numOVI;i++, OVI++)
-    {        
+    {
         if ((i)&&(OVI->ORI == pScene->ORI)) OVI->ORI = NULL;
-        nORI = OVI->ORI;		
+        nORI = OVI->ORI;
         if (nORI)
         if (nORI->type!=V3XOBJ_NONE)
         {
@@ -408,13 +408,13 @@ void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
 					if (nORI->type == V3XOBJ_MESH)
 					{
 						if (cORI->mesh)
-	                    V3XMesh_Duplicate(nORI->mesh, cORI->mesh);     
+	                    V3XMesh_Duplicate(nORI->mesh, cORI->mesh);
 						nORI->flags|=V3XORI_DUPLICATED;
 		            }
 					else
 					{
 	                    *nORI->node = *cORI->node;
-						nORI->flags|=V3XORI_DUPLICATED;						
+						nORI->flags|=V3XORI_DUPLICATED;
 					}
 				}
             }
@@ -424,7 +424,7 @@ void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
 				{
 					nORI->light->Tk = *OVI->Tk;
 					nORI->light->pos = OVI->Tk->vinfo.pos;
-					*OVI->light = *nORI->light;					
+					*OVI->light = *nORI->light;
 				}
                 break;
                 case V3XOBJ_MESH:
@@ -442,7 +442,7 @@ void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
 					}
                     if ((OVI->state&V3XSTATE_INSTANCED)==0)
                     {
-                        OVI->mesh->matrix = pMat;     
+                        OVI->mesh->matrix = pMat;
                         OVI->mesh->Tk = Tk;
                     }
                 }
@@ -493,21 +493,21 @@ void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
         {
 			SYS_ASSERT(OVI->index_ORI>=0 && OVI->index_ORI<pScene->numORI);
             OVI->ORI = pScene->ORI + OVI->index_ORI;
-          
+
 			if (OVI->index_TVI)
             {
 				SYS_ASSERT(OVI->index_TVI>=0 && OVI->index_TVI<=pScene->numTVI);
                 TVI = pScene->TVI + OVI->index_TVI;
-                if (TVI->index_TRI < pScene->numTRI) 
+                if (TVI->index_TRI < pScene->numTRI)
                 {
                     TRI = pScene->TRI + TVI->index_TRI;
-                    
-					if (0!=TRI->index_NEXT)  
+
+					if (0!=TRI->index_NEXT)
 						TRI->next = pScene->TRI + TRI->index_NEXT;
-                    
-					if (0!=TRI->index_CHAIN) 
+
+					if (0!=TRI->index_CHAIN)
 						TRI->chain = pScene->TRI + TRI->index_CHAIN;
-                    
+
 					TVI->TRI = TRI;
                     OVI->TVI = TVI;
                 }
@@ -523,11 +523,11 @@ void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
             if (0!=OVI->index_NEXT)
 			{
 				SYS_ASSERT(OVI->index_NEXT>=0 && OVI->index_NEXT<pScene->numOVI);
-				OVI->next = pScene->OVI + OVI->index_NEXT;            
+				OVI->next = pScene->OVI + OVI->index_NEXT;
 			}
 		}
         OVI->Tk = &OVI->mesh->Tk;
-        
+
     }
     for (OVI=pScene->OVI, i=0;i<pScene->numOVI;i++, OVI++)
     {
@@ -574,7 +574,7 @@ void RLXAPI static v3x_freeMorph3D(V3XTWEEN *mo)
 *
 * PROTOTYPE  :  void V3XLight_Release(V3XLIGHT *light)
 *
-* Description :  
+* Description :
 *
 */
 static void V3XLight_Release(V3XLIGHT *light)
@@ -597,7 +597,7 @@ static void V3XLight_Release(V3XLIGHT *light)
 */
 void RLXAPI static v3x_Destroy_ORI(V3XSCENE *pScene, int i)
 {
-    V3XORI *ORI = pScene->ORI + i; 
+    V3XORI *ORI = pScene->ORI + i;
     switch(ORI->type) {
         case V3XOBJ_LIGHT:
         if (ORI->light)
@@ -606,39 +606,39 @@ void RLXAPI static v3x_Destroy_ORI(V3XSCENE *pScene, int i)
 			{
 				V3XLight_Release(ORI->light);
 			}
-			else 
+			else
 			{
-				MM_heap.free(ORI->light);   
+				MM_heap.free(ORI->light);
 			}
 		}
         break;
         case V3XOBJ_VIEWPORT:
-        case V3XOBJ_DUMMY:   
-        MM_heap.free(ORI->mesh);  
+        case V3XOBJ_DUMMY:
+        MM_heap.free(ORI->mesh);
         break;
         case V3XOBJ_MESH:
-        if (ORI->mesh) 
-        {  
-			
-            if ((ORI->flags&V3XORI_DUPLICATED)==0) 
-            {             
-				
+        if (ORI->mesh)
+        {
+
+            if ((ORI->flags&V3XORI_DUPLICATED)==0)
+            {
+
                 V3XMesh_Release(ORI->mesh);
-            }   
+            }
 			else
 			{
-				
+
 				V3XMesh_ReleaseDup(ORI->mesh);
 			}
         }
         break;
-    } 
-    ORI->node = NULL;       
+    }
+    ORI->node = NULL;
     if ((ORI->flags & V3XORI_CSDUPLICATED)==0)
     {
         if (ORI->Cs) V3XCL_Release(ORI->Cs);
-    } 
-    if (ORI->morph) v3x_freeMorph3D(ORI->morph);    
+    }
+    if (ORI->morph) v3x_freeMorph3D(ORI->morph);
     V3x_Create_ORI(ORI, i);
     return;
 }
@@ -674,13 +674,13 @@ void RLXAPI static v3x_Destroy_OVI(V3XSCENE *pScene, int mp)
             {
                 MM_heap.free(OVI->mesh->face);
                 OVI->mesh->face = NULL;
-            }   
+            }
         }
-    }    
+    }
     if (OVI->child) MM_heap.free(OVI->child);
-    if (OVI->mesh) 
+    if (OVI->mesh)
     if (OVI->mesh!=OVI->ORI->mesh) MM_heap.free(OVI->mesh);
-    V3x_Create_OVI(OVI, FALSE); 
+    V3x_Create_OVI(OVI, FALSE);
     return;
 }
 /*------------------------------------------------------------------------
@@ -734,7 +734,7 @@ static void v3xtx_free(V3XLAYER_CLITEM *item)
 *
 * PROTOTYPE  :  void RLXAPI V3XScene_Release(V3XSCENE *pScene)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void RLXAPI V3XScene_Release(V3XSCENE *pScene)
@@ -742,18 +742,18 @@ void RLXAPI V3XScene_Release(V3XSCENE *pScene)
     int i;
     V3XLAYER *layer = &pScene->Layer;
     if (pScene==NULL) return;
-    for (i=0;i<pScene->numOVI;i++) v3x_Destroy_OVI(pScene, i);     
-    for (i=0;i<pScene->numTVI;i++) v3x_Destroy_TVI(pScene, i); 
-    for (i=0;i<pScene->numORI;i++) 
+    for (i=0;i<pScene->numOVI;i++) v3x_Destroy_OVI(pScene, i);
+    for (i=0;i<pScene->numTVI;i++) v3x_Destroy_TVI(pScene, i);
+    for (i=0;i<pScene->numORI;i++)
     {
-		
-        v3x_Destroy_ORI(pScene, i); 
+
+        v3x_Destroy_ORI(pScene, i);
     }
-    for (i=0;i<pScene->numTRI;i++) v3x_Destroy_TRI(pScene, i); 
+    for (i=0;i<pScene->numTRI;i++) v3x_Destroy_TRI(pScene, i);
     MM_heap.free(pScene->ORI);
     MM_heap.free(pScene->OVI);
     MM_heap.free(pScene->TRI);
-    MM_heap.free(pScene->TVI); 
+    MM_heap.free(pScene->TVI);
     if (GX.View.BytePerPixel==1)
     {
         v3xtx_free(&layer->lt.alpha50);
@@ -765,7 +765,7 @@ void RLXAPI V3XScene_Release(V3XSCENE *pScene)
             MM_heap.free(layer->lt.phong.table);
             layer->lt.gouraud.table = NULL;
         }
-    } 
+    }
     if (layer->bg.bitmap.handle) V3X_CSP_Unload(&layer->bg.bitmap);
     if (layer->lt.palette.table)
     MM_heap.free(layer->lt.palette.table);
@@ -788,7 +788,7 @@ static void RLXAPI V3x_GetRenderBackground(V3XSCENE *pScene)
         V3X_CSP_GetFn(layer->bg.filename, &layer->bg.bitmap, 1);
     }
     else
-    {  
+    {
         layer->bg.bitmap.handle = NULL;
         switch(layer->bg.flags&(0x10-1)) {
             case V3XBG_IMG:
@@ -810,7 +810,7 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
 {
     int i, x, m=MM_heap.active;
     V3XLAYER *layer = &pScene->Layer;
-    V3XORI    *ORI;  
+    V3XORI    *ORI;
     V3X.Setup.warnings &=~ V3XWARN_NOENOUGHSurfaces;
     /*
     *  Palette
@@ -846,12 +846,12 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
     Charge Les Maps
     */
     for (i=0, ORI=pScene->ORI;i<pScene->numORI;i++, ORI++)
-    {  
+    {
         switch(ORI->type) {
-            case V3XOBJ_MESH: 
+            case V3XOBJ_MESH:
 			{
 				if (ORI->mesh)
-				V3XMaterials_LoadFromMesh(ORI->mesh); 
+				V3XMaterials_LoadFromMesh(ORI->mesh);
 			}
 			break;
             case V3XOBJ_LIGHT:
@@ -865,8 +865,8 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
             }
             break;
         }
-    } 
-   
+    }
+
     /*
     *   Charge les Tables realColor
     */
@@ -880,7 +880,7 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
             v3xtx_load(&layer->lt.gouraud);
             if (layer->lt.gouraud.table)
             {
-                if (layer->lt.shift) 
+                if (layer->lt.shift)
 					REALCOLOR_Reduce(layer->lt.gouraud.table, layer->lt.shift);
                 layer->lt.phong.table = (u_int8_t**) MM_heap.malloc(256*sizeof(u_int8_t*));
                 for (i=0;i<128;i++)
@@ -911,12 +911,12 @@ static void RLXAPI *v3x_read_alloc(int32_t sz, int32_t n, int32_t n2, SYS_FILEHA
 {
     u_int8_t *tmp;
     int s;
-    if (n2<n) 
+    if (n2<n)
 		n2 = n;
-    s = sz * n2; 
-    if (!s) 
+    s = sz * n2;
+    if (!s)
 		return NULL;
-	tmp = (u_int8_t*)MM_heap.malloc(s); 
+	tmp = (u_int8_t*)MM_heap.malloc(s);
     s = FIO_gzip.fread(tmp, sz, n, in);
 	SYS_ASSERT(n == s);
     return tmp;
@@ -925,7 +925,7 @@ static void RLXAPI *v3x_read_alloc(int32_t sz, int32_t n, int32_t n2, SYS_FILEHA
 *
 * PROTOTYPE  :  V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int mt)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 
@@ -942,7 +942,7 @@ V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
     u_int32_t *raw;
     int i;
 	SYS_ASSERT(numMaterial < 255);
-	
+
     /* Unfortunately we cannot directly read the material struct from disk as
        it contains (not used on disk) pointers, which on disk are 32 bit, but
        may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
@@ -974,7 +974,7 @@ V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
     }
     raw -= numMaterial * 32;
     MM_heap.free(raw);
-    
+
 #ifdef __BIG_ENDIAN__
 	{
     V3XMATERIAL *pMat = Mat;
@@ -986,20 +986,20 @@ V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
         pMat->info.Opacity = BGETFIELD(info, 1, 1);
         pMat->info.Perspective = BGETFIELD(info, 2, 1);
         pMat->info.Filtering = BGETFIELD(info, 3, 1);
-		
+
         pMat->info.Texturized = BGETFIELD(info, 4, 2);
         pMat->info.Transparency = BGETFIELD(info, 6, 2);
         pMat->info.Shade = BGETFIELD(info, 8, 2);
 		pMat->info.Sprite = BGETFIELD(info, 10, 2);
-		
+
 		pMat->info.Environment = BGETFIELD(info, 12, 4);
-		
+
 		pMat->info.Dynamic = BGETFIELD(info, 16, 1);
 		pMat->info.AlphaLight = BGETFIELD(info, 15, 1);
 		pMat->info.AlphaLight = BGETFIELD(info, 16, 1);
 		pMat->info.Transparency2 = BGETFIELD(info, 17, 3);
 		pMat->info.MultiPassBlend = BGETFIELD(info, 20, 2);
-		
+
 	}
 	}
 #endif
@@ -1036,7 +1036,7 @@ static void v3x_raw_to_mesh(u_int32_t *raw, V3XMESH *obj)
 *
 * PROTOTYPE  :  V3XMESH static RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 *
-* Description :  
+* Description :
 *
 */
 V3XNODE static RLXAPI *v3x_VMX_unpack_node(SYS_FILEHANDLE in)
@@ -1050,7 +1050,7 @@ V3XNODE static RLXAPI *v3x_VMX_unpack_node(SYS_FILEHANDLE in)
     obj =(V3XMESH*)MM_heap.malloc(sizeof(V3XMESH));
     v3x_raw_to_mesh(raw, obj);
     MM_heap.free(raw);
-    
+
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)&obj->matrix, 12);
 	BSWAP32((u_int32_t*)&obj->Tk, 3+3+1);
@@ -1073,7 +1073,7 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
     obj =(V3XMESH*)MM_heap.malloc(sizeof(V3XMESH));
     v3x_raw_to_mesh(raw, obj);
     MM_heap.free(raw);
-    
+
 #ifdef __BIG_ENDIAN__
     BSWAP16((u_int16_t*)&obj->numVerts, 4);
     BSWAP32((u_int32_t *)&obj->flags, 1);
@@ -1084,7 +1084,7 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
     if (obj->numVerts)
     {
         obj->vertex = (V3XVECTOR*)v3x_read_alloc(sizeof(V3XVECTOR), obj->numVerts, -1, in);
-#ifdef __BIG_ENDIAN__        
+#ifdef __BIG_ENDIAN__
         BSWAP32((u_int32_t*)obj->vertex , obj->numVerts*3);
 #endif
         /* Unfortunately we cannot directly read the POLY struct from disk as
@@ -1112,14 +1112,14 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
         if (obj->uv)
         {
             obj->uv =(V3XUV*) v3x_read_alloc(sizeof(V3XUV), obj->numVerts, -1, in);
-#ifdef __BIG_ENDIAN__        
+#ifdef __BIG_ENDIAN__
 			BSWAP32((u_int32_t*)obj->uv, obj->numVerts*2);
 #endif
         }
         if (obj->normal)
         {
             obj->normal =(V3XVECTOR*)v3x_read_alloc(sizeof(V3XVECTOR), obj->numVerts, -1, in);
-#ifdef __BIG_ENDIAN__     
+#ifdef __BIG_ENDIAN__
 			BSWAP32((u_int32_t*)obj->normal, obj->numVerts*3);
 #endif
         }
@@ -1133,15 +1133,15 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
             if ((V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)==0)
             V3XRGB_ConvertToMono(obj->shade, obj->rgb, nb);
         }
-        else 
+        else
 			obj->rgb = NULL;
-        if ((V3X.Setup.flags&V3XOPTION_97)||(!obj->scale)) 
+        if ((V3X.Setup.flags&V3XOPTION_97)||(!obj->scale))
 		{
 			obj->scale = CST_ONE;
 		}
 
         obj->normal_face = (V3XVECTOR*)v3x_read_alloc(sizeof(V3XVECTOR), obj->numFaces, -1, in);
-#ifdef __BIG_ENDIAN__        
+#ifdef __BIG_ENDIAN__
         BSWAP32((u_int32_t*)obj->normal_face, obj->numFaces*3);
 #endif
         obj->material = V3XMaterials_GetFp(in, obj->numMaterial);
@@ -1156,20 +1156,20 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 			SYS_ASSERT(!((f->matIndex<0)||(f->matIndex>=obj->numMaterial)));
             f->Mat = obj->material + f->matIndex ;
             pMat  = (V3XMATERIAL*) f->Mat;
-            
-			if ((V3X.Client->Capabilities&GXSPEC_ENABLEPERSPECTIVE)&&(!pMat->info.Sprite)&&(pMat->info.Texturized)) 
+
+			if ((V3X.Client->Capabilities&GXSPEC_ENABLEPERSPECTIVE)&&(!pMat->info.Sprite)&&(pMat->info.Texturized))
 				pMat->info.Perspective=1;
-            
+
 			f->dispTab = (V3XPTS*)MM_heap.malloc(sizeof(V3XPTS)*f->numEdges);
-      
+
 			f->faceTab = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), f->numEdges, -1, in);
 #ifdef __BIG_ENDIAN__
             BSWAP32((u_int32_t*)f->faceTab, f->numEdges);
 #endif
-            f->shade = (pMat->info.Shade)  ? (V3XSCALAR *) v3x_read_alloc(sizeof(V3XSCALAR) , f->numEdges, -1, in) : NULL;   
+            f->shade = (pMat->info.Shade)  ? (V3XSCALAR *) v3x_read_alloc(sizeof(V3XSCALAR) , f->numEdges, -1, in) : NULL;
             if ((f->shade)&&((V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)==0))
 				V3XRGB_ConvertToMono(f->shade, f->rgb, f->numEdges);
-            
+
 			if (pMat->info.Texturized)
             {
 				unsigned j;
@@ -1185,14 +1185,14 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 					f->uvTab[0][j].v/=255.f;
 					SYS_ASSERT(f->faceTab[j]<obj->numVerts);
 				}
-				
 
-                if (n>1) 
+
+                if (n>1)
 					f->uvTab[1] = V3X_CALLOC(f->numEdges, V3XUV);
-                else 
+                else
 					f->uvTab[1] = NULL;
-            } 
-			else 
+            }
+			else
 				f->uvTab = NULL;
             f->ZTab = (pMat->info.Perspective) ? V3X_CALLOC(f->numEdges, V3XWPTS) : NULL;
         }
@@ -1237,15 +1237,15 @@ V3XLIGHT static RLXAPI *v3x_VMX_unpack_light(SYS_FILEHANDLE in)
     {
         light->material = NULL;
         light->flags&=~V3XLIGHTCAPS_LENZFLARE;
-    }	
-	light->flags |= V3XLIGHTCAPS_RANGE;	
+    }
+	light->flags |= V3XLIGHTCAPS_RANGE;
     return light;
 }
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
 *
-* Description :  
+* Description :
 *
 */
 V3XCAMERA static RLXAPI *v3x_VMX_unpack_camera(SYS_FILEHANDLE in)
@@ -1282,7 +1282,7 @@ V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
        may in reality be different (64 bits) see v3x_VMX_unpack_morph3D() for
        a simpler example of the same problem. */
     u_int32_t *raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 22, -1, in);
-    
+
     /* copy the raw data to the in memory struct */
     memcpy(Cs, raw, 2 * sizeof(u_int32_t));
     Cs->item = (V3XCL_ITEM *)(uintptr_t)raw[2];
@@ -1302,7 +1302,7 @@ V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
        disk as it contains (not used on disk) pointers, which on disk are 32
        bit, buts may in reality be different (64 bits) */
     raw = (u_int32_t *)v3x_read_alloc(sizeof(u_int32_t), 16 * Cs->numItem, -1, in);
-    
+
     for (i = 0; i < Cs->numItem; i++)
     {
         V3XCL_ITEM *item = &Cs->item[i];
@@ -1330,7 +1330,7 @@ V3XCL static RLXAPI *v3x_VMX_unpack_collide(SYS_FILEHANDLE in)
                64 bits pointers) */
         }
     }
-    
+
 #ifdef __BIG_ENDIAN__
     BSWAP32((u_int32_t*)&Cs->global, 9);
     {
@@ -1360,7 +1360,7 @@ V3XTWEEN static RLXAPI *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
 {
     unsigned int i;
     /* The V3XTWEEN struct looks like this:
-    
+
     typedef struct _v3x_morph{
 
      V3XTWEENFRAME *frame; // Morphing frame
@@ -1368,7 +1368,7 @@ V3XTWEEN static RLXAPI *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
      u_int32_t numVerts; // Number of vertex
      u_int32_t numFaces; // Number of face
     }V3XTWEEN;
-    
+
     Unfortunately we cannot read this directly from disk as the on disk
     format contains 32 bits (unused) frame pointers, and our pointers may
     have a different size, so instead we read 4 32 bit ints and copy the
@@ -1400,7 +1400,7 @@ V3XTWEEN static RLXAPI *v3x_VMX_unpack_morph3D(SYS_FILEHANDLE in)
 *
 * PROTOTYPE  :  static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in)
 *
-* Description :  
+* Description :
 *
 */
 static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in, int bFormat97)
@@ -1410,25 +1410,25 @@ static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in, int bForma
         if (ORI->node)
         {
             switch(ORI->type) {
-                case V3XOBJ_LIGHT:  
-					ORI->light = v3x_VMX_unpack_light(in); 
+                case V3XOBJ_LIGHT:
+					ORI->light = v3x_VMX_unpack_light(in);
 				break;
-                case V3XOBJ_CAMERA: 
+                case V3XOBJ_CAMERA:
 					ORI->camera = v3x_VMX_unpack_camera(in);
 				break;
-				case V3XOBJ_MESH: 
-					ORI->mesh = v3x_VMX_unpack_object(in); 
+				case V3XOBJ_MESH:
+					ORI->mesh = v3x_VMX_unpack_object(in);
 				break;
 				default:
-					ORI->node = v3x_VMX_unpack_node(in); 
+					ORI->node = v3x_VMX_unpack_node(in);
 				break;
             }
         }
 
-        if (ORI->morph) 
+        if (ORI->morph)
 			ORI->morph = v3x_VMX_unpack_morph3D(in);
 
-        if (ORI->Cs) 
+        if (ORI->Cs)
 			ORI->Cs = v3x_VMX_unpack_collide(in);
     }
     return;
@@ -1441,7 +1441,7 @@ static void RLXAPI v3x_VMX_unpack_ORI(V3XORI *ORI, SYS_FILEHANDLE in, int bForma
 *
 */
 static void RLXAPI v3x_VMX_unpack_OVI(V3XOVI *OVI, SYS_FILEHANDLE in)
-{   
+{
 	OVI->node = v3x_VMX_unpack_node(in);
 	return;
 }
@@ -1463,7 +1463,7 @@ static void RLXAPI v3x_VMX_unpack_TRI(u_int32_t *rawTRI, V3XTRI *TRI,
     TRI->ORI_ref = (void *)(uintptr_t)rawTRI[2];
     TRI->index_CHAIN = rawTRI[3];
     memcpy(&TRI->pad, rawTRI + 4, 4 * sizeof(u_int32_t));
-        
+
 #ifdef __BIG_ENDIAN__
 	BSWAP32((u_int32_t *)&TRI->index_CHAIN, 1);
 	BSWAP16((u_int16_t*)&TRI->numFrames, 3);
@@ -1525,7 +1525,7 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
     {
         const u_int8_t objTable[8] = { V3XOBJ_NONE, V3XOBJ_MESH, V3XOBJ_DUMMY, V3XOBJ_LIGHT, V3XOBJ_NONE, V3XOBJ_CAMERA, V3XOBJ_VIEWPORT};
         u_int32_t *rawORI = rawORIs + 16 * i;
-        
+
         /* copy the raw data to the in memory structs */
         ori97.mesh  = (V3XMESH *) (uintptr_t)rawORI[0];
         ori97.morph = (V3XTWEEN *)(uintptr_t)rawORI[1];
@@ -1573,11 +1573,11 @@ static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
        may in reality be different (64 bits) */
     FIO_gzip.fread(rawOVIs, pScene->numOVI, 16 * sizeof(u_int32_t), in);
     pScene->OVI = MM_CALLOC(pScene->numOVI, V3XOVI);
-    
+
     for (ovi = pScene->OVI, i = 0; i < pScene->numOVI; i++, ovi++)
     {
         u_int32_t *rawOVI = rawOVIs + 16 * i;
-        
+
         /* copy the raw data to the in memory structs */
         ovi97.mesh  = (V3XMESH *) (uintptr_t)rawOVI[0];
         ovi97.data  = (void *)    (uintptr_t)rawOVI[1];
@@ -1588,17 +1588,17 @@ static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
         ovi97.Child = (struct _ovi97 **)(uintptr_t)rawOVI[6];
         ovi97.collisionList  = (struct _ovi97 *)(uintptr_t)rawOVI[7];
         memcpy(&ovi97.distance, rawOVI + 8, 8 * sizeof(u_int32_t));
-        
+
 #ifdef __BIG_ENDIAN__
         BSWAP16((u_int16_t*)&ovi97.index_OVI, 3);
 #endif
         ovi->state = V3XSTATE_MATRIXUPDATE;
-        if (ovi97.Hide_Never)     
+        if (ovi97.Hide_Never)
 			ovi->state|=V3XSTATE_CULLNEVER;
-			
-        if (ovi97.Hide_ByDisplay) 
+
+        if (ovi97.Hide_ByDisplay)
 			ovi->state|=V3XSTATE_HIDDEN;
-        
+
 		ovi->mesh = ovi97.mesh;
         ovi->index_ORI = ovi97.index_ORI;
         ovi->index_INSTANCE = ovi97.index_OVI;
@@ -1636,7 +1636,7 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
 
     for (i=0;i<pScene->numORI;i++)
     {
-        if (pScene->ORI[i].type == 0) 
+        if (pScene->ORI[i].type == 0)
 		pScene->ORI[i].type = V3XOBJ_NONE;
     }
 
@@ -1662,17 +1662,17 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
     {
         V3XTVI *TVI = pScene->TVI;
         for (i=0;i<pScene->numTVI;i++, TVI++)
-		{ 
+		{
 #ifdef __BIG_ENDIAN__
 			BSWAP16((u_int16_t*)&TVI->pad, 1);
-#endif 
+#endif
 			TVI->index_TRI = TVI->pad;
 		}
     }
-    for (i=0;i<pScene->numORI;i++) 
+    for (i=0;i<pScene->numORI;i++)
 		v3x_VMX_unpack_ORI(pScene->ORI+i, in, bFormat97);
 
-    for (i=0;i<pScene->numOVI;i++) 
+    for (i=0;i<pScene->numOVI;i++)
 		v3x_VMX_unpack_OVI(pScene->OVI+i, in);
 
  	for (i=0;i<pScene->numTRI;i++)
@@ -1698,7 +1698,7 @@ _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
     V3XLAYER97 *bk;
     V3XLAYER *layer = &pScene->Layer;
     V3X.Setup.flags|=V3XOPTION_97;
-    
+
     temp = (u_int8_t*) MM_std.malloc(HEAD1 + sizeof(V3XLAYER97));
     FIO_gzip.fread(temp, HEAD1 + sizeof(V3XLAYER97), 1, in);
     sysMemCpy(pScene, temp, HEAD1);
@@ -1715,7 +1715,7 @@ _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
     layer->fg.color.r = bk->FogColor.r;
     layer->fg.color.g = bk->FogColor.g;
     layer->fg.color.b = bk->FogColor.b;
-    if (bk->FogActivate) 
+    if (bk->FogActivate)
 		layer->fg.flags|= V3XFG_LIN;
     MM_std.free(temp);
     FIO_gzip.fclose(in);
@@ -1757,7 +1757,7 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
         else
         if (ORI->type == V3XOBJ_LIGHT)
         {
-		     if (!OVI->light->diminish) 
+		     if (!OVI->light->diminish)
 			OVI->light->diminish=1.f/2000.f;
         }
     }
@@ -1767,10 +1767,10 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
         if (ORI->type!=V3XOBJ_NONE)
         {
             if (OVI->node) OVI->Tk = &OVI->node->Tk;
-            else 
+            else
             {
-                if (ORI->type==V3XOBJ_CAMERA) OVI->Tk = &V3X.Camera.Tk;     
-            }        
+                if (ORI->type==V3XOBJ_CAMERA) OVI->Tk = &V3X.Camera.Tk;
+            }
         }
         else OVI->Tk = NULL;
         OCs = ORI->Cs;
@@ -1781,14 +1781,14 @@ int RLXAPI V3XScene_Verify(V3XSCENE *pScene)
                 for (j=0;j<OVI->mesh->numMaterial;j++)
                 OVI->mesh->material[j].render_far = OVI->mesh->material[j].render_near;
             }
-        }  
+        }
         if (OCs)
         {
             V3XVector_Set(&OCs->velocity, CST_ZERO, CST_ZERO, CST_ZERO);
         }
         if (ORI->type!=V3XOBJ_NONE)
         {
-            if (ORI->type == V3XOBJ_MESH) OVI->mesh->flags|=V3XMESH_FULLUPDATE;   
+            if (ORI->type == V3XOBJ_MESH) OVI->mesh->flags|=V3XMESH_FULLUPDATE;
             V3XScene_MatrixBuild(OVI);
             OVI->state |=V3XSTATE_MATRIXUPDATE;
             V3XScene_ObjectBuild(OVI, TRUE);
@@ -1935,7 +1935,7 @@ V3XTVI RLXAPI *V3XTVI_GetFromFile(V3XSCENE *pScene, const char *filename)
 *
 * PROTOTYPE  :  V3XTRI RLXAPI *V3XTRI_GetFromFile(V3XSCENE *pScene, char *filename)
 *
-* Description :  
+* Description :
 *
 */
 V3XTRI RLXAPI *V3XTRI_GetFromFile(V3XSCENE *pScene, char *filename)
@@ -1978,15 +1978,15 @@ V3XOVI *V3XScene_Mesh_Merge(V3XSCENE *pScene, V3XMESH *mesh, const char *name)
     V3XORI *ORI = pScene->ORI;
     while (ORI->type!=V3XOBJ_NONE)  ORI++;
     while ((OVI->ORI != NULL)&&(OVI->ORI->type != V3XOBJ_NONE)) OVI++;
-    OVI->ORI = ORI; 
+    OVI->ORI = ORI;
     OVI->TVI = NULL;
     // Reset OVI
-    OVI->mesh = (V3XMESH*)MM_heap.malloc(sizeof(V3XMESH)); 
-    sysMemCpy(OVI->mesh, mesh, sizeof(V3XMESH));    
+    OVI->mesh = (V3XMESH*)MM_heap.malloc(sizeof(V3XMESH));
+    sysMemCpy(OVI->mesh, mesh, sizeof(V3XMESH));
     OVI->matrix_Method = V3XMATRIX_Euler;
     OVI->state|=V3XSTATE_MATRIXUPDATE;
     // Reset ORI
-    sysMemZero(ORI, sizeof(V3XORI)); 
+    sysMemZero(ORI, sizeof(V3XORI));
     ORI->mesh = mesh;
     ORI->type = V3XOBJ_MESH;
     sysStrCpy(ORI->name, name);

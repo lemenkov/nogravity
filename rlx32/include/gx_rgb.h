@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -92,7 +92,7 @@ _RLXEXPORTFUNC    void    RLXAPI  ACT_LoadFp(rgb24_t *pal, SYS_FILEHANDLE in);
 _RLXEXPORTFUNC    u_int32_t   RLXAPI  RGB_convert(int c, rgb24_t *palette);
 _RLXEXPORTFUNC    void    RLXAPI  RGBA_to_RGB(rgb32_t *tab, unsigned size);
 _RLXEXPORTFUNC    u_int32_t   RLXAPI  RGB_PixelFormatEx(rgb24_t *p);
-_RLXEXPORTFUNC    u_int8_t   RLXAPI *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp, 
+_RLXEXPORTFUNC    u_int8_t   RLXAPI *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp,
       void *source, const rgb24_t *source_pal, int source_bpp, u_int32_t size);
 _RLXEXPORTFUNC    u_int32_t  RLXAPI   RGB_findNearestColor(const rgb24_t *col, const rgb24_t *pal);
 

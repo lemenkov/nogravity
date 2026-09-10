@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -69,7 +69,7 @@ void BSWAP32(u_int32_t *pValue, int n)
 *
 * PROTOTYPE  : void sysStrExtChg(char *nouvo, char *old, char *ext)
 *
-* DESCRIPTION : 
+* DESCRIPTION :
 *
 */
 void sysStrExtChg(char *nouvo, const char *old, const char *ext)
@@ -89,7 +89,7 @@ void sysStrExtChg(char *nouvo, const char *old, const char *ext)
 *
 * PROTOTYPE  :  int sysStriCmp(const char *s1, const char *s2)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int sysStriCmp(const char *s1, const char *s2)
@@ -150,7 +150,7 @@ int array_size(const char **tt)
 *
 * PROTOTYPE  :  void array_remove(void *array, int pos, int sizeitem, int sizearray)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void array_remove(void *array, int pos, int sizeitem, int sizearray)
@@ -163,7 +163,7 @@ void array_remove(void *array, int pos, int sizeitem, int sizearray)
 *
 * PROTOTYPE  :  void array_insert(void *array, void *data, int pos, int sizeitem, int sizearray)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void array_insert(void *array, const void *data, int pos, int sizeitem, int sizearray)
@@ -177,7 +177,7 @@ void array_insert(void *array, const void *data, int pos, int sizeitem, int size
 *
 * PROTOTYPE  :  void array_free(char **tt)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void array_free(char **tt)
@@ -195,7 +195,7 @@ void array_free(char **tt)
 *
 * PROTOTYPE  :  char **array_loadtext(SYS_FILEHANDLE in, int maxy)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 char **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx)
@@ -213,7 +213,7 @@ char **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx)
             if (len>0)
             {
                 char *v = tex + len - 1;
-                while ((0x0<v[0])&&(v[0]<0x20)) 
+                while ((0x0<v[0])&&(v[0]<0x20))
 					*v--=0;
             }
             if (tex[0]=='@')
@@ -227,7 +227,7 @@ char **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx)
                 t[i] = MM_CALLOC(maxx >0 ? maxx : l + 1, char);
                 sysStrnCpy(t[i], tex, l);
             }
-            maxy--;            
+            maxy--;
 			i++;
         }
     }
@@ -250,7 +250,7 @@ char *file_name(char *a)
 *
 * PROTOTYPE  :  int file_exists(char *f)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 int file_exists(const char *f)
@@ -279,7 +279,7 @@ char *file_extension(char *t)
 *
 * PROTOTYPE  :  void file_path(char *t)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void file_path(char *t)
@@ -297,8 +297,8 @@ void file_path(char *t)
 *
 */
 SYS_MEMORYMANAGER MM_std={
-    malloc, 
-    free, 
+    malloc,
+    free,
 realloc };
 /*------------------------------------------------------------------------
 *
@@ -335,10 +335,10 @@ static void *MM_heap_malloc(size_t size)
         v = MM_heap_reserve(size);
     }
     else
-    {  		
+    {
         v = (u_int8_t*) MM_std.malloc(size);
 		SYS_ASSERT(v);
-        if (!v) 
+        if (!v)
             size = 0;
     }
     if (v)
@@ -352,7 +352,7 @@ static void *MM_heap_malloc(size_t size)
 *
 * PROTOTYPE  :  static void MM_heap_free(void *block)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void MM_heap_free(void *block)
@@ -376,7 +376,7 @@ static void MM_heap_free(void *block)
 *
 * PROTOTYPE  :  static void *MM_heap_realloc(void *block, size_t size)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void *MM_heap_realloc(void *block, size_t size)
@@ -393,7 +393,7 @@ static void *MM_heap_realloc(void *block, size_t size)
 *
 * PROTOTYPE  :  static void  MM_heapalloc(void *block, size_t size)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void  MM_heapalloc(void *block, size_t size)
@@ -407,7 +407,7 @@ static void  MM_heapalloc(void *block, size_t size)
 *
 * PROTOTYPE  :  static unsigned MM_heap_push(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static unsigned MM_heap_push(void)
@@ -419,7 +419,7 @@ static unsigned MM_heap_push(void)
 *
 * PROTOTYPE  :  static void MM_heap_pop(int32_t id)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void MM_heap_pop(int32_t id)
@@ -472,23 +472,23 @@ static void MM_heap_reset(void)
     return;
 }
 SYS_MEMORYMANAGER MM_heap={
-    MM_heap_malloc, 
-    MM_heap_free, 
-    MM_heap_realloc, 
-    MM_heapalloc, 
-    MM_heap_push, 
-    MM_heap_pop, 
-    MM_heap_reset, 
+    MM_heap_malloc,
+    MM_heap_free,
+    MM_heap_realloc,
+    MM_heapalloc,
+    MM_heap_push,
+    MM_heap_pop,
+    MM_heap_reset,
 0};
 
 char *file_searchpathES(char *fileName, const char *pathSearch)
 {
     static char ps[128];
 	if ( FIO_cur->exists(fileName) ) return fileName;
-    {    
+    {
         const char *s0 = pathSearch;
 		char *s1;
-        if (s0[0]=='\0') return NULL;  
+        if (s0[0]=='\0') return NULL;
         filewad_chdir(FIO_wad, "");
         while (*s0!='\0')
         {

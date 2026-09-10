@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -39,7 +39,7 @@ struct GXSYSTEM   GX;
 *
 * PROTOTYPE  :  void GX_SetupDefaultViewport(int x, int y, int bbp)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void GX_SetupDefaultViewport(int x, int y, int bbp)
@@ -78,7 +78,7 @@ void RLXAPI GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp)
     {
         if ((pView->Flags&GX_CAPS_BACKBUFFERINVIDEO)||(RLX.Video.Config&RLXVIDEO_Windowed))
         pView->lPitch<<=1;
-    }    
+    }
     pView->State &= ~GX_STATE_BACKBUFFERPAGE;
     return;
 }
@@ -88,4 +88,3 @@ void GX_KernelAlloc()
 {
 	sysStrCpy(GX.csp_cfg.ext, "png");
 }
-

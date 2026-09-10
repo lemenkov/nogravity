@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -82,9 +82,9 @@ int NG_ColorToNAV(int x)
 */
 int NG_MomentumValue(int x, int mx)
 {
-	
+
     int p = (g_cTimer.iCounter>>15)<<g_pCurrentGame->ship;
-	
+
     if (x>0)
     {
         x-=p;
@@ -98,8 +98,8 @@ int NG_MomentumValue(int x, int mx)
         if (x<-mx) x =-mx;
         if (x>0) x=0;
     }
-	
-	
+
+
     return x;
 }
 /*------------------------------------------------------------------------
@@ -254,7 +254,7 @@ V3XOVI *NG_AILocateNearestEnemy(V3XVECTOR *pos, V3XVECTOR *dist, V3XSCALAR *di, 
                     case ORDER_StayAlert:
                     b = 0;
                     break;
-                    case ORDER_Protect:  
+                    case ORDER_Protect:
                     b =  mechant;
                     break;
                     case ORDER_AttackTarget:
@@ -335,7 +335,7 @@ static void NG_AIEnemyGeneric(V3XOVI *OVI)
     if (data->Mv.k > 0)
     {
         if (OVI->matrix_Method==V3XMATRIX_Vector2)
-        {			
+        {
 			// SpeedTurn = 1 -> 1 revolution in 1 second
 			float dt = ((float)p->SpeedTurn) * g_cTimer.fCounter / 700.f;
 
@@ -419,7 +419,7 @@ static void NG_AIEnemyPatrol(V3XOVI *OVI)
     SGActor *data = (SGActor*)OVI->data;
     SGScript *p=&data->pInf;
     V3XKEYVECTOR *nm = &OVI->Tk->dinfo;
-	V3XVector_Dif(&di, &data->Mv.aim, &nm->pos); 
+	V3XVector_Dif(&di, &data->Mv.aim, &nm->pos);
 	data->Mv.Dist = V3XVector_LengthSq(&di);
     if ((data->Mv.k==-1)||(data->Mv.Dist<8)||(OVI->collisionList)||(!(g_SGGame.Count&31)))
     {
@@ -458,7 +458,7 @@ static void NG_AIEnemyPatrolAndFight(V3XOVI *OVI)
     COMPUTE_FOEDIST();
     if (data->OVItarget)
     {
-        if (data->OVItarget!=OVI) 
+        if (data->OVItarget!=OVI)
 			targ=&data->OVItarget->mesh->matrix.v.Pos;
     }
     // Touch‚ ?
@@ -572,9 +572,9 @@ static void NG_AIEnemyKamikaze(V3XOVI *OVI)
     COMPUTE_FOEDIST();
     targ = &data->OVItarget->mesh->matrix.v.Pos;
     // Touched ?
-    V3XVector_Dif(&di, &data->Mv.aim, &nm->pos); 
+    V3XVector_Dif(&di, &data->Mv.aim, &nm->pos);
 	k = V3XVector_Normalize(&di, &di);
-    
+
 	// Proche, touch‚ ou fin de courbe
     if ((k<64)&&(data->Mv.k<=0))
     {
@@ -675,8 +675,8 @@ static void NG_AIEnemyTrack(V3XOVI *OVI)
     V3XVector_Dif(&data->Mv.NewAim, &data->Mv.aim, &nm->pos);
 	k = V3XVector_Length(&data->Mv.NewAim);
 	if (k<CST_EPSILON)
-		data->Mv.NewAim = nm->vect;		
-	
+		data->Mv.NewAim = nm->vect;
+
 	V3XVector_Normalize(&data->Mv.NewAim, &data->Mv.NewAim);
 
     if (p->AnimMode&m_OFF)
@@ -742,7 +742,7 @@ static void NG_AIEnemyTrack(V3XOVI *OVI)
                 {
 					sysConPrint("Escort completed ...");
                     g_SGGame.MaxAim[g_SGObjects.NAV]-=p->Mission;
-                    g_SGSettings.ComNumber=COM_EscortOk; 
+                    g_SGSettings.ComNumber=COM_EscortOk;
                     g_SGSettings.ComTime=MAX_COM_DELAY;
                     NG_DisplayWarp();
                     p->AnimMode|=m_OFF;
@@ -790,7 +790,7 @@ static void NG_AIEnemyTrack(V3XOVI *OVI)
 static void NG_CheckHindMode(void)
 {
     int i, j;
-    switch(g_cAI.mode) 
+    switch(g_cAI.mode)
 	{
         case HIND_MODE_PHASE_0:
         g_cAI.Target = g_pPlayer->J.OVI;
@@ -814,7 +814,7 @@ static void NG_CheckHindMode(void)
         break;
         case HIND_MODE_PHASE_2:
         g_cAI.fTime -= g_cTimer.fCounter;
-        if (g_cAI.fTime < 0) 
+        if (g_cAI.fTime < 0)
 			g_cAI.mode = HIND_MODE_PHASE_0;
         break;
     }
@@ -875,7 +875,7 @@ static void NG_AIEnemyHind(V3XOVI *OVI)
     V3XVECTOR *targ;
     V3XKEYVECTOR *nm;
     SGScript *p;
-    if ((!g_cAI.nHind)||(!g_cAI.Target)) 
+    if ((!g_cAI.nHind)||(!g_cAI.Target))
 		return;
 
     targ =  &g_cAI.Target->Tk->vinfo.pos;
@@ -884,13 +884,13 @@ static void NG_AIEnemyHind(V3XOVI *OVI)
 
     // Selectionne le type
     data->OVItarget = g_cAI.Target;
-    switch(g_cAI.mode) 
+    switch(g_cAI.mode)
 	{
-        case HIND_MODE_PHASE_1:			
+        case HIND_MODE_PHASE_1:
 			if ((!data->Mv.Reg)||(!(g_SGGame.Count&255)))
 			{
 				data->Mv.Ang = (data->Mv.Id * 4096) / g_cAI.nHind;
-				NG_AIRandomAimEx(&data->Mv.aim, targ, 
+				NG_AIRandomAimEx(&data->Mv.aim, targ,
 					(V3XSCALAR)(p->Sight*4), (int32_t)data->Mv.Ang, (int32_t)data->Mv.Ang);
 				V3XVector_Dif(&di, &data->Mv.aim, &nm->pos);
 				data->Mv.Dist = V3XVector_Length(&di);
@@ -909,7 +909,7 @@ static void NG_AIEnemyHind(V3XOVI *OVI)
 			}
         // Pas de break
         case HIND_MODE_PHASE_2:
-			if (g_cAI.mode==HIND_MODE_PHASE_2) 
+			if (g_cAI.mode==HIND_MODE_PHASE_2)
 				p->fSpeed = p->fSpeedMax;
 
 			if ((!data->pInf.ShootOk)&&(data->Mv.Reg))
@@ -923,7 +923,7 @@ static void NG_AIEnemyHind(V3XOVI *OVI)
 				V3XVector_Normalize(&data->Mv.NewAim, &data->Mv.NewAim);
 				data->Mv.k = 1;
 				data->Mv.OldAim = nm->vect;
-			}        
+			}
         break;
     }
     NG_AIEnemyGeneric(OVI);
@@ -956,33 +956,33 @@ void V3XLIGHT_AddOmni(V3XVECTOR *pos, V3XSCALAR intensity, rgb24_t *color, int t
 }
 static rgb24_t ColorWeap[22]={
     // R G B
-    {0, 0, 0}, 
-    {128, 0, 0}, 
-    {0, 128, 0}, 
-    {200, 200, 100}, 
-    {128, 128, 128}, 
-    {0, 0, 200}, 
-    {180, 180, 180}, 
-    {0, 0, 0}, 
-    {0, 0, 0}, 
-    {0, 0, 0}, 
-    {0, 128, 0}, 
-    {128, 0, 0}, 
-    {128, 128, 0}, 
+    {0, 0, 0},
+    {128, 0, 0},
+    {0, 128, 0},
+    {200, 200, 100},
+    {128, 128, 128},
+    {0, 0, 200},
+    {180, 180, 180},
     {0, 0, 0},
     {0, 0, 0},
-    {0, 0, 0}, 
     {0, 0, 0},
-    {0, 0, 0}, 
+    {0, 128, 0},
+    {128, 0, 0},
+    {128, 128, 0},
     {0, 0, 0},
-    {0, 0, 0}, 
-    {128, 128, 0}, 
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {0, 0, 0},
+    {128, 128, 0},
 {180, 180, 180}};
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void NG_AddFaceMoreObjects(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void NG_AddMoreLights(void)
@@ -994,7 +994,7 @@ void NG_AddMoreLights(void)
     {
         if ((w->Available)&&(w->pInf.Code<22))
         {
-            V3XLIGHT_AddOmni(&w->OVI->mesh->matrix.v.Pos, 150., ColorWeap+w->pInf.Code, 
+            V3XLIGHT_AddOmni(&w->OVI->mesh->matrix.v.Pos, 150., ColorWeap+w->pInf.Code,
             V3XLIGHTTYPE_OMNI, V3XLIGHTCAPS_RANGE);
         }
     }
@@ -1013,7 +1013,7 @@ void NG_AddMoreLights(void)
                 V3XLIGHT_AddOmni(p->pos, (V3XSCALAR)p->Light, &color, V3XLIGHTTYPE_OMNI, flags);
                 if ((int)p->Light>pas) p->Light-=pas;
                 else p->Light=0;
-            }     
+            }
         }
     }
 }
@@ -1074,7 +1074,7 @@ V3XOVI static *NG_HudCycleTarget(void)
             {
                 V3XVECTOR dir;
                 V3XVector_Dif(&dir, &OVI->mesh->matrix.v.Pos, &g_pPlayer->Rot->pos);
-                if (V3XVector_DotProduct(&dir, &V3X.Camera.M.v.K)<CST_ZERO) 
+                if (V3XVector_DotProduct(&dir, &V3X.Camera.M.v.K)<CST_ZERO)
 					Gs = OVI;
             }
         }
@@ -1196,9 +1196,9 @@ void NG_LevelUpdate(void)
         {
 			int c = min(1, (g_cTimer.iCounter>>16));
             pos = &OVI->mesh->matrix.v.Pos;
-            if (OVI->mesh->selfIllumine> c) 
+            if (OVI->mesh->selfIllumine> c)
 				OVI->mesh->selfIllumine-= (u_int16_t)c;
-            else 
+            else
 				OVI->mesh->selfIllumine=0;
             J = (SGActor*)OVI->data;
             if (J)
@@ -1213,11 +1213,11 @@ void NG_LevelUpdate(void)
                         if (pInf->Wait<=0)
                         {
                             pInf->Wait = 0;
-                            if (!pInf->Stealth)  
+                            if (!pInf->Stealth)
                                pInf->Shield= pInf->ShieldMax;
                             if (pInf->AppearMode)
                                 NG_FXNew(pos, FX_WARPIN, 1, &((SGActor*)OVI->data)->pInf, 2, OVI);
-                            else 
+                            else
                                  OVI->state^=V3XSTATE_HIDDENDISPLAY;
                             if (pInf->Stealth)
                             {
@@ -1308,9 +1308,9 @@ void NG_LevelUpdate(void)
 							}
 						}
 
-						if (pInf->ShootOk>0) 
-							pInf->ShootOk-=g_cTimer.iCounter>>16; 
-						else 
+						if (pInf->ShootOk>0)
+							pInf->ShootOk-=g_cTimer.iCounter>>16;
+						else
 							pInf->ShootOk=0;
                         //
                         //  GESTION DESTRUCTION OBJET
@@ -1325,7 +1325,7 @@ void NG_LevelUpdate(void)
                                 pInf->Stealth = 0;
                                 pInf->Wait = 0;
                                 pInf->Appear = 0;
-                                switch(pInf->AfterDestroy) 
+                                switch(pInf->AfterDestroy)
                                 {
                                     case t_AD_ADD_AIM:
                                     sysConPrint("Completed an objective ..");
@@ -1362,7 +1362,7 @@ void NG_LevelUpdate(void)
                                     g_SGGame.FlashColor.b=0;
                                     g_SGGame.FlashAlpha=16;
                                 }
-                                if (pInf->DebrisMode) 
+                                if (pInf->DebrisMode)
                                    NG_FXDebris(pInf, OVI);
 
                                 OVI->state |= V3XSTATE_HIDDEN;
@@ -1381,7 +1381,7 @@ void NG_LevelUpdate(void)
                                     char *g=strstr(OVI->ORI->name, "_");
                                     if (g)
                                     {
-										
+
 										char tex[256];
                                         sprintf(tex, "%s%s", g_pPlayerInfo[pInf->Replace].Basename, g);
                                         OVIp = V3XScene_OVI_GetByName(g_SGGame.Scene, tex);
@@ -1454,7 +1454,7 @@ void NG_LevelUpdate(void)
                             switch(pInf->Animation)
 							{
                                 case t_FIXE:
-									if( OVI->parent) 
+									if( OVI->parent)
 										OVI->state|=V3XSTATE_MATRIXUPDATE;
                                 break;
                                 case t_GIANT:
@@ -1475,9 +1475,9 @@ void NG_LevelUpdate(void)
 									OVI->state|=V3XSTATE_MATRIXUPDATE;
                                 break;
                                 case t_TURN_RANDOM:
-                                if (i&1) 
+                                if (i&1)
 									OVI->Tk->info.angle.x+=pInf->fSpeedMax*g_cTimer.fCounter;
-                                else 
+                                else
 									OVI->Tk->info.angle.y+=pInf->fSpeedMax*g_cTimer.fCounter;
                                 OVI->Tk->info.angle.z+=pInf->fSpeedMax*g_cTimer.fCounter;
                                 OVI->state|=V3XSTATE_MATRIXUPDATE;
@@ -1528,7 +1528,7 @@ void NG_LevelUpdate(void)
                         else
                         {
                             pInf->fFrozen-=g_cTimer.fCounter;
-                            if (pInf->fFrozen<0) 
+                            if (pInf->fFrozen<0)
 								pInf->fFrozen=0;
                         }
                     }
@@ -1547,4 +1547,3 @@ void NG_LevelUpdate(void)
     g_pPlayer->J.pInf.ModeX = 0;
     return;
 }
-

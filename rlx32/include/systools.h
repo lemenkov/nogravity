@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -44,7 +44,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
    #define _MAX_PATH 256
 #endif
 
-struct file_find_t 
+struct file_find_t
 {
     char reserved[21];      /* reserved for use           */
     char attrib;            /* attribute byte for file    */
@@ -107,7 +107,7 @@ _RLXEXPORTDATA    extern    SYS_MEMORYMANAGER MM_std, MM_heap, MM_audio;
 
 
 __end_extern_c
- 
+
 #define sysMemSet memset
 #define sysMemCpy memcpy
 #define sysStrCpy strcpy
@@ -118,8 +118,8 @@ __end_extern_c
 void sysStrnCpy(char *dest, const char *src, size_t n);
 
 #ifndef min
-#define min(a,b) ((a)<(b) ? a : b) 
-#define max(a,b) ((a)>(b) ? a : b) 
+#define min(a,b) ((a)<(b) ? a : b)
+#define max(a,b) ((a)>(b) ? a : b)
 #endif
 
 #define randomf(i_max) ((i_max) * (float)rand() / (float)RAND_MAX)

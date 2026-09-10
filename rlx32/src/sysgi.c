@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -333,7 +333,7 @@ static void SetDefaultMessaging(GI_Panel *panel)
 *
 * PROTOTYPE  :  static int GetText(char *texte, unsigned maxCharacters, int (*callback)(char *, unsigned, int ))
 *
-* Description :  
+* Description :
 *
 */
 static int GetText(char *texte, unsigned maxCharacters, int (*callback)(char *, unsigned, int ))
@@ -341,7 +341,7 @@ static int GetText(char *texte, unsigned maxCharacters, int (*callback)(char *, 
     int ok = 0;
     char __temp[256];
     unsigned l = strlen(texte);
-    
+
     if (maxCharacters >= sizeof(__temp))
         maxCharacters = sizeof(__temp) - 1;
 

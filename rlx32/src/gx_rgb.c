@@ -148,8 +148,8 @@ void PAL_cycle(rgb24_t *pf, int start, int fin)
     u_int8_t *palfade = (u_int8_t*)pf;
     u_int8_t *st=palfade+start*3, *fi=palfade+fin*3;
     u_int8_t
-    r=*(st), 
-    g=*(st+1), 
+    r=*(st),
+    g=*(st+1),
     b=*(st+2);
     sysMemCpy(st, st+3, (fin-start)*3);
     *(fi) =r;
@@ -354,7 +354,7 @@ u_int8_t *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp, voi
                 {
                     rgb32_t *t=tgt ? (rgb32_t*)tgt : (rgb32_t*)MM_heap.malloc(sizeof(rgb32_t)*size);
                     target = (u_int8_t*)t;
-#ifdef __BIG_ENDIAN__   
+#ifdef __BIG_ENDIAN__
 					if (GX.Client->Capabilities & 0x10)
 					{
 					for (;i!=0;t++, a++, i--)
@@ -369,7 +369,7 @@ u_int8_t *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp, voi
 					}
 					else
 #endif
-					
+
 					for (;i!=0;t++, a++, i--)
                     {
                         const rgb24_t *mp = source_pal + (*a);
@@ -516,9 +516,9 @@ u_int8_t *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp, voi
                     for (;i!=0;a++, t++, i--)
                     {
                         *t = (u_int16_t)RGBA_PixelFormat(
-							GX.View.ColorMask.RedFieldPosition ? a->b : a->r, 
-							a->g, 
-							GX.View.ColorMask.RedFieldPosition ? a->r : a->b, 
+							GX.View.ColorMask.RedFieldPosition ? a->b : a->r,
+							a->g,
+							GX.View.ColorMask.RedFieldPosition ? a->r : a->b,
 							a->a);
                     }
                 }
@@ -639,8 +639,8 @@ static void RGB_Darker(GXSPRITE *sp, int alpha)
 void RGB_AntiAlias(GXSPRITE *sp)
 {
     u_int32_t
-    lx = sp->LX, 
-    i = sizeof(rgb24_t)*lx*sp->LY, 
+    lx = sp->LX,
+    i = sizeof(rgb24_t)*lx*sp->LY,
     size= lx * (sp->LY-2)-2;
     rgb24_t *edi = (rgb24_t*) sp->data,
     *esi = (rgb24_t*) MM_heap.malloc(i), *oesi;
@@ -777,7 +777,7 @@ void CSP_Remap8bit(GXSPRITE *sp, rgb24_t *oldpal, rgb24_t *newpal)
 *
 * PROTOTYPE  :  u_int32_t RGB_PixelFormatEx(rgb24_t *p)
 *
-* Description :  
+* Description :
 *
 */
 u_int32_t RGB_PixelFormatEx(rgb24_t *p)
@@ -948,14 +948,14 @@ u_int8_t *REALCOLOR_Compute(rgb24_t *pal, rgb24_t *clr, int mode, int alpha, int
     if (mode!=REALCOLOR_RgbReal)
     {
         u_int32_t i;
-        rgb24_t *ppal = pal, 
+        rgb24_t *ppal = pal,
         *ppal2;
         pal2 = (rgb24_t*) MM_heap.malloc(256*sizeof(rgb24_t));
-        for (ppal2=pal2, 
+        for (ppal2=pal2,
         i=256;
         i!=0;
-        ppal++, 
-        ppal2++, 
+        ppal++,
+        ppal2++,
         i--)
         {
             switch(mode) {
@@ -986,11 +986,11 @@ u_int8_t *REALCOLOR_Compute(rgb24_t *pal, rgb24_t *clr, int mode, int alpha, int
             int32_t i;
             if (mode==REALCOLOR_RgbReal) pal2=clr;
             for (i=256,
-            ppal3=palmap, 
+            ppal3=palmap,
             ppal2=pal2;
             i!=0;
-            ppal2++, 
-            ppal3++, 
+            ppal2++,
+            ppal3++,
             i--)
             {
                 *ppal3 = (u_int8_t)RGB_findNearestColor(ppal2, pal);
@@ -1088,7 +1088,7 @@ void RGB_SetAlphaBit(u_int16_t *mp, int32_t size)
 *
 * PROTOTYPE  :  void RGB_Build332ColorTable(rgb24_t *lut)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void RGB_Build332ColorTable(rgb24_t *lut)

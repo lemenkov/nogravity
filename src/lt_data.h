@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -27,7 +27,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systime.h"
 // VARS
 #ifdef __cplusplus
-extern "C" 
+extern "C"
 {
 #endif
 
@@ -54,7 +54,7 @@ extern "C"
     extern SGGameStat g_cGameStat;
     extern SGPlayerSave g_pSaveGames[10], g_pBestGames[10], *g_pCurrentGame;
     extern SYS_WAD *g_pWadVoice;
-    extern SYS_FILEIO *g_pGameIO;    
+    extern SYS_FILEIO *g_pGameIO;
     extern SGMusic g_pMusicInfo[32];
     extern SGAI g_cAI;
 	extern char g_szGmT[MAX_TEXT_MENUS][32];

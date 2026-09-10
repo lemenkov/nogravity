@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -50,7 +50,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 *
 * PROTOTYPE  :  void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
@@ -81,7 +81,7 @@ void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
 *
 * PROTOTYPE  :  #define ALGO2(fce)  (((V3XMATERIAL*)(fce).Mat)->RenderID)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 #define ALGO2(fce)  (((V3XMATERIAL*)(fce).Mat)->RenderID)
@@ -89,7 +89,7 @@ void RLXAPI v3xpoly_SortByDistance( V3XPOLY **si, V3XPOLY **sj)
 *
 * PROTOTYPE  :  void RLXAPI v3xpoly_SortByTranparency( V3XPOLY **si, V3XPOLY **sj)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void RLXAPI v3xpoly_SortByID( V3XPOLY **si, V3XPOLY **sj)
@@ -120,7 +120,7 @@ void RLXAPI v3xpoly_SortByID( V3XPOLY **si, V3XPOLY **sj)
 *
 * PROTOTYPE  :  #define ALGO3(fce)  ((uintptr_t)(((V3XMATERIAL*)(fce).Mat)->texture[0].handle))
 *
-* Description :  
+* Description :
 *
 */
 #define ALGO3(fce)  ((uintptr_t)(((V3XMATERIAL*)(fce).Mat)->texture[0].handle))

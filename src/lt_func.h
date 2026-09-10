@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -69,7 +69,7 @@ void NG_GameStart(void);
 void NG_GameStop(void);
 
 void NG_RenderView(void);
-void NG_DrawHelpFile(GXSPRITEGROUP *font, int color2, int xz);    
+void NG_DrawHelpFile(GXSPRITEGROUP *font, int color2, int xz);
 void NG_InstallHandlers(void);
 int NG_ColorToNAV(int x);
 void NG_CreateDisplayList(void);
@@ -122,7 +122,7 @@ void NG_NAVReset(int reset);
 void NG_NAVClear(void);
 
 void NG_StretchFont(GXSPRITEGROUP *pSpriteGroup, int fx, int fy);
-void NG_GamePlay(void);    
+void NG_GamePlay(void);
 void NG_DrawVideoSubtitles(FLI_STRUCT *);
 void NG_ReadLanguagePack(void);
 void NG_SetLanguage(int l);
@@ -153,11 +153,11 @@ void NG_FXBlast(SGScript *pInf, V3XOVI *OVI);
 void NG_FXDebris(SGScript *pInf, V3XOVI *OVI);
 void NG_FXAvary(V3XOVI *mOVI, SGScript *pInf);
 V3XOVI *NG_SetSpherePos(V3XOVI *OVI, V3XMATRIX *Mat, V3XSCALAR scale, int status);
-void NG_FXSetSceneShading(V3XSCENE *Scene, int limit);    
+void NG_FXSetSceneShading(V3XSCENE *Scene, int limit);
 void NG_FXNoTextureScene(V3XSCENE *Scene);
 void NG_FXChangeRenderObject(V3XMESH *obj, int nouv);
 void NG_FXFlare(void);
-void NG_FXImpact(int power);    
+void NG_FXImpact(int power);
 void NG_FXLoadData();
 void NG_FXReleaseData();
 void NG_FXCreate();
@@ -195,5 +195,4 @@ void NG_MenuMessage(char *tex);
 
 __end_extern_c
 
-#endif 
-
+#endif

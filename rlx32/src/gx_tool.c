@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -169,7 +169,7 @@ void CSP_CaptureFrom(int32_t xx, int32_t yy, GXSPRITE *capt)
 *
 * PROTOTYPE  :  void IMG_StretchBilinear(GXSPRITE *_new, GXSPRITE *_old, int bp, int strides)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void IMG_StretchBilinear(GXSPRITE *_new, GXSPRITE *_old, int bp, int strides)
@@ -252,7 +252,7 @@ void IMG_StretchBilinear(GXSPRITE *_new, GXSPRITE *_old, int bp, int strides)
 *
 * PROTOTYPE  :  void IMG_StretchPoint(GXSPRITE *p, GXSPRITE *sp3, int bp, int pitch)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void IMG_StretchPoint(GXSPRITE *p, GXSPRITE *sp3, int bp, int pitch)

@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -28,7 +28,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define __V3XTRIG_H
 
 // Basic PI values
-#ifndef M_PI 
+#ifndef M_PI
     #define M_PI        3.14159265358979323846
 #endif
 
@@ -51,7 +51,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 // Short Integer table
 #define SIN_cos(x)        (*((short*)TRG_Table + SIN_Trunc(x)))
 #define SIN_sin(x)        (*((short*)TRG_Table + SIN_Trunc((x)-1024)))
-#define SIN_tan(x) (SIN_sin(x)/SIN_cos(x))        
+#define SIN_tan(x) (SIN_sin(x)/SIN_cos(x))
 
 // Floating point table
 #define TRG_cos(x)        (*((float*)TRG_Table + SIN_Trunc(x       )))

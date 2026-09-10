@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -107,7 +107,7 @@ void sysConPrint(const char *newmsg, ...)
     va_start (argptr,newmsg);
     vsprintf (msg, newmsg, argptr);
     va_end (argptr);
-    
+
 #ifdef _DEBUG
     SYS_Debug("%s\n", msg);
 #endif
@@ -183,7 +183,7 @@ void sysConHandleInput()
 				{
 					strncat(m_pInput.text, " ", 1);
 					m_nNumSpaces++;
-				}			
+				}
 			}
 			break;
 			case s_delete:
@@ -210,11 +210,11 @@ void sysConHandleInput()
 			//case s_numreturn:
 			case s_return:
 				{
-					//If console_buffer[0] strlen() != 0            
+					//If console_buffer[0] strlen() != 0
 					//1. Push the m_pInput.text unto the console_buffer
 					//2. parse the text
 
-					sysConPrint("%s",m_pInput.text);			
+					sysConPrint("%s",m_pInput.text);
 					m_nNumSpaces = 0;
 					sysConParse(m_pInput.text);
 
@@ -236,7 +236,7 @@ void sysConHandleInput()
 						if(m_pCurrent->next != NULL)
 						{
 							m_pCurrent = m_pCurrent->next;
-						} 
+						}
 						else
 						{
 							break;
@@ -297,12 +297,12 @@ void sysConHandleInput()
 		}
 }
 
-void 
+void
 sysConSave(const char *szFilename)
 {
 	SYS_FILEHANDLE fp = FIO_std.fopen(szFilename, "wt");
 	if (fp)
-	{	
+	{
 		struct sys_console_item *p = m_pFirst;
 		while(p)
 		{
@@ -332,7 +332,7 @@ sysConBindCmd(const char *szCmd, PFV3XCNLCMD pfFunc)
 	{
 		m_pLastCmd->next = p;
 		m_pLastCmd = p;
-	}	
+	}
 	return 0;
 }
 
@@ -351,11 +351,11 @@ sysConBindCVar(const char *szVar, const void *pData)
 	{
 		m_pLastCvar->next = p;
 		m_pLastCvar = p;
-	}	
+	}
 	return 0;
 }
 
-int 
+int
 onClear(char *parms)
 {
     sysConClear();
@@ -448,7 +448,7 @@ int sysConParse(char *cmd)
 
 	char seps[] = " ";
 	char *token;
-	
+
 	if (!cmd)
 		return -1;
 
@@ -457,13 +457,13 @@ int sysConParse(char *cmd)
 		return -2;
 
 	while (p)
-	{		
+	{
 		if (!strcmp(p->szCmd, token))
 		{
 			return p->pfFunc(strtok( NULL , seps ));
 		}
 		p = p->next;
-	}	
+	}
 	return -1;
 }
 
@@ -502,7 +502,7 @@ void sysConRender()
 	CSP_Color(0xffffffff);
 
 	{
-		char szOut[512];	
+		char szOut[512];
 		sprintf(szOut,"%s%c", m_pInput.text, (timer_ms()%1000 < 500) ? '_' : ' ');
 
 		{
@@ -515,7 +515,7 @@ void sysConRender()
 				// m_pFont->printJustified(szOut, (int)x, (int)y, (int)(m_right-m_left));
 				y-= n * v;
 			}
-		
+
 			{
 				struct sys_console_item *p = m_pCurrent;
 
@@ -542,4 +542,3 @@ sysConSetFont(GXSPRITEGROUP *font)
 {
 	m_pFont = font;
 }
-

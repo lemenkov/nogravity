@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -132,7 +132,7 @@ void NG_ReadMissionList(void)
 	g_pGameItem->numEpisode = MAX_EPISODE;
 
 	for (k=0;k<MAX_EPISODE;k++)
-    {		
+    {
         SGEpisodeItem *EP = g_pGameItem->EI+k;
         EP->LI = MM_CALLOC(10, SGLevelItem);
 #ifdef LT_TRANSLATE
@@ -144,10 +144,10 @@ void NG_ReadMissionList(void)
         else
 #endif
         sprintf(tex, ".\\cmx\\%c_level%d.cmx", g_SGSettings.LangCode, k+1);
-        if (pe) 
+        if (pe)
 			FIO_cur=&FIO_std;
         NG_ReadMissionData(tex, EP);
-        if (pe) 
+        if (pe)
 			FIO_cur=g_pGameIO;
     }
     return;
@@ -161,11 +161,11 @@ void NG_HighScoresReset(void)
     {
         sprintf(g_pBestGames[i].name, "No Gravity");
         g_pBestGames[i].score=10000L*11-i*10000L;
-        for (j=0;j<MAX_SAVE_GAMES;j++) 		
+        for (j=0;j<MAX_SAVE_GAMES;j++)
 			g_pBestGames[i].level[j]=0;
         g_pBestGames[i].episode=0;
 		time(&g_pBestGames[i].last_time);
-		
+
     }
     return;
 }
@@ -180,7 +180,7 @@ void NG_HighScoresSave(void)
     in = FIO_std.fopen(tex, "wb");
     if (in)
     {
-		int ver = sizeof(SGPlayerSave);		
+		int ver = sizeof(SGPlayerSave);
 #ifdef __BIG_ENDIAN__
 		BSWAP32((u_int32_t*)&ver, 1);
 #endif
@@ -272,7 +272,7 @@ void NG_HighScoresUpdate(void)
 //
 
 void NG_RosterSaveSlot(int i)
-{    
+{
     sysMemZero(g_pSaveGames+i, sizeof(SGPlayerSave));
     sprintf(g_pSaveGames[i].name, "No Gravity");
     g_pSaveGames[i].ship = 1;
@@ -314,7 +314,7 @@ void NG_RosterSave(void)
 #endif
 		FIO_std.fclose(in);
     }
-    
+
     FIO_wad->mode = mode;
 #endif
     return;
@@ -353,7 +353,7 @@ void NG_RosterLoad(void)
 					BSWAP32((u_int32_t*)&g_pSaveGames[i].episode, 5);
 					BSWAP16((u_int16_t*)&g_pSaveGames[i].active, 2);
 				}
-			}		
+			}
 #endif
 		}
         FIO_std.fclose(in);
@@ -371,8 +371,7 @@ void NG_RosterLoad(void)
 void NG_RosterReset(void)
 {
     int i;
-    for (i=0;i<MAX_SAVE_GAMES;i++) 
+    for (i=0;i<MAX_SAVE_GAMES;i++)
 		NG_RosterSaveSlot(i);
     return;
 }
-

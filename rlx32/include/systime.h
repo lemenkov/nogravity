@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -54,12 +54,12 @@ typedef struct _sys_thread
 	void				*	pArgument;
 	u_int32_t				nStatus;
 	SYS_THREADHANDLE		hThread;
-}SYS_THREAD;		
+}SYS_THREAD;
 
 typedef struct _sys_mutex
 {
 	SYS_MUTEXHANDLE			hMutex;
-}SYS_MUTEX;	
+}SYS_MUTEX;
 
 
 #if defined __WATCOMC__

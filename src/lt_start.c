@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -133,14 +133,14 @@ void NG_ResizeInterface(RW_Interface *Interf)
         {
             b->X = (short) SCALE_X(but.X);
             b->Y = (short) SCALE_Y(but.Y);
-            
+
 			if(b->Y + but.LY > GX.View.ymax)
 				b->Y = (short)(GX.View.ymax - but.LY);
 
-            if(b->Y < GX.View.ymin) 
+            if(b->Y < GX.View.ymin)
 				b->Y = (short)GX.View.ymin;
 
-            switch(i) 
+            switch(i)
 			{
                 case 0:
 					b->X = (short)CENTER_X(but.LX);
@@ -196,34 +196,34 @@ void NG_SetLanguage(int l)
 			char *v, szTrailer[]={13, 0};
 			char *s;
 			FIO_cur->fgets(tex, 64, in);
-			s = strstr(tex, ",");		
+			s = strstr(tex, ",");
 			SYS_ASSERT(s);
 			sysStrnCpy(g_szGmT[i], s + 1, 31);
 			v = strstr(g_szGmT[i], szTrailer);
-			if (v) 
+			if (v)
 				*v=0;
 			i++;
-			SYS_ASSERT(i<MAX_TEXT_MENUS);        
+			SYS_ASSERT(i<MAX_TEXT_MENUS);
 		}while(strstr(tex, "@")==NULL);
 		FIO_cur->fclose(in);
-	}   
+	}
 	sysConPrint("Region set is %s", g_szLanguageList[g_SGSettings.Language]);
 	g_SGSettings.LangCode = g_szLanguageList[g_SGSettings.Language][0];
 }
 
 void NG_ReadLanguagePack(void)
 {
-   
+
     SYS_FILEHANDLE in;
     FIO_cur = g_pGameIO;
- 
+
     in = FIO_cur->fopen(".\\voix\\language.msg", "rt");
 	SYS_ASSERT(in);
     g_szLanguageList = array_loadtext(in, 16, -1);
     FIO_cur->fclose(in);
 
-	NG_SetLanguage(g_SGSettings.Language);    
-    
+	NG_SetLanguage(g_SGSettings.Language);
+
     FIO_cur = g_pGameIO;
     return;
 }
@@ -253,7 +253,7 @@ void NG_StretchFont(GXSPRITEGROUP *pSpg, int fx, int fy)
 *
 */
 void NG_LoadBackground(char *szFilename, GXSPRITE *sp)
-{   
+{
     int bpp = IMG_LoadFn(szFilename, sp);
 	GX.Client->UploadSprite(sp, GX.ColorTable, bpp>>3);
     return;
@@ -286,17 +286,17 @@ GXSPRITEGROUP *NG_LoadSpriteGroup(char *filename, int resize)
     {
         sprintf(tx, ".\\menu\\%s", filename);
     }
-    
+
 	if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
 	{
 		pSpriteGroup = CSPG_GetFn(tx, FIO_cur, CSPLOAD_SURFACE);
 		SYS_ASSERT(pSpriteGroup);
 		return pSpriteGroup;
 	}
-	
+
     pSpriteGroup = CSPG_GetFn(tx, FIO_cur, CSPLOAD_POSTERIZE|CSPLOAD_SURFACE);
 	SYS_ASSERT(pSpriteGroup);
-	
+
     if (((GX.View.xmax!=639)||(GX.View.ymax!=479))&&(resize))
     {
         int32_t dp = GX.View.BytePerPixel;
@@ -333,7 +333,7 @@ static void NG_ResetGameData(void)
 
 static void NG_AllocGameData(void)
 {
-    g_pPlayerInfo = (SGScript*) MM_heap.malloc(sizeof(SGScript)*MAX_PLAYER);	
+    g_pPlayerInfo = (SGScript*) MM_heap.malloc(sizeof(SGScript)*MAX_PLAYER);
     g_SGGame.numEffects = 128;
     g_SGGame.pWea = MM_CALLOC(MAX_WEAPONS, SGWeapon);
     g_SGGame.pPlayer = MM_CALLOC(1, SGPlayer);
@@ -372,7 +372,7 @@ void NG_ReleaseFonts()
 
     g_pspMsg = NULL;
     g_pFont = NULL;
-    g_pSmallFont = NULL;        
+    g_pSmallFont = NULL;
     g_pFontMenuLrg = NULL;
     g_pFontMenuSml = NULL;
 
@@ -385,18 +385,18 @@ void NG_LoadFonts()
     int x = MM_heap.active;
     MM_heap.active = 0;
 
-	g_pFontMenuLrg = NG_LoadSpriteGroup("lit_mn02", 1); 
+	g_pFontMenuLrg = NG_LoadSpriteGroup("lit_mn02", 1);
 	g_pFontMenuLrg->HSpacing=0;
-    
-	g_pFontMenuSml = NG_LoadSpriteGroup("lit_mn03", 1); 
+
+	g_pFontMenuSml = NG_LoadSpriteGroup("lit_mn03", 1);
 	g_pFontMenuSml->HSpacing=0;
-    
+
 	g_pspMsg = NG_LoadSpriteGroup("mesg", 0);
-    g_pFont = NG_LoadSpriteGroup("ffonte", 0);   
+    g_pFont = NG_LoadSpriteGroup("ffonte", 0);
 	g_pFont->HSpacing=1;
 
-    g_pSmallFont = NG_LoadSpriteGroup("little", 0);   
-	g_pSmallFont->HSpacing=1; 
+    g_pSmallFont = NG_LoadSpriteGroup("little", 0);
+	g_pSmallFont->HSpacing=1;
 	g_pSmallFont->VSpacing = 1;
 
     g_pspHud2 = NG_LoadSpriteGroup("vx_sprit", 0);
@@ -406,7 +406,7 @@ void NG_LoadFonts()
 	g_pspCat->HSpacing = 1;
 
 	sysConSetFont(g_pFont);
-    
+
     MM_heap.active = x;
     return;
 }
@@ -431,7 +431,7 @@ void GX_drawGouraudRect(int32_t x, int32_t y, int32_t dx, int32_t dx2, int32_t d
 *
 * PROTOTYPE  :  void NG_DrawLoadingBar(int step)
 *
-* Description :  
+* Description :
 *
 */
 void NG_DrawLoadingBar(int step)
@@ -556,22 +556,22 @@ static void NG_DrawExtra(void)
                         {
                             Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
                             Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
-                           
+
                         }
-                        if (Mat->info.Sprite) 
+                        if (Mat->info.Sprite)
 							Mat->info.Opacity = 1;
                     }
 					else
 					{
 						SYS_ASSERT(0);
 					}
-                    
+
 					if (Mat->info.Transparency)
 						Mat->diffuse.r = Mat->diffuse.g = Mat->diffuse.b = 240;
-                    
-					if (g_SGSettings.VisualsFx==2) 
-						Mat->info.Transparency=0;						
-					
+
+					if (g_SGSettings.VisualsFx==2)
+						Mat->info.Transparency=0;
+
 					if ((Mat->info.Transparency)&&(Mat->info.Sprite))
 						Mat->RenderID=V3XID_T_SPRITE + Mat->info.Transparency;
 
@@ -612,7 +612,7 @@ static void NG_DrawExtra(void)
 *
 * PROTOTYPE  :  static void NG_FixTrackAnim(V3XSCENE *Scene)
 *
-* Description :  
+* Description :
 *
 */
 static void NG_FixTrackAnim(V3XSCENE *Scene)
@@ -637,26 +637,26 @@ static void NG_FixTrackAnim(V3XSCENE *Scene)
 *
 * PROTOTYPE  :  static void NG_InitGameScene(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 static void NG_InitGameScene(void)
 {
     char pth[32];
     rgb32_t AmbientLevel[]={
-        {FIX100TO255(72), FIX100TO255(0), FIX100TO255(0)}, 
-        {FIX100TO255(25), FIX100TO255(25), FIX100TO255(33)}, 
-        {FIX100TO255(55), FIX100TO255(33), FIX100TO255(47)}, 
-        {FIX100TO255(72), FIX100TO255(27), FIX100TO255(0)}, 
+        {FIX100TO255(72), FIX100TO255(0), FIX100TO255(0)},
+        {FIX100TO255(25), FIX100TO255(25), FIX100TO255(33)},
+        {FIX100TO255(55), FIX100TO255(33), FIX100TO255(47)},
+        {FIX100TO255(72), FIX100TO255(27), FIX100TO255(0)},
     {FIX100TO255(0), FIX100TO255(36), FIX100TO255(59)}};
 
 	NG_FXLoadData();
-    
+
     sprintf(pth, ".\\%s\\", g_SGObjects.World.path_name+2);
         filewad_chdir(FIO_wad, pth);
     sysStrExtChg(g_SGObjects.World.scene_name, g_SGObjects.World.scene_name, "vmx");
     g_SGGame.Scene = V3XScene_GetFromFile(g_SGObjects.World.scene_name);
-    
+
     // Table Realcolor
     if (GX.View.BytePerPixel==1)
     {
@@ -668,13 +668,13 @@ static void NG_InitGameScene(void)
     // Couleur
     V3X.Setup.flags|=V3XOPTION_COLLISION|V3XOPTION_USESAMELUT;
     g_SGGame.Scene->Layer.lt.shift=4;
-    
+
 	// Customisation NG
     if (GX.View.BitsPerPixel>8)
 		V3X.Setup.flags|=V3XOPTION_AMBIANT;
-    
+
 	V3X.Light.ambiant = V3X.Light.ambiantMaterial = AmbientLevel[g_pCurrentGame->episode>4 ? 0 : g_pCurrentGame->episode];
-    
+
     V3XScene_LoadTextures(g_SGGame.Scene, NULL);
 	sysMemCpy(GX.ColorTable, g_SGGame.Scene->Layer.lt.palette.lut, 768);
 
@@ -697,7 +697,7 @@ static void NG_InitGameScene(void)
 
     V3XScene_Verify(g_SGGame.Scene);
 	NG_FXSetSceneShading(g_SGGame.Scene, 2);
-    
+
     NG_FixTrackAnim(g_SGGame.Scene);
     return;
 }
@@ -719,7 +719,7 @@ static void NG_CMXToObject(void)
     V3XORI    *ORI;
     SGScript *Sif = g_pPlayerInfo, *Sf;
     filewad_chdir(FIO_wad, "");
-    for (i=0;i<8;i++)  
+    for (i=0;i<8;i++)
 		g_SGGame.MaxAim[i] = g_SGGame.MaxProtect[i] = 0;
     g_SGGame.numWeapons = 0;
     g_SGGame.numEnemies = 0;
@@ -735,7 +735,7 @@ static void NG_CMXToObject(void)
 		OVI->mesh->scale = 1.f;
         if ((ORI->name[0])&&(ORI->type==V3XOBJ_MESH))
         {
-            sysStrnCpy(name, ORI->name, 31);  
+            sysStrnCpy(name, ORI->name, 31);
 			s = strstr(name, "_");
 #ifdef _DEBUG
 		//	SYS_Debug("%s\n", name);
@@ -751,20 +751,20 @@ static void NG_CMXToObject(void)
 #ifdef _DEBUG
 //					SYS_Debug("Compare with %s vs %s\n", name, Sif->Basename);
 #endif
-					
+
                     if (sysStriCmp(name, Sif->Basename)==0)
                     {
                         f = 1;
                         Sf = Sif;
-                        if (Sf->NeverHide==1) 
+                        if (Sf->NeverHide==1)
 							OVI->state|=V3XSTATE_CULLNEVER;
-                        if (Sf->NeverHide==2) 
+                        if (Sf->NeverHide==2)
 							OVI->state|=V3XSTATE_CULLNEVER;
-                        if  (Sif->CollisionStyle==t_CS_BONUS) 
+                        if  (Sif->CollisionStyle==t_CS_BONUS)
 							g_cGameStat.total_bonus++;
                         if ((Sif->CollisionStyle==t_CS_BUMP)||  (Sif->CollisionStyle==t_CS_BUMP_LOSE_SHIELD))
-							Coliable = 2; 
-						else 
+							Coliable = 2;
+						else
 							Coliable =1;
                         g_SGGame.MaxAim[NG_ColorToNAV(ORI->index_color)]+=Sif->Mission+Sif->Protect;
                         g_SGGame.MaxProtect[NG_ColorToNAV(ORI->index_color)]+=Sif->Protect;
@@ -774,16 +774,16 @@ static void NG_CMXToObject(void)
 #ifdef _DEBUG
 //						SYS_Debug("Type = %d\n", Sif->Type);
 #endif
-                        switch(Sif->Type) 
+                        switch(Sif->Type)
 						{
                             case t_SPECIAL:
                             Jf->pInf = *Sif;
                             Jf->OVI = OVI;
                             OVI->data = Jf;
-                            if (Sif->Code==0) 
+                            if (Sif->Code==0)
 							{
 								OVI->state |= V3XSTATE_HIDDEN;
-								
+
 							}
                             g_SGGame.numEnemies++; Jf++;
                             break;
@@ -793,9 +793,9 @@ static void NG_CMXToObject(void)
                             case t_FRIEND:
                             case t_DECOR:
                             Jf->pInf = *Sif;
-                            if (Sif->Type==t_FRIEND) 
+                            if (Sif->Type==t_FRIEND)
 							{
-								g_cGameStat.total_amy++;								
+								g_cGameStat.total_amy++;
 							}
                             if (Sif->Type==t_ENEMY)
                             {
@@ -898,7 +898,7 @@ static void NG_CMXToObject(void)
                             Cs->ID = Sf->NeverShock ? Sf->NeverShock : Sf->Type;
                         }
 						OVI->state|=V3XSTATE_CULLNEVER;
-                    } 
+                    }
 					else
                     {
                         ORI->global_rayon = 1024;
@@ -962,13 +962,13 @@ void NG_NAVReset(int reset)
     V3XOVI *OVI, *OVIp;
     V3XORI *ORI;
     g_SGGame.WarpOk = 0;
-    if (g_SGObjects.NAV) 
+    if (g_SGObjects.NAV)
 		sprintf(tex, "NAVPTS_#%d", g_SGObjects.NAV);
-    else 
+    else
 		sysStrCpy(tex, "NAVPTS_#");
     OVI = V3XScene_OVI_GetByName(g_SGGame.Scene, tex);
     if (OVI==NULL)
-    {        
+    {
         OVI = V3XScene_OVI_GetByName(g_SGGame.Scene, "WARP_");
 		SYS_ASSERT(OVI);
         OVI->state    |= V3XSTATE_CULLNEVER;
@@ -1012,7 +1012,7 @@ void NG_NAVReset(int reset)
         if (OVI->data)
         {
             J=(SGActor*)OVI->data;
-            if (J->pInf.AmbiantChannel) 
+            if (J->pInf.AmbiantChannel)
 				V3XA.Client->ChannelSetVolume(J->pInf.AmbiantChannel, 0 );
             J->pInf.ColorNav = nv;
             J->Mv.k = 1;
@@ -1098,7 +1098,7 @@ static void NG_InitDisplay(void)
 
 	if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
 		GX.View.Flags|=GX_CAPS_BACKBUFFERINVIDEO;
-    
+
 	if (g_SGSettings.VerticalSync)
 		GX.View.Flags|=GX_CAPS_VSYNC;
 
@@ -1108,7 +1108,7 @@ static void NG_InitDisplay(void)
         V3X.Client->SetState(V3XCMD_SETZBUFFERSTATE, TRUE);
 		sysConPrint("Zbuffer on");
 	}
-    else 
+    else
 	{
 		V3X.Client->SetState(V3XCMD_SETZBUFFERSTATE, FALSE);
 		sysConPrint("Zbuffer off");
@@ -1137,7 +1137,7 @@ static void NG_LoadGameInterface(void)
         0, 0, 0, 5, 6,
         7, 6, 6, 4, 5,
         6, 4, 255, 37, 37, 255};
-   
+
 	sprintf(tex, "v%d_sprit", g_pCurrentGame->ship+1);
     g_pspHud = NG_LoadSpriteGroup(tex, g);
     SYS_ASSERT(g_pspHud);
@@ -1148,7 +1148,7 @@ static void NG_LoadGameInterface(void)
 
 	g_pGameBoard->parent = (u_int8_t*)I_normal_Hie;
     RW_Interface_BuildTree(g_pGameBoard);
-    g_pGameBoard->parent = NULL;        
+    g_pGameBoard->parent = NULL;
 
     NG_ResizeInterface(g_pGameBoard);
     return;
@@ -1281,10 +1281,10 @@ static void NG_InitGameDisplay(void)
 
 	if (g_SGSettings.TexPOT)
 		V3X.Client->Capabilities&=~GXSPEC_NONPOWOF2;
-		
+
 	if (g_SGSettings.Dithering)
 		V3X.Client->Capabilities|=GXSPEC_ENABLEDITHERING;
-    else 
+    else
 		V3X.Client->Capabilities&=~GXSPEC_ENABLEDITHERING;
 
     if (!bAllowTrsp)
@@ -1322,7 +1322,7 @@ static void NG_InitGameDisplay(void)
 *
 * PROTOTYPE  :  static int TX_Warn(void)
 *
-* Description :  
+* Description :
 *
 */
 static int TX_Warn(void)
@@ -1362,10 +1362,10 @@ void NG_GameStart(void)
 	g_cTimer.iMinFrame = g_SGSettings.FrameSkip;
 	if (!g_cTimer.iMinFrame)
 		g_cTimer.iMinFrame = 1;
-    timer_Start(&g_cTimer, 70, 1); 
+    timer_Start(&g_cTimer, 70, 1);
 
     // Mode video
-    NG_InitDisplay();	    
+    NG_InitDisplay();
 	NG_PlayLoadingScreen();
 
     g_pspDispFont = g_pFont;
@@ -1420,7 +1420,7 @@ void NG_GameStart(void)
 
     NG_InitGameDisplay();
 
-    
+
     if (V3X.Setup.warnings&V3XWARN_NOENOUGHSurfaces)
     {
         TX_Warn();
@@ -1445,11 +1445,11 @@ void NG_GameStop(void)
 	NG_AudioStopSound(g_cFXTable.Engine);
     NG_AudioStopSound(g_cFXTable.Alarm );
     NG_AudioStopTrack();
-    
+
 
 	NG_ReleaseGameInterface();
     NG_FXReleaseData();
-    V3XScene_Release(g_SGGame.Scene);    
+    V3XScene_Release(g_SGGame.Scene);
     return;
 }
 
@@ -1464,7 +1464,7 @@ void NG_LoadGameData(void)
 {
 	NG_AllocGameData();
 	NG_LoadFonts();
-    NG_ReadMissionList();    
+    NG_ReadMissionList();
     NG_StarfieldCreate();
 	NG_FXLoadList();
     NG_AudioLoadList();
@@ -1476,7 +1476,7 @@ void NG_LoadGameData(void)
 void NG_ReleaseGameData()
 {
 	NG_FXRelease();
-	NG_StarfieldRelease();	
+	NG_StarfieldRelease();
 	NG_ReleaseFonts();
-	NG_FreeGameData();	
+	NG_FreeGameData();
 }

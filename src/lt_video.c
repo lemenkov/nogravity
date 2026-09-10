@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -75,7 +75,7 @@ void NG_FadeInBackground()
 	for (i=0;i<255;i+=s)
 	{
 		int k = i == 256-s? 255 : i;
-		GX.Client->Lock();		
+		GX.Client->Lock();
 		if (i == 0)
 			GX.gi.clearBackBuffer();
 		CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(k, k, k, 0) : 255));
@@ -107,7 +107,7 @@ void NG_SetGamma(float gamma)
 		return;
 	} else
 	/* Calculate a real gamma ramp */
-	{ 
+	{
 		int value;
 		gamma = 1.0f / gamma;
 		for ( i=0; i<256; ++i ) {
@@ -131,7 +131,7 @@ void NG_FadeOutBackground()
 	for (i=0;i<255;i+=s)
 	{
 		int k = i == 256-s? 0 : 255 - i;
-		GX.Client->Lock();		
+		GX.Client->Lock();
 		CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(k, k, k, 0) : 255));
 		GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
 		GX.Client->Unlock();
@@ -151,17 +151,17 @@ void NG_DrawBackgroundPic(char *szFilename, int TrackPlay, int mode)
     NG_LoadBackground(szFilename, &g_csPicture);
 	SYS_ASSERT(g_csPicture.data);
     if (TrackPlay>=0)
-    {		
-        NG_AudioPlayTrack(TrackPlay);				
-    }	
+    {
+        NG_AudioPlayTrack(TrackPlay);
+    }
     return;
 }
 
 void NG_DrawLoadingScreen(void)
 {
 	GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
-	CSP_WriteCenterText( 
-		g_pGameItem->EI[g_pCurrentGame->episode].LI[g_pCurrentGame->level[g_pCurrentGame->episode]].name, 
+	CSP_WriteCenterText(
+		g_pGameItem->EI[g_pCurrentGame->episode].LI[g_pCurrentGame->level[g_pCurrentGame->episode]].name,
 		GX.View.ymax-26, g_pFontMenuSml);
 }
 
@@ -171,14 +171,14 @@ void NG_PlayLoadingScreen(void)
     // int32_t p = MM_heap.push();
 	int i;
 	NG_DrawBackgroundPic(".\\menu\\load.png", -1, 0);
-	
+
 	for (i=0;i<256;i+=4)
 	{
 		int j = i == 255-4 ? 255 : i;
 		GX.Client->Lock();
 			CSP_Color(RGB_PixelFormat(j,j,j));
 			NG_DrawLoadingScreen();
-		
+
 			GX.Client->Unlock();
 		GX.View.Flip();
 	}
@@ -207,7 +207,7 @@ void NG_PlayGameOver(void)
         sKEY->Update(0);
 		sJOY->Update(0);
         sprintf(tex, "%02d", (int)(19-delta));
-        
+
 		GX.Client->Lock();
 			CSP_Color(RGB_PixelFormat(255,255,255));
 			GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
@@ -221,7 +221,7 @@ void NG_PlayGameOver(void)
             esc=1;
             g_SGSettings.Menu=0;
         }
-        
+
 		if (sKEY_IsHeld(s_space)||sKEY_IsHeld(s_y)||sKEY_IsHeld(s_j)||sKEY_IsHeld(s_o))
         {
             esc=1;
@@ -243,7 +243,7 @@ void NG_PlayEndGame(void)
 #if (SGTARGET ==NG_DEMO_VERSION)
     MM_heap.push();
     NG_DrawBackgroundPic("\\menu\\preview.png", -1, 1);
-	NG_FadeInBackground();    
+	NG_FadeInBackground();
     NG_WaitForKeyWithDelay(4);
     NG_FadeOutBackground();
 	GX.Client->ReleaseSprite(&g_csPicture);
@@ -256,16 +256,16 @@ void NG_PlayPresentsGame(void)
 {
     MM_heap.reset();
     NG_DrawBackgroundPic(".\\menu\\realtech.png", Ms_INTRO, 1);
-    NG_FadeInBackground();	        
+    NG_FadeInBackground();
 	NG_WaitForKeyWithDelay(2);
-	NG_FadeOutBackground();	
+	NG_FadeOutBackground();
 	GX.Client->ReleaseSprite(&g_csPicture);
 
     MM_heap.reset();
     NG_DrawBackgroundPic(".\\menu\\lithium.png", -1, 1);
-    NG_FadeInBackground();	        
+    NG_FadeInBackground();
 	NG_WaitForKeyWithDelay(4);
-	NG_FadeOutBackground();	
+	NG_FadeOutBackground();
 	GX.Client->ReleaseSprite(&g_csPicture);
 
     NG_AudioStopMusic();
@@ -286,9 +286,9 @@ void NG_PlayTheEnd(void)
 	MM_heap.reset();
 	MM_heap.push();
 	NG_DrawBackgroundPic("\\menu\\theend.png", -1, 1);
-	NG_FadeInBackground();	        
+	NG_FadeInBackground();
 	NG_WaitForKeyWithDelay(30);
-	NG_FadeOutBackground();	
+	NG_FadeOutBackground();
 	GX.Client->ReleaseSprite(&g_csPicture);
 	MM_heap.pop(-1);
 

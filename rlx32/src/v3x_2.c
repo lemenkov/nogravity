@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -79,7 +79,7 @@ void TRG_Generate(void)
 *
 * PROTOTYPE  :  V3XMESH *V3XMesh_New(int numVerts, int faces, int matos, int maxside)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XMESH *V3XMesh_New(int numVerts, int faces, int matos, int maxside)
@@ -121,35 +121,35 @@ void RLXAPI static *v3x_mallocopy(void *b, u_int32_t sz)
 *
 * PROTOTYPE  :  void V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 
 static void V3XPoly_ReleaseDup(V3XPOLY *f)
 {
-    MM_heap.free(f->ZTab);    
-    MM_heap.free(f->shade);    
-    MM_heap.free(f->dispTab); 
-	
+    MM_heap.free(f->ZTab);
+    MM_heap.free(f->shade);
+    MM_heap.free(f->dispTab);
+
     if (f->uvTab)
     {
-        MM_heap.free(f->uvTab[0]);  
+        MM_heap.free(f->uvTab[0]);
         MM_heap.free(f->uvTab[1]);
     }
     MM_heap.free(f->uvTab);
     return;
 }
 void V3XMesh_ReleaseDup(V3XMESH *obj)
-{    
+{
 	int j;
     if (obj->face)
     {
         V3XPOLY *fce;
-        for (fce=obj->face, j=0;j<obj->numFaces;fce++, j++) V3XPoly_ReleaseDup(fce);  
+        for (fce=obj->face, j=0;j<obj->numFaces;fce++, j++) V3XPoly_ReleaseDup(fce);
         MM_heap.free(obj->face);
     }
     sysMemZero(obj, sizeof(V3XMESH));
-    MM_heap.free(obj); 
+    MM_heap.free(obj);
     return;
 }
 
@@ -193,25 +193,25 @@ void V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2)
 */
 void V3XMesh_Release(V3XMESH *obj)
 {
-    unsigned j;     
+    unsigned j;
 	if (!obj) return;
-    MM_heap.free(obj->vertex); 
-    MM_heap.free(obj->uv); 
-    MM_heap.free(obj->normal);         
-    for (j=0;j<obj->numMaterial;j++) 
-    { 
+    MM_heap.free(obj->vertex);
+    MM_heap.free(obj->uv);
+    MM_heap.free(obj->normal);
+    for (j=0;j<obj->numMaterial;j++)
+    {
         V3XMATERIAL *mat = obj->material+j;
-        V3XMaterial_Release(mat, obj);    
+        V3XMaterial_Release(mat, obj);
     }
     MM_heap.free(obj->material);
     if (obj->face)
     {
         V3XPOLY *fce;
-        for (fce=obj->face, j=0;j<obj->numFaces;fce++, j++) V3XPoly_Release(fce);  
+        for (fce=obj->face, j=0;j<obj->numFaces;fce++, j++) V3XPoly_Release(fce);
         MM_heap.free(obj->face);
     }
     sysMemZero(obj, sizeof(V3XMESH));
-    MM_heap.free(obj); 
+    MM_heap.free(obj);
     return;
 }
 /*------------------------------------------------------------------------
@@ -268,7 +268,7 @@ void V3XKernel_CRC(int code)
 *
 * PROTOTYPE  :  int V3XKernel_Alloc(void)
 *
-* Description :  
+* Description :
 *
 */
 int V3XKernel_Alloc(void)
@@ -286,21 +286,21 @@ int V3XKernel_Alloc(void)
     V3X.Setup.add_poly =  v3x_NothingToAdd;
     V3X.Setup.add_lights =  v3x_NothingToAdd;
     V3X.Setup.custom_ovi =  v3x_NothingToDo;
-    if (!V3X.Buffer.MaxLight)              
+    if (!V3X.Buffer.MaxLight)
 		V3X.Buffer.MaxLight =   4;
-    if (!V3X.Buffer.MaxTmpMaterials)           
+    if (!V3X.Buffer.MaxTmpMaterials)
 		V3X.Buffer.MaxTmpMaterials =   64;
-    if (!V3X.Buffer.MaxFacesDisplay)       
+    if (!V3X.Buffer.MaxFacesDisplay)
 		V3X.Buffer.MaxFacesDisplay = 1024;
-    if (!V3X.Buffer.MaxClippedFaces)       
+    if (!V3X.Buffer.MaxClippedFaces)
 		V3X.Buffer.MaxClippedFaces =  512;
-    if (!V3X.Buffer.MaxPointsPerMesh)     
+    if (!V3X.Buffer.MaxPointsPerMesh)
 		V3X.Buffer.MaxPointsPerMesh= 1024;
-    if (!V3X.Buffer.MaxEdges)              
+    if (!V3X.Buffer.MaxEdges)
 		V3X.Buffer.MaxEdges = 9;
-    if (!V3X.Cache.numItems)               
+    if (!V3X.Cache.numItems)
 		V3X.Cache.numItems = 256;
-    if (!V3X.Buffer.MaxSceneNodes)             
+    if (!V3X.Buffer.MaxSceneNodes)
 		V3X.Buffer.MaxSceneNodes = 512;
 
     k = V3X.Buffer.MaxFacesDisplay;
@@ -311,7 +311,7 @@ int V3XKernel_Alloc(void)
     V3X.Light.light = (V3XLIGHT*)     MM_heap.malloc((V3X.Buffer.MaxLight       +1)*sizeof(V3XLIGHT));
     SYS_ASSERT(V3X.Buffer.ClippedFaces);
 
-    for (k=0;k<=V3X.Buffer.MaxClippedFaces;k++) 
+    for (k=0;k<=V3X.Buffer.MaxClippedFaces;k++)
     {
         V3XPoly_Alloc( V3X.Buffer.ClippedFaces + k, V3X.Buffer.MaxEdges );    // Nombres de pts par objets
     }
@@ -322,12 +322,12 @@ int V3XKernel_Alloc(void)
     V3X.Buffer.flag = (u_int8_t*)     MM_heap.malloc(k);
     V3X.Buffer.shade = (V3XSCALAR*)  MM_heap.malloc(k*sizeof(V3XSCALAR));
     V3X.Buffer.OVI = (u_int8_t**)    MM_heap.malloc((V3X.Buffer.MaxSceneNodes+1)*sizeof(u_int8_t*));
-    if (!V3X.Ln.maxLines) 
+    if (!V3X.Ln.maxLines)
 		V3X.Ln.maxLines = 4;
     V3X.Ln.lineBuffer = (V3XVECTOR*)MM_heap.malloc(V3X.Ln.maxLines * sizeof (V3XVECTOR) );
     V3X.Ln.lineColor = (rgb32_t*)MM_heap.malloc(V3X.Ln.maxLines * sizeof (rgb32_t) );
 
-    if (V3X.Client) 
+    if (V3X.Client)
 		V3X.Client->Setup();
     return 0;
 }
@@ -342,7 +342,7 @@ void V3XKernel_Release(void)
 {
     unsigned int k;
 	if (!TRG_Table)
-		return; 
+		return;
     MM_heap.free(V3X.Ln.lineColor);
     MM_heap.free(V3X.Ln.lineBuffer);
     MM_heap.free(V3X.Buffer.OVI);
@@ -352,15 +352,15 @@ void V3XKernel_Release(void)
     MM_heap.free(V3X.Buffer.rot_vertex);
 
 	if (V3X.Buffer.MaxClippedFaces)
-		for (k=0;k<=V3X.Buffer.MaxClippedFaces;k++) 
+		for (k=0;k<=V3X.Buffer.MaxClippedFaces;k++)
 			V3XPoly_Release( V3X.Buffer.ClippedFaces + k);
     MM_heap.free(V3X.Light.light);
     MM_heap.free(V3X.Buffer.ClippedFaces);
     MM_heap.free(V3X.Buffer.Mat);
     MM_heap.free(V3X.Buffer.RenderedFaces);
     MM_heap.free(V3X.Cache.item);
-    MM_heap.free(V3X.Buffer.flag);    
-    if (TRG_Table) 
+    MM_heap.free(V3X.Buffer.flag);
+    if (TRG_Table)
 		MM_std.free(TRG_Table);
 	TRG_Table = 0;
     return;
@@ -400,11 +400,11 @@ void V3XPoly_Release(V3XPOLY *f)
     MM_heap.free(f->shade);
     if (f->uvTab)
     {
-        MM_heap.free(f->uvTab[0]);  
+        MM_heap.free(f->uvTab[0]);
         MM_heap.free(f->uvTab[1]);
     }
     MM_heap.free(f->uvTab);
-    MM_heap.free(f->dispTab); 
+    MM_heap.free(f->dispTab);
     return;
 }
 
@@ -419,8 +419,8 @@ static void v3xpoly_normal(V3XVECTOR *mesh, V3XPOLY *b, V3XVECTOR *Res, int off)
 {
     V3XVECTOR p, q;
     unsigned
-    a1 = b->faceTab[(0+off)&3], 
-    a2 = b->faceTab[(1+off)&3], 
+    a1 = b->faceTab[(0+off)&3],
+    a2 = b->faceTab[(1+off)&3],
     a3 = b->faceTab[(2+off)&3];
     V3XVector_Dif(&p, &mesh[a2], &mesh[a1]);
     V3XVector_Dif(&q, &mesh[a3], &mesh[a1]);
@@ -477,9 +477,9 @@ void V3XMesh_NormalizeEdges(V3XMESH *mesh)
 {
     int j, i, k;
     V3XPOLY *f;
-    V3XVECTOR *v=mesh->normal, 
+    V3XVECTOR *v=mesh->normal,
     *n=mesh->normal_face;
-    for (i=0;i<mesh->numVerts;i++) 
+    for (i=0;i<mesh->numVerts;i++)
 		V3XVector_Set(&v[i], CST_ZERO, CST_ZERO, CST_ZERO);
     for (i=mesh->numFaces, f=mesh->face;i!=0;f++, n++, i--)
     {
@@ -489,7 +489,7 @@ void V3XMesh_NormalizeEdges(V3XMESH *mesh)
             V3XVector_Inc(&v[k], n);
         }
     }
-    for (i=mesh->numVerts;i!=0;v++, i--) 
+    for (i=mesh->numVerts;i!=0;v++, i--)
 		V3XVector_Normalize(v, v);
     return;
 }
@@ -497,7 +497,7 @@ void V3XMesh_NormalizeEdges(V3XMESH *mesh)
 *
 * PROTOTYPE  :  V3XPOLY *V3XPoly_AddToPipeline(V3XPOLY *fce, unsigned options)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XPOLY *V3XPoly_AddToPipeline(V3XPOLY *fce, unsigned options)
@@ -521,7 +521,7 @@ V3XPOLY *V3XPoly_AddToPipeline(V3XPOLY *fce, unsigned options)
 *
 * PROTOTYPE  :  V3XPOLY *V3XPoly_NewFromPipeline(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XPOLY *V3XPoly_NewFromPipeline(void)
@@ -533,7 +533,7 @@ V3XPOLY *V3XPoly_NewFromPipeline(void)
 *
 * PROTOTYPE  :  V3XMATERIAL *V3XMaterial_NewFromPipeline(void)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XMATERIAL *V3XMaterial_NewFromPipeline(void)
@@ -584,7 +584,7 @@ void V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *p, V3XSCALAR lx, V3
     }
     else
     {
-		
+
         pd[1].x = lx;
         pd[1].y = ly;
         pd[1].z = pd[0].z;
@@ -597,7 +597,7 @@ void V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *p, V3XSCALAR lx, V3
 *
 * PROTOTYPE  :  void V3XKernel_PushList(V3XBUFFER *pipe)
 *
-* Description :  
+* Description :
 *
 */
 void V3XKernel_PushList(V3XBUFFER *pipe)
@@ -616,7 +616,7 @@ void V3XKernel_PushList(V3XBUFFER *pipe)
 *
 * PROTOTYPE  :  void V3XKernel_PopList(V3XBUFFER *pipe)
 *
-* Description :  
+* Description :
 *
 */
 void V3XKernel_PopList(V3XBUFFER *pipe)
@@ -629,7 +629,7 @@ void V3XKernel_PopList(V3XBUFFER *pipe)
 *
 * PROTOTYPE  :  void V3XKernel_PopAddList(V3XBUFFER *pipe)
 *
-* Description :  
+* Description :
 *
 */
 void V3XKernel_PopAddList(V3XBUFFER *pipe)

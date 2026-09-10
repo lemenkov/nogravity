@@ -2,7 +2,7 @@
 No Gravity 3.0.0 - Source Code and Data Release
 ===================================================================
 
- ===========================================================
+===================================================================
 1. LEGAL STUFF
 -----------
 
@@ -18,10 +18,8 @@ Please note that this is being released without any kind of support from RealTec
 
  We cannot help in getting this running and we do not guarantee that you will be able to get it to work, nor do we guarantee that it won't blow up your computer if you do try and use it.  Use at your own risk.
 
-
- ===========================================================
+===================================================================
 2. Installation
-
 
 Building from source (Linux, macOS, Windows):
 
@@ -51,10 +49,7 @@ Environment variables useful for development:
   NOGRAVITY_GPU_DEBUG=1             enable the SDL_GPU validation layers
   NOGRAVITY_TRACE_FILES=1           report data files that fail to open
 
-
-
-
- ===========================================================
+===================================================================
 3. Credits
 
 Programming : Stephane Denis
@@ -63,28 +58,25 @@ Music: Philippe Meisburger
 Linux / SDL Port : Matt Williams
 Amiga OS4 Port : Juha Niemimaki
 
-
- ===========================================================
+===================================================================
 4. Project page
 http://www.realtech-vr.com/nogravity
 http://sourceforge.net/projects/nogravity
 
-
- ===========================================================
+===================================================================
 5. Dependencies
   Run time: SDL3, SDL3_sound, libpng, zlib
   Build time: Meson, Ninja, a C17 compiler, glslc (from shaderc, for the
   SPIR-V shaders of the Vulkan backend)
 
-
- ===========================================================
+===================================================================
 6. General Gameplay Information
-  
+
    6.1 Keyboard Controls
 
      Help can be available during the game by pressing F1
 
-     6.1.1  Control 
+     6.1.1  Control
 
       L                 : Lock Target
       Tab               : AfterBurner, give a boost toward
@@ -93,19 +85,18 @@ http://sourceforge.net/projects/nogravity
       A                 : Go to next NAV point ( Q on french keyboard ) when
                           requested. It will warp one on the next battle theatre
       0 and .           : Rolling space ship.
-      + and -           : Select default speed. 
+      + and -           : Select default speed.
       Right Shift       : Speed up
       /                 : Full Speed
       Alt Gr            : Fire with select weapons, can be select with 1 to 5
                           when ammo is exhausted, it will change a other weapons
 
      6.1.2  Communications
-    
+
       Press C for communicate with your wingmen. Select an order. For
       Attack this Target, lock a target before. For Request status, lock
-      one of your wingman.  
-      During network play, use T key to send messages.
- 
+      one of your wingman.
+
      6.1.3  Views
 
       F2   : Cockpit view          F3   : Cycle view clockwise
@@ -114,19 +105,17 @@ http://sourceforge.net/projects/nogravity
 
      6.1.4  Details Level
 
-     F9   : Sky On/Low/Off        
-     F11  : Filtering On/Off      
-
+     F9   : Sky On/Low/Off
+     F11  : Filtering On/Off
 
      6.1.5  Miscellanous
 
-     F1                   : Help 
-     PrtScrn              : Dump a .PCX or .TGA (on c:\rt)
-     I                    : HUD Display On/Off (faster for 3D acceleration)          
-     T                    : Talk (Netchat)
+     F1                   : Help
+     Screenshots          : see NOGRAVITY_SCREENSHOT in section 2
+     I                    : HUD Display On/Off (faster for 3D acceleration)
 
      6.1.6   Weapon
- 
+
      TwinLaser            : Small energy shoot
      QuadLaser            : Medium energy shoot. Used for dog fight
      OctoLaser            : Large energy shoot. Slower, but make a lot of damage
@@ -144,8 +133,4 @@ http://sourceforge.net/projects/nogravity
      Stealth              : Invisibility. Enemy will not attack you for 20 seconds
      SystemShield         : Invicibility !
      Cloak Device         : Warp near to the nav point
-     BlackHole            : Destroy everything around you                                        
-
-  *END OF FILE*
-@
-
+     BlackHole            : Destroy everything around you

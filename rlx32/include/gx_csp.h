@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -28,9 +28,9 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 // Download GXSPRITE method
 enum {
-    CSPLOAD_POSTERIZE = 0x1, 
-    CSPLOAD_SURFACE = 0x2, 
-    CSPLOAD_HWSPRITE = 0x4, 
+    CSPLOAD_POSTERIZE = 0x1,
+    CSPLOAD_SURFACE = 0x2,
+    CSPLOAD_HWSPRITE = 0x4,
     CSPLOAD_FORCE8 = 0x8
 };
 
@@ -38,16 +38,16 @@ enum {
 enum {
     CSPM_CHARSET_32,  // 32 characters
     CSPM_CHARSET_128, // 128 characters
-    CSPM_CHARSET_255  // 255+ characters   
+    CSPM_CHARSET_255  // 255+ characters
 };
 
 enum {
-   DD_TTYPE_BOLD = 0x1, 
-   DD_TTYPE_ITALIC = 0x2, 
-   DD_TTYPE_UNDERLINE = 0x4, 
-   DD_TTYPE_STRIKEOUT = 0x8, 
-   DD_TTYPE_HDCOPENED = 0x10, 
-   DD_TTYPE_HDCCLOSE = 0x20, 
+   DD_TTYPE_BOLD = 0x1,
+   DD_TTYPE_ITALIC = 0x2,
+   DD_TTYPE_UNDERLINE = 0x4,
+   DD_TTYPE_STRIKEOUT = 0x8,
+   DD_TTYPE_HDCOPENED = 0x10,
+   DD_TTYPE_HDCCLOSE = 0x20,
    DD_TTYPE_GETWIDTH = 0x80
 };
 
@@ -73,7 +73,7 @@ typedef void (* CALLING_C CSP_STRFUNCTION)(GXSPRITE *sp, int32_t x, int32_t y, i
 
 typedef union {
 	CSP_STDFUNCTION fonct;
-	CSP_STRFUNCTION zoomf;    
+	CSP_STRFUNCTION zoomf;
 }CSP_FUNCTION;
 
 typedef struct {
@@ -95,13 +95,13 @@ typedef struct {
     void CALLING_C  (*put)(      int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*pset)(     int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*flipAxisX)(int32_t x, int32_t y, GXSPRITE *sp);
-    
+
     // Blended GXSPRITE drawer (in the current depth color)
     void CALLING_C  (*Trsp50)(   int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*TrspADD)(  int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*TrspSUB)(  int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*TrspALPHA)(int32_t x, int32_t y, GXSPRITE *sp);
-    
+
     // Scalable GXSPRITE drawer
     void CALLING_C  (*zoom_pset)(   GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
     void CALLING_C  (*zoom_put)(      GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);

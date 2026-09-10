@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -62,12 +62,12 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 */
 SGScript *GetSifByName(char *s)
 {
-	       
+
     SGScript *pScript, *f=NULL;
     int i;
     for (pScript=g_pPlayerInfo, i=0;(i<g_SGSettings.maxCase)&&(f==NULL);i++, pScript++)
     {
-        if (strcmp(s, pScript->Basename)==0) 
+        if (strcmp(s, pScript->Basename)==0)
 			f=pScript;
     }
 	SYS_ASSERT(f);
@@ -109,10 +109,10 @@ void NG_StageReadFile(char *fin, int extrn)
 			continue;
 
         sscanf(tmp, "%s %s", tex, tex2);
-        if (strcmp(tex, "include")==0) 
+        if (strcmp(tex, "include")==0)
 			NG_StageReadFile(tex2, extrn);
         else
-        if (strcmp(tex, "xinclude")==0) 
+        if (strcmp(tex, "xinclude")==0)
 			NG_StageReadFile(tex2, 1);
         else i=1;
     } while(i!=1);
@@ -125,7 +125,7 @@ void NG_StageReadFile(char *fin, int extrn)
 			SYS_ASSERT(g_SGSettings.maxCase<MAX_PLAYER);
             pScript=g_pPlayerInfo+g_SGSettings.maxCase;
         }
-                    
+
 		if(SelectConfigClass("World", &iniFile))
 		{
 			g_SGObjects.World.Focal = GetCF_long("Focal", &iniFile);
@@ -145,7 +145,7 @@ void NG_StageReadFile(char *fin, int extrn)
 		}
 		for (i=1;i<8;i++)
 		{
-			if (!g_SGObjects.World.Nav[i].Check) 
+			if (!g_SGObjects.World.Nav[i].Check)
 				g_SGObjects.World.Nav[i]=g_SGObjects.World.Nav[0];
 		}
 		if(SelectConfigClass("Scene", &iniFile))
@@ -367,7 +367,7 @@ void NG_StageReadFile(char *fin, int extrn)
 				if (GetCF_bool2("NeverHide", &iniFile, &val2)) pScript->NeverHide=val2 ? 1 : 2;
 				if (GetCF_bool2("BigExplode", &iniFile, &val2)) pScript->BigExplode=val2;
 				if (GetCF_bool2("NoFogging", &iniFile, &val2)) pScript->NoFog=val2;
-			} 
+			}
 			else
 			{
 				SYS_ASSERT(0);

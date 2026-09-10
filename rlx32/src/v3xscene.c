@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -49,8 +49,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systime.h"
 #include "fixops.h"
 enum {
-    V3XCLIPPED_VIEW=1, 
-    V3XCLIPPED_Z =2, 
+    V3XCLIPPED_VIEW=1,
+    V3XCLIPPED_Z =2,
     V3XCLIPPED_SIDE=4
 };
 static V3XSCENE *__scene;
@@ -73,7 +73,7 @@ SYS_THREAD static g_cThreadCollision;
 *
 * PROTOTYPE  :  void RLXAPI V3XPlug_CollisionMove(const void *data)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 void RLXAPI V3XPlug_CollisionMove(const void *data)
@@ -88,7 +88,7 @@ void RLXAPI V3XPlug_CollisionMove(const void *data)
         if (!(OCs->flags&V3XCMODE_DONTMOVE))
         {
             V3XVECTOR *p = &OCs->velocity;
-            if (p->x||p->y||p->z) 
+            if (p->x||p->y||p->z)
             {
                 V3XVECTOR *pos = &OVI->Tk->vinfo.pos;
                 V3XVector_Madd(pos, p, pos, OCs->reaction);
@@ -131,7 +131,7 @@ void V3XScene_Viewport_Clear(V3XSCENE *Scene)
             layer->bg._bitmap.x2 = (V3XSCALAR)GX.View.xmax+1;
             layer->bg._bitmap.y2 = (V3XSCALAR)GX.View.ymax+1;
             layer->bg._bitmap.z = V3X.Clip.Far;
-            V3X_CSP_Prepare(&layer->bg.bitmap, 8);   
+            V3X_CSP_Prepare(&layer->bg.bitmap, 8);
         }
         return;
         case V3XBG_GRAD:
@@ -159,7 +159,7 @@ void V3XScene_Viewport_Clear(V3XSCENE *Scene)
         if (V3X.Client->Capabilities&GXSPEC_FORCEWIREFRAME)
         GX.gi.drawFilledRect(GX.View.xmin, GX.View.ymin, GX.View.xmax, GX.View.ymax, layer->bg.index_color);
         return;
-        case V3XBG_SIDE:  
+        case V3XBG_SIDE:
         break;
         default:
         return;
@@ -211,11 +211,11 @@ static void RLXAPI V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
     V3XLIGHT *slight = OVI->light;
     if (slight->status&2) tm = V3X.Time.ms;
     if (V3X.Light.numSource<V3X.Buffer.MaxLight)
-    {        
-        V3XSPRITE *lt;        
-        // Blinking lights  
+    {
+        V3XSPRITE *lt;
+        // Blinking lights
         if ((slight->status&2) && (tm>slight->Timer))
-        {            
+        {
             if (slight->status&1)
             {
                 slight->Timer = tm + slight->TimeOn;
@@ -227,18 +227,18 @@ static void RLXAPI V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
                 slight->status|=1;
             }
         }
-        if (slight->range==CST_ZERO) slight->range = V3X.Light.fogDistance;  
+        if (slight->range==CST_ZERO) slight->range = V3X.Light.fogDistance;
         if (slight->diminish==0)  slight->diminish=1.f/2000.f;
         if ((slight->status&1)==0)
         {
             V3XLIGHT *light = V3X.Light.light + V3X.Light.numSource;
             V3X.Light.numSource++;
             *light = *OVI->light;
-            lt = (V3XSPRITE *)light->flare;           
+            lt = (V3XSPRITE *)light->flare;
             if (lt)
             {
                 unsigned flags = 0;
-                if (!light->flaresize) light->flaresize = 128;   
+                if (!light->flaresize) light->flaresize = 128;
                 if ( light->flags & V3XLIGHTCAPS_REALLF)        flags|=1;
                 if ((light->flags & V3XLIGHTCAPS_FIXEDSIZE)==0) flags|=2;
                 if (!V3X_CSP_Set3D(&lt->sp, &light->pos, light->flaresize, flags))
@@ -258,10 +258,10 @@ static void RLXAPI V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
                     }
                     mat->diffuse.r = (u_int8_t)xMUL8(mat->alpha, light->color.r);
                     mat->diffuse.g = (u_int8_t)xMUL8(mat->alpha, light->color.g);
-                    mat->diffuse.b = (u_int8_t)xMUL8(mat->alpha, light->color.b);    
-                    V3X_CSP_Draw(&lt->sp, V3XCSPDRAW_CLIP|V3XCSPDRAW_INSTANCE);    
+                    mat->diffuse.b = (u_int8_t)xMUL8(mat->alpha, light->color.b);
+                    V3X_CSP_Draw(&lt->sp, V3XCSPDRAW_CLIP|V3XCSPDRAW_INSTANCE);
                 }
-            }                          
+            }
         }
     }
     return;
@@ -270,7 +270,7 @@ static void RLXAPI V3XScene_LightBuild(V3XSCENE *Scene, V3XOVI *OVI)
 *
 * PROTOTYPE  :  static void V3XViewport_Config(void)
 *
-* DESCRIPTION :  Config viewport 
+* DESCRIPTION :  Config viewport
 *
 */
 static void V3XViewport_Config(void)
@@ -301,7 +301,7 @@ static unsigned V3XMesh_Cull(V3XOVI* OVI)
     unsigned flags=0;
     V3XORI    *ORI = OVI->ORI;
     V3XSCALAR radius = ORI->global_rayon * OVI->mesh->scale * 1.1f;
-    V3XVECTOR c;    
+    V3XVECTOR c;
     if (radius==CST_ZERO) return 0;
     // Projection du centre de la sphere englobante (resultat dans c)
     V3XVector_WorldPos(&OVI->node->matrix, &ORI->global_center, &c);
@@ -320,10 +320,10 @@ static unsigned V3XMesh_Cull(V3XOVI* OVI)
         if (fabs(ray2)<V3X.ViewPort.minVisibleRadius * (float)OVI->mesh->numFaces)
         {
             OVI->state|=V3XSTATE_CULLEDOFR;
-            return 1; 
+            return 1;
         }
     }
-    if (OVI->state&V3XSTATE_CULLNEVER) 
+    if (OVI->state&V3XSTATE_CULLNEVER)
 		return 0;
 
     V3XCLIP_SIDE(&V3X.Clip.normalLeft);
@@ -354,7 +354,7 @@ static unsigned V3XMesh_Cull(V3XOVI* OVI)
             }
             else
             {
-                flags|= (c.z - radius < -V3X.Clip.Far) ? V3XCLIPPED_Z : V3XCLIPPED_VIEW;                
+                flags|= (c.z - radius < -V3X.Clip.Far) ? V3XCLIPPED_Z : V3XCLIPPED_VIEW;
             }
         }
     }
@@ -372,22 +372,22 @@ void V3XScene_ObjectBuild(V3XOVI *OVI, int spec)
     V3XORI    *ORI = OVI->ORI;
     if (ORI)
     switch(ORI->type) {
-        case V3XOBJ_MESH:  
+        case V3XOBJ_MESH:
         if (((spec&1)==0)&&(ORI->mesh)) V3XCache_Mesh(ORI->mesh);
         if (
         (OVI->state&V3XSTATE_BSPCULLED)
         || V3XMesh_Cull(OVI)
 		|| (!ORI->mesh)
         )
-        {   
+        {
             V3X.Buffer.ObjFailed++;
             OVI->state|=V3XSTATE_CULLED;
         }
         else
         {
-            __ovi = OVI;   
+            __ovi = OVI;
             spec = V3XMesh_Transform(OVI->mesh);
-            V3X.Buffer.ObjFailed+=spec;   
+            V3X.Buffer.ObjFailed+=spec;
             __ovi = NULL;
         }
         break;
@@ -412,7 +412,7 @@ int32_t static V3x_TestAllCollision(V3XSCENE *Scene)
     V3XCL *OCs, *OC2s;
     unsigned int i, j;
     // Calcul All
-	
+
     if (V3X.Buffer.MaxObj>1)
     for (OOVI=(V3XOVI **)V3X.Buffer.OVI, i=0;i<V3X.Buffer.MaxObj-1;i++, OOVI++)
     {
@@ -420,12 +420,12 @@ int32_t static V3x_TestAllCollision(V3XSCENE *Scene)
         ORI = OVI->ORI;
         if (OVI->state&V3XSTATE_PRSCOLLISION)
         {
-            OCs = ORI->Cs;   
+            OCs = ORI->Cs;
             // Test Collision
             OCs->mesh_ref = ORI->type == V3XOBJ_CAMERA ? NULL : OVI->mesh;
-            
+
 			{
-				V3XCL_Xform(OCs);				
+				V3XCL_Xform(OCs);
 			}
             for (OOVI2=OOVI+1, j=i+1;j<V3X.Buffer.MaxObj;j++, OOVI2++)
             {
@@ -438,21 +438,21 @@ int32_t static V3x_TestAllCollision(V3XSCENE *Scene)
                 if (((OCs->flags&V3XCMODE_DONOTTESTSAMEID)==0)
                 ||  ((OCs->flags&V3XCMODE_DONOTTESTSAMEID)
                 && (OCs->ID!=OC2s->ID)))
-                {                    
+                {
                     OC2s->mesh_ref = ORI->type == V3XOBJ_CAMERA ? NULL : OVI2->mesh;
-                    //if (OVI2->state&V3XSTATE_INSTANCED) 
+                    //if (OVI2->state&V3XSTATE_INSTANCED)
 					{
-						V3XCL_Xform(OC2s);						
+						V3XCL_Xform(OC2s);
 					}
                     //if ((!OCs->hitCount)&&(!OC2s->hitCount))
                     if (V3XCL_Test(OCs, OC2s)) // Retourne le numero de la sphere
-                    {      
+                    {
                         /*
                         V3XSCALAR p1=OCs->weight, p2=OC2s->weight;
                         if (p1<p2) p2 = p1;
                         if (!p2) p2=p1=CST_ONE;
                         */
-			
+
                         OC2s->hitID = (u_int16_t)i;
                         OCs->hitID = (u_int16_t)j;
                         OCs->hitCount++;
@@ -492,15 +492,15 @@ void V3XScene_MatrixBuild(V3XOVI *OVI)
         return;
     }
 	SYS_ASSERT(V3X.Buffer.OVI);
-    if (V3X.Buffer.MaxObj<V3X.Buffer.MaxSceneNodes)  
+    if (V3X.Buffer.MaxObj<V3X.Buffer.MaxSceneNodes)
 		V3X.Buffer.OVI[V3X.Buffer.MaxObj++]=(u_int8_t*)OVI;
     OVI->state |= V3XSTATE_PROCESSED;
     obj = OVI->mesh;
     light = OVI->light;
-    OCs = ORI->Cs;    
+    OCs = ORI->Cs;
     OVIp = OVI->parent;
     while(!((OVIp==NULL)||(OVI->state&V3XSTATE_MATRIXUPDATE)))
-    {        
+    {
         if (OVIp->state&V3XSTATE_MATRIXUPDATE)
 			OVI->state|=V3XSTATE_MATRIXUPDATE;
         OVIp = OVIp->parent;
@@ -511,11 +511,11 @@ void V3XScene_MatrixBuild(V3XOVI *OVI)
         case V3XOBJ_DUMMY:
         case V3XOBJ_PORTAL:
         {
-            if (OVI->state&V3XSTATE_GIANT) 
-            {    
+            if (OVI->state&V3XSTATE_GIANT)
+            {
                 V3XMatrix_SetIdentity(obj->matrix.Matrix);
                 obj->matrix.v.Pos = V3X.Camera.M.v.Pos;
-                obj->Tk.info.pos = obj->matrix.v.Pos;    
+                obj->Tk.info.pos = obj->matrix.v.Pos;
             }
             else
             switch(OVI->matrix_Method) {
@@ -666,24 +666,24 @@ void V3XScene_MatrixBuild(V3XOVI *OVI)
         }
     }
     if (
-    (V3X.Setup.flags&V3XOPTION_COLLISION)&&  
+    (V3X.Setup.flags&V3XOPTION_COLLISION)&&
 	((OVI->state&V3XSTATE_HIDDEN)==0)
     )
     {
-        OVI->collisionList = NULL;  
+        OVI->collisionList = NULL;
         if (OCs)
         {
-            OVI->state   |= V3XSTATE_PRSCOLLISION;            
-			
+            OVI->state   |= V3XSTATE_PRSCOLLISION;
+
             OCs->hitCount = 0;
             OCs->hitID = 0;
             OCs->last_hit = NULL;
             if (ORI->type == V3XOBJ_CAMERA)
             {
                 OCs->mesh_ref = NULL;
-                V3XCL_XformNoRef(OCs, &OVI->Tk->vinfo.pos);   
+                V3XCL_XformNoRef(OCs, &OVI->Tk->vinfo.pos);
             }
-            else    
+            else
             {
                 OCs->mesh_ref = obj;
                 V3XCL_Xform(OCs);
@@ -721,13 +721,13 @@ void V3XScene_Viewport_Render(V3XSCENE *Scene)
     if (V3X.Ln.nbLines)
     {
         V3X.Client->DrawPrimitives(
-        V3X.Ln.lineBuffer, NULL, 0, 
-        V3X.Ln.nbLines, 
-        V3XRCLASS_wired|256, 
+        V3X.Ln.lineBuffer, NULL, 0,
+        V3X.Ln.nbLines,
+        V3XRCLASS_wired|256,
         V3X.Ln.lineColor);
     }
     if (!a) V3X.Client->EndList();
-    
+
     V3X.Ln.nbLines = 0;
     return;
 }
@@ -743,17 +743,17 @@ static void V3x_render_buildGeometry(V3XSCENE *Scene, GXVIEWPORT *fen, int spec)
     GXVIEWPORT Old = GX.View;
     V3XVIEWPORT OldV = V3X.ViewPort;
     unsigned int i;
-    if (fen) GX.View = *fen; 
+    if (fen) GX.View = *fen;
     V3X.Buffer.ObjFailed = 0;
     V3X.Buffer.MaxFaces = 0;
     V3X.Buffer.MaxClipped = 0;
     V3X.Buffer.MaxMat  = 0;
     V3X.Light.numSource = 0;
-    if (Scene->Layer.bg.bitmap.handle) 
+    if (Scene->Layer.bg.bitmap.handle)
     {
-        V3X_CSP_Draw(&Scene->Layer.bg.bitmap, 0);  
+        V3X_CSP_Draw(&Scene->Layer.bg.bitmap, 0);
     }
-    
+
     if (fen)
     {
         V3XOVI *OVI=Scene->OVI;
@@ -769,7 +769,7 @@ static void V3x_render_buildGeometry(V3XSCENE *Scene, GXVIEWPORT *fen, int spec)
         // render mesh list.
         for (i=0;i<V3X.Buffer.MaxObj;i++)
         {
-            OVI=(V3XOVI*)V3X.Buffer.OVI[i];   
+            OVI=(V3XOVI*)V3X.Buffer.OVI[i];
             if ((OVI->state&V3XSTATE_HIDDENDISPLAY)==0)
             {
                 V3XScene_ObjectBuild(OVI, spec);
@@ -778,10 +778,10 @@ static void V3x_render_buildGeometry(V3XSCENE *Scene, GXVIEWPORT *fen, int spec)
     }
     V3X.Setup.add_poly();
     if (V3X.Buffer.MaxFaces>1)
-    {  
+    {
         v3xpoly_SortByDistance(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
         if (V3X.Client->Capabilities&(GXSPEC_ENABLEZBUFFER|GXSPEC_ENABLEWBUFFER))
-        {   
+        {
             //v3xpoly_SortByTexture(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
             v3xpoly_SortByID(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
         }
@@ -862,7 +862,7 @@ void V3XScene_Viewport_Build(V3XSCENE *Scene, GXVIEWPORT *ViewPrt)
     // Traitement des objets
     for (i=Scene->numOVI, OVI=Scene->OVI;i!=0;OVI++, i--)
     {
-        ORI = OVI->ORI;  
+        ORI = OVI->ORI;
         OVI->state &= V3XSTATE_RESETMASK;
         if (ORI)
         {
@@ -890,16 +890,16 @@ void V3XScene_Viewport_Build(V3XSCENE *Scene, GXVIEWPORT *ViewPrt)
             }
         }
     }
-    // Recurse object 
+    // Recurse object
     for (i=Scene->numOVI, OVI=Scene->OVI;i!=0;OVI++, i--)
     {
         if (OVI->state&V3XSTATE_TOPROCESS)
         {
             if ((OVI->ORI)&&(OVI->parent)&&(OVI->parent->state&V3XSTATE_MATRIXUPDATE))
-            OVI->state|=V3XSTATE_MATRIXUPDATE|V3XSTATE_TOPROCESS; 
+            OVI->state|=V3XSTATE_MATRIXUPDATE|V3XSTATE_TOPROCESS;
         }
     }
-    // Calcul des matrices 
+    // Calcul des matrices
     for (i=Scene->numOVI, OVI=Scene->OVI;i!=0;OVI++, i--)
     {
         if (OVI->state&V3XSTATE_TOPROCESS)
@@ -941,7 +941,7 @@ void V3XScene_Viewport_Build(V3XSCENE *Scene, GXVIEWPORT *ViewPrt)
 *
 * PROTOTYPE  :  void V3XCL_MESH_Optimize(V3XCL_MESH *mesh, V3XSCENE *scene, V3XVECTOR *pos, unsigned mode)
 *
-* Description :  Optimize collision mesh 
+* Description :  Optimize collision mesh
 *
 */
 void V3XCL_MESH_Optimize(V3XCL_MESH *mesh, V3XSCENE *scene, V3XVECTOR *pos, unsigned mode)
@@ -981,7 +981,7 @@ void V3XCL_MESH_Optimize(V3XCL_MESH *mesh, V3XSCENE *scene, V3XVECTOR *pos, unsi
 *
 * PROTOTYPE  :  int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsigned hint)
 *
-* Description :  
+* Description :
 *
 */
 int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsigned hint, V3XOVI **who_hide)
@@ -1009,11 +1009,11 @@ int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsig
 					if ((!__ovi)||(ORI->global_rayon>__ovi->ORI->global_rayon))
                     if (V3XVector_IntersectSphereSegment(ORI->global_rayon, &center, start, end))
                     {
-                        if (hint&2) 
+                        if (hint&2)
                         {
                             int ret = 0;
-                            for (j=0;j<mesh->numMaterial;j++)if (!mesh->material[j].info.Transparency) ret=1;       
-                        }    
+                            for (j=0;j<mesh->numMaterial;j++)if (!mesh->material[j].info.Transparency) ret=1;
+                        }
                         for (j=0;j<mesh->numFaces;j++, f++)
                         {
                             V3XVECTOR roty[4];
@@ -1032,8 +1032,8 @@ int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsig
                                         int k;
                                         for (k=1;k<f->numEdges;k++)
                                         {
-                                            V3XVector_ApplyMatrixTrans(roty[k], 
-                                            mesh->vertex[f->faceTab[k]], 
+                                            V3XVector_ApplyMatrixTrans(roty[k],
+                                            mesh->vertex[f->faceTab[k]],
                                             mesh->matrix.Matrix);
                                         }
                                         // La droite coupe le plan
@@ -1051,14 +1051,14 @@ int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsig
                 }
             }
         }
-    }    
+    }
     return 1;
 }
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void V3XMESH_SetFixedDistance(V3XMESH *mesh, V3XSCALAR z)
 *
-* Description :  
+* Description :
 *
 */
 void V3XMESH_SetFixedDistance(V3XMESH *mesh, V3XSCALAR z)
@@ -1102,7 +1102,7 @@ void V3XOVI_DisplayObject(V3XOVI *OVI, int mode)
 *
 * PROTOTYPE  :  V3XOVI *V3XOVI_ChildGetByName(V3XOVI *parent, char *name)
 *
-* DESCRIPTION :  
+* DESCRIPTION :
 *
 */
 V3XOVI *V3XOVI_ChildGetByName(V3XOVI *parent, const char *name)
@@ -1121,7 +1121,7 @@ V3XOVI *V3XOVI_ChildGetByName(V3XOVI *parent, const char *name)
 *
 * PROTOTYPE  :  void V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode)
 *
-* Description :  
+* Description :
 *
 */
 void V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode)
@@ -1135,11 +1135,11 @@ void V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode)
         {
             V3XORI *ORI = o->ORI;
             if (ORI->type==V3XOBJ_MESH)
-            {   
+            {
                 ORI->Cs = V3XCL_NewFromMesh(o->mesh, mode);
                 if (pORI->Cs)
                 {
-                    ORI->Cs->ID = pORI->Cs->ID;    
+                    ORI->Cs->ID = pORI->Cs->ID;
                 }
             }
             oo++;
@@ -1153,7 +1153,7 @@ void V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode)
 *
 * PROTOTYPE  :  void V3XScene_Viewport_BuildOVI(V3XSCENE *Scene, V3XOVI *OVI, GXVIEWPORT *ViewPrt)
 *
-* Description :  
+* Description :
 *
 */
 void V3XScene_Viewport_BuildOVI(V3XSCENE *Scene, V3XOVI *OVI, GXVIEWPORT *ViewPrt)

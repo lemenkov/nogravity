@@ -9,9 +9,9 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 See the GNU General Public License for more details.
 
@@ -105,7 +105,7 @@ void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *out
 		}while(dx<0);
 
 		{
-		    if (dx>(int)dwHeight) 
+		    if (dx>(int)dwHeight)
 				dx=0;
 		    oedi=edi;
 		    while (dx!=0)
@@ -305,9 +305,9 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
     pAnim->LastTime = timer_ms();
     pAnim->Flags       |= FLX_DECOMPRESSFRAME + FLX_LOOPANIMATION + FLX_ISPLAYING;
     pAnim->CurrentFrame = 0;
-   
+
     memleft = md&FLI_USEMEMORY ? 1<<31 : 0;
-    if (md&FLI_LZWPACKED) 
+    if (md&FLI_LZWPACKED)
 		memleft = 0;
     if (md&FLI_EXPANDED)
     {
@@ -445,7 +445,7 @@ _RLXEXPORTFUNC void FLI_Rewind(FLI_STRUCT *pAnim)
 _RLXEXPORTFUNC void FLI_SetPalette(FLI_STRUCT *pAnim)
 {
 	static char __temp[2048];
-    int i;	
+    int i;
     u_int32_t *b = (u_int32_t*)__temp;
     rgb24_t *c = pAnim->ColorTable;
     for (i=256;i!=0;b++, c++, i--)
@@ -460,7 +460,7 @@ _RLXEXPORTFUNC void FLI_SetPalette(FLI_STRUCT *pAnim)
 *
 * PROTOTYPE  :  _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
 *
-* Description :  
+* Description :
 *
 */
 _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
@@ -471,7 +471,7 @@ _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
         FLC_Header j;
         pAnim->Flags &= ~FLX_DECOMPRESSFRAME;
 
-        if (!(pAnim->Flags&FLX_ISPLAYING)) 
+        if (!(pAnim->Flags&FLX_ISPLAYING))
 			return;
 
         switch(pAnim->ReadMode)
@@ -547,11 +547,11 @@ _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
     pAnim->CurrentFrame++;
     if (pAnim->CurrentFrame>=pAnim->MaximumFrame)
     {
-        if (!(pAnim->Flags&FLX_LOOPANIMATION)) 
+        if (!(pAnim->Flags&FLX_LOOPANIMATION))
 			pAnim->Flags&=~FLX_ISPLAYING;
         else FLI_Rewind(pAnim);
     }
-    if (pAnim->Flags&FLX_FORMARD1FRAME) 
+    if (pAnim->Flags&FLX_FORMARD1FRAME)
 		pAnim->Flags&=~FLX_ISPLAYING;
     return;
 }
@@ -569,7 +569,7 @@ static GXSPRITEGROUP *Unpack_FLI_to_SpriteGroup(SYS_FILEHANDLE in, int diet)
     int32_t i, k;
     FLI_STRUCT *a ;
     a = FLI_Open(in, FLI_DIRECTFROMDISK);
-    if (!a) 
+    if (!a)
 		return NULL;
     pSpriteGroup = MM_CALLOC(1, GXSPRITEGROUP);
     pSpriteGroup->maxItem = a->MaximumFrame;
@@ -600,7 +600,7 @@ _RLXEXPORTFUNC GXSPRITEGROUP *FLI_LoadToSpriteGroup(const char *filename, int di
 {
     SYS_FILEHANDLE in = FIO_cur->fopen(filename, "rb");
     GXSPRITEGROUP *f=NULL;
-    if (in) 
+    if (in)
 		f = Unpack_FLI_to_SpriteGroup(in, diet);
     return f;
 }

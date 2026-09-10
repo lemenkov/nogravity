@@ -40,7 +40,7 @@ int lib_gzclose (gzFile file);
 #define COMMENT      0x10 /* bit 4 set: file comment present */
 #define RESERVED     0xE0 /* bits 5..7: reserved */
 
-typedef struct gz_stream 
+typedef struct gz_stream
 {
     z_stream stream;
     int      z_err;   /* error code for last stream operation */
@@ -98,7 +98,7 @@ static int destroy (gz_stream *s)
 {
     int err = Z_OK;
 
-    if (!s) 
+    if (!s)
 		return Z_STREAM_ERROR;
 
     TRYFREE(s->msg);
@@ -115,7 +115,7 @@ static int destroy (gz_stream *s)
 	}
     }
 
-    if (s->file != (SYS_FILEHANDLE )NULL) 
+    if (s->file != (SYS_FILEHANDLE )NULL)
 	{
 		FIO_std.fclose(s->file);
     }
@@ -262,7 +262,7 @@ gzFile lib_gzfopen (SYS_FILEHANDLE fd, const char *mode)
 	}
     } while (*p++ && m != fmode + sizeof(fmode));
     if (s->mode == '\0') return destroy(s), (gzFile)Z_NULL;
-    
+
     if (s->mode == 'w') {
 #ifdef NO_DEFLATE
         err = Z_STREAM_ERROR;
@@ -291,7 +291,7 @@ gzFile lib_gzfopen (SYS_FILEHANDLE fd, const char *mode)
         }
     }
     s->stream.avail_out = Z_BUFSIZE;
-    
+
     if (s->file == (SYS_FILEHANDLE )NULL) {
         return destroy(s), (gzFile)Z_NULL;
     }
@@ -312,7 +312,7 @@ gzFile lib_gzfopen (SYS_FILEHANDLE fd, const char *mode)
 	check_header(s); /* skip the .gz header */
 	s->startpos = (F_TELL(s->file) - s->stream.avail_in);
     }
-    
+
     return (gzFile)s;
 }
 
@@ -514,10 +514,10 @@ static int do_flush (gzFile file, int flush)
 	if (len == 0 && s->z_err == Z_BUF_ERROR) s->z_err = Z_OK;
 
         /* deflate has finished flushing only when it hasn't used up
-         * all the available space in the output buffer: 
+         * all the available space in the output buffer:
          */
         done = (s->stream.avail_out != 0 || s->z_err == Z_STREAM_END);
- 
+
         if (s->z_err != Z_OK && s->z_err != Z_STREAM_END) break;
     }
     return  s->z_err == Z_STREAM_END ? Z_OK : s->z_err;
@@ -536,12 +536,12 @@ int lib_gzflush (gzFile file, int flush)
 #endif /* NO_DEFLATE */
 
 /* ===========================================================================
-     Rewinds input file. 
+     Rewinds input file.
 */
 int lib_gzrewind (gzFile file)
 {
     gz_stream *s = (gz_stream*)file;
-    
+
     if (s == NULL || s->mode != 'r') return -1;
 
     s->z_err = Z_OK;
@@ -549,7 +549,7 @@ int lib_gzrewind (gzFile file)
     s->stream.avail_in = 0;
     s->stream.next_in = s->inbuf;
     s->crc = crc32(0L, Z_NULL, 0);
-	
+
     if (s->startpos == 0) { /* not a compressed file */
 		F_REWIND(s->file);
 		return 0;
@@ -578,7 +578,7 @@ z_off_t lib_gzseek (
 	s->z_err == Z_ERRNO || s->z_err == Z_DATA_ERROR) {
 	return -1L;
     }
-    
+
     if (s->mode == 'w') {
 #ifdef NO_DEFLATE
 	return -1L;
@@ -664,7 +664,7 @@ int lib_gzeof (
     gzFile file)
 {
     gz_stream *s = (gz_stream*)file;
-    
+
     return (s == NULL || s->mode != 'r') ? 0 : s->z_eof;
 }
 
@@ -694,7 +694,7 @@ int lib_gzclose (gzFile file)
 #endif
     gz_stream *s = (gz_stream*)file;
 
-    if (s == NULL) 
+    if (s == NULL)
 		return Z_STREAM_ERROR;
 
     if (s->mode == 'w') {
@@ -702,7 +702,7 @@ int lib_gzclose (gzFile file)
 	return Z_STREAM_ERROR;
 #else
         err = do_flush (file, Z_FINISH);
-        if (err != Z_OK) 
+        if (err != Z_OK)
 			return destroy((gz_stream*)file);
 
         putLong (s->file, s->crc);
@@ -769,7 +769,7 @@ static size_t CALLING_C fzip_fwrite(const void *ptr, size_t size, size_t n, SYS_
 	return ret / size;
 #else
 	UNUSED(file);
-	UNUSED(n);	
+	UNUSED(n);
 	UNUSED(size);
 	return 0;
 #endif // NO_DEFLATE
@@ -795,12 +795,12 @@ static int fzip_fputc( int c, SYS_FILEHANDLE handle )
 }
 
 static int fzip_exists(const char *filename)
-{	
+{
 	return FIO_std.exists(filename);
 }
 
 static int fzip_fsize(SYS_FILEHANDLE handle)
-{	
+{
 	return FIO_std.fsize(handle);
 }
 
@@ -829,7 +829,7 @@ SYS_FILEIO FIO_gzip =
 	fzip_fwrite,
 	fzip_ftell,
 	fzip_feof,
-	fzip_fgets, 
+	fzip_fgets,
 	fzip_fsize,
 	fzip_exists,
 	NULL,
