@@ -50,11 +50,8 @@ typedef struct _v3xa_handle
 {
     void             *sample;            // Raw data sample
     u_int32_t         length;            // Sample length in byte
-    u_int32_t         loopstart;         // Loop start offset
     u_int32_t         loopend;           // Loop end offset (0: no loop)
     u_int32_t         samplingRate;      // Sample sampling rate in hz
-    u_int32_t         chunkLength;       // Reserved
-	u_int32_t         sampleID;          // Reserved
     u_int16_t         sampleFormat;      // Sample format (see before).
     u_int8_t          mode;              // Reserved
     u_int8_t          priority;          // Play priority 0..255 (MAX)

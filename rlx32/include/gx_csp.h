@@ -65,8 +65,6 @@ typedef union {
 typedef struct {
     u_int32_t             flags;      // Flags
     u_int32_t             color;      // Color replaced by white
-    u_int32_t             colorKey;   // Colorkeying (transparency color)
-    u_int32_t             colorInv;   // inversed color
     u_int32_t             alpha;      // Alpha component
     void             *table;      // Table
     CSP_FUNCTION      put;        // Main operator

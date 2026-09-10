@@ -62,28 +62,22 @@ typedef struct _gx_colormask {
 
 typedef struct _gx_viewport{
 
-    u_int8_t            *lpBackBuffer;      // Pointer to the back buffer
-    u_int8_t            *lpFrontBuffer;     // Pointer to the front buffer
     u_int32_t            lPitch;            // Pitch in byte (byte per lines)
     u_int32_t            lSurfaceSize;      // Surface size in bytes
     int32_t              lWidth;            // Width size of the screen
     int32_t              lHeight;           // Height size of the screen
     int32_t              lRatio;            // Ratio
-    u_int32_t            lVideoSize;        // Video memory size
     int32_t              xmin;              // Viewport coordinates
     int32_t              ymin;
     int32_t              xmax;
     int32_t              ymax;
     void CALLING_C  (*Flip)(void);   // Display page function
-    u_int32_t            RGB_Magic;         // RGB mask for alpha blending
-    u_int32_t           *RGB_Mask;          // RGB table
     u_int32_t            Flags;             // Flags (see "Video Caps")
 	int					 State;
     u_int16_t            DisplayMode;       // Display mode ID
     u_int8_t             BytePerPixel;      // Numbers of bytes per pixel
     u_int8_t             BitsPerPixel;      // Numbers of bits per pixel
     u_int8_t			 Multisampling;
-	u_int8_t             Reserved;
 	GXRGBCOMPONENT		 ColorMask;
 
 }GXVIEWPORT;
@@ -96,22 +90,10 @@ typedef struct {
 
 // Offscreen informations (private)
 typedef struct _gx_offplain {
-    u_int8_t            *lpSurface[16];
     unsigned          maxSurface;
-    unsigned          currentSurface;
     u_int8_t             flags[16];
 }GXSCREENBUFFERS;
 
-
-// Hardware chipset features
-typedef struct {
-    int32_t              IdChip, feature, featureSav;
-    int32_t              Memory, Version, SubVers;
-    char             *Chipname;
-    char              xdefault[8];
-    int32_t              feature3D;
-    u_int8_t             Familly;
-}GX_HardwareInfo;
 
 // Display mode informations (private)
 typedef struct _gx_display_mode_info {
@@ -165,7 +147,6 @@ struct GXSYSTEM
 	GXGRAPHICINTERFACE	gi;
 	GXVIEWPORT		View;
 	GXSCREENBUFFERS		Surfaces;
-	GX_HardwareInfo		Accel;
 	GXCLIENTDRIVER *	Client;
 	GXSPRITEINTERFACE			csp;
 	CSP_Config			csp_cfg;

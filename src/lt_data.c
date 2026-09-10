@@ -115,7 +115,7 @@ char *g_szCamera[]=
 SGShip g_cShip, g_pShip[3]=
 {
     {
-        1, 6, "viper", 0,
+        "viper", 0,
         {
             {50, 60, 15, 0},
             {40, 60, 31, 0},
@@ -127,7 +127,7 @@ SGShip g_cShip, g_pShip[3]=
     }
    ,
     {
-        1, 6, "raiden", 1,
+        "raiden", 1,
         {
             {30, 60, 63, 0},
             {50, 60, 31, 0},
@@ -139,7 +139,7 @@ SGShip g_cShip, g_pShip[3]=
     }
    ,
     {
-        2, 6, "raptor", 2,
+        "raptor", 2,
         {
             {20, 60, 0, 0},
             {30, 60, 0, 0},

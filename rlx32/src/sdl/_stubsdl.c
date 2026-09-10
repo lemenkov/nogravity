@@ -29,6 +29,7 @@ Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
 #include <stdlib.h>
+#include <string.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
@@ -37,6 +38,25 @@ Linux/SDL Port: 2005 - Matt Williams
 #include "_stub.h"
 
 extern int g_bSDLQuitRequested;
+
+void STUB_OsStartup(void)
+{
+	// Per-user settings directory, created by SDL if needed
+	// (e.g. ~/.local/share/realtech/nogravity on Linux).
+	char *pref = SDL_GetPrefPath("realtech", "nogravity");
+	if (pref)
+	{
+		size_t n = strlen(pref);
+		if (n && ((pref[n - 1] == '/') || (pref[n - 1] == '\\')))
+			pref[n - 1] = 0;
+		snprintf(RLX.IniPath, sizeof(RLX.IniPath), "%s", pref);
+		SDL_free(pref);
+	}
+	else
+	{
+		snprintf(RLX.IniPath, sizeof(RLX.IniPath), ".");
+	}
+}
 
 int STUB_TaskControl(void)
 {

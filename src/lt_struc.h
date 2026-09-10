@@ -141,8 +141,6 @@ typedef struct _sg_weapon_info{
 }SGWeaponInfo;
 
 typedef struct _sg_ship{
- 	int				defShoot;
- 	int				maxWeapons;
  	char		*	name;
  	int				code;
  	SGWeaponInfo	wea[6];
@@ -259,10 +257,8 @@ typedef struct _sg_world{
 	 char 			FinCode;
 	 int32_t 			Focal;
 	 V3XSCALAR		ZClip;
-	 int32_t 			FogFactor, Track;
+	 int32_t 			Track;
 	 int32_t 			Time;
-	 int32_t 			WarpX, WarpY, WarpZ;
-	 int32_t 			LimitX, LimitY, LimitZ;
 }SGWORLD;
 
 
@@ -271,8 +267,6 @@ typedef struct _sg_mission
 	SGWORLD				World;
 	SGENVIRONMENT	*	Nav;
  	V3XOVI			*	Sky,
-					*	Ship,
-					*	Laser,
 					*	NavCam,
 					*	Shield,
 					*	Cam;
@@ -351,7 +345,6 @@ typedef struct {
 	V3XSCALAR	Zclip;
 	u_int32_t		Frame;
 	u_int32_t		LastTime;
-	u_int32_t		maxStars2;
 	u_int32_t		Mx;
 }SGStarfield;
 

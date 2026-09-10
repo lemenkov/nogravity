@@ -36,14 +36,13 @@ typedef struct
 
     u_int8_t	joyPOV[4];
 	float		WorldUnit;
-	int32_t		sp_inert, maxCase;
+	int32_t		maxCase;
     u_int32_t	player;
     int			ResolutionX, ResolutionY;
     int			ComNumber, ComTime, ComFTime;
     u_int8_t	VolDIG, VolFX, VolMusic;
     u_int8_t Fullscreen;
     u_int8_t 	VisualsFx;
-	u_int8_t 	Interlaced;
     u_int8_t 	ZBuffer;
 	u_int8_t 	Flip;
 	u_int8_t 	TexFiltering;
@@ -54,11 +53,9 @@ typedef struct
 	u_int8_t 	Language;
     u_int8_t 	LangCode;
 	u_int8_t 	LensFX;
-    u_int8_t 	Palette;
     u_int8_t 	Dithering;
     u_int8_t 	Sky;
     u_int8_t 	Shade;
-    u_int8_t 	Wide;
     u_int8_t 	Cheater;
     u_int8_t 	Difficulty;
 	u_int8_t 	CamDisp;
@@ -72,7 +69,6 @@ typedef struct
     u_int8_t 	GoToBrief;
     u_int8_t 	Menu;
     u_int8_t 	rearview;
-    u_int8_t 	HalfSize;
 	u_int8_t 	FlipYMouse;
     u_int8_t 	FrameSkip;
 	u_int8_t 	Ctrl;

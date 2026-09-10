@@ -291,8 +291,5 @@ V3X_GXSystem V3X_GPU =
 	"SDL_GPU",
 	256 + 10,
 	GXSPEC_ENABLEFILTERING,
-	0x000000,
-	1,
-	12,
-	{0, 0}
+	0
 };

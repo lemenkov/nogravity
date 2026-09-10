@@ -245,7 +245,6 @@ typedef struct _v3x_ovi{
 typedef struct _v3xlayer_timer{
  u_int32_t flags;
  u_int32_t numFrames; // numbers of frames in the animation
- V3XSCALAR currentFrame; // Global frame
  V3XSCALAR firstFrame; // firstFrame
  u_int32_t fps; // frame Rate
  u_int32_t startTimer; // internal : startup timer
@@ -286,25 +285,15 @@ enum V3XFG{
 
 typedef struct _v3x_layerfog{
 	u_int32_t flags; // fog informations
-	V3XSCALAR density; // density (exp mode)
-	V3XSCALAR fogMin; // fog min
-	V3XSCALAR fogMax; // fog max
 	rgb32_t color; // fog color
 }V3XLAYER_FOG; //SizeOf: 20b
 
-
-typedef struct _v3x_layerZbuffer{
- u_int32_t flags; // Z Buffer
- char filename[12]; // Z Buffer file name (without extensions)
- GXSPRITE zimg; // Z Buffer data
-}V3XLAYER_ZB; //SizeOf: 36b
 
 
 typedef struct _v3xlayer{
  V3XLAYER_TIMER 	tm; // timers and keyframe 20b
  V3XLAYER_BG 	bg; // background 64b
  V3XLAYER_FOG 	fg; // fog 20b
- V3XLAYER_ZB 	zb; // zbuffer 36b
  V3XLAYER_CLUT 	lt; // color tables 120b
 }V3XLAYER; 	 // SizeOf 256b
 

@@ -57,7 +57,6 @@ typedef struct _v3xcl_faceitem{
 typedef struct _v3xcl_mesh{                  // 64b
    int32_t               type;      // type (first field)
     V3XVECTOR          center;    // center
-    V3XVECTOR          prev_center;   // center after XForming (very rare)
     u_int32_t              numFaces;  // number of faces
     V3XCL_FACE        *face;      // face array
     u_int16_t	      *sectorList;// Sector list

@@ -46,31 +46,9 @@ typedef struct _RClientDriver_Joystick
     int		lRx; // X-axis rotation. If the joystick does not have this axis, the value is 0.
     int		lRy; // Y-axis rotation. If the joystick does not have this axis, the value is 0.
     int		lRz; // Z-axis rotation (often called the rudder). If the joystick does not have this axis, the value is 0.
-    int		rglSlider[2]; // Two additional axis values
     unsigned	rgdwPOV[4]; // Direction controllers, such as point-of-view hats. The position is indicated in hundredths of a degree clockwise from north (away from the user). The center position is normally reported as –1; but see Remarks. For indicators that have only five positions, the value for a controller is –1, 0, 9,000, 18,000, or 27,000.
     u_int8_t	rgbButtons[128]; // Array of buttons. The high-order bit of the byte is set if button is set.
 	u_int8_t	steButtons[128]; // Array of previous buttons.
-    int		lVX; // X-axis velocity.
-    int		lVY; // Y-axis velocity.
-    int		lVZ; // Z-axis velocity.
-    int		lVRx; // X-axis angular velocity.
-    int		lVRy; // Y-axis angular velocity.
-    int		lVRz; //Z-axis angular velocity
-    int		rglVSlider[2]; // Extra axis velocities
-    int		lAX; // X-axis acceleration
-    int		lAY; // Y-axis acceleration
-    int		lAZ; // Z-axis acceleration
-    int		lARx; // X-axis angular acceleration
-    int		lARy; // Y-axis angular acceleration
-    int		lARz; // Z-axis angular acceleration
-    int		rglASlider[2]; // Extra axis accelerations
-    int		lFX; // X-axis force.
-    int		lFY; // Y-axis force.
-    int		lFZ; // Z-axis force.
-    int		lFRx; // X-axis torque.
-    int		lFRy; // Y-axis torque.
-    int		lFRz; // Z-axis torque.
-    int		rglFSlider[2]; // Extra axis forces.
 
 }JOY_ClientDriver;
 
@@ -145,7 +123,6 @@ typedef struct _RClientDriver_Mouse
 	int		numAxes;
 	int		numControllers;
 	void*	device;
-	int     u_id; // 1 : using messaging
 	int     x;   // X-axis (absolute)
     int     y;   // Y-axis (absolute)
     int		lX;  // X-axis. (relative)

@@ -47,6 +47,16 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xtrig.h"
 #include "v3x_2.h"
 
+STUB_Registry RLX = {
+	{ 8 },			// Audio: channels to mix
+	{ 0, 0 },		// Video: config, gamma
+	{ NULL, NULL, NULL },	// Control: drivers, filled in by the SDL layer
+	{ { { 0 }, { 0 } }, 0 },	// Joy: calibration
+	{ "Realtech" },		// Dev: developer logo name
+	{ "" },			// App: pilot name
+	"",			// IniPath
+};
+
 void STUB_Down(void)
 {
  #ifdef _DEBUG

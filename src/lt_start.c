@@ -1248,7 +1248,6 @@ static int TX_Warn(void)
 void NG_GameStart(void)
 {
 	int start_level = 0;
-	char tex[256];
 	if (!g_pCurrentGame)
 		g_pCurrentGame = g_pSaveGames;
 

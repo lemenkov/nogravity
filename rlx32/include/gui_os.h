@@ -56,7 +56,6 @@ typedef int (*PFRWTEXTCALLBACK)( char *text, int mode);
 typedef struct
 {
     GXSPRITEGROUP			*	pFont;
-	RW_Interface			*	pCurrent;
 	int							isMouseHidden, isLocked, insideMouse;
 	int							dx, dy, ch, current, key;
 	char					*	szInputText;

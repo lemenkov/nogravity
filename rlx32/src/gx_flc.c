@@ -68,7 +68,6 @@ for (;ecx!=0;edi+=2, ecx--) *(u_int16_t*)edi=ax;
 */
 static void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight, u_int8_t *ColorTable)
 {
-	char tex[256];
     u_int8_t *esi, *edi, *oesi, *oedi;
     u_int32_t chunk_size;
     u_int16_t ax, bx;
@@ -151,7 +150,6 @@ static void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8
 		esi+=2;
 		for (cx+=(cx<<1);cx!=0;cx--, edi++, esi++) *edi = *esi;
 	    }
-	    tex[31]=127;
 	    break;
 	    case CT_FLI_COLOR6BIT:
 	    bx = *(u_int16_t*)esi;
@@ -168,7 +166,6 @@ static void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8
 		esi+=2;
 		for (cx+=(cx<<1);cx!=0;cx--, edi++, esi++) *edi = (*esi)<<2;
 	    }
-	    tex[31]=127;
 	    break;
 	    case CT_FLI_DELTA_FLI:
 	    ax = *(u_int16_t*)esi ;

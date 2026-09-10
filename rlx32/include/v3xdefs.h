@@ -366,8 +366,6 @@ typedef struct _v3x_light_mgr{
     V3XSCALAR     fogDistance;     // fog range
     rgb32_t    ambiant;         // ambiant color
     rgb32_t    ambiantMaterial; // ambiant material override
-    u_int8_t        fogFactor;       // fog factor (should obsolete)
-    u_int8_t        numColor;        // numbers of colors
     u_int8_t        numSource;       // numbers of light sources
     u_int8_t        pad;
 }V3XLIGHTS;
@@ -488,10 +486,6 @@ typedef struct _v3x_profile{
 */
 
 
-typedef struct _v3x_dynamics{
-    V3XVECTOR   gravity;
-    V3XSCALAR    unity, SoundSpeed, AirViscosity;
-}V3XDYNAMICRULES;
 
 typedef struct _v3x_plugin{
     void (*call)(const void *);
@@ -579,12 +573,9 @@ typedef struct _v3x_layer_Clut{
     u_int32_t              flags;
     V3XLAYER_CLITEM    palette;  // clut for 8bit palette
     V3XLAYER_CLITEM    gouraud;  // clut for gouraud (8bit mode)
-    V3XLAYER_CLITEM    phong;    // clut for phong (8bit mode)
 
-    V3XLAYER_CLITEM    blur;     // clut for motion blur, light blending (8bit mode)
     V3XLAYER_CLITEM    alpha50;  // clut for transparency 50% (8bit mode)
     V3XLAYER_CLITEM    additive; // clut for additive (8bit mode)
-    V3XLAYER_CLITEM    bump;     // clut for bump (8bit mode)
     u_int32_t              shift;
 
 }V3XLAYER_CLUT;    //120b
@@ -605,9 +596,6 @@ typedef struct {
      unsigned        version;
      unsigned        Capabilities;
 	 unsigned		 State;
-     u_int8_t        reduce;
-	 u_int8_t		 texMaxSize;
-     u_int8_t        filler[2];
 }V3X_GXSystem;
 
 /*
@@ -623,7 +611,6 @@ struct V3XSYSTEM {
     V3XVIEWPORT     ViewPort;
     V3XSCENESETUP   Setup;
     V3XCLIPPER      Clip;
-    V3XDYNAMICRULES Dynamic;
     V3XPLUGOVI      Plugin;
 	V3XTIMER		Time;
 	V3X_GXSystem  *	Client;

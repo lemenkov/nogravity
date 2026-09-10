@@ -701,10 +701,8 @@ void V3XScene_MatrixBuild(V3XOVI *OVI)
 void V3XScene_Viewport_Render(V3XSCENE *Scene)
 {
     int a = GX.View.State&GX_STATE_SCENEBEGUN;
-    GXVIEWPORT Old;
     if (Scene->Layer.bg.flags&V3XBG_STEREO)
     {
-        Old = GX.View;
         GX.View.lPitch*=2;
         GX.View.ymax = (GX.View.ymax/2);
         GX.View.ymin = (GX.View.ymin/2);
@@ -934,11 +932,6 @@ int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsig
 					if ((!__ovi)||(ORI->global_rayon>__ovi->ORI->global_rayon))
                     if (V3XVector_IntersectSphereSegment(ORI->global_rayon, &center, start, end))
                     {
-                        if (hint&2)
-                        {
-                            int ret = 0;
-                            for (j=0;j<mesh->numMaterial;j++)if (!mesh->material[j].info.Transparency) ret=1;
-                        }
                         for (j=0;j<mesh->numFaces;j++, f++)
                         {
                             V3XVECTOR roty[4];

@@ -73,7 +73,6 @@ engine_src = files(
   'rlx32/src/v3x_2.c',
   'rlx32/src/v3x_3.c',
   'rlx32/src/v3xcoll.c',
-  'rlx32/src/v3xdata.c',
   'rlx32/src/v3xmaps.c',
   'rlx32/src/v3xrend.c',
   'rlx32/src/v3xscen2.c',
@@ -89,7 +88,6 @@ platform_src = files(
   'rlx32/src/sdl/sysjoy.c',
   'rlx32/src/sdl/syskeyb.c',
   'rlx32/src/sdl/sysmouse.c',
-  'rlx32/src/sdl/sysreg.c',
   'rlx32/src/sdl/systime.c',
 )
 
@@ -116,7 +114,6 @@ game_src = files(
   'src/lt_start.c',
   'src/lt_video.c',
   'src/lt_weap.c',
-  'src/sdl/preferences.c',
 )
 
 executable('nogravity',

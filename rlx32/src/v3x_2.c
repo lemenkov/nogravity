@@ -44,6 +44,9 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xtrig.h"
 #include "v3xmaps.h"
 #include "v3xrend.h"
+
+void *TRG_Table;
+struct V3XSYSTEM V3X;
 static void V3XPoly_Release(V3XPOLY *f);
 static void V3XPoly_Alloc(V3XPOLY *f, int som);
 /*------------------------------------------------------------------------

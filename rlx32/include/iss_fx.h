@@ -36,8 +36,6 @@ typedef struct {
     u_int32_t    randomPitch;     // Random pitch value
     u_int32_t    defaultVol;      // Default volume
     u_int32_t    Flags;           // Download features (see before)
-    int32_t     loopStart;       // Loop end, start
-    int32_t     loopEnd;
     int32_t     priority;        // Priority
 }SND_DWHANDLE;
 
