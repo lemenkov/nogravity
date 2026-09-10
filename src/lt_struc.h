@@ -237,7 +237,6 @@ typedef struct _sg_game{
 					DeathDist;
 
 	V3XMATERIAL	*	pReactorMaterial;
-	SYS_WAD		*	AddOnResource;
 	char		**	PlayersName;
 	V3XOVI		*	Missile;
 

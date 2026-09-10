@@ -644,7 +644,6 @@ static void NG_FixTrackAnim(V3XSCENE *Scene)
 static void NG_InitGameScene(void)
 {
     char pth[32];
-    SYS_WAD *old = filewad_getcurrent();
     rgb32_t AmbientLevel[]={
         {FIX100TO255(72), FIX100TO255(0), FIX100TO255(0)}, 
         {FIX100TO255(25), FIX100TO255(25), FIX100TO255(33)}, 
@@ -655,23 +654,10 @@ static void NG_InitGameScene(void)
 	NG_FXLoadData();
     
     sprintf(pth, ".\\%s\\", g_SGObjects.World.path_name+2);
-    if (g_SGSettings.AddOn)
-    {
-        filewad_setcurrent(g_SGGame.AddOnResource);
-    }
-    else
-    {
         filewad_chdir(FIO_wad, pth);
-    }
     sysStrExtChg(g_SGObjects.World.scene_name, g_SGObjects.World.scene_name, "vmx");
     g_SGGame.Scene = V3XScene_GetFromFile(g_SGObjects.World.scene_name);
     
-    if (g_SGSettings.AddOn)
-    {
-        if (g_SGSettings.AddOn) filewad_close(g_SGGame.AddOnResource);
-        filewad_setcurrent(old);
-        filewad_chdir(FIO_wad, pth);
-    }
     // Table Realcolor
     if (GX.View.BytePerPixel==1)
     {
@@ -969,20 +955,8 @@ static void NG_ReadCMXFile(int level)
     p = MM_heap.push();
     sysMemZero(g_pPlayerInfo, sizeof(SGScript)*MAX_PLAYER);
     g_SGSettings.maxCase = 0;
-    if (g_SGSettings.AddOn)
-    {
-        SYS_WAD *old = filewad_getcurrent();
-		g_SGGame.AddOnResource = filewad_open(g_pGameItem->EI[g_pCurrentGame->episode].LI[g_pCurrentGame->level[g_pCurrentGame->episode]].tex[15], 0);
-        filewad_setcurrent(g_SGGame.AddOnResource);
-        sprintf(fn, "addon.cmx");
-        NG_StageReadFile(fn, g_SGSettings.AddOn);
-        filewad_setcurrent(old);
-    }
-    else
-    {
-        sprintf(fn, "stage_%d.cmx", level);
-        NG_StageReadFile(fn, g_SGSettings.AddOn);
-    }
+    sprintf(fn, "stage_%d.cmx", level);
+    NG_StageReadFile(fn, 0);
     MM_heap.pop(p);
     return;
 }
@@ -1543,11 +1517,6 @@ void NG_GameStop(void)
 	NG_ReleaseGameInterface();
     NG_FXReleaseData();
     V3XScene_Release(g_SGGame.Scene);    
-    if (g_SGGame.AddOnResource)
-    {
-        filewad_close(g_SGGame.AddOnResource);
-        g_SGGame.AddOnResource = NULL;
-    }
     return;
 }
 

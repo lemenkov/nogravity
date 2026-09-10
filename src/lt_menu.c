@@ -1396,7 +1396,6 @@ static int NG_SelectEpisode(void)
     if (!g_SGGame.IsHost) 
 		return 1;
 
-    g_SGSettings.AddOn = 0;
     j = NG_ExecMainMenu(g_pEpisodeMenu, 0, 0xffffffff, 1);
 
     if (j<0) 
@@ -1436,7 +1435,7 @@ static int NG_SelectMissionProfile(void)
 
 #endif
     nMissionCompleted = g_pCurrentGame->level[g_pCurrentGame->episode];
-    bSpecial = (g_SGSettings.Cheater) || (g_SGSettings.SerialGame) || (g_SGSettings.AddOn) ? 1 : 0;
+    bSpecial = (g_SGSettings.Cheater) || (g_SGSettings.SerialGame) ? 1 : 0;
     for (j=0;j<g_pGameItem->EI[g_pCurrentGame->episode].numLevel;j++)
     {
         g_pMissionMenu[j+1] = ((j<=nMissionCompleted) || bSpecial)
