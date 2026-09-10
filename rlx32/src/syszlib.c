@@ -76,16 +76,6 @@ static int CALLING_C fzip_exists(const char *filename)
 	return FIO_cur->exists(filename);
 }
 
-static int CALLING_C fzip_fputc(int c, SYS_FILEHANDLE file)
-{
-	return gzputc((gzFile)file, c);
-}
-
-static int CALLING_C fzip_fflush(SYS_FILEHANDLE file)
-{
-	return gzflush((gzFile)file, Z_SYNC_FLUSH);
-}
-
 SYS_FILEIO FIO_gzip =
 {
 	fzip_fopen,
@@ -99,8 +89,4 @@ SYS_FILEIO FIO_gzip =
 	fzip_fgets,
 	fzip_fsize,
 	fzip_exists,
-	NULL,
-	NULL,
-	fzip_fputc,
-	fzip_fflush,
 };

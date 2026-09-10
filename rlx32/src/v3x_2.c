@@ -283,8 +283,6 @@ int V3XKernel_Alloc(void)
     V3X.Ln.lineBuffer = (V3XVECTOR*)MM_heap.malloc(V3X.Ln.maxLines * sizeof (V3XVECTOR) );
     V3X.Ln.lineColor = (rgb32_t*)MM_heap.malloc(V3X.Ln.maxLines * sizeof (rgb32_t) );
 
-    if (V3X.Client)
-		V3X.Client->Setup();
     return 0;
 }
 /*------------------------------------------------------------------------

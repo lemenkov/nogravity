@@ -893,15 +893,6 @@ static void RLXAPI Flip(void)
 
 // ---- GX client driver ---------------------------------------------------
 
-static u_int8_t RLXAPI *Lock(void)
-{
-	return NULL;
-}
-
-static void RLXAPI Unlock(void)
-{
-}
-
 static int HasMode(const GXDISPLAYMODEINFO *list, int n, int w, int h)
 {
 	int i;
@@ -971,9 +962,6 @@ static void RLXAPI SetPrimitive(void)
 	g_pRLX->pGX->gi = GI_GPU;
 	g_pRLX->pGX->csp = CSP_GPU;
 	g_pRLX->pGX->csp_cfg.put.fonct = g_pRLX->pGX->csp.put;
-	g_pRLX->pGX->csp_cfg.pset.fonct = g_pRLX->pGX->csp.pset;
-	g_pRLX->pGX->csp_cfg.transp.fonct = g_pRLX->pGX->csp.Trsp50;
-	g_pRLX->pGX->csp_cfg.op = g_pRLX->pGX->csp.put;
 }
 
 // The engine renders in a fixed logical resolution (640x480, or 768x480
@@ -1189,16 +1177,7 @@ static int Open(void *hnd)
 	return 0;
 }
 
-static unsigned NotifyEvent(enum GX_EVENT_MODE mode, int x, int y)
-{
-	UNUSED(x);
-	UNUSED(y);
-	return mode;
-}
-
 GXCLIENTDRIVER GX_GPU = {
-	Lock,
-	Unlock,
 	EnumDisplayList,
 	GetDisplayInfo,
 	SetDisplayMode,
@@ -1211,7 +1190,6 @@ GXCLIENTDRIVER GX_GPU = {
 	RegisterMode,
 	Shutdown,
 	Open,
-	NotifyEvent,
 	"SDL_GPU"
 };
 

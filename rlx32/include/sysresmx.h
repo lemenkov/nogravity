@@ -63,10 +63,6 @@ typedef struct _sys_fileio
 	char *			(CALLING_C *fgets )(char *s, int n, SYS_FILEHANDLE  stream);
 	int				(CALLING_C *fsize )(SYS_FILEHANDLE  stream);
 	int 			(CALLING_C *exists)(const char *filename);
-	void			(CALLING_C *init)(void);
-	void			(CALLING_C *close)(void);
-	int 			(CALLING_C *fputc)(int c, SYS_FILEHANDLE  stream);
-	int 			(CALLING_C *fflush)(SYS_FILEHANDLE  stream);
 }SYS_FILEIO;
 
 // Single file structure in a resource

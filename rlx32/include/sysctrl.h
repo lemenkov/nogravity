@@ -141,7 +141,6 @@ typedef struct _RClientDriver_Mouse
 {
 	int    (* RLXAPI Open)(void *);
     void   (* RLXAPI Release)(void);
-    void   (* RLXAPI Show)(void);
 	void   (* RLXAPI Hide)(void);
 	void   (* RLXAPI SetPosition)(u_int32_t x, u_int32_t y);
 	unsigned long (* RLXAPI Update)(void *device);

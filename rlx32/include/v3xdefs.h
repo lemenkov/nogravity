@@ -646,8 +646,6 @@ typedef struct {
      void        V3XAPI *(*TextureDownload)(const GXSPRITE *src, const rgb24_t *colorTable, int bpp, unsigned options);
      void        V3XAPI  (*TextureFree)(void *handle);
      int         V3XAPI  (*TextureModify)(GXSPRITE *ptr, u_int8_t *newBuffer, const rgb24_t *colorTable);
-     int         V3XAPI  (*Setup)(void);
-     void        V3XAPI  (*Shutdown)(void);
      unsigned    V3XAPI  (*SetState)(unsigned command, u_int32_t value);
      unsigned    V3XAPI  (*ZbufferClear)(rgb24_t *color, V3XSCALAR z, void *bitmap);
      void        V3XAPI  (*RenderPoly)(V3XPOLY **fce, int count);

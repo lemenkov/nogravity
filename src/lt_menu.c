@@ -456,7 +456,6 @@ static int NG_RenderingKeybMenu(RW_Interface *p, int mode)
     i = numItems * pFont->item[0].LY;
     y = y0 = g_SGMenuPos.YZoneMin;
 
-    GX.Client->Lock();
 
     NG_RenderingBackground();
     CSP_Color(COLOR_WHITE);
@@ -517,7 +516,6 @@ static int NG_RenderingKeybMenu(RW_Interface *p, int mode)
 	RW_RenderSelection(p);
 	GX.View.ymin=0;
 
-    GX.Client->Unlock();
     GX.View.Flip();
 	NG_UpdateColor();
 
@@ -542,7 +540,6 @@ static int NG_RenderingSubMenu(RW_Interface *p, int mode)
     i = numItems * (pFont->item[0].LY);
     y = g_SGMenuPos.YZoneMin + (g_SGMenuPos.YZoneSize-i)/2;
 
-    GX.Client->Lock();
 
     NG_RenderingBackground();
     CSP_Color(COLOR_WHITE);
@@ -596,7 +593,6 @@ static int NG_RenderingSubMenu(RW_Interface *p, int mode)
 	RW_RenderSelection(p);
 
 
-    GX.Client->Unlock();
     GX.View.Flip();
 	NG_UpdateColor();
 
@@ -666,7 +662,6 @@ static int NG_RenderingMainMenu(RW_Interface *p, int mode)
     maxLength+= 16*2;
     x = (GX.View.xmax - maxLength) / 2;
 
-    GX.Client->Lock();
     NG_RenderingBackground();
 	CSP_Color(COLOR_GRAY4);
     CSP_WriteText(menu[0], g_SGMenuPos.Xtitle, g_SGMenuPos.Ytitle, g_pFontMenuLrg);
@@ -756,7 +751,6 @@ static int NG_RenderingMainMenu(RW_Interface *p, int mode)
 	if (mode!=2)
 		ret = RW_RenderSelection(p);
 
-    GX.Client->Unlock();
     GX.View.Flip();
 	NG_UpdateColor();
 	if (ret)
@@ -1069,7 +1063,6 @@ static int NG_SelectBriefing(void)
 	NG_ResetColor();
     do
     {
-        GX.Client->Lock();
 
 #if (SGTARGET ==NG_DEMO_VERSION)
         NG_RenderMenuBackground();
@@ -1103,7 +1096,6 @@ static int NG_SelectBriefing(void)
 		if (sysConIsActive())
 			sysConRender();
 
-        GX.Client->Unlock();
         GX.View.Flip();
 		NG_UpdateColor();
 
@@ -1214,7 +1206,6 @@ static int CallbackMenuMap(RW_Interface *pInterface, int mode)
     }
 
 	// Render
-	GX.Client->Lock();
 
 	NG_UpdateColor();
 
@@ -1243,7 +1234,6 @@ static int CallbackMenuMap(RW_Interface *pInterface, int mode)
 	if (sysConIsActive())
 		sysConRender();
 
-	GX.Client->Unlock();
     GX.View.Flip();
 
 	sysConHandleInput();
@@ -1484,7 +1474,6 @@ static int RenderHallOfFame(RW_Interface *pInterface, int mode)
 {
     int i, y = g_SGMenuPos.YZoneMin + RW.pFont->item[0].LY;
 
-	GX.Client->Lock();
 
 	CSP_Color(COLOR_WHITE);
 	GX.csp.zoom_pset(&g_csBackground, 0, 0, GX.View.lWidth, GX.View.lHeight);
@@ -1508,7 +1497,6 @@ static int RenderHallOfFame(RW_Interface *pInterface, int mode)
 
 	RW_RenderSelection(pInterface);
 
-	GX.Client->Unlock();
 	GX.View.Flip();
 	NG_UpdateColor();
 
@@ -1635,7 +1623,6 @@ void NG_MenuCredits(void)
     {
         sKEY->Update(0);
 		sJOY->Update(0);
-        GX.Client->Lock();
         GX.csp.zoom_pset(&sp, 0, 0, GX.View.lWidth, GX.View.lHeight);
         f = 0;
         for (y0=y, j=0;j<n;j++)
@@ -1663,7 +1650,6 @@ void NG_MenuCredits(void)
             }
         }
 
-        GX.Client->Unlock();
         if ((f==0)||NG_WaitForKeyPress())
 			quit=1;
         y--;
@@ -1679,9 +1665,7 @@ void NG_MenuCredits(void)
     NG_AudioStopMusic();
     GX.View.ymin = ymin;
     GX.View.ymax = ymax;
-    GX.Client->Lock();
     GX.gi.clearVideo();
-    GX.Client->Unlock();
     MM_heap.reset();
     GX.Client->ReleaseSprite(&sp);
     return;
@@ -1730,7 +1714,6 @@ void NG_DrawHelpFile(GXSPRITEGROUP *Font, int color2, int xz)
 			sJOY->Update(0);
 
 			g_SGSettings.bClearView = 1;
-            GX.Client->Lock();
 
 			CSP_Color(COLOR_WHITE);
 			if (g_csBackground.data)
@@ -1748,7 +1731,6 @@ void NG_DrawHelpFile(GXSPRITEGROUP *Font, int color2, int xz)
                     CSP_DrawTextC(szText, xz, y0, color2, (GX.View.BytePerPixel > 1 ? NG_PixelFormat(255, 255, 255, 0) : 255), Font, GX.csp_cfg.put);
                 }
             }
-            GX.Client->Unlock();
 
             mX = (y0-y)-GX.View.ymax;
             {
@@ -1939,7 +1921,6 @@ static int NG_RenderEndLevelBackground(RW_Interface *p, int mode)
 {
 	int l = 0;
 
-	GX.Client->Lock();
 
 	CSP_Color(COLOR_WHITE);
 	GX.csp.zoom_pset(&g_csPicture, 0, 0, GX.View.lWidth, GX.View.lHeight);
@@ -1964,7 +1945,6 @@ static int NG_RenderEndLevelBackground(RW_Interface *p, int mode)
 
 	RW_RenderSelection(p);
 
-	GX.Client->Unlock();
 	GX.View.Flip();
 	NG_UpdateColor();
 

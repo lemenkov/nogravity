@@ -57,7 +57,6 @@ int NG_WaitForKeyPress(void)
 {
     int a = 0;
 
-    V3XA.Client->Poll(0);
     V3XAStream_PollAll();
 
 	sKEY->Update(0);

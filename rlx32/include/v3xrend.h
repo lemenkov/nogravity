@@ -206,8 +206,6 @@ _RLXEXPORTFUNC    void RLXAPI           GX_ClippedLine3D(V3XVECTOR *a, V3XVECTOR
 _RLXEXPORTFUNC    void                  V3XRGB_Composing(rgb32_t *dest, V3XPOLY *fce);
 
     // Sprite render
-_RLXEXPORTFUNC    void CALLING_C        V3XCSP_3DSprite(GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
-_RLXEXPORTFUNC    void CALLING_C        V3XCSP_3DSprite_Alpha(GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
 
  #ifdef _GX_CSP_H
  #endif

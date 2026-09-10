@@ -79,64 +79,13 @@ typedef struct _v3xa_channelInfo
     u_int8_t              filler[3];
 }V3XA_CHANNELINFO;
 
-// Environment preset
-enum V3XA_ENVIRONMENT
-{
-    V3XA_ENVIRONMENT_GENERIC,
-    V3XA_ENVIRONMENT_PADDEDCELL,
-    V3XA_ENVIRONMENT_ROOM,
-    V3XA_ENVIRONMENT_BATHROOM,
-    V3XA_ENVIRONMENT_LIVINGROOM,
-    V3XA_ENVIRONMENT_STONEROOM,
-    V3XA_ENVIRONMENT_AUDITORIUM,
-    V3XA_ENVIRONMENT_CONCERTHALL,
-    V3XA_ENVIRONMENT_CAVE,
-    V3XA_ENVIRONMENT_ARENA,
-    V3XA_ENVIRONMENT_HANGAR,
-    V3XA_ENVIRONMENT_CARPETEDHALLWAY,
-    V3XA_ENVIRONMENT_HALLWAY,
-    V3XA_ENVIRONMENT_STONECORRIDOR,
-    V3XA_ENVIRONMENT_ALLEY,
-    V3XA_ENVIRONMENT_FOREST,
-    V3XA_ENVIRONMENT_CITY,
-    V3XA_ENVIRONMENT_MOUNTAINS,
-    V3XA_ENVIRONMENT_QUARRY,
-    V3XA_ENVIRONMENT_PLAIN,
-    V3XA_ENVIRONMENT_PARKINGLOT,
-    V3XA_ENVIRONMENT_SEWERPIPE,
-    V3XA_ENVIRONMENT_UNDERWATER,
-    V3XA_ENVIRONMENT_DRUGGED,
-    V3XA_ENVIRONMENT_DIZZY,
-    V3XA_ENVIRONMENT_PSYCHOTIC,
-    V3XA_ENVIRONMENT_COUNT,
-	V3XA_ENVIRONMENT_FORCEDWORD = 0xffff
-};
-
-// Reverb properties
-typedef struct _v3xa_reverbproperties
-{
-    u_int32_t		environment;
-    float		fVolume;
-    float		fDecayTime_sec;
-    float		fDamping;
-}V3XA_REVERBPROPERTIES;
-
 // Wave driver
 typedef struct _v3xa_wave_client_driver
 {
 // Init Functions
-	int 			(RLXAPI *Enum)(void);			// Enumerate devices
-	int 			(RLXAPI *Detect)(void);			// Detect devices (0: found)
 	int 			(RLXAPI *Initialize)(void *);	// Initialize previously detected device (0: ok)
 	void			(RLXAPI *Release)(void);		// Release driver
 	void			(RLXAPI *SetVolume)(float volume);// Set master volume
-	void			(RLXAPI *Start)(void); 		// Start to play
-	void			(RLXAPI *Stop)(void);			// Stop to play
-	int32_t			(RLXAPI *Poll)(int32_t param); // poller
-	void			(RLXAPI *Render)(void);		// Render 3D environment sound (optional)
-	void			(RLXAPI *UserSetParms)(V3XMATRIX *lpMAT, V3XVECTOR *lpVEL,
-										   float *lpDistanceF, float *lpDopplerF,
-										   float *lpRolloff);
 // Sample Functions
 	void			(RLXAPI *ChannelOpen)(int gain, int numbersOfchannel); // Open multichannel mixer
 	int 			(RLXAPI *ChannelPlay)(V3XA_CHANNEL channel, int frequency, float volume, float panning, V3XA_HANDLE *handle);
@@ -145,16 +94,9 @@ typedef struct _v3xa_wave_client_driver
 	void			(RLXAPI *ChannelSetPanning)(V3XA_CHANNEL channel, float panning);
 	void			(RLXAPI *ChannelSetSamplingRate)(V3XA_CHANNEL channel, int frequency);
 	int 			(RLXAPI *ChannelGetStatus)(V3XA_CHANNEL channel);
-	void			(RLXAPI *ChannelSetParms)(V3XA_CHANNEL channel, V3XVECTOR *pos,
-																    V3XVECTOR *velocity,
-																	V3XRANGE *fRange);
-	int 			(RLXAPI *ChannelSetEnvironment)(V3XA_CHANNEL channel, V3XA_REVERBPROPERTIES *cfg);
 	V3XA_CHANNEL 	(RLXAPI *ChannelGetFree)(V3XA_HANDLE *handle);
 	void			(RLXAPI *ChannelFlushAll)(int mode);
-	void			(RLXAPI *ChannelInvalidate)(V3XA_HANDLE *handle);
-	V3XA_HANDLE* 	(RLXAPI *ChannelGetSample)(V3XA_CHANNEL channel);
 	char			s_DrvName[MAX_V3XA_CLIENT_DRIVER_NAME];
-	char		**	p_DriverList;
 }V3XA_WaveClientDriver;
 
 // V3X Audio object

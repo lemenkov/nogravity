@@ -85,8 +85,7 @@ typedef struct {
     u_int32_t             colorInv;   // inversed color
     u_int32_t             alpha;      // Alpha component
     void             *table;      // Table
-    void CALLING_C  (*op)(int32_t x, int32_t y, GXSPRITE *sp); // Default operators
-    CSP_FUNCTION      put, pset, transp;  // Main operators
+    CSP_FUNCTION      put;        // Main operator
     char              ext[4];     // Extension for bitmap GXSPRITE file
 }CSP_Config;
 
@@ -96,10 +95,8 @@ typedef struct {
     // Normal GXSPRITE drawer
     void CALLING_C  (*put)(      int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*pset)(     int32_t x, int32_t y, GXSPRITE *sp);
-    void CALLING_C  (*flipAxisX)(int32_t x, int32_t y, GXSPRITE *sp);
 
     // Blended GXSPRITE drawer (in the current depth color)
-    void CALLING_C  (*Trsp50)(   int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*TrspADD)(  int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*TrspSUB)(  int32_t x, int32_t y, GXSPRITE *sp);
     void CALLING_C  (*TrspALPHA)(int32_t x, int32_t y, GXSPRITE *sp);
@@ -107,7 +104,6 @@ typedef struct {
     // Scalable GXSPRITE drawer
     void CALLING_C  (*zoom_pset)(   GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
     void CALLING_C  (*zoom_put)(      GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
-    void CALLING_C  (*zoom_Trsp50)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
     void CALLING_C  (*zoom_TrspADD)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
     void CALLING_C  (*zoom_TrspSUB)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
     void CALLING_C  (*zoom_TrspALPHA)( GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);

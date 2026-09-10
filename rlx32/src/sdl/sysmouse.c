@@ -101,13 +101,6 @@ static void MouseRelease(void)
   ApplyRelativeMode();
 }
 
-static void MouseShow(void)
-{
-  g_bHidden = 0;
-  ApplyRelativeMode();
-  SDL_ShowCursor();
-}
-
 static void MouseHide(void)
 {
   SDL_HideCursor();
@@ -178,7 +171,6 @@ _RLXEXPORTFUNC MSE_ClientDriver *MSE_SystemGetInterface_STD(void)
   {
     MouseOpen,
     MouseRelease,
-    MouseShow,
     MouseHide,
     MouseSetPosition,
     MouseUpdate

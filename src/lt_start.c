@@ -429,12 +429,10 @@ static void NG_DrawLoadingBar(int step)
 	if ((V3XA.State & 1))
 		V3XAStream_PollAll();
 
-    GX.Client->Lock();
 	GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
 	NG_DrawLoadingScreen();
     GX.gi.drawWiredRect(x, GX.View.ymax-10, x+lw, GX.View.ymax, 0);
     GX_drawGouraudRect(x, GX.View.ymax-10, lw, p, 10, &cs, &cf);
-    GX.Client->Unlock();
     GX.View.Flip();
 
     return;
@@ -1257,7 +1255,6 @@ static void NG_InitGameSounds(void)
 */
 static void NG_InitGameDisplay(void)
 {
-   	int bAllowTrsp = 1; // (GX.View.Flags&GX_CAPS_BACKBUFFERINVIDEO)==0;
 
     if (g_SGSettings.TexFiltering)
 		V3X.Client->Capabilities|=GXSPEC_ENABLEFILTERING;
@@ -1271,21 +1268,6 @@ static void NG_InitGameDisplay(void)
 		V3X.Client->Capabilities|=GXSPEC_ENABLEDITHERING;
     else
 		V3X.Client->Capabilities&=~GXSPEC_ENABLEDITHERING;
-
-    if (!bAllowTrsp)
-    {
-        GX.csp.Trsp50 = GX.csp.put;
-        GX.csp.TrspADD = GX.csp.put;
-    }
-
-    if (V3X.Client->Capabilities & GXSPEC_HARDWAREBLENDING)
-    {
-		if (!(V3X.Client->Capabilities & GXSPEC_FULLHWSPRITE))
-		{
-	   		GX.csp.zoom_put = V3XCSP_3DSprite;
-			GX.csp.zoom_Trsp50 = GX.csp.zoom_TrspSUB = GX.csp.zoom_TrspALPHA = GX.csp.zoom_TrspADD = V3XCSP_3DSprite_Alpha;
-		}
-    }
 
     sMOU->SetPosition(GX.View.xmax/2, GX.View.ymax/2);
 
@@ -1314,10 +1296,8 @@ static int TX_Warn(void)
 {
     rgb24_t bleu = {64, 0, 0};
     u_int32_t cl = RGB_PixelFormatEx(&bleu);
-    GX.Client->Lock();
     GX.gi.drawFilledRect(0, 0, GX.View.xmax, GX.View.ymax, cl);
     CSP_WriteCenterText("No enough video memory for textures!", GX.View.ymax/2, g_pspDispFont);
-    GX.Client->Unlock();
     GX.View.Flip();
     SDL_Delay(2000);
     return 1;

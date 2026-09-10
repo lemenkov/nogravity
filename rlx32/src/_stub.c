@@ -69,7 +69,6 @@ void STUB_Down(void)
  #ifdef _DEBUG
      SYS_Debug("Release 3d engine..\n");
  #endif
-	V3X.Client->Shutdown();
 	V3XKernel_Release();
 
  #ifdef _DEBUG
@@ -88,17 +87,10 @@ static int STUB_CheckAudio(void *hwnd)
  #ifdef _DEBUG
      SYS_Debug("init audio..\n");
  #endif
-	V3XA.Client->Enum();
-    if (!V3XA.Client->Detect())
-    {
-        if (!V3XA.Client->Initialize(hwnd))
-			V3XA.State|= 1;
-		else
-			V3XA.State &= ~1;
-
-    }
-    else
-		V3XA.State&=~1;
+    if (!V3XA.Client->Initialize(hwnd))
+		V3XA.State |= 1;
+	else
+		V3XA.State &= ~1;
     return V3XA.State & 1;
 }
 

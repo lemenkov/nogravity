@@ -214,11 +214,7 @@ SYS_FILEIO FIO_res =
 	filewad_eof,
 	filewad_fgets,
 	filewad_fsize,
-	filewad_fexist,
-	NULL, // init
-	NULL, // close
-	NULL, // fputc
-	NULL  // fflush
+	filewad_fexist
 };
 
 void sysInitFS(void)

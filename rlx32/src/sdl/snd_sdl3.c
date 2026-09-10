@@ -186,16 +186,6 @@ static void SDLCALL ChannelFeed(void *userdata, SDL_AudioStream *stream, int add
 	}
 }
 
-static int RLXAPI Enum(void)
-{
-	return 1;
-}
-
-static int RLXAPI Detect(void)
-{
-	return 0;
-}
-
 static int RLXAPI Initialize(void *hwnd)
 {
 	SDL_AudioSpec spec;
@@ -284,32 +274,6 @@ static void RLXAPI ChannelStop(V3XA_CHANNEL channel)
 	SDL_ClearAudioStream(ch->stream);
 }
 
-static void RLXAPI Start(void)
-{
-	// Channels play as soon as something is queued on them.
-}
-
-static void RLXAPI Stop(void)
-{
-	int i;
-	for (i = 0; i < g_nChannels; i++)
-		ChannelStop(i);
-}
-
-static int32_t RLXAPI Poll(int32_t v)
-{
-	return v;
-}
-
-static void RLXAPI Render(void)
-{
-}
-
-static void RLXAPI UserSetParms(V3XMATRIX *lpMAT, V3XVECTOR *lpVEL, float *lpDistanceF, float *lpDopplerF, float *lpRolloffF)
-{
-	UNUSED(lpMAT); UNUSED(lpVEL); UNUSED(lpDistanceF); UNUSED(lpDopplerF); UNUSED(lpRolloffF);
-}
-
 static void RLXAPI ChannelOpen(int nGain, int numChannels)
 {
 	int i;
@@ -396,18 +360,6 @@ static int RLXAPI ChannelGetStatus(V3XA_CHANNEL channel)
 	return g_Channels[channel].playing;
 }
 
-static void RLXAPI ChannelSetParms(V3XA_CHANNEL channel, V3XVECTOR *pos, V3XVECTOR *velocity, V3XRANGE *fRange)
-{
-	// 3D positioning is done by the game (volume + panning).
-	UNUSED(channel); UNUSED(pos); UNUSED(velocity); UNUSED(fRange);
-}
-
-static int RLXAPI ChannelSetEnvironment(V3XA_CHANNEL channel, V3XA_REVERBPROPERTIES *cfg)
-{
-	UNUSED(channel); UNUSED(cfg);
-	return 0;
-}
-
 // A free channel, or failing that one playing a lower priority sample.
 static V3XA_CHANNEL RLXAPI ChannelGetFree(V3XA_HANDLE *handle)
 {
@@ -433,25 +385,10 @@ static V3XA_CHANNEL RLXAPI ChannelGetFree(V3XA_HANDLE *handle)
 
 static void RLXAPI ChannelFlushAll(int mode)
 {
-	UNUSED(mode);
-	Stop();
-}
-
-static void RLXAPI ChannelInvalidate(V3XA_HANDLE *handle)
-{
 	int i;
+	UNUSED(mode);
 	for (i = 0; i < g_nChannels; i++)
-	{
-		if (g_Channels[i].handle == handle)
-			ChannelStop(i);
-	}
-}
-
-static V3XA_HANDLE *RLXAPI ChannelGetSample(V3XA_CHANNEL channel)
-{
-	if ((channel < 0) || (channel >= g_nChannels))
-		return NULL;
-	return g_Channels[channel].handle;
+		ChannelStop(i);
 }
 
 //-------------------------------------------------------------------------
@@ -503,7 +440,6 @@ int V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename)
 	pHandle->sampleFormat = V3XA_FMT16BIT | V3XA_FMTSTEREO | V3XA_FMTIEEE;
 	return 1;
 }
-
 
 //-------------------------------------------------------------------------
 // Streams (music)
@@ -692,7 +628,6 @@ static void V3XAStream_ReleaseAll(void)
 	SDL_UnlockMutex(g_StreamLock);
 }
 
-
 //-------------------------------------------------------------------------
 // Driver entry point
 //-------------------------------------------------------------------------
@@ -701,16 +636,9 @@ void RLXAPI V3XA_EntryPoint(struct RLXSYSTEM *rlx)
 {
 	static V3XA_WaveClientDriver SDL3_Client =
 	{
-		Enum,
-		Detect,
 		Initialize,
 		Release,
 		SetVolume,
-		Start,
-		Stop,
-		Poll,
-		Render,
-		UserSetParms,
 		ChannelOpen,
 		ChannelPlay,
 		ChannelStop,
@@ -718,14 +646,9 @@ void RLXAPI V3XA_EntryPoint(struct RLXSYSTEM *rlx)
 		ChannelSetPanning,
 		ChannelSetSamplingRate,
 		ChannelGetStatus,
-		ChannelSetParms,
-		ChannelSetEnvironment,
 		ChannelGetFree,
 		ChannelFlushAll,
-		ChannelInvalidate,
-		ChannelGetSample,
-		"SDL3",
-		NULL
+		"SDL3"
 	};
 	UNUSED(rlx);
 	V3XA.Client = &SDL3_Client;

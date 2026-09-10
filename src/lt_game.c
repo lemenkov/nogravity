@@ -261,14 +261,6 @@ static void NG_UpdateCamera(void)
         V3XVector_Inc(&g_pCamera->target, &vDV);
         if (g_SGObjects.FinCode!=GAMESTATE_DEAD)
             NG_Audio3DUpdate(&g_pPlayer->Mat->v.Pos, &g_pPlayer->J.Mv.vel, g_cFXTable.Engine, g_cFXTable.SoundEngine);
-
-        if (V3XA.State & 1)
-		{
-			float distance = 1.f;
-			float rolloff = 0.0f;
-			float doppler = 1.0f;
-            V3XA.Client->UserSetParms(&V3X.Camera.M, &g_pPlayer->J.Mv.vel, &distance, &doppler, &rolloff);
-		}
     }
     CAM_END:
     return;
@@ -359,7 +351,6 @@ static void NG_MissionSummary(int sty)
         quit = sysConIsActive() ? 0 : sKEY_IsClicked(s_esc)||sKEY_IsClicked(s_return);
 
         // LOCK
-        GX.Client->Lock();
         {
 			g_SGSettings.bClearView = 1;
             ShowHelpBack();
@@ -371,7 +362,6 @@ static void NG_MissionSummary(int sty)
         // UNLOCK
          if (sysConIsActive())
 			sysConRender();
-        GX.Client->Unlock();
         GX.View.Flip();
 
     } while(!quit);
@@ -468,7 +458,6 @@ static int NG_DisplayDropMenu(char **menu)
 		}
 
         // LOCK
-        GX.Client->Lock();
         g_SGSettings.bClearView = 1;
         ShowHelpBack();
         CSP_Color(g_SGGame.CI_WHITE);
@@ -498,7 +487,6 @@ static int NG_DisplayDropMenu(char **menu)
 			sysConRender();
 
         // UNLOCK
-        GX.Client->Unlock();
         GX.View.Flip();
 
     }while(!esc);
@@ -2710,7 +2698,6 @@ void NG_GamePlay(void)
 			break;
 
         // LOCK
-		GX.Client->Lock();
         g_SGSettings.bClearView = 0;
 
         // Render scene
@@ -2721,7 +2708,6 @@ void NG_GamePlay(void)
     	if (sysConIsActive())
           	sysConRender();
 		// UNLOCK
-		GX.Client->Unlock();
 
         // Process pass
         NG_ControlGame();
@@ -2737,7 +2723,6 @@ void NG_GamePlay(void)
         V3XViewport_Setup(&V3X.Camera, GX.View);
         NG_WeaponUpdate();
         if (V3XA.State & 1)
-            V3XA.Client->Render();
 
         switch(g_SGObjects.FinCode)
 		{

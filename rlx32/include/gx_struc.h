@@ -144,14 +144,8 @@ typedef struct _gx_display_mode_info {
 
 typedef int GXDISPLAYMODEHANDLE;
 
-enum GX_EVENT_MODE {
-	GX_EVENT_RESIZE = 1
-};
-
 // Video Driver
 typedef struct {
-    u_int8_t          *(* RLXAPI Lock)(void);
-    void               (* RLXAPI Unlock)(void);
     GXDISPLAYMODEINFO*(* RLXAPI EnumDisplayList)(int bpp);
     void               (* RLXAPI GetDisplayInfo)(GXDISPLAYMODEHANDLE mode);
     int	               (* RLXAPI SetDisplayMode)(GXDISPLAYMODEHANDLE mode);
@@ -164,7 +158,6 @@ typedef struct {
     int                (* RLXAPI RegisterMode)(int bpp);
     void               (* RLXAPI Shutdown)(void);
     int                (* RLXAPI Open)(void *hwnd);
-    unsigned           (* RLXAPI NotifyEvent)(enum GX_EVENT_MODE mode, int x, int y);
 
 
     char               s_DrvName[64];
@@ -176,7 +169,6 @@ typedef struct {
 typedef struct _gx_graphic_interface
 {
     void  (* CALLING_C drawAnyLine)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
-	void  (* CALLING_C drawAliasedLine)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
     void  (* CALLING_C drawHorizontalLine)(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour);
     void  (* CALLING_C drawVerticalLine)(int32_t x1, int32_t y1, int32_t lx, u_int32_t colour);
     void  (* CALLING_C drawWiredRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
@@ -184,16 +176,9 @@ typedef struct _gx_graphic_interface
     void  (* CALLING_C drawMeshedRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
     void  (* CALLING_C drawFilledRect)(int32_t x1, int32_t y1, int32_t x2, int32_t y2, u_int32_t colour);
     void  (* CALLING_C drawPixel)(int32_t x, int32_t y, u_int32_t colour);
-	void  (* CALLING_C TrspPixel)(int32_t x, int32_t y, u_int32_t colour);
-    u_int32_t (* CALLING_C getPixel)(int32_t x, int32_t y);
     void  (* CALLING_C clearBackBuffer)(void);
     void  (* CALLING_C clearVideo)(void);
-    void  (* CALLING_C blit)(u_int32_t dest, u_int32_t src);
-    void  (* CALLING_C waitDrawing)(void);
     void  (* CALLING_C setPalette)(u_int32_t a, u_int32_t b, void * pal);
-    void  (* CALLING_C setCursor)(int32_t x, int32_t y);
-    void  (* CALLING_C copyCursor)(u_int8_t *map);
-	void  (* CALLING_C setGammaRamp)(const rgb24_t *ramp);
 }GXGRAPHICINTERFACE;
 
 #include "gx_csp.h"

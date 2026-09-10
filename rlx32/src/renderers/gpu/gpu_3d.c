@@ -42,15 +42,6 @@ SDL_GPU renderer: 2026 - Peter Lemenkov
 
 static float g_fInvZFar = 1.f;
 
-static int V3XAPI HardwareSetup(void)
-{
-	return 0;
-}
-
-static void V3XAPI HardwareShutdown(void)
-{
-}
-
 static unsigned V3XAPI ZbufferClear(rgb24_t *color, V3XSCALAR z, void *bitmap)
 {
 	UNUSED(color); UNUSED(z); UNUSED(bitmap);
@@ -291,8 +282,6 @@ V3X_GXSystem V3X_GPU =
 	UploadTexture,
 	FreeTexture,
 	TextureModify,
-	HardwareSetup,
-	HardwareShutdown,
 	SetState,
 	ZbufferClear,
 	RenderPoly,

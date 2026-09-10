@@ -145,30 +145,10 @@ static void CALLING_C clearVideo(void)
 	GPU_ClearColor();
 }
 
-static void CALLING_C waitDrawing(void)
-{
-}
-
 static void CALLING_C setPalette(u_int32_t a, u_int32_t b, void *pal)
 {
 	UNUSED(a); UNUSED(b); UNUSED(pal);
 }
-
-static u_int32_t CALLING_C getPixel(int32_t x, int32_t y)
-{
-	// Reading the frame back is not supported (never used by the game).
-	UNUSED(x); UNUSED(y);
-	return 0;
-}
-
-static void CALLING_C blit(u_int32_t dest, u_int32_t src)
-{
-	UNUSED(dest); UNUSED(src);
-}
-
-static void CALLING_C setCursor(int32_t x, int32_t y) { UNUSED(x); UNUSED(y); }
-static void CALLING_C copyCursor(u_int8_t *map) { UNUSED(map); }
-static void CALLING_C setGammaRamp(const rgb24_t *ramp) { UNUSED(ramp); }
 
 // ---- sprites --------------------------------------------------------------
 
@@ -206,14 +186,12 @@ static void DrawSprite(GXSPRITE *sp, float x, float y, float lx, float ly, int m
 static void CALLING_C csp_put(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_OPACITY); }
 static void CALLING_C csp_pset(int32_t x, int32_t y, GXSPRITE *sp)  { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_OPAQUE); }
 static void CALLING_C csp_add(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ADD); }
-static void CALLING_C csp_50(int32_t x, int32_t y, GXSPRITE *sp)    { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ALPHA); }
 static void CALLING_C csp_sub(int32_t x, int32_t y, GXSPRITE *sp)   { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_SUB); }
 static void CALLING_C csp_alpha(int32_t x, int32_t y, GXSPRITE *sp) { DrawSprite(sp, (float)x, (float)y, (float)sp->LX, (float)sp->LY, SPR_ALPHA); }
 
 static void CALLING_C csp_put_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_OPACITY); }
 static void CALLING_C csp_pset_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)  { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_OPAQUE); }
 static void CALLING_C csp_add_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ADD); }
-static void CALLING_C csp_50_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)    { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ALPHA); }
 static void CALLING_C csp_sub_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly)   { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_SUB); }
 static void CALLING_C csp_alpha_zoom(GXSPRITE *sp, int32_t x, int32_t y, int32_t lx, int32_t ly) { DrawSprite(sp, (float)x, (float)y, (float)lx, (float)ly, SPR_ALPHA); }
 
@@ -268,7 +246,6 @@ static unsigned RLXAPI GPU_UpdateSprite(GXSPRITE *sp, const u_int8_t *bitmap, co
 GXGRAPHICINTERFACE GI_GPU =
 {
 	drawAnyLine,
-	drawAnyLine,
 	drawHorizontalLine,
 	drawVerticalLine,
 	drawWiredRect,
@@ -276,16 +253,9 @@ GXGRAPHICINTERFACE GI_GPU =
 	drawMeshedRect,
 	drawFilledRect,
 	drawPixel,
-	drawPixel,
-	getPixel,
 	clearBackBuffer,
 	clearVideo,
-	blit,
-	waitDrawing,
-	setPalette,
-	setCursor,
-	copyCursor,
-	setGammaRamp
+	setPalette
 };
 
 GXSPRITEINTERFACE CSP_GPU =
@@ -293,14 +263,11 @@ GXSPRITEINTERFACE CSP_GPU =
 	0,
 	csp_put,
 	csp_pset,
-	csp_pset,
-	csp_50,
 	csp_add,
 	csp_sub,
 	csp_alpha,
 	csp_pset_zoom,
 	csp_put_zoom,
-	csp_50_zoom,
 	csp_add_zoom,
 	csp_sub_zoom,
 	csp_alpha_zoom

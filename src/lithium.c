@@ -291,22 +291,10 @@ void STUB_MainCode(void)
 
     if (V3XA.State & 1)
     {
-	    float doppler = 0.1f;
-        float distance = 1.f;
-        float rolloff = 0.0f;
-        V3XA_REVERBPROPERTIES cfg;
-
 #ifdef _DEBUG
 	   SYS_Debug("Configure audio...\n");
 #endif
-
 		V3XA.Client->ChannelOpen(0, 16);
-        cfg.environment = V3XA_ENVIRONMENT_ARENA;
-        cfg.fVolume = 0.361f;
-        cfg.fDecayTime_sec = 7.284f;
-        cfg.fDamping  = 0.332f;
-        V3XA.Client->ChannelSetEnvironment(-1, &cfg);
-	    V3XA.Client->UserSetParms(NULL, NULL, &distance, &doppler, &rolloff);
     }
 
 

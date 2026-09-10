@@ -77,12 +77,10 @@ static void NG_FadeInBackground()
 	for (i=0;i<255;i+=s)
 	{
 		int k = i == 256-s? 255 : i;
-		GX.Client->Lock();
 		if (i == 0)
 			GX.gi.clearBackBuffer();
 		CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(k, k, k, 0) : 255));
 		GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
-		GX.Client->Unlock();
 		GX.View.Flip();
 	}
 }
@@ -95,10 +93,8 @@ static void NG_FadeOutBackground()
 	for (i=0;i<255;i+=s)
 	{
 		int k = i == 256-s? 0 : 255 - i;
-		GX.Client->Lock();
 		CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(k, k, k, 0) : 255));
 		GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
-		GX.Client->Unlock();
 		GX.View.Flip();
 	}
 }
@@ -139,11 +135,9 @@ void NG_PlayLoadingScreen(void)
 	for (i=0;i<256;i+=4)
 	{
 		int j = i == 255-4 ? 255 : i;
-		GX.Client->Lock();
 			CSP_Color(RGB_PixelFormat(j,j,j));
 			NG_DrawLoadingScreen();
 
-			GX.Client->Unlock();
 		GX.View.Flip();
 	}
 
@@ -172,12 +166,10 @@ void NG_PlayGameOver(void)
 		sJOY->Update(0);
         sprintf(tex, "%02d", (int)(19-delta));
 
-		GX.Client->Lock();
 			CSP_Color(RGB_PixelFormat(255,255,255));
 			GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
 			CSP_WriteCenterText(g_szGmT[145], (2*GX.View.ymax/3), g_pFontMenuSml);
 			CSP_DrawCenterText(tex, (3*GX.View.ymax)/4, g_pFontMenuLrg, GX.csp_cfg.put);
-			GX.Client->Unlock();
         GX.View.Flip();
 
         if (sKEY_IsHeld(s_esc)||sKEY_IsHeld(s_n))

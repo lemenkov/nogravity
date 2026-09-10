@@ -206,7 +206,6 @@ void NG_AudioLoadWave(void)
 		return;
 	filewad_chdir(FIO_wad, "");
     g_pFXTable = SFX_SampleBatchLoad(g_pSoundList);
-	V3XA.Client->Start();
     return;
 }
 
@@ -245,7 +244,6 @@ void NG_AudioPlayTrack(int i)
 	if (g_pWavStream)
 	{
 		V3XAStream_Poll(g_pWavStream);
-		V3XA.Client->Poll(0);
 		NG_AudioSetMusicVolume();
 	}
 
@@ -444,7 +442,6 @@ void NG_AudioStopMusic(void)
 		{
 			V3XAStream_SetVolume(g_pWavStream, 0, (float)i/100);
 			V3XAStream_Poll(g_pWavStream);
-			V3XA.Client->Poll(0);
 			SDL_Delay((64L*12L)/((g_SGSettings.VolMusic*4)+1));
 		}
 
@@ -507,7 +504,6 @@ static void NG_AudioUpdate()
     if (!(V3XA.State & 1))
 		return;
 
-    V3XA.Client->Poll(0);
 
 #ifndef USE_THREAD
   	if (g_pWavStream)
@@ -524,7 +520,6 @@ void NG_AudioPlayWarp(void)
 	{
 		V3XAStream_GetFn(&pWavStream, ".\\MUSIC\\warp03.OGG", FALSE);
 		V3XAStream_Poll(pWavStream);
-		V3XA.Client->Poll(0);
 		V3XAStream_SetVolume(pWavStream, 0, ((float)g_SGSettings.VolMusic)/100.f);
 		g_SGGame.FlashAlpha = 0;
 	}
@@ -538,10 +533,8 @@ void NG_AudioPlayWarp(void)
 
         RGB_Set(g_SGGame.FlashColor, g_SGGame.FlashAlpha, g_SGGame.FlashAlpha, g_SGGame.FlashAlpha);
 
-		GX.Client->Lock();
         NG_RenderView();
         NG_DrawFlash();
-        GX.Client->Unlock();
         if ((V3XA.State & 1))
 			V3XAStream_PollAll();
         GX.View.Flip();
