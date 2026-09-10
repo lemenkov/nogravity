@@ -30,15 +30,13 @@ endif
 
 incdirs = include_directories(
   'rlx32/include',
-  'rlx32/src',
-  'rlx32/src/sdl',
-  'rlx32/src/renderers/gpu')
+  'rlx32/src')
 
 # Shaders: GLSL is compiled to SPIR-V for Vulkan with glslc; the Metal
 # source is embedded as text (Metal compiles it at run time).
 python3 = import('python').find_installation('python3')
 embed = files('tools/embed.py')
-shader_dir = 'rlx32/src/renderers/gpu/shaders'
+shader_dir = 'rlx32/src/shaders'
 shader_inputs = [shader_dir / 'nogravity.metal']
 glslc = find_program('glslc', required : get_option('spirv'))
 if glslc.found()
@@ -80,19 +78,19 @@ engine_src = files(
 )
 
 platform_src = files(
-  'rlx32/src/sdl/_stubsdl.c',
-  'rlx32/src/sdl/snd_sdl3.c',
-  'rlx32/src/sdl/sysdbg.c',
-  'rlx32/src/sdl/sysjoy.c',
-  'rlx32/src/sdl/syskeyb.c',
-  'rlx32/src/sdl/sysmouse.c',
-  'rlx32/src/sdl/systime.c',
+  'rlx32/src/_stubsdl.c',
+  'rlx32/src/snd_sdl3.c',
+  'rlx32/src/sysdbg.c',
+  'rlx32/src/sysjoy.c',
+  'rlx32/src/syskeyb.c',
+  'rlx32/src/sysmouse.c',
+  'rlx32/src/systime.c',
 )
 
 renderer_src = files(
-  'rlx32/src/renderers/gpu/gpu_display.c',
-  'rlx32/src/renderers/gpu/gpu_2d.c',
-  'rlx32/src/renderers/gpu/gpu_3d.c',
+  'rlx32/src/gpu_display.c',
+  'rlx32/src/gpu_2d.c',
+  'rlx32/src/gpu_3d.c',
 )
 
 game_src = files(
