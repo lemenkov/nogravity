@@ -290,16 +290,8 @@ void CALLING_C V3XRENDER_SpriteAny(V3XPOLY *fce)
 	int lx, ly;
 
 
-	if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
-	{
-		lx = pt[2].x - pt[0].x;
-		ly = pt[2].y - pt[0].y;
-	}
-	else
-	{
-		lx = pt[1].x;
-		ly = pt[1].y;
-	}
+	lx = pt[2].x - pt[0].x;
+	ly = pt[2].y - pt[0].y;
 
 	bStretch = (lx!=(int32_t)sp->LX) || (ly!=(int32_t)sp->LY);
 
@@ -534,10 +526,10 @@ void V3XMaterial_Register(V3XMATERIAL *mat)
         case V3XRCLASS_bitmap:
         if (G)
         {
-            mat->render_near = V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY ? G->tex: V3XRENDER_SpriteAny;
+            mat->render_near = G->tex;
         }
         mat->info.Opacity = 1;
-        mat->info.Sprite = V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY ? 1 : 2;
+        mat->info.Sprite = 1;
         mat->RenderID = V3XID_SPRITE;
         mat->info.Transparency = V3XBLENDMODE_NONE;
         break;
@@ -545,29 +537,20 @@ void V3XMaterial_Register(V3XMATERIAL *mat)
         mat->RenderID = (u_int8_t)(V3XID_T_SPRITE + mat->info.Transparency);
         if (G)
         {
-			if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
-			{
-				mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
-			}
-			else mat->render_near = V3XRENDER_SpriteAny;
+			mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
             mat->render_far = mat->render_near;
         }
-        mat->info.Sprite = V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY ? 1 : 2;
+        mat->info.Sprite = 1;
         if (mat->info.Transparency == V3XBLENDMODE_NONE) mat->info.Transparency = V3XBLENDMODE_ADD;
         break;
         case V3XRCLASS_bitmap_any:
         mat->RenderID = (u_int8_t)(V3XID_T_SPRITE+mat->info.Transparency);
         if (G)
         {
-			if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
-			{
-				mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
-			}
-			else
-            mat->render_near = V3XRENDER_SpriteAny;
+			mat->render_near = mat->info.Transparency==V3XBLENDMODE_ADD ? G->tex_trspAdd : G->tex_trsp;
             mat->render_far = mat->render_near;
         }
-        mat->info.Sprite = V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY ? 1 : 2;
+        mat->info.Sprite = 1;
         break;
         // Obsolte class
         case V3XRCLASS_blur_mapping:
@@ -667,11 +650,8 @@ static void RLXAPI V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
     f->faceTab = NULL;
 	f->uvTab = NULL;
     f->dispTab = V3X_CALLOC(f->numEdges, V3XPTS);
-	if ((V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY))
-	{
-		f->uvTab = V3X_CALLOC(1, V3XUV*);
-		f->uvTab[0] = V3X_CALLOC(f->numEdges, V3XUV);
-	}
+	f->uvTab = V3X_CALLOC(1, V3XUV*);
+	f->uvTab[0] = V3X_CALLOC(f->numEdges, V3XUV);
     *mt = *mat;
     sp->LX = mt->texture[0].LX;
     sp->LY = mt->texture[0].LY;
@@ -705,8 +685,8 @@ static void V3X_CSP_Default(char *filename, V3XMATERIAL *mat, int load)
 {
     memset(mat, 0, sizeof(V3XMATERIAL));
     RGB_Set(mat->diffuse, 255, 255, 255);
-    mat->info.Sprite  = (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY) ? 1 : 2;
-    mat->info.Texturized = (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY) ? 1 : 0;
+    mat->info.Sprite  = 1;
+    mat->info.Texturized = 1;
     mat->info.Transparency = 0;
     mat->Render = V3XRCLASS_bitmap_any;
     sprintf(mat->mat_name, "*%s*", file_name(filename));
@@ -736,20 +716,13 @@ void RLXAPI V3X_CSP_GetFn(char *filename, GXSPRITE *sp, int load)
 	{
 		V3X_CSP_Default(filename, mat, load&1);
 		V3X_CSP_Initialize(sp, mat);
-		if ((V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY))
-		{
-			V3XSCALAR u = 1;
-			V3XUV   *uv;
-			uv = f->uvTab[0];
-			uv[0].u = load&2 ? 1.f : 0.f; uv[0].v = load&2 ? 1.f : 0.f;
-			uv[1].u = uv[0].u;   uv[1].v =  u;
-			uv[2].u = u;     uv[2].v = uv[1].v;
-			uv[3].u = uv[2].u;   uv[3].v = uv[0].v;
-		}
-		else
-		{
-			sp->data = mat->texture[0].data;
-		}
+		V3XSCALAR u = 1;
+		V3XUV   *uv;
+		uv = f->uvTab[0];
+		uv[0].u = load&2 ? 1.f : 0.f; uv[0].v = load&2 ? 1.f : 0.f;
+		uv[1].u = uv[0].u;   uv[1].v =  u;
+		uv[2].u = u;     uv[2].v = uv[1].v;
+		uv[3].u = uv[2].u;   uv[3].v = uv[0].v;
 	}
 	return;
 }
@@ -833,10 +806,6 @@ void V3X_CSP_Prepare(GXSPRITE *item, int flags)
             V3XVector_Set((V3XVECTOR*)&pos[3], sp->x2, sp->y, sp->z);
         }
         // Format to 2D GXSPRITE (size in second).
-        if ((V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)==0)
-        {
-            V3XVector_Dif((V3XVECTOR*)&pos[1], (V3XVECTOR*)&pos[2], (V3XVECTOR*)&pos[0]);
-        }
         sp->poly.distance = (V3XSCALAR)(2*sp->z);
         UNUSED(flags);
     }
@@ -891,12 +860,7 @@ int V3X_CSP_Draw(GXSPRITE *item, int clip)
     V3XPOLY *fi = fce;
     if (!item->LX) return 0;
     fi->visible = 1;
-    if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
-    {
-        fi = (clip&V3XCSPDRAW_CLIP)
-        &&(!(V3X.Client->Capabilities&GXSPEC_XYCLIPPING))
-        ? V3XPoly_XYClipping(fce) : fce;
-    }
+    fi = (clip&V3XCSPDRAW_CLIP) ? V3XPoly_XYClipping(fce) : fce;
     if ((fi)&&(!fi->visible)) return 0;
     if ((clip&V3XCSPDRAW_INSTANCE)&&(fi==fce)) fi = V3XPoly_Duplicate(fi);
     if (fi)

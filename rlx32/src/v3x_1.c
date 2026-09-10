@@ -106,18 +106,9 @@ static void V3XMesh_T2(V3XMESH *mesh, V3XMATRIX *Matrix)
 		}
 
         n = (mesh->flags&V3XMESH_FLATSHADE) ? mesh->numFaces : mesh->numVerts;
-        if ((V3X.Client->Capabilities&GXSPEC_RGBLIGHTING))
-        {
-            rgb32_t *sh = mesh->rgb;
-            for (p=V3X.Buffer.shade;n!=0;p++, sh++, n--)
-            *(rgb32_t*)p= mesh->flags&V3XMESH_HASSHADETABLE ? *sh : V3X.Light.ambiant;
-        }
-        else
-        {
-            V3XSCALAR *sh = mesh->shade;
-            for (p=V3X.Buffer.shade;n!=0;p++, sh++, n--)
-            *p = mesh->flags&V3XMESH_HASSHADETABLE ? *sh : mesh->selfIllumine;
-        }
+        rgb32_t *sh = mesh->rgb;
+        for (p=V3X.Buffer.shade;n!=0;p++, sh++, n--)
+        *(rgb32_t*)p= mesh->flags&V3XMESH_HASSHADETABLE ? *sh : V3X.Light.ambiant;
         // Lights processing
         for (sx=V3X.Light.numSource;sx!=0;lite++, sx--)
         {
@@ -256,23 +247,16 @@ static void V3XMesh_T2(V3XMESH *mesh, V3XMATRIX *Matrix)
                                 {
                                     inten *= multiplier * factor;
                                     if (inten > multiplier) inten = multiplier;
-                                    if ((V3X.Client->Capabilities&GXSPEC_RGBLIGHTING))
-                                    {
-                                        rgb32_t *rgb = (rgb32_t*)p;
-                                        unsigned int i = (unsigned int)inten;
-                                        unsigned
-                                        wr = rgb->r + xMUL8(i, lite->color.r),
-                                        wg = rgb->g + xMUL8(i, lite->color.g),
-                                        wb = rgb->b + xMUL8(i, lite->color.b);
-                                        rgb->r = wr<255 ? (u_int8_t)wr : (u_int8_t)255;
-                                        rgb->g = wg<255 ? (u_int8_t)wg : (u_int8_t)255;
-                                        rgb->b = wb<255 ? (u_int8_t)wb : (u_int8_t)255;
-                                        rgb->a = 0;
-                                    }
-                                    else
-                                    {
-                                        (*p)+=inten;
-                                    }
+                                    rgb32_t *rgb = (rgb32_t*)p;
+                                    unsigned int i = (unsigned int)inten;
+                                    unsigned
+                                    wr = rgb->r + xMUL8(i, lite->color.r),
+                                    wg = rgb->g + xMUL8(i, lite->color.g),
+                                    wb = rgb->b + xMUL8(i, lite->color.b);
+                                    rgb->r = wr<255 ? (u_int8_t)wr : (u_int8_t)255;
+                                    rgb->g = wg<255 ? (u_int8_t)wg : (u_int8_t)255;
+                                    rgb->b = wb<255 ? (u_int8_t)wb : (u_int8_t)255;
+                                    rgb->a = 0;
                                 }
                             }
                         }
@@ -384,44 +368,21 @@ static void V3XMesh_T3(V3XMESH *mesh)
                 if (mesh->flags&V3XMESH_FLATSHADE)
                 {
                     int j;
-                    if (V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)
+                    rgb32_t *dest = fce->rgb;
+                    *dest = V3X.Buffer.rgb[mesh->numFaces-n]; dest++;
+                    for(j=1;j<fce->numEdges;j++, dest++)
                     {
-                        rgb32_t *dest = fce->rgb;
-                        *dest = V3X.Buffer.rgb[mesh->numFaces-n]; dest++;
-                        for(j=1;j<fce->numEdges;j++, dest++)
-                        {
-                            *dest = fce->rgb[0];
-                        }
-                    }
-                    else
-                    {
-                        for(j=0;j<fce->numEdges;j++)
-                        {
-                            fce->shade[j] = V3X.Buffer.shade[fce->faceTab[j]];
-                            if (fce->shade[j]>255.f)
-								fce->shade[j]=255.f;
-                        }
+                        *dest = fce->rgb[0];
                     }
                 }
                 else
                 {
                     int j;
-                    if (V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)
+                    u_int32_t *tab = fce->faceTab;
+                    rgb32_t *dest = fce->rgb + 0;
+                    for(j=0;j<fce->numEdges;j++, tab++, dest++)
                     {
-                        u_int32_t *tab = fce->faceTab;
-                        rgb32_t *dest = fce->rgb + 0;
-                        for(j=0;j<fce->numEdges;j++, tab++, dest++)
-                        {
-                            *dest = V3X.Buffer.rgb[*tab];
-                        }
-                    }
-                    else
-                    {
-                        for(j=0;j<fce->numEdges;j++)
-                        {
-                            fce->shade[j] = V3X.Buffer.shade[fce->faceTab[j]];
-                            if (fce->shade[j]>255.f) fce->shade[j]=255.f;
-                        }
+                        *dest = V3X.Buffer.rgb[*tab];
                     }
                 }
             }
@@ -457,16 +418,6 @@ static void V3XMesh_T3(V3XMESH *mesh)
                     po->vow = uv->v * po->oow;
                 }
 
-                if ((V3X.Client->Capabilities&GXSPEC_HARDWARE)==0)
-                {
-                    float zmin = fce->ZTab[0].oow, zmax = zmin;
-                    for(po = fce->ZTab, j = 0;j < fce->numEdges;j++, po++, ix++, uv++)
-                    {
-                        if (po->oow>zmax) zmax = po->oow;
-                        if (po->oow<zmin) zmin = po->oow;
-                    }
-                    fce->visible+=( (zmin / zmax) > .90f);
-                }
             }
             {
                 V3XSCALAR  zMax, zMin;
@@ -521,10 +472,7 @@ static void V3XMesh_T3(V3XMESH *mesh)
 
                             }
                             default:
-                            if (!(V3X.Client->Capabilities&GXSPEC_XYCLIPPING))
-                            {
-                                fce = V3XPoly_XYClipping(fce);
-                            }
+                            fce = V3XPoly_XYClipping(fce);
                             break;
                         }
                         if (fce->visible)

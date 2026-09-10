@@ -92,8 +92,6 @@ static void NG_SetGameInfo(void)
     g_SGSettings.WorldUnit = 1;
     g_SGSettings.showInf = 1;
 
-	V3X.Client->Capabilities|=GXSPEC_RGBLIGHTING;
-	V3X.Client->Capabilities|=GXSPEC_ENABLEDITHERING;
 	V3X.Setup.flags|=V3XOPTION_TRUECOLOR;
 
     return;
@@ -217,9 +215,6 @@ void STUB_MainCode(void)
 		GX.Client->GetDisplayInfo(mode);
 		NG_ChangeScreenMode(mode);
 	}
-
-	if (g_SGSettings.TexPOT)
-		V3X.Client->Capabilities&=~GXSPEC_NONPOWOF2;
 
 	g_HeapBuffer = (u_int8_t*) malloc(g_HeapSize);
 	if (!g_HeapBuffer)
@@ -594,8 +589,6 @@ static void NG_CreateDisplayList(void)
 void NG_ChangeScreenMode(int mode)
 {
 	static int nCurrentMode;
-	static int n3DSystem;
-	int is3D = !!(GX.View.Flags&GX_CAPS_3DSYSTEM);
 
 
     if (g_SGSettings.Multisampling)
@@ -606,14 +599,6 @@ void NG_ChangeScreenMode(int mode)
     }
 
 
-	if (!(V3X.Client->Capabilities&GXSPEC_FULLHWSPRITE))
-	{
-		if (n3DSystem!=is3D)
-		{
-			n3DSystem = is3D;;
-			nCurrentMode = -2;
-		}
-	}
 
     if ((mode!=nCurrentMode)||(!GX.Surfaces.maxSurface))
     {

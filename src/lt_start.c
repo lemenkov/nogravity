@@ -254,8 +254,6 @@ GXSPRITEGROUP *NG_LoadSpriteGroup(char *filename, int resize)
 {
     char tx[256];
     GXSPRITEGROUP *pSpriteGroup;
-    GXSPRITE *sp;
-    int i;
     if (resize&128)
     {
         sprintf(tx, ".\\brief\\%s", filename);
@@ -272,32 +270,9 @@ GXSPRITEGROUP *NG_LoadSpriteGroup(char *filename, int resize)
         sprintf(tx, ".\\menu\\%s", filename);
     }
 
-	if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
-	{
-		pSpriteGroup = CSPG_GetFn(tx, FIO_cur, CSPLOAD_SURFACE);
-		SYS_ASSERT(pSpriteGroup);
-		return pSpriteGroup;
-	}
-
-    pSpriteGroup = CSPG_GetFn(tx, FIO_cur, CSPLOAD_POSTERIZE|CSPLOAD_SURFACE);
+	pSpriteGroup = CSPG_GetFn(tx, FIO_cur, CSPLOAD_SURFACE);
 	SYS_ASSERT(pSpriteGroup);
-
-    if (((GX.View.xmax!=639)||(GX.View.ymax!=479))&&(resize))
-    {
-        int32_t dp = GX.View.BytePerPixel;
-        for (sp=pSpriteGroup->item, i=0;i<pSpriteGroup->maxItem;i++, sp++)
-        {
-            switch(resize) {
-                case 1:
-                CSP_Resize(sp, (sp->LX*GX.View.lWidth)/640, (sp->LY*GX.View.lHeight)/480, dp);
-                break;
-                case 2:
-                CSP_Resize(sp, sp->LX, (sp->LY>>1)+(sp->LY&1), dp);
-                break;
-            }
-        }
-    }
-    return pSpriteGroup;
+	return pSpriteGroup;
 }
 /*------------------------------------------------------------------------
 *
@@ -477,8 +452,8 @@ static void NG_DrawExtra(void)
 
                 if (Mat->info.Transparency)
                 {
-                    Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
-                    Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
+                    Mat->info.Transparency = V3XBLENDMODE_ADD;
+                    Mat->alpha  = 200;
                 }
 
                 if (((V3X.Setup.flags&V3XOPTION_TRUECOLOR))&&(g_SGSettings.VisualsFx>1)) // Ameliorations moteur 3D
@@ -491,63 +466,56 @@ static void NG_DrawExtra(void)
                         p=1;
                     }
 
-                    if (V3X.Client->Capabilities&(GXSPEC_HARDWAREBLENDING|GXSPEC_OPACITYTRANSPARENT))
+                    if ((SDL_strcasecmp(Mat->mat_name, "TIR1")==0))
                     {
-                        if ((SDL_strcasecmp(Mat->mat_name, "TIR1")==0))
-                        {
-                            Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
-                            Mat->diffuse.r =
-                            Mat->diffuse.g =
-                            Mat->diffuse.b = 255;
-                            //&&(GX.View.BytePerPixel<4)
-                            Mat->alpha  = 128;//(V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
-                            Mat->RenderID = V3XID_T_TEX;
-                            Mat->Render = V3XRCLASS_transp_mapping;
-                        }
-                        else
-                        if (SDL_strcasecmp(Mat->mat_name, "WARP")==0)
-                        {
-                            Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
-                            Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
-                            Mat->Render = V3XRCLASS_bitmap_transp;
-                            Mat->RenderID = V3XID_T_SPRITE+Mat->info.Transparency;
-                        }
-                        else
-                        if (SDL_strcasecmp(Mat->mat_name, "REACTEURS")==0)
-                        {
-                            Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
-                            Mat->info.TwoSide = TRUE;
-                            Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
-                        }
-                        else
-                        if (SDL_strcasecmp(Mat->mat_name, "LIGHT2")==0)
-                        {
-                            Mat->diffuse.r = i*8;
-                            Mat->diffuse.g = i*8;
-                            Mat->diffuse.b = i*8;
-                        }
-                        else
-                        if (strstr(Mat->mat_name, "TUROK"))
-                        {
-                            Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
-                            Mat->alpha = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
-                            Mat->info.TwoSide = TRUE;
-                            Mat->scale = 128;
-                        }
-                        else
-                        if (Mat->info.Transparency)
-                        {
-                            Mat->info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? V3XBLENDMODE_ADD : V3XBLENDMODE_ALPHA;
-                            Mat->alpha  = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
-
-                        }
-                        if (Mat->info.Sprite)
-							Mat->info.Opacity = 1;
+                        Mat->info.Transparency = V3XBLENDMODE_ADD;
+                        Mat->diffuse.r =
+                        Mat->diffuse.g =
+                        Mat->diffuse.b = 255;
+                        //&&(GX.View.BytePerPixel<4)
+                        Mat->alpha  = 128;
+                        Mat->RenderID = V3XID_T_TEX;
+                        Mat->Render = V3XRCLASS_transp_mapping;
                     }
-					else
-					{
-						SYS_ASSERT(0);
-					}
+                    else
+                    if (SDL_strcasecmp(Mat->mat_name, "WARP")==0)
+                    {
+                        Mat->info.Transparency = V3XBLENDMODE_ADD;
+                        Mat->alpha  = 200;
+                        Mat->Render = V3XRCLASS_bitmap_transp;
+                        Mat->RenderID = V3XID_T_SPRITE+Mat->info.Transparency;
+                    }
+                    else
+                    if (SDL_strcasecmp(Mat->mat_name, "REACTEURS")==0)
+                    {
+                        Mat->info.Transparency = V3XBLENDMODE_ADD;
+                        Mat->info.TwoSide = TRUE;
+                        Mat->alpha  = 200;
+                    }
+                    else
+                    if (SDL_strcasecmp(Mat->mat_name, "LIGHT2")==0)
+                    {
+                        Mat->diffuse.r = i*8;
+                        Mat->diffuse.g = i*8;
+                        Mat->diffuse.b = i*8;
+                    }
+                    else
+                    if (strstr(Mat->mat_name, "TUROK"))
+                    {
+                        Mat->info.Transparency = V3XBLENDMODE_ADD;
+                        Mat->alpha = 200;
+                        Mat->info.TwoSide = TRUE;
+                        Mat->scale = 128;
+                    }
+                    else
+                    if (Mat->info.Transparency)
+                    {
+                        Mat->info.Transparency = V3XBLENDMODE_ADD;
+                        Mat->alpha  = 200;
+
+                    }
+                    if (Mat->info.Sprite)
+			Mat->info.Opacity = 1;
 
 					if (Mat->info.Transparency)
 						Mat->diffuse.r = Mat->diffuse.g = Mat->diffuse.b = 240;
@@ -1070,23 +1038,13 @@ static void NG_InitDisplay(void)
 	GX.View.DisplayMode = (u_int16_t)GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY, g_SGSettings.ColorDepth);
     GX.View.Flags = 0;
 
-    if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
-	{
-		V3X.Setup.flags|=V3XOPTION_TRUECOLOR;
-		GX.View.Flags |= GX_CAPS_3DSYSTEM;
-	}
-
-    if ((g_SGSettings.Stereo))
-		GX.View.Flags&=~GX_CAPS_BACKBUFFERINVIDEO;
-
-	if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
-		GX.View.Flags|=GX_CAPS_BACKBUFFERINVIDEO;
+	V3X.Setup.flags|=V3XOPTION_TRUECOLOR;
+	GX.View.Flags |= GX_CAPS_3DSYSTEM|GX_CAPS_BACKBUFFERINVIDEO;
 
 	if (g_SGSettings.VerticalSync)
 		GX.View.Flags|=GX_CAPS_VSYNC;
 
-	g_SGSettings.ZBuffer = (V3X.Client->Capabilities&GXSPEC_HARDWARE);
-    if ((g_SGSettings.ZBuffer)&&(V3X.Client->Capabilities&GXSPEC_HARDWARE))
+    if (g_SGSettings.ZBuffer)
 	{
         V3X.Client->SetState(V3XCMD_SETZBUFFERSTATE, TRUE);
 		sysConPrint("Zbuffer on");
@@ -1260,14 +1218,6 @@ static void NG_InitGameDisplay(void)
 		V3X.Client->Capabilities|=GXSPEC_ENABLEFILTERING;
     else
 		V3X.Client->Capabilities&=~GXSPEC_ENABLEFILTERING;
-
-	if (g_SGSettings.TexPOT)
-		V3X.Client->Capabilities&=~GXSPEC_NONPOWOF2;
-
-	if (g_SGSettings.Dithering)
-		V3X.Client->Capabilities|=GXSPEC_ENABLEDITHERING;
-    else
-		V3X.Client->Capabilities&=~GXSPEC_ENABLEDITHERING;
 
     sMOU->SetPosition(GX.View.xmax/2, GX.View.ymax/2);
 

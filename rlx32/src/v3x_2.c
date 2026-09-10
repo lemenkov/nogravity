@@ -142,7 +142,7 @@ void V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2)
     for ( fa = mesh1->face, fb = mesh2->face, j = 0;j < mesh1->numFaces; j++, fa++, fb++)
     {
         V3XMATERIAL *mat=(V3XMATERIAL*)fb->Mat;
-        if ((V3X.Client->Capabilities&GXSPEC_ENABLEPERSPECTIVE)&&(!mat->info.Sprite)&&(mat->info.Texturized)) mat->info.Perspective=1;
+        if ((!mat->info.Sprite)&&(mat->info.Texturized)) mat->info.Perspective=1;
         fa->visible = 1;
         fa->dispTab = (V3XPTS*)v3x_mallocopy(fb->dispTab, fb->numEdges * sizeof(V3XPTS));
         if (mat->info.Shade)
@@ -389,27 +389,17 @@ void V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *p, V3XSCALAR lx, V3
 
     pd[0].z = -p->z;
 
-    if (V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY)
-    {
-        pd[ 1].x = pd[0].x;    pd[1].y = pd[0].y+ly; pd[1].z = pd[0].z;
-        pd[ 2].x = pd[0].x+lx; pd[2].y = pd[1].y;    pd[2].z = pd[0].z;
-        pd[ 3].x = pd[2].x;    pd[3].y = pd[0].y;    pd[3].z = pd[0].z;
-        uv[ 0].u = 0;
-        uv[ 0].v = 0;
-        uv[ 1].u = uv[ 0].u;
-        uv[ 1].v = V3X.Client->Capabilities&GXSPEC_UVNORMALIZED ? 1.f : sp->LY;
-        uv[ 2].u = V3X.Client->Capabilities&GXSPEC_UVNORMALIZED ? 1.f : sp->LX;
-        uv[ 2].v = uv[ 1].v;
-        uv[ 3].u = uv[ 2].u;
-        uv[ 3].v = uv[ 0].v;
-    }
-    else
-    {
-
-        pd[1].x = lx;
-        pd[1].y = ly;
-        pd[1].z = pd[0].z;
-    }
+    pd[ 1].x = pd[0].x;    pd[1].y = pd[0].y+ly; pd[1].z = pd[0].z;
+    pd[ 2].x = pd[0].x+lx; pd[2].y = pd[1].y;    pd[2].z = pd[0].z;
+    pd[ 3].x = pd[2].x;    pd[3].y = pd[0].y;    pd[3].z = pd[0].z;
+    uv[ 0].u = 0;
+    uv[ 0].v = 0;
+    uv[ 1].u = uv[ 0].u;
+    uv[ 1].v = 1.f;
+    uv[ 2].u = 1.f;
+    uv[ 2].v = uv[ 1].v;
+    uv[ 3].u = uv[ 2].u;
+    uv[ 3].v = uv[ 0].v;
 
     f->distance = p->z + p->z;
     return;

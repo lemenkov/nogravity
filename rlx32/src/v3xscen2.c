@@ -788,11 +788,6 @@ static V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
 * DESCRIPTION :
 *
 */
-static void V3XRGB_ConvertToMono(V3XSCALAR *mono, rgb32_t *rgb, unsigned n)
-{
-    for (;n!=0L;mono++, rgb++, n--) *mono = (V3XSCALAR)RGB_ToGray(rgb->r, rgb->g, rgb->b);
-}
-
 static void v3x_raw_to_mesh(u_int32_t *raw, V3XMESH *obj)
 {
     /* copy the raw data to the in memory mesh struct */
@@ -906,8 +901,6 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
 #ifdef __BIG_ENDIAN__
             BSWAP32((u_int32_t*)obj->rgb, nb);
 #endif
-            if ((V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)==0)
-            V3XRGB_ConvertToMono(obj->shade, obj->rgb, nb);
         }
         else
 			obj->rgb = NULL;
@@ -933,7 +926,7 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
             f->Mat = obj->material + f->matIndex ;
             pMat  = (V3XMATERIAL*) f->Mat;
 
-			if ((V3X.Client->Capabilities&GXSPEC_ENABLEPERSPECTIVE)&&(!pMat->info.Sprite)&&(pMat->info.Texturized))
+			if ((!pMat->info.Sprite)&&(pMat->info.Texturized))
 				pMat->info.Perspective=1;
 
 			f->dispTab = (V3XPTS*)MM_heap.malloc(sizeof(V3XPTS)*f->numEdges);
@@ -943,8 +936,6 @@ static V3XMESH RLXAPI *v3x_VMX_unpack_object(SYS_FILEHANDLE in)
             BSWAP32((u_int32_t*)f->faceTab, f->numEdges);
 #endif
             f->shade = (pMat->info.Shade)  ? (V3XSCALAR *) v3x_read_alloc(sizeof(V3XSCALAR) , f->numEdges, -1, in) : NULL;
-            if ((f->shade)&&((V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)==0))
-				V3XRGB_ConvertToMono(f->shade, f->rgb, f->numEdges);
 
 			if (pMat->info.Texturized)
             {

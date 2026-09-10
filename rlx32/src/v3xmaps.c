@@ -289,14 +289,7 @@ void V3XMaterial_Release(V3XMATERIAL *Mat, V3XMESH *Obj)
 
     SYS_ASSERT(pDst->handle);
 
-    if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
-    {
-        pDst->data = (u_int8_t*)pDst->handle;
-    }
-	else
-	{
-		pDst->data = ((GXSPRITESW*)pDst->handle)->reserved;
-	}
+    pDst->data = (u_int8_t*)pDst->handle;
 
     if (!pDst->handle)
     {

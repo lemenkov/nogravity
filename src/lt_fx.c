@@ -80,7 +80,7 @@ void NG_FXCreate(void)
         pExpl->material.info.Sprite = 1;
         pExpl->material.info.Opacity  = 1;
         pExpl->material.Render  = V3XRCLASS_bitmap_transp;
-		pExpl->material.alpha = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD) ? 200 : 128;
+		pExpl->material.alpha = 200;
     }
     return;
 }
@@ -224,61 +224,50 @@ void NG_FXUpdateEx(void)
 {
     int32_t i;
     SGEffect *pExpl;
-    if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
-	{
-		for (pExpl=g_SGGame.pExpl, i=g_SGGame.numEffects;i!=0;pExpl++, i--)
-		{
-			V3XOVI *OVI = pExpl->Sphere;
-			if ((OVI)&&(pExpl->radius<256.f))
-			{
-				V3XMATRIX m;
-				V3XSCALAR rapport = DIVF32(10 * pExpl->OVI->ORI->global_rayon, OVI->ORI->global_rayon);
-				V3XSCALAR radius = (pExpl->radius * rapport)/256.f;
-				pExpl->radius+= g_cTimer.fCounter*3.f;
-				if (pExpl->radius > 256.f)
-					pExpl->radius = 256.f;
-				V3XMatrix_SetIdentity(m.Matrix);
-				m.v.Pos = *pExpl->pos;
-				NG_SetSpherePos(OVI, &m, radius, 1);
-				{
-					V3XMATERIAL *Mat = OVI->mesh->material+0;
-					Mat->diffuse.r = 255;
-					Mat->diffuse.g = 255;
-					Mat->diffuse.b = 255;
-					Mat->info.Transparency = V3XBLENDMODE_ALPHA;
-					Mat->alpha = (u_int8_t)(256.f- pExpl->radius);
-				}
-			}
-		}
-	}
+    for (pExpl=g_SGGame.pExpl, i=g_SGGame.numEffects;i!=0;pExpl++, i--)
+    {
+        V3XOVI *OVI = pExpl->Sphere;
+        if ((OVI)&&(pExpl->radius<256.f))
+        {
+            V3XMATRIX m;
+            V3XSCALAR rapport = DIVF32(10 * pExpl->OVI->ORI->global_rayon, OVI->ORI->global_rayon);
+            V3XSCALAR radius = (pExpl->radius * rapport)/256.f;
+            pExpl->radius+= g_cTimer.fCounter*3.f;
+            if (pExpl->radius > 256.f)
+                pExpl->radius = 256.f;
+            V3XMatrix_SetIdentity(m.Matrix);
+            m.v.Pos = *pExpl->pos;
+            NG_SetSpherePos(OVI, &m, radius, 1);
+            {
+                V3XMATERIAL *Mat = OVI->mesh->material+0;
+                Mat->diffuse.r = 255;
+                Mat->diffuse.g = 255;
+                Mat->diffuse.b = 255;
+                Mat->info.Transparency = V3XBLENDMODE_ALPHA;
+                Mat->alpha = (u_int8_t)(256.f- pExpl->radius);
+            }
+        }
+    }
     return;
 }
 
 
 void NG_FXLoadData(void)
 {
-	int i;
-	if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
+    int i;
+    GXSPRITE *sp;
+    g_pspFlares = MM_CALLOC(1, GXSPRITEGROUP);
+    g_pspFlares->maxItem = 12;
+    g_pspFlares->item = MM_CALLOC(g_pspFlares->maxItem, GXSPRITE);
+    g_pspFlares2 = NULL;
+    sp = g_pspFlares->item;
+    for (i=0;i<g_pspFlares->maxItem;i++, sp++)
     {
-        GXSPRITE *sp;
-		g_pspFlares = MM_CALLOC(1, GXSPRITEGROUP);
-        g_pspFlares->maxItem = 12;
-        g_pspFlares->item = MM_CALLOC(g_pspFlares->maxItem, GXSPRITE);
-        g_pspFlares2 = NULL;
-		sp = g_pspFlares->item;
-        for (i=0;i<g_pspFlares->maxItem;i++, sp++)
-        {
-			char tex[256];
-            sprintf(tex, ".\\int\\le%02d.png", i+1);
-            IMG_LoadFn(tex, sp);
-			GX.Client->UploadSprite(sp, GX.ColorTable, 1);
-        }
+        char tex[256];
+        sprintf(tex, ".\\int\\le%02d.png", i+1);
+        IMG_LoadFn(tex, sp);
+        GX.Client->UploadSprite(sp, GX.ColorTable, 1);
     }
-	else
-	{
-		g_pspFlares = FLI_LoadToSpriteGroup(".\\int\\flare.flc", 0);
-        g_pspFlares2 = FLI_LoadToSpriteGroup(".\\int\\flare2.flc", 0);
-	}
 
 	i = 0;
 	while (g_pszAnimList[i]!=NULL)
@@ -468,7 +457,7 @@ void NG_AddFaceMoreObjects(void)
     {
         if ((pExpl->fce.visible)&&(!pExpl->Dispo))
         {
-            V3XPOLY *p = V3X.Client->Capabilities&GXSPEC_SPRITEAREPOLY ? V3XPoly_XYClipping(&pExpl->fce) : &pExpl->fce;
+            V3XPOLY *p = V3XPoly_XYClipping(&pExpl->fce);
             if ((p->visible)&&(V3X.Buffer.MaxFaces<V3X.Buffer.MaxFacesDisplay))
             {
                 V3X.Buffer.RenderedFaces[V3X.Buffer.MaxFaces++] = p;
@@ -785,9 +774,7 @@ SGEffect *NG_FXNew(V3XVECTOR *pos, int type, int lop, SGScript *pInf, int kp, V3
 
 			if ((transpa)&&(g_SGSettings.VisualsFx>1)&&bAllowTrsp)
 			{
-				p->material.info.Transparency = (V3X.Client->Capabilities&GXSPEC_ALPHABLENDING_ADD)
-					                     ? (transpa==2 ? V3XBLENDMODE_SUB: V3XBLENDMODE_ADD)
-										 : V3XBLENDMODE_ALPHA;
+				p->material.info.Transparency = transpa==2 ? V3XBLENDMODE_SUB: V3XBLENDMODE_ADD;
 				p->material.Render = V3XRCLASS_bitmap_transp;
 				p->material.RenderID = V3XID_T_SPRITE+p->material.info.Transparency;
 				p->material.render_near = p->material.render_far =
@@ -834,14 +821,12 @@ void NG_ChangeGameDetail(void)
                 g_SGGame.Scene->Layer.bg.flags &=~ V3XBG_COLOR|V3XBG_BLACK;
                 mat->Render = V3XRCLASS_normal_mapping;
                 V3XMaterial_Register(mat);
-                V3X.Client->Capabilities|=GXSPEC_FORCEHWPERSPECTIVE;
                 break;
 				default:
                 g_SGGame.Scene->Layer.bg.flags &=~ V3XBG_COLOR|V3XBG_BLACK;
                 mat->Render = V3XRCLASS_normal_mapping;
                 V3XMaterial_Register(mat);
                 if (Gs) mat->render_far = Gs->tex_rough;
-                V3X.Client->Capabilities&=~GXSPEC_FORCEHWPERSPECTIVE;
                 break;
 
             }

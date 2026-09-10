@@ -55,37 +55,10 @@ enum {
 };
 
 enum {
-      GXSPEC_ZBUFFER =0x1,   // Driver can z-buffering
-      GXSPEC_OPACITYTRANSPARENT=0x2,   // Driver can draw opacity & transparent textured poly
-      GXSPEC_SPRITEAREPOLY =0x4,   // Sprite are polygones (not scalable GXSPRITE)
-      GXSPEC_XYCLIPPING =0x8,   // Driver can perform XY Clipping
-      GXSPEC_UVNORMALIZED =0x10,  // UV coordinates must be normalized [0, 1]
-      GXSPEC_RESIZABLEMAP =0x20,  // Textures can be resizable at any size
-      GXSPEC_ALPHABLENDING_ADD =0x40,  // Driver can do additive blending
-      GXSPEC_ALPHABLENDING_MID =0x80,  // Driver can do 50% blending
-      GXSPEC_FOG =0x100, // Driver can do fog
       GXSPEC_ENABLECOMPRESSION =0x200, // Enable tex compression
-      GXSPEC_HARDWAREBLENDING =0x400, // Driver can do color blending
-      GXSPEC_FORCEHWPERSPECTIVE=0x800, // Force perspective correction
       GXSPEC_ENABLEFILTERING =0x1000, // Enable bilinear filtering
-      GXSPEC_HARDWARE =0x2000, // Driver is an hardware
-      GXSPEC_ENABLEPERSPECTIVE =0x4000, // Allow perspective correction
-      GXSPEC_MULTITEXTURING =0x8000, // Driver can do multitexturing
-      GXSPEC_ENABLEFOGGING =0x10000, // Fog enable
-      GXSPEC_FULLHWSPRITE  =0x20000, // Driver is a dynamic DLLs
       GXSPEC_ENABLEZBUFFER =0x40000, // Z-Buffer enable
-      GXSPEC_FORCEWIREFRAME =0x80000, // Force WireFrame polygons draw.
-      GXSPEC_LOCKISNOTREQUIRED =0x100000, // Locking surface before BeginList is not required
-      GXSPEC_ANTIALIASEDLINE =0x200000, // Enable lines aliasing
-      GXSPEC_ENABLEDITHERING =0x400000, // Enable color dithering
-      GXSPEC_RGBLIGHTING  =0x800000, // RGB lighting
-      GXSPEC_WBUFFER	  =0x1000000,
-      GXSPEC_ENABLEWBUFFER =0x2000000,
-      GXSPEC_ENABLESTENCIL =0x4000000,
-      GXSPEC_DISABLEDUALTEX =0x8000000,
-      GXSPEC_BUMPMAPPING  =0x10000000,
-      GXSPEC_NONPOWOF2 =0x20000000,
-      GXSPEC_RESERVED30 =0x40000000
+      GXSPEC_ENABLEWBUFFER =0x2000000
 
 };
 

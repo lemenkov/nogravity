@@ -576,18 +576,13 @@ static void v3x_facedataClip(V3XSCALAR t, V3XPOLY *clip, V3XPOLY *polygon, int32
         }
         if (Mat->info.Shade==2)
         {
-            if (V3X.Client->Capabilities&GXSPEC_RGBLIGHTING)
-            {
-                rgb32_t *c1= clip->rgb + cp;
-                rgb32_t *c2= polygon->rgb + v1;
-                rgb32_t *c3= polygon->rgb + v2;
-                LCLIPVALUE2( c1->r, (V3XSCALAR)c2->r, (V3XSCALAR)c3->r, t);
-                LCLIPVALUE2( c1->g, (V3XSCALAR)c2->g, (V3XSCALAR)c3->g, t);
-                LCLIPVALUE2( c1->b, (V3XSCALAR)c2->b, (V3XSCALAR)c3->b, t);
-                LCLIPVALUE2( c1->a, (V3XSCALAR)c2->a, (V3XSCALAR)c3->a, t);
-            }
-            else
-            LCLIPVALUE( clip->shade[ cp ], polygon->shade[v1], polygon->shade[v2], t);
+            rgb32_t *c1= clip->rgb + cp;
+            rgb32_t *c2= polygon->rgb + v1;
+            rgb32_t *c3= polygon->rgb + v2;
+            LCLIPVALUE2( c1->r, (V3XSCALAR)c2->r, (V3XSCALAR)c3->r, t);
+            LCLIPVALUE2( c1->g, (V3XSCALAR)c2->g, (V3XSCALAR)c3->g, t);
+            LCLIPVALUE2( c1->b, (V3XSCALAR)c2->b, (V3XSCALAR)c3->b, t);
+            LCLIPVALUE2( c1->a, (V3XSCALAR)c2->a, (V3XSCALAR)c3->a, t);
         }
     }
     if (!z)

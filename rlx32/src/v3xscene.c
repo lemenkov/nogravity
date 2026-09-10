@@ -157,8 +157,6 @@ void V3XScene_Viewport_Clear(V3XSCENE *Scene)
         GX.gi.drawFilledRect(GX.View.xmin, GX.View.ymin, GX.View.xmax, GX.View.ymax, layer->bg.index_color);
         break;
         case V3XBG_NONE:
-        if (V3X.Client->Capabilities&GXSPEC_FORCEWIREFRAME)
-        GX.gi.drawFilledRect(GX.View.xmin, GX.View.ymin, GX.View.xmax, GX.View.ymax, layer->bg.index_color);
         return;
         case V3XBG_SIDE:
         break;
