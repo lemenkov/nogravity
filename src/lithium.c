@@ -474,54 +474,57 @@ void STUB_Default(void)
 *
 */
 
+// Open the first data directory that holds the game files.  Candidates:
+// $NOGRAVITY_DATA, the configured install location, the source tree
+// (for builds run from the checkout) and ./data.
+static SYS_WAD *OpenGameData(char *tried, size_t triedLen)
+{
+	const char *candidates[8];
+	int n = 0, i;
+	const char *env = getenv("NOGRAVITY_DATA");
+	if (env && *env)
+		candidates[n++] = env;
+#ifdef NOGRAVITY_DATADIR
+	candidates[n++] = NOGRAVITY_DATADIR;
+#endif
+#ifdef NOGRAVITY_SOURCE_DATADIR
+	candidates[n++] = NOGRAVITY_SOURCE_DATADIR;
+#endif
+	candidates[n++] = "data";
+	tried[0] = 0;
+	for (i = 0; i < n; i++)
+	{
+		SYS_WAD *wad = filewad_open(candidates[i], 0);
+		if (wad)
+		{
+			SYS_WAD *old = filewad_getcurrent();
+			int ok;
+			filewad_setcurrent(wad);
+			ok = FIO_res.exists(".\\voix\\soundfx.lst");
+			filewad_setcurrent(old);
+			if (ok)
+				return wad;
+			filewad_close(wad);
+		}
+		if (strlen(tried) + strlen(candidates[i]) + 4 < triedLen)
+		{
+			strcat(tried, "\n  ");
+			strcat(tried, candidates[i]);
+		}
+	}
+	return NULL;
+}
+
 void STUB_ReadyToRun(void)
 {
-	const char *resFile = "NOGRAVITY.RMX";
-	
-#ifdef NOGRAVITY_DATADIR
-	resFile = NOGRAVITY_DATADIR "/NOGRAVITY.RMX";
-#endif
-#ifdef _DEBUG
-    SYS_Debug("Open file resource : %s\n", resFile);
-#endif
-	FIO_wad = filewad_open(resFile, 0);
+	char tried[1024];
+	FIO_wad = OpenGameData(tried, sizeof(tried));
 	if (!FIO_wad)
 	{
-		// Fall back to the current directory (handy for development).
-		resFile = "NOGRAVITY.RMX";
-		FIO_wad = filewad_open(resFile, 0);
-	}
-#ifdef __APPLE__
-	if (!FIO_wad)
-	{
-		// Try the bundle ...
-		extern char **_Argv;
-		char path[1024];
-		char *c = path;
-		strcpy(path, _Argv[0]);
-		while (*c!=0) c++;
-		while (*c!='/') c--;
-		*c = 0;
-		while (*c!='/') c--;
-		*c = 0;
-		strcat(path, "/Resources");
-		chdir(path);
-		FIO_wad = filewad_open(resFile, 0);
-	}
-#endif
-	if (!FIO_wad)
-	{
-		SYS_Error("Couldn't find NOGRAVITY.RMX.\n\nGo to http://www.realtech-vr.com/nogravity/ \nand get the No Gravity Game Data package.");
+		SYS_Error("Couldn't find the No Gravity game data (voix/soundfx.lst).\nLooked in:%s\n\nPoint NOGRAVITY_DATA at the directory holding the data files.", tried);
 		return ;
 	}
-	SYS_ASSERT(FIO_wad);
-
-#if (SGTARGET ==NG_DEMO_VERSION)
-    FIO_wad->mode |= SYS_WAD_STATUS_ENABLED;
-#else
-    FIO_wad->mode |= SYS_WAD_STATUS_ENABLED;
-#endif
-
+	filewad_setcurrent(FIO_wad);
     g_pGameIO = &FIO_res;
     FIO_cur = g_pGameIO;
 	NG_SetGameInfo();

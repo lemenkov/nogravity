@@ -29,14 +29,17 @@ The game is plain C17 and builds with Meson. It needs SDL3, SDL3_sound,
 libpng and zlib, plus glslc (from shaderc) to compile the shaders for
 the Vulkan backend; on macOS the Metal shader is compiled at run time.
 
-  meson setup build -Dnogravity_datadir=/path/to/directory/with/NOGRAVITY.RMX
+  meson setup build
   ninja -C build
   ./build/nogravity
 
-Without -Dnogravity_datadir the game looks for NOGRAVITY.RMX in
-<prefix>/share/nogravity, then in the current directory. Settings are
-kept in the per-user SDL preferences directory (for example
-~/.local/share/realtech/nogravity on Linux).
+The game data lives in the data/ directory of the source tree (it was
+extracted from the original NOGRAVITY.RMX archive with
+tools/rmx_extract.py) and is installed to <prefix>/share/nogravity.
+At run time the game looks for it in $NOGRAVITY_DATA, then in the
+install location, then in the source tree and finally in ./data.
+Settings are kept in the per-user SDL preferences directory (for
+example ~/.local/share/realtech/nogravity on Linux).
 
 Environment variables useful for development:
 
@@ -46,9 +49,8 @@ Environment variables useful for development:
   NOGRAVITY_TEST_KEYS=ms:key,...    press keys at the given times, e.g.
                                     "3000:Return,8000:Down" (SDL key names)
   NOGRAVITY_GPU_DEBUG=1             enable the SDL_GPU validation layers
+  NOGRAVITY_TRACE_FILES=1           report data files that fail to open
 
-Download the No Gravity (Game Data only) package for the data file
-NOGRAVITY.RMX.
 
 
 

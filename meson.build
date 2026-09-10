@@ -20,7 +20,8 @@ if datadir == ''
   datadir = get_option('prefix') / get_option('datadir') / 'nogravity'
 endif
 
-cflags = ['-DNOGRAVITY_DATADIR="@0@"'.format(datadir)]
+cflags = ['-DNOGRAVITY_DATADIR="@0@"'.format(datadir),
+          '-DNOGRAVITY_SOURCE_DATADIR="@0@"'.format(meson.project_source_root() / 'data')]
 
 if get_option('debug_mode')
   cflags += '-D_DEBUG'
@@ -128,3 +129,5 @@ executable('nogravity',
   c_args : cflags,
   dependencies : deps,
   install : true)
+
+install_subdir('data', install_dir : get_option('datadir') / 'nogravity', strip_directory : true)

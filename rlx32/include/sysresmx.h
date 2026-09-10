@@ -26,8 +26,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef __SYSRESMX_H
 #define __SYSRESMX_H
 
-#define MAX_WAD_OPEN_FILE	 8
-#define MAX_WAD_FILE_NAME 	32
 
 #ifndef _MAX_PATH
 
@@ -70,34 +68,12 @@ typedef struct _sys_fileio
 }SYS_FILEIO;
 
 // Single file structure in a resource
-typedef struct _sys_wadentry
-{
-	char					name[MAX_WAD_FILE_NAME];// file name
-	u_int32_t				size;					// file size
-	u_int32_t				offset; 				// offset
-}SYS_WADENTRY;
-
-// Resource fat
-typedef struct _sys_waddir
-{
-	u_int32_t				numEntries; 			// fat entry
-	u_int32_t				fatSize;				// fat size
-	struct _sys_wadentry*	entries;				// number of entries
-}SYS_WADDIR;
-
-typedef struct _sys_wad_ref
-{
-	struct _sys_wadentry*	file;
-	SYS_FILEHANDLE 			handle;
-}SYS_WADREF;
 
 // Resource structures
 typedef struct _sys_wad
 {
-	SYS_WADDIR				fat;					//  FAT
-	char					s_Path[_MAX_PATH];		//  Path
-	char					s_FileName[_MAX_PATH];	//  Data filename
-	SYS_WADREF				hFileHandles[MAX_WAD_OPEN_FILE];	//	File opened		
+	char					s_Root[_MAX_PATH];		//  Data directory
+	char					s_Path[_MAX_PATH];		//  Current subdirectory within it
 	int32_t 				mode;					//	current mode (SYS_WAD_STATUS_ENABLED, off)
 }SYS_WAD;
 

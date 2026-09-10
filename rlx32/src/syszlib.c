@@ -25,7 +25,6 @@ extern SYS_FILEIO FIO_gzip;
 
 gzFile lib_gzfopen (SYS_FILEHANDLE fd, const char *mode);
 int lib_gzclose (gzFile file);
-int	filewad_closeFP(SYS_WAD *resource, SYS_FILEHANDLE fp);
 
 #define DEF_MEM_LEVEL 8
 #define OS_CODE  0x00
@@ -740,20 +739,7 @@ static SYS_FILEHANDLE CALLING_C fzip_fopen(const char *filename, const char *mod
 
 static int CALLING_C fzip_fclose(SYS_FILEHANDLE fp)
 {
-    SYS_WAD *resource = filewad_getcurrent();
-	if ((!resource)||((resource->mode & SYS_WAD_STATUS_ENABLED)==0))
-	{
-		return lib_gzclose((gzFile)fp);
-	}
-	else
-	{
-		gz_stream *s = (gz_stream*)fp;
-		SYS_ASSERT(s);
-		filewad_closeFP(resource, s->file);
-		s->file = 0;
-		lib_gzclose((gzFile)fp);
-	}
-	return 1;
+	return lib_gzclose((gzFile)fp);
 }
 
 static int CALLING_C fzip_fseek(SYS_FILEHANDLE file, long offset, int whence)
