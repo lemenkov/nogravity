@@ -612,8 +612,11 @@ static void WritePNG(const char *path, const u_int8_t *rgba, int w, int h)
 		return;
 	}
 	png_init_io(png, fp);
-	png_set_IHDR(png, info, (png_uint_32)w, (png_uint_32)h, 8, PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	// The target's alpha channel is meaningless (opaque materials write 0),
+	// so drop it: viewers would otherwise show those pixels as transparent.
+	png_set_IHDR(png, info, (png_uint_32)w, (png_uint_32)h, 8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 	png_write_info(png, info);
+	png_set_filler(png, 0, PNG_FILLER_AFTER);
 	rows = (png_bytep *)SDL_malloc((size_t)h * sizeof(png_bytep));
 	for (y = 0; y < h; y++)
 		rows[y] = (png_bytep)(rgba + (size_t)y * (size_t)w * 4);
