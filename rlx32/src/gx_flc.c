@@ -280,7 +280,6 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
     FLI_STRUCT *pAnim;
     pAnim = (FLI_STRUCT*) MM_heap.malloc(sizeof(FLI_STRUCT));
     pAnim->fli_stream = in;
-    if (md&FLI_LZWPACKED) FIO_cur = &FIO_gzip;
     pAnim->start = FIO_cur->ftell( pAnim->fli_stream ) + 128L;
     FIO_cur->fread(pAnim->Header.Raw, sizeof(char), 128, in);
     #ifdef __BIG_ENDIAN__
@@ -306,8 +305,6 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
     pAnim->CurrentFrame = 0;
 
     memleft = md&FLI_USEMEMORY ? 1<<31 : 0;
-    if (md&FLI_LZWPACKED)
-		memleft = 0;
     if (md&FLI_EXPANDED)
     {
         int i;
@@ -330,7 +327,7 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
     else
     {
         pAnim->fileBuffer = (u_int8_t*)MM_heap.malloc(BUFFERSIZE);
-        pAnim->ReadMode = (md&FLI_LZWPACKED) ? FLI_LZWPACKED : FLI_DIRECTFROMDISK;
+        pAnim->ReadMode = FLI_DIRECTFROMDISK;
     }
     if (pAnim->Header.Struct.type==0xAF12)
     {
@@ -380,12 +377,6 @@ _RLXEXPORTFUNC void FLI_Close(FLI_STRUCT *pAnim)
         pAnim->fileBuffer = (u_int8_t*)pAnim->start_buf;
         pAnim->start = 0;
         break;
-        case FLI_LZWPACKED:
-		FIO_cur = &FIO_res;
-        FIO_gzip.fclose(pAnim->fli_stream);
-		pAnim->fli_stream = NULL;
-		pAnim->ReadMode = 255;
-        break;
         case FLI_DIRECTFROMDISK:
         FIO_cur->fclose(pAnim->fli_stream);
         break;
@@ -417,10 +408,6 @@ _RLXEXPORTFUNC void FLI_Rewind(FLI_STRUCT *pAnim)
         if (pAnim->Header.Struct.type==0xAF12) pAnim->start = pAnim->start_buf;
         FIO_cur->fseek(pAnim->fli_stream, pAnim->start, SEEK_SET);
         break;
-        case FLI_LZWPACKED:
-        if (pAnim->Header.Struct.type==0xAF12) pAnim->start = pAnim->start_buf;
-        FIO_gzip.fseek(pAnim->fli_stream, pAnim->start, SEEK_SET);
-        break;
         case FLI_USEMEMORY:
         pAnim->fileBuffer = (u_int8_t*)pAnim->start_buf;
         if (pAnim->Header.Struct.type==0xAF12)
@@ -450,9 +437,6 @@ _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
             case FLI_DIRECTFROMDISK:
 				FIO_cur->fread(j.Raw, sizeof(char), 16, pAnim->fli_stream);
             break;
-            case FLI_LZWPACKED:
-				FIO_gzip.fread(j.Raw, sizeof(char), 16, pAnim->fli_stream);
-            break;
             case FLI_USEMEMORY:
 				memcpy(j.Raw, pAnim->fileBuffer, 16);
 				pAnim->start      += 16;
@@ -473,10 +457,6 @@ _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
             switch(j.Struct.type){
                 case 0xF1FA:
                 switch(pAnim->ReadMode){
-                    case FLI_LZWPACKED:
-                    FIO_gzip.fread(pAnim->fileBuffer, sizeof(char), j.Struct.size, pAnim->fli_stream);
-					FLI_ChunkDecode(pAnim->fileBuffer, j.Struct.Chunks, pAnim->decompBuffer, pAnim->Header.Struct.width, pAnim->Header.Struct.height, (u_int8_t*)pAnim->ColorTable);
-                    break;
                     case FLI_DIRECTFROMDISK:
                     if (j.Struct.size<=BUFFERSIZE)
                     FIO_cur->fread(pAnim->fileBuffer, sizeof(char), j.Struct.size, pAnim->fli_stream);
@@ -497,11 +477,6 @@ _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
                     case FLI_DIRECTFROMDISK:
 					SYS_ASSERT(j.Struct.size<=BUFFERSIZE);
                     FIO_cur->fread(pAnim->fileBuffer, sizeof(char), j.Struct.size, pAnim->fli_stream);
-                    extended = DefaultDecode(j.Struct.type, pAnim->fileBuffer, j.Struct.size);
-                    break;
-                    case FLI_LZWPACKED:     // Jamais normalement
-                    SYS_ASSERT(j.Struct.size<=BUFFERSIZE);
-                    FIO_gzip.fread(pAnim->fileBuffer, sizeof(char), j.Struct.size, pAnim->fli_stream);
                     extended = DefaultDecode(j.Struct.type, pAnim->fileBuffer, j.Struct.size);
                     break;
                     case FLI_USEMEMORY:

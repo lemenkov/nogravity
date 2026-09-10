@@ -23,8 +23,8 @@ Please note that this is being released without any kind of support from RealTec
 
 Building from source (Linux, macOS, Windows):
 
-The game is plain C17 and builds with Meson. It needs SDL3, SDL3_sound,
-libpng and zlib, plus glslc (from shaderc) to compile the shaders for
+The game is plain C17 and builds with Meson. It needs SDL3, SDL3_sound
+and libpng, plus glslc (from shaderc) to compile the shaders for
 the Vulkan backend; on macOS the Metal shader is compiled at run time.
 
   meson setup build
@@ -68,7 +68,7 @@ http://sourceforge.net/projects/nogravity
 
 ===================================================================
 5. Dependencies
-  Run time: SDL3, SDL3_sound, libpng, zlib
+  Run time: SDL3, SDL3_sound, libpng
   Build time: Meson, Ninja, a C17 compiler, glslc (from shaderc, for the
   SPIR-V shaders of the Vulkan backend)
 

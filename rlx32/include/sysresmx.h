@@ -85,8 +85,7 @@ _RLXEXPORTFUNC		void				RLXAPI	sysInitZlib();
 _RLXEXPORTFUNC		void				RLXAPI	sysInitFS();
 
 extern				SYS_FILEIO			FIO_std,
-										FIO_res,
-										FIO_gzip;
+										FIO_res;
 
 extern				SYS_FILEIO		*	FIO_cur;
 extern				SYS_WAD			*	FIO_wad;

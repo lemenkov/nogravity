@@ -35,7 +35,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 enum {
     FLI_DIRECTFROMDISK = 0x0,
     FLI_USEMEMORY  = 0x1,
-    FLI_LZWPACKED  = 0x2,
     FLI_EXPANDED = 0x4};
 
 // Play status

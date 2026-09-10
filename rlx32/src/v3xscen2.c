@@ -620,7 +620,7 @@ static void RLXAPI *v3x_read_alloc(int32_t sz, int32_t n, int32_t n2, SYS_FILEHA
     if (!s)
 		return NULL;
 	tmp = (u_int8_t*)MM_heap.malloc(s);
-    s = FIO_gzip.fread(tmp, sz, n, in);
+    s = FIO_res.fread(tmp, sz, n, in);
 	SYS_ASSERT(n == s);
     return tmp;
 }
@@ -1212,7 +1212,7 @@ static void v3xORI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
     /* Unfortunately we cannot directly read the struct from disk as
        it contains (not used on disk) pointers, which on disk are 32 bit, but
        may in reality be different (64 bits) */
-    FIO_gzip.fread(rawORIs, pScene->numORI, 16 * sizeof(u_int32_t), in);
+    FIO_res.fread(rawORIs, pScene->numORI, 16 * sizeof(u_int32_t), in);
     pScene->ORI = MM_CALLOC(pScene->numORI, V3XORI);
     for (ori = pScene->ORI, i=0;i<pScene->numORI;i++, ori++)
     {
@@ -1264,7 +1264,7 @@ static void v3xOVI_Convert97(V3XSCENE *pScene, SYS_FILEHANDLE in)
     /* Unfortunately we cannot directly read the struct from disk as
        it contains (not used on disk) pointers, which on disk are 32 bit, but
        may in reality be different (64 bits) */
-    FIO_gzip.fread(rawOVIs, pScene->numOVI, 16 * sizeof(u_int32_t), in);
+    FIO_res.fread(rawOVIs, pScene->numOVI, 16 * sizeof(u_int32_t), in);
     pScene->OVI = MM_CALLOC(pScene->numOVI, V3XOVI);
 
     for (ovi = pScene->OVI, i = 0; i < pScene->numOVI; i++, ovi++)
@@ -1386,14 +1386,14 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
 static V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
 {
     u_int8_t *temp, *sy;
-    SYS_FILEHANDLE in = FIO_gzip.fopen(filename, "rb");
+    SYS_FILEHANDLE in = FIO_res.fopen(filename, "rb");
     V3XSCENE *pScene = (V3XSCENE*) MM_heap.malloc(sizeof(V3XSCENE));
     V3XLAYER97 *bk;
     V3XLAYER *layer = &pScene->Layer;
     V3X.Setup.flags|=V3XOPTION_97;
 
     temp = (u_int8_t*) malloc(HEAD1 + sizeof(V3XLAYER97));
-    FIO_gzip.fread(temp, HEAD1 + sizeof(V3XLAYER97), 1, in);
+    FIO_res.fread(temp, HEAD1 + sizeof(V3XLAYER97), 1, in);
     memcpy(pScene, temp, HEAD1);
 #ifdef __BIG_ENDIAN__
 	BSWAP16(&pScene->numOVI, 4);
@@ -1411,7 +1411,7 @@ static V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
     if (bk->FogActivate)
 		layer->fg.flags|= V3XFG_LIN;
     free(temp);
-    FIO_gzip.fclose(in);
+    FIO_res.fclose(in);
     return pScene;
 }
 /*------------------------------------------------------------------------

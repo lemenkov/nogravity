@@ -29,7 +29,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include <stdlib.h>
 
-#include <zlib.h>
 #define _ZLIB_H
 #include <png.h>
 

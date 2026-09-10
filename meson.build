@@ -10,12 +10,11 @@ cc = meson.get_compiler('c')
 
 sdl_dep    = dependency('sdl3')
 png_dep    = dependency('libpng')
-zlib_dep   = dependency('zlib')
 sound_dep  = dependency('sdl3-sound')
 m_dep      = cc.find_library('m', required : false)
 thread_dep = dependency('threads')
 
-deps = [sdl_dep, sound_dep, png_dep, zlib_dep, m_dep, thread_dep]
+deps = [sdl_dep, sound_dep, png_dep, m_dep, thread_dep]
 
 datadir = get_option('nogravity_datadir')
 if datadir == ''
@@ -68,7 +67,6 @@ engine_src = files(
   'rlx32/src/sysini.c',
   'rlx32/src/sysresmx.c',
   'rlx32/src/systools.c',
-  'rlx32/src/syszlib.c',
   'rlx32/src/v3x_1.c',
   'rlx32/src/v3x_2.c',
   'rlx32/src/v3x_3.c',
