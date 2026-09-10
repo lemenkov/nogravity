@@ -228,25 +228,6 @@ _RLXEXPORTFUNC GXSPRITEGROUP *CSPG_GetFn(char *filename, SYS_FILEIO *f, unsigned
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void CSP_DrawRect(int32_t x, int32_t y, int32_t lx, int32_t ly, GXSPRITE *sp)
-*
-* DESCRIPTION :
-*
-*/
-_RLXEXPORTFUNC void CSP_DrawRect(int32_t x, int32_t y, int32_t lx, int32_t ly, GXSPRITE *sp)
-{
-    int32_t nx=lx/sp->LX, ny=ly/sp->LY, i, j;
-    GXVIEWPORT OLD=GX.View;
-    GX.View.xmin=x;
-    GX.View.ymin=y;
-    GX.View.xmax=x+lx;
-    GX.View.ymax=y+ly;
-    for (i=0;i<=nx;i++) for(j=0;j<=ny;j++) GX.csp.pset(x+i*sp->LX, y+j*sp->LY, sp);
-    GX.View=OLD;
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  : int32_t realan(char *texte, GXSPRITEGROUP *Fonte)
 *
 * DESCRIPTION :
@@ -266,19 +247,6 @@ _RLXEXPORTFUNC int32_t CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte)
     return ll ;
 }
 
-_RLXEXPORTFUNC int32_t CSPG_TxLenS(const char *texte, int32_t fx, GXSPRITEGROUP *Fonte)
-{
-    int32_t ll=0, llx = (VMUL(fx, Fonte->item[0].LX)>>1);
-    while ((*texte)!=0)
-    {
-        int32_t a = SpriteGroup_Car2Val(*texte, Fonte->Caps&1) ;
-        ll += ((a >= Fonte->maxItem)||(a < 0))
-			? Fonte->HSpacing + llx
-			: Fonte->HSpacing +  VMUL(fx, Fonte->item[a].LX);
-        texte++;
-    }
-    return ll ;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :
@@ -364,77 +332,6 @@ _RLXEXPORTFUNC void CSP_DrawTextC(const char *texte, int xx, int yy, int attr1, 
     return;
 }
 
-_RLXEXPORTFUNC void CSP_ZoomText(const char *texte, int32_t xx, int32_t yy, int32_t sx, int32_t sy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION func)
-{
-    int32_t a, l, ox=xx, lx0, ly0, lx, ly;
-    const char *otexte=texte;
-    GXSPRITE *sp;
-    lx0 = VMUL(Fonte->item[0].LX, sx);
-    ly0 = VMUL(Fonte->item[0].LY, sx);
-    while ((*texte)!='\0')
-    {
-        switch(*texte) {
-            case '\n':
-            case '³':
-            xx = ox;
-            yy += Fonte->HSpacing + ly0;
-            break;
-            case '©':
-            xx = ox + (texte-otexte)*lx0;
-            break;
-            default:
-            a = SpriteGroup_Car2Val(*texte, Fonte->Caps&1);
-            if ((a>=Fonte->maxItem)||(a < 0)) l = Fonte->HSpacing + (lx0>>1);
-            else
-            {
-                sp = Fonte->item+a;
-                lx = VMUL(sp->LX, sx);
-                ly = VMUL(sp->LY, sy);
-                l = Fonte->HSpacing + lx;
-                if (Fonte->Caps&2) xx+=lx0-lx;
-                func.zoomf(sp, xx, yy, lx, ly);
-            }
-            xx+=l;
-            break;
-        }
-        texte++;
-    }
-    return;
-}
-_RLXEXPORTFUNC GXSPRITE *CSP_GetFn(const char *filename, unsigned option)
-{
-    SYS_FILEHANDLE in;
-    int32_t dp = 4;
-    GXSPRITE *sp=(GXSPRITE *) MM_heap.malloc(sizeof(GXSPRITE));
-    in = FIO_cur->fopen(filename, "rb");
-    if( in )
-    {
-        int b = IMG_LoadFp(filename, in, sp);
-        int bp = (b+1)>>3;
-        if (sp->data)
-        {
-            if (option&CSPLOAD_POSTERIZE)
-            {
-                sp->data = RGB_SmartConverter(
-                NULL,
-                GX.ColorTable,
-                dp,
-                sp->data,
-                GX.ColorTable,
-                bp,
-                sp->LX * sp->LY);
-            }
-            if (option&CSPLOAD_SURFACE)
-				GX.Client->UploadSprite(sp, GX.ColorTable, bp);
-            FIO_cur->fclose(in);
-            return sp;
-        }
-    }
-    MM_heap.free(sp);
-    FIO_cur->fclose(in);
-    UNUSED(option);
-    return NULL;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp)

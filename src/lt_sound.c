@@ -183,16 +183,6 @@ int NG_AudioGetByName(char *s)
     return 0;
 }
 
-static void SFX_SampleBatchRelease(V3XA_HANDLE *smp)
-{
-    int i;
-    for (i=0;i<g_nSample;i++)
-		V3XA_Handle_Release(smp+i);
-    MM_heap.free(smp);
-    g_nSample = 0;
-    return;
-}
-
 
 static V3XA_HANDLE *SFX_SampleBatchLoad(SND_DWHANDLE *sef)
 {
@@ -209,11 +199,6 @@ static V3XA_HANDLE *SFX_SampleBatchLoad(SND_DWHANDLE *sef)
 		V3XA_Handle_LoadFromFn(sinfo, tex);
     }
     return WT;
-}
-void NG_AudioReleaseWave(void)
-{
-	SFX_SampleBatchRelease(g_pFXTable);
-	V3XA.Client->Stop();
 }
 void NG_AudioLoadWave(void)
 {
@@ -572,7 +557,6 @@ void NG_AudioPlayWarp(void)
 
     return;
 }
-
 
 
 extern SYS_TIMER g_cTimer;

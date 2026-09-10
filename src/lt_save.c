@@ -113,17 +113,6 @@ void NG_ReadMissionData(char *name, SGEpisodeItem *EP)
     return;
 }
 
-void NG_ReleaseMissionList()
-{
-	int k;
-	for (k=0;k<MAX_EPISODE;k++)
-    {
-        SGEpisodeItem *EP = g_pGameItem->EI+k;
-		MM_heap.free(EP->LI);
-	}
-	MM_heap.free(g_pGameItem->EI);
-	MM_heap.free(g_pGameItem);
-}
 
 void NG_ReadMissionList(void)
 {

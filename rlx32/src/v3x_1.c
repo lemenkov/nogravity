@@ -805,18 +805,3 @@ void V3XVector_WorldPos(V3XMATRIX *Mat, V3XVECTOR *input, V3XVECTOR *result)
     V3XVector_ApplyMatrixTrans((*result), (*input), Matrix.Matrix);
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int V3XVector_3Dto2D_pts(V3XMATRIX *Mat, V3XVECTOR *input, V3XVECTOR *result)
-*
-* DESCRIPTION :
-*
-*/
-int V3XVector_3Dto2D_pts(V3XMATRIX *Mat, V3XVECTOR *input, V3XVECTOR *result)
-{
-    V3XVECTOR temp;
-    int flag=0;
-    V3XVector_WorldPos(Mat, input, &temp);
-    V3XVector_ProjectWithCenterAndTest((*result), temp, flag);
-    return flag==0;
-}

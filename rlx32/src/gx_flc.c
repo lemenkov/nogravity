@@ -437,34 +437,6 @@ _RLXEXPORTFUNC void FLI_Rewind(FLI_STRUCT *pAnim)
     pAnim->CurrentFrame = 1;
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : void FLI_Unpack(FLI_STRUCT *pAnim)
-*
-* DESCRIPTION : Decompresse une frame du flc. Resultat dans pAnim->decompBuffer
-*
-*/
-_RLXEXPORTFUNC void FLI_SetPalette(FLI_STRUCT *pAnim)
-{
-	static char __temp[2048];
-    int i;
-    u_int32_t *b = (u_int32_t*)__temp;
-    rgb24_t *c = pAnim->ColorTable;
-    for (i=256;i!=0;b++, c++, i--)
-    {
-        *b = RGB_PixelFormat(c->r, c->g, c->b);
-        if (!*b) *b=1;
-    }
-    pAnim->bitmap.handle = __temp;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
-*
-* Description :
-*
-*/
 _RLXEXPORTFUNC void FLI_Unpack(FLI_STRUCT *pAnim)
 {
     int extended=0;
@@ -605,17 +577,4 @@ _RLXEXPORTFUNC GXSPRITEGROUP *FLI_LoadToSpriteGroup(const char *filename, int di
     if (in)
 		f = Unpack_FLI_to_SpriteGroup(in, diet);
     return f;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :
-*
-* DESCRIPTION :
-*
-*/
-_RLXEXPORTFUNC void FLI_Draw(FLI_STRUCT *a, int xoff, int yoff)
-{
-    FLI_Unpack(a);
-    GX.csp.pset(xoff, yoff, &a->bitmap);
-    return;
 }

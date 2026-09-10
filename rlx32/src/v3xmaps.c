@@ -48,26 +48,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xmaps.h"
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void V3XResources_reset(V3XRESOURCE *bm)
-*
-* DESCRIPTION :
-*
-*/
-void V3XResources_Reset(V3XRESOURCE *bm)
-{
-    int i;
-    V3XRESOURCE_ITEM *bj = bm->item;
-    for (i=0;i<bm->numItems;i++, bj++)
-    {
-        if (bj->data) MM_heap.free(bj->data);
-        bj->data = NULL;
-        bj->filename[0] = 0;
-        bj->flags = 0;
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  int V3XResources_Put(V3XRESOURCE *bm, char *filename, void *data)
 *
 * DESCRIPTION :
@@ -112,61 +92,6 @@ int V3XResources_Del(V3XRESOURCE *bm, const char *filename)
         }
     }
     return j==1;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XResources_Purge(V3XRESOURCE *bm, int purge)
-*
-* Description :
-*
-*/
-void V3XResources_Purge(V3XRESOURCE *bm, int purge)
-{
-    int i;
-    V3XRESOURCE_ITEM *bj=bm->item;
-    for (i=0;i<bm->numItems;i++, bj++)
-    {
-        if (bj->flags&1)
-        {
-            if (purge)
-            {
-                if ((bj->type == V3XRESOURCETYPE_TEXTURE2)||(bj->type==V3XRESOURCETYPE_TEXTURE))
-                {
-                    if (bj->flags&2)
-                    {
-                        FLI_STRUCT *fli = (FLI_STRUCT*)bj->data;
-                        if (fli->frames)
-                        {
-                            GXSPRITE *sp;
-                            int j;
-                            for (sp=fli->frames, j=fli->MaximumFrame;j!=0;sp++, j--)
-                            {
-								if (sp->handle)
-								{
-									V3X.Client->TextureFree(sp->handle);
-									sp->handle = NULL;
-								}
-                                sp->data = NULL;
-
-                            }
-                        }
-                        FLI_Close(fli);
-                    }
-                    else
-                    {
-                        GXSPRITE *texmap = (GXSPRITE*)bj->data;
-						if (texmap->handle)
-						{
-							V3X.Client->TextureFree(texmap->handle);
-							texmap->handle = 0;
-						}
-                    }
-                    bj->flags&=~3;
-                }
-            }
-        }
-    }
-    return ;
 }
 /*------------------------------------------------------------------------
 *

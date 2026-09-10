@@ -941,42 +941,6 @@ int NG_ExecMainMenu(char **menu, int def, u_int32_t defColor, u_int8_t HSpacing)
     return (ok==1) ? but : -1;
 }
 
-static char *szMessage;
-
-static void NG_RenderMenuMessage(RW_Interface *p, int mode)
-{
-	int y = GX.View.ymax/3;
-
-    GX.csp.zoom_pset(&g_csBackground, 0, 0, GX.View.lWidth, GX.View.lHeight);
-    RW_Zone_CreateWithText(p, g_szGmT[104], g_SGMenuPos.captionX, g_SGMenuPos.captionY, mode);
-    CSP_Color(COLOR_WHITE);
-    CSP_WriteText(szMessage, g_SGMenuPos.XZoneMin, y, g_pFontMenuSml);
-	RW_RenderSelection(p);
-}
-
-static int MenuMessageCallback(RW_Interface *p, int mode)
-{
-	if (STUB_TaskControl())
-		return -1;
-
-	GX.Client->Lock();
-	NG_RenderMenuMessage(p, mode);
-
-	GX.Client->Unlock();
-	GX.View.Flip();
-	NG_UpdateColor();
-	return 0;
-}
-
-void NG_MenuMessage(char *tex)
-{
-    int but=0, ok=1;
-    RW_Interface *p = RW_Interface_Create(RW_VERT);
-	szMessage = tex;
-    but = RW_Interface_Scan(p, but, &ok, MenuMessageCallback);
-    RW_Interface_Release(p);
-    return;
-}
 
 /*------------------------------------------------------------------------
 *
@@ -1404,7 +1368,6 @@ static int NG_SelectEpisode(void)
 
     if (g_pCurrentGame->episode>=MAX_EPISODE)
     {
-        //NG_MenuMessage(g_szGmT[176]);
         //g_pCurrentGame->episode=MAX_EPISODE-1;
         return 0;
     }

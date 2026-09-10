@@ -88,44 +88,6 @@ void NG_FadeInBackground()
 }
 
 
-void NG_SetGamma(float gamma)
-{
-	rgb24_t ramp[256];
-
-	int i;
-
-	/* 0.0 gamma is all black */
-	if ( gamma <= 0.0f ) {
-		for ( i=0; i<256; ++i ) {
-			ramp[i].r = ramp[i].g = ramp[i].b = 0;
-		}
-		return;
-	} else
-	/* 1.0 gamma is identity */
-	if ( gamma == 1.0f ) {
-		for ( i=0; i<256; ++i ) {
-			ramp[i].r = ramp[i].g = ramp[i].b = (u_int8_t)i;
-		}
-		return;
-	} else
-	/* Calculate a real gamma ramp */
-	{
-		int value;
-		gamma = 1.0f / gamma;
-		for ( i=0; i<256; ++i ) {
-			value = (int)(pow(i/256.f, gamma)*255.0f+0.5f);
-			if ( value > 255 ) {
-				value = 255;
-			}
-			ramp[i].r = ramp[i].g = ramp[i].b =(u_int8_t)value;
-		}
-	}
-	SYS_ASSERT(GX.gi.setGammaRamp);
-	if (GX.gi.setGammaRamp)
-		GX.gi.setGammaRamp(ramp);
-}
-
-
 void NG_FadeOutBackground()
 {
 	int i;

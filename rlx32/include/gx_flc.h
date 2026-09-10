@@ -106,8 +106,6 @@ _RLXEXPORTFUNC    FLI_STRUCT RLXAPI *FLI_Open(SYS_FILEHANDLE in, int mode);
 _RLXEXPORTFUNC    void       RLXAPI  FLI_Close(FLI_STRUCT *f);
 _RLXEXPORTFUNC    void       RLXAPI  FLI_Unpack(FLI_STRUCT *f);
 _RLXEXPORTFUNC    void       RLXAPI  FLI_Rewind(FLI_STRUCT *f);
-_RLXEXPORTFUNC    void       RLXAPI  FLI_SetPalette(FLI_STRUCT *fli);
-_RLXEXPORTFUNC    void       RLXAPI  FLI_Draw(FLI_STRUCT *a, int xoff, int yoff);
 _RLXEXPORTFUNC    GXSPRITEGROUP       RLXAPI *FLI_LoadToSpriteGroup(const char *filename, int diet);
 
 __end_extern_c

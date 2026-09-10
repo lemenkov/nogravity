@@ -339,25 +339,6 @@ sysConBindCmd(const char *szCmd, PFV3XCNLCMD pfFunc)
 }
 
 int
-sysConBindCVar(const char *szVar, const void *pData)
-{
-	struct sys_console_cvar *p = (struct sys_console_cvar*) malloc(sizeof(struct sys_console_cvar));
-	p->next = 0;
-	SDL_strlcpy(p->szVar, szVar, MAX_SYS_CONSOLE_TEXT);
-	p->pData = (void*)pData;
-
-	if (!m_pFirstCvar)
-		m_pFirstCvar = m_pLastCvar = p;
-	else
-	if (m_pLastCvar)
-	{
-		m_pLastCvar->next = p;
-		m_pLastCvar = p;
-	}
-	return 0;
-}
-
-int
 onClear(char *parms)
 {
     sysConClear();

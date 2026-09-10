@@ -350,14 +350,10 @@ struct _gx_viewport;
 
 __extern_c
 //
-_RLXEXPORTFUNC int RLXAPI V3XScene_Type_Counts(V3XSCENE *Scene, int type);
-_RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_Type_GetByIndex(V3XSCENE *Scene, int index_OVI, int type);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *Scene, const char *name);
 _RLXEXPORTFUNC void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI);
 _RLXEXPORTFUNC void RLXAPI V3XScene_OVI_Duplicate(V3XSCENE *Scene, V3XOVI *OVI, int fois);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *Scene, const char *name);
-_RLXEXPORTFUNC V3XORI RLXAPI *V3XScene_ORI_GetByName(V3XSCENE *Scene, const char *name);
-_RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_Mesh_Merge(V3XSCENE *Scene, V3XMESH *mesh, const char *name);
 //
 _RLXEXPORTFUNC void RLXAPI V3XScene_Validate(V3XSCENE* Scene);
 _RLXEXPORTFUNC void RLXAPI V3XScene_CRC_Check(V3XSCENE* Scene);
@@ -368,21 +364,16 @@ _RLXEXPORTFUNC void RLXAPI V3XScene_Release(V3XSCENE *Scene);
 _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_New(int option);
 _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile(const char *filename);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_GetFromFile(V3XSCENE *Scene, const char *filename, int doChild);
-_RLXEXPORTFUNC void RLXAPI V3XOVI_DisplayObject(V3XOVI *OVI, int mode);
-_RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_ChildGetByName(V3XOVI *parent, const char *name);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_InstanceOVI(V3XSCENE *Scene, V3XOVI *cOVI, int mode);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_InstanceGroup(V3XSCENE *Scene, V3XOVI *cOVI, int mode);
 _RLXEXPORTFUNC void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *Scene);
 
-_RLXEXPORTFUNC V3XTVI RLXAPI *V3XTVI_GetFromFile(V3XSCENE *Scene, const char *filename);
 //
 _RLXEXPORTFUNC void RLXAPI V3XScene_LoadTextures(V3XSCENE *Scene, void (*callback)(void *));//
 _RLXEXPORTFUNC void RLXAPI V3XScene_Viewport_Build(V3XSCENE *Scene, struct _gx_viewport *viewport);
 _RLXEXPORTFUNC void RLXAPI V3XScene_Viewport_Clear(V3XSCENE *Scene);
 _RLXEXPORTFUNC void RLXAPI V3XScene_Viewport_Render(V3XSCENE *Scene);
-_RLXEXPORTFUNC void RLXAPI V3XScene_Viewport_BuildOVI(V3XSCENE *Scene, V3XOVI *OVI, struct _gx_viewport *ViewPrt);
 
-_RLXEXPORTFUNC void RLXAPI V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode);
 //
 _RLXEXPORTFUNC void RLXAPI V3XOVI_Release(V3XSCENE *Scene, V3XOVI *OVI, int doChild);
 _RLXEXPORTFUNC void RLXAPI V3XScene_ObjectBuild(V3XOVI *OVI, int spec);
@@ -393,6 +384,5 @@ _RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_AbstractSolve(V3XSCENE *Scene, const char
 //
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XPORTAL_FindSector(V3XSCENE *scene, V3XVECTOR *pos);
 _RLXEXPORTFUNC int RLXAPI V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsigned hint, V3XOVI **who_hide);
-_RLXEXPORTFUNC void RLXAPI V3XCL_MESH_Optimize(V3XCL_MESH *mesh, V3XSCENE *scene, V3XVECTOR *pos, unsigned mode);
 __end_extern_c
 #endif

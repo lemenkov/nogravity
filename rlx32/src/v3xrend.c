@@ -92,30 +92,6 @@ void CALLING_C V3XRENDER_Wired(V3XPOLY *fce)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void CALLING_C V3XRENDER_point_shading(V3XPOLY *fce)
-*
-* DESCRIPTION :
-*
-*/
-void CALLING_C V3XRENDER_Point(V3XPOLY *fce)
-{
-    int32_t *s=(int32_t*)fce->shade;
-    int i;
-    V3XlPTS *pt=(V3XlPTS*)fce->dispTab;
-    for (i=fce->numEdges;i!=0;pt++, s++, i--)
-    {
-        #ifdef CLIPPING
-        if ((pt->x>=GX.View.xmin)
-        &&  (pt->y>=GX.View.ymin)
-        &&  (pt->x<=GX.View.xmax)
-        &&  (pt->y<=GX.View.ymax))
-        #endif
-        //GX.psetPixel(pt->x, pt->y, ((V3XMATERIAL*)fce->Mat)->ColorTable[(int32_t)*s]);
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  static void Out_SetCodes(union _v3x_2dclipInfo *u, V3XSCALAR x, V3XSCALAR y)
 *
 * DESCRIPTION :
@@ -773,42 +749,6 @@ void RLXAPI V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
     sp->LY = mt->texture[0].LY;
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RLXAPI V3X_CSP_Clone(GXSPRITE *sp, GXSPRITE *sps, V3XMATERIAL *mat, unsigned mode)
-*
-* Description :
-*
-*/
-void RLXAPI V3X_CSP_Clone(GXSPRITE *sp, GXSPRITE *sps, V3XMATERIAL *mat, unsigned mode)
-{
-    V3XSPRITEINFO   *item = (V3XSPRITEINFO*)sp->handle;
-    V3XMATERIAL *mt = &item->mat;
-    V3XPOLY     *f = &item->poly;
-    V3XSPRITEINFO   *sitem = (V3XSPRITEINFO*)sps->handle;
-    V3XPOLY     *sf = &sitem->poly;
-    // Allocation du polygone
-    f->Mat = mt;
-    f->numEdges = 4;
-    f->visible = 1;
-    f->distance = 0;
-    f->faceTab = NULL;
-    f->dispTab = V3X_CALLOC(f->numEdges, V3XPTS);
-	f->uvTab = sf->uvTab;
-
-    *mt = *mat;
-    sp->LX = mt->texture[0].LX;
-    sp->LY = mt->texture[0].LY;
-    UNUSED(mode);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RLXAPI V3X_CSP_Release(V3XSPRITEINFO *item)
-*
-* DESCRIPTION :
-*
-*/
 void RLXAPI V3X_CSP_Unload(GXSPRITE *sp)
 {
     V3XSPRITEINFO  *item = (V3XSPRITEINFO*)sp->handle;
@@ -1011,55 +951,6 @@ int V3X_CSP_Set3D(GXSPRITE *item, V3XVECTOR *pos, V3XSCALAR s, unsigned option)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void CALLING_C V3X_CSP_pset(int32_t x, int32_t y, GXSPRITE *item)
-*
-* DESCRIPTION :
-*
-*/
-static void CALLING_C V3X_CSP_pset(int32_t x, int32_t y, GXSPRITE *item)
-{
-    V3XSPRITEINFO *sp = (V3XSPRITEINFO*)item->handle;
-    V3XMATERIAL *mat = (V3XMATERIAL*)sp->poly.Mat;
-    V3XPTS *pos = sp->poly.dispTab;
-    sp->x =  (float)x;
-    sp->y =  (float)y;
-    sp->z =  0;//V3X.Clip.Near;
-    sp->poly.distance = (2*sp->z);
-    RGB_GetPixelFormat(&mat->diffuse, GX.csp_cfg.color);
-    mat->alpha = (u_int8_t)GX.csp_cfg.alpha;
-    mat->specular = mat->diffuse;
-    mat->info.Transparency = V3XBLENDMODE_ALPHA;
-    V3XVector_Set((V3XVECTOR*)&pos[0], sp->x         , sp->y           , sp->z);
-    V3XVector_Set((V3XVECTOR*)&pos[1], sp->x         , sp->y+item->LY  , sp->z);
-    V3XVector_Set((V3XVECTOR*)&pos[2], sp->x+item->LX, sp->y+item->LY  , sp->z);
-    V3XVector_Set((V3XVECTOR*)&pos[3], sp->x+item->LX, sp->y           , sp->z);
-    V3X_CSP_Draw(item, V3XCSPDRAW_INSTANCE|V3XCSPDRAW_INSTMATERIAL);
-    return;
-}
-static void CALLING_C V3X_CSP_pset_zoom(GXSPRITE *item, int32_t x, int32_t y, int32_t lx, int32_t ly)
-{
-    V3XSPRITEINFO *sp = (V3XSPRITEINFO*)item->handle;
-    V3XMATERIAL *mat = (V3XMATERIAL*)sp->poly.Mat;
-    V3XPTS *pos = sp->poly.dispTab;
-    sp->x =  (float)x;
-    sp->y =  (float)y;
-    sp->z =  0;//V3X.Clip.Near;
-    sp->poly.distance = (2*sp->z);
-    RGB_GetPixelFormat(&mat->diffuse, GX.csp_cfg.color);
-    mat->alpha = (u_int8_t)GX.csp_cfg.alpha;
-    mat->specular = mat->diffuse;
-    mat->info.Transparency = V3XBLENDMODE_ALPHA;
-    V3XVector_Set((V3XVECTOR*)&pos[0], sp->x   , sp->y     , sp->z);
-    V3XVector_Set((V3XVECTOR*)&pos[1], sp->x   , sp->y+ly  , sp->z);
-    V3XVector_Set((V3XVECTOR*)&pos[2], sp->x+lx, sp->y+ly  , sp->z);
-    V3XVector_Set((V3XVECTOR*)&pos[3], sp->x+lx, sp->y      , sp->z);
-    V3X_CSP_Draw(item, V3XCSPDRAW_INSTANCE|V3XCSPDRAW_INSTMATERIAL);
-    return;
-}
-CSP_FUNCTION V3X_CSPset={V3X_CSP_pset};
-CSP_FUNCTION V3X_CSPset_zoom={(CSP_STDFUNCTION)V3X_CSP_pset_zoom};
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  void V3X_CSP_Draw(V3XSPRITEINFO *sp, int clip)
 *
 * DESCRIPTION :
@@ -1099,60 +990,4 @@ int V3X_CSP_Draw(GXSPRITE *item, int clip)
         }
     }else return 0;
     return fi->visible;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void v3x_SpriteBuildLUT(GXSPRITE *sp)
-*
-* DESCRIPTION :  Chargement de GXSPRITE 2D en memoire 3D
-*
-*/
-static void v3x_SpriteBuildLUT(GXSPRITE *sp)
-{
-    int i;
-    rgb24_t *pal = GX.ColorTable;
-    u_int32_t *c;
-    sp->handle = (u_int32_t*)MM_heap.malloc(4*256);
-    for (i=256, c=(u_int32_t*)sp->handle;i!=0;c++, pal++, i--)
-    *c = RGB_PixelFormat(pal->r, pal->g, pal->b);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3X_CSP_Upload(GXSPRITE *sp, int bpp)
-*
-* DESCRIPTION :
-*
-*/
-void V3X_CSP_Upload(GXSPRITE *sp, int bpp)
-{
-	SYS_ASSERT(sp->data);
-    if (V3X.Client->Capabilities&GXSPEC_HARDWARE)
-    {
-		sp->handle = V3X.Client->TextureDownload(sp, GX.ColorTable, bpp, 0);
-        if (!sp->handle)
-			V3X.Setup.warnings|=V3XWARN_NOENOUGHSurfaces;
-    }
-    else
-    if (GX.View.BytePerPixel>1)
-    {
-        v3x_SpriteBuildLUT(sp);
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3X_CSP_Unload(GXSPRITE *sp)
-*
-* DESCRIPTION :
-*
-*/
-void V3X_CSP_Release(GXSPRITE *sp)
-{
-	if (sp->handle)
-	{
-		V3X.Client->TextureFree(sp->handle);
-		sp->handle = 0;
-	}
-    return;
 }

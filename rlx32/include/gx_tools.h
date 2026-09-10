@@ -33,11 +33,6 @@ __extern_c
 
     // Image operation
 _RLXEXPORTFUNC    void RLXAPI     IMG_stretch(u_int8_t *old_buf, u_int8_t *new_buf, int old_ly, int new_ly, int old_lx, int new_lx, int bytes);
-_RLXEXPORTFUNC    void RLXAPI     IMG_pan(u_int8_t *old_buf, u_int8_t *new_buf, int old_ly, int new_ly, int old_lx, int new_lx, int bytes);
-_RLXEXPORTFUNC    void RLXAPI     IMG_rotate_image(u_int8_t *old, u_int8_t *tmp, int lx, int ly);
-_RLXEXPORTFUNC    void RLXAPI     IMG_LoadFnSprite(char *file, GXSPRITE *sp, int options);
-_RLXEXPORTFUNC    void RLXAPI     IMG_StretchPoint(GXSPRITE *texture, GXSPRITE *sp3, int bp, int pitch);
-_RLXEXPORTFUNC    void RLXAPI     IMG_StretchBilinear(GXSPRITE *_new, GXSPRITE *_old, int bp, int strides);
 
     // Image loading
 _RLXEXPORTFUNC    int  RLXAPI     IMG_LoadFn(const char *filename, GXSPRITE *sp);

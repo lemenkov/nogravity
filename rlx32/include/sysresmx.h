@@ -86,10 +86,6 @@ _RLXEXPORTFUNC		int32_t				RLXAPI	file_length(const char *filename);
 _RLXEXPORTFUNC		SYS_WAD			*	RLXAPI	filewad_open(const char *filename, int flags);
 _RLXEXPORTFUNC		void				RLXAPI	filewad_close(SYS_WAD *resource);
 _RLXEXPORTFUNC		void				RLXAPI	filewad_chdir(SYS_WAD *resource, const char *newpath);
-_RLXEXPORTFUNC		void				RLXAPI	filewad_getcwd(const SYS_WAD *resource, char *curpath, int len);
-_RLXEXPORTFUNC		SYS_FILEHANDLE 		RLXAPI	filewad_get(SYS_FILEHANDLE  fp);
-_RLXEXPORTFUNC		int 				RLXAPI	filewad_closeall(SYS_WAD *resource);
-_RLXEXPORTFUNC		void				RLXAPI	filewad_makepath(SYS_WAD *resource, char *_s, const char *s, int nLen);
 _RLXEXPORTFUNC		void				RLXAPI	filewad_resolve(char *dest, const char *filename);
 
 _RLXEXPORTFUNC		void				RLXAPI	sysInitZlib();

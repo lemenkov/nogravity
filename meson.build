@@ -58,7 +58,6 @@ shaders_src = custom_target('gpu_shaders_data.c',
 
 engine_src = files(
   'rlx32/src/gui_os.c',
-  'rlx32/src/gx_alloc.c',
   'rlx32/src/gx_csp.c',
   'rlx32/src/gx_flc.c',
   'rlx32/src/gx_form.c',
@@ -66,7 +65,6 @@ engine_src = files(
   'rlx32/src/gx_png.c',
   'rlx32/src/gx_rgb.c',
   'rlx32/src/gx_tool.c',
-  'rlx32/src/sysgi.c',
   'rlx32/src/sysini.c',
   'rlx32/src/sysresmx.c',
   'rlx32/src/systools.c',

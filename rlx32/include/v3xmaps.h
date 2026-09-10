@@ -81,9 +81,7 @@ enum {
 __extern_c
 
 // Texture cache
-_RLXEXPORTFUNC    void           RLXAPI    V3XResources_Reset(V3XRESOURCE *bm);
 _RLXEXPORTFUNC    V3XRESOURCE_ITEM *  RLXAPI    V3XResources_Put(V3XRESOURCE *bm, const char *filename, void *data, int type);
-_RLXEXPORTFUNC    void			 RLXAPI    V3XResources_Purge(V3XRESOURCE *bm, int purge);
 _RLXEXPORTFUNC    void           RLXAPI   *V3XResources_Get(V3XRESOURCE *bm, const char *filename, int type);
 _RLXEXPORTFUNC    int            RLXAPI    V3XResources_Del(V3XRESOURCE *bm, const char *filename);
 _RLXEXPORTFUNC    void           RLXAPI    V3XResources_Animated(V3XRESOURCE *bm);
@@ -99,7 +97,6 @@ _RLXEXPORTFUNC    void           RLXAPI    V3XMaterials_LoadFromMesh(V3XMESH *Ob
 _RLXEXPORTFUNC    void           RLXAPI    V3XMaterial_LoadTextures(V3XMATERIAL *Mat);
 _RLXEXPORTFUNC    void           RLXAPI    V3XMaterial_Release(V3XMATERIAL *map, V3XMESH *Obj);
 _RLXEXPORTFUNC    void           RLXAPI    V3XMaterial_Register(V3XMATERIAL *mat);
-_RLXEXPORTFUNC    V3XMATERIAL    RLXAPI   *V3XMaterial_NewFromPipeline(void);
 
 // V3X'98 GXSPRITE upload methods (singled GXSPRITE)
 _RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_GetFn(char *filename, GXSPRITE *item, int load);
@@ -107,8 +104,6 @@ _RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Prepare(GXSPRITE *sp, int fla
 _RLXEXPORTFUNC    int            RLXAPI    V3X_CSP_Set3D(GXSPRITE *item, V3XVECTOR *pos, V3XSCALAR s, unsigned mode);
 _RLXEXPORTFUNC    int            RLXAPI    V3X_CSP_Draw(GXSPRITE *sp, int clip);
 _RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Unload(GXSPRITE *item);
-_RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Upload(GXSPRITE *item, int bpp);
-_RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Release(GXSPRITE *sp);
 
 _RLXEXPORTFUNC    void           RLXAPI    V3X_CSP_Initialize(GXSPRITE *item, V3XMATERIAL *mat);
 

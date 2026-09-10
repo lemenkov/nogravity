@@ -132,7 +132,6 @@ _RLXEXPORTFUNC    void   RLXAPI  V3XPlug_CollisionMove(const void *OVI); // plug
 //
 _RLXEXPORTFUNC    V3XCL  RLXAPI *V3XCL_New(int numItems);
 _RLXEXPORTFUNC    V3XCL  RLXAPI *V3XCL_NewFromMesh(V3XMESH *obj, int mode);
-_RLXEXPORTFUNC    V3XCL  RLXAPI *V3XCL_NewFromDummy(V3XSCALAR radius);
 _RLXEXPORTFUNC    void   RLXAPI  V3XCL_findGlobalSphere(V3XMESH *obj, V3XCL_SPHERE *Cs);
 _RLXEXPORTFUNC    void   RLXAPI  V3XCL_Release(V3XCL *Cs);
 //

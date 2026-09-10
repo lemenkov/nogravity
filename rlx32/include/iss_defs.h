@@ -177,7 +177,6 @@ __extern_c
 
 // Samples
 _RLXEXPORTFUNC    int    V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename);
-_RLXEXPORTFUNC    void   V3XA_Handle_Release(V3XA_HANDLE *pHandle);
 
 // Streams (music)
 _RLXEXPORTFUNC    int	 V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop);
@@ -186,9 +185,6 @@ _RLXEXPORTFUNC    int    V3XAStream_Poll(V3XA_STREAM handle);
 _RLXEXPORTFUNC    int    V3XAStream_PollAll(void);
 _RLXEXPORTFUNC    void   V3XAStream_Release(V3XA_STREAM handle);
 _RLXEXPORTFUNC    void   V3XAStream_ReleaseAll(void);
-_RLXEXPORTFUNC    void   V3XAStream_Rewind(V3XA_STREAM handle);
-_RLXEXPORTFUNC    void   V3XAStream_Stop(V3XA_STREAM handle);
-_RLXEXPORTFUNC    int    V3XAStream_Start(V3XA_STREAM handle);
 
 _RLXEXPORTFUNC	  void	 V3XA_EntryPoint(struct RLXSYSTEM *pRlx);
 _RLXEXPORTDATA    extern struct V3XAUDIO  V3XA;

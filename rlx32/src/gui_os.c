@@ -300,17 +300,6 @@ int RW_Interface_Scan(RW_Interface *pInt, int pCurSel, int *ok, PFRWCALLBACK pfC
 	return RW.current;
 }
 
-void RW_Create(GXSPRITEGROUP *pFont)
-{
-    memset(&RW, 0, sizeof(RW));
-	RW.pFont = pFont;
-    return;
-}
-
-void RW_Release(void)
-{
-    return;
-}
 
 int RW_InputText(RW_Interface *pInt, char *t, int numChar, PFRWCALLBACK pfCallback)
 {

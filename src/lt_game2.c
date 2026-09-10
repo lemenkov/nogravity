@@ -77,35 +77,6 @@ int NG_ColorToNAV(int x)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  int NG_MomentumValue(int x, int mx)
-*
-* DESCRIPTION :
-*
-*/
-int NG_MomentumValue(int x, int mx)
-{
-
-    int p = (g_cTimer.iCounter>>15)<<g_pCurrentGame->ship;
-
-    if (x>0)
-    {
-        x-=p;
-        if (x>mx) x = mx;
-        if (x<0)  x = 0;
-    }
-    else
-    if (x<0)
-    {
-        x+=p;
-        if (x<-mx) x =-mx;
-        if (x>0) x=0;
-    }
-
-
-    return x;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  void CALLING_C NG_DrawCircle(V3XVECTOR2 *c, int32_t r, int32_t cx, int cote)
 *
 * DESCRIPTION :
@@ -171,45 +142,6 @@ else\
         V3XVector_Dif(&di2, &data->OVItarget->mesh->matrix.v.Pos, &OVI->mesh->matrix.v.Pos);\
         k2 = V3XVector_Normalize(&di2, &di2);\
     }\
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XOVI *NG_AILocateNearestTarget(V3XVECTOR *pos, V3XVECTOR *dist, int32_t *di)
-*
-* DESCRIPTION :
-*
-*/
-V3XOVI *NG_AILocateNearestTarget(V3XVECTOR *pos, V3XVECTOR *dist, V3XSCALAR *di)
-{
-    V3XSCALAR maxy=CST_MAX, dii;
-    int32_t i;
-    V3XOVI *OVI, *Gs=NULL;
-    SGScript *Sif;
-    V3XVECTOR *d;
-    for (i=g_SGGame.Scene->numOVI, OVI=g_SGGame.Scene->OVI;i!=0;OVI++, i--)
-    {
-        if ((OVI->data)&&(!(OVI->state&V3XSTATE_HIDDEN)))
-        {
-            Sif = (SGScript*)OVI->data;
-            if (Sif->ColorRadar)
-            {
-                d = &OVI->mesh->matrix.v.Pos;
-                if ((Sif->LockTime==1)&&(Sif->Locked==0))
-                {
-                    V3XVector_Dif((dist), (d), (pos));
-                    dii = V3XVector_LengthSq(dist);
-                    if (dii<maxy)
-                    {
-                        maxy = dii;
-                        *di = dii;
-                        Gs = OVI;
-                    }
-                }
-            }
-        }
-    }
-    *di = sqrtf(*di);
-    return Gs;
 }
 /*------------------------------------------------------------------------
 *
@@ -437,13 +369,6 @@ static void NG_AIEnemyPatrol(V3XOVI *OVI)
     NG_AIEnemyGeneric(OVI);
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : static void NG_AIEnemyPatrol(V3XOVI *OVI, SGActor *data)
-*
-* DESCRIPTION : t_TAC_PATROL_FIGHT1
-*
-*/
 static void NG_AIEnemyPatrolAndFight(V3XOVI *OVI)
 {
     SGActor *data = (SGActor*)OVI->data;
@@ -594,13 +519,6 @@ static void NG_AIEnemyKamikaze(V3XOVI *OVI)
     NG_AIEnemyGeneric(OVI);
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : static void NG_AIEnemyPatrol(V3XOVI *OVI, SGActor *data)
-*
-* DESCRIPTION : Mine (explose a <sight> distance)
-*
-*/
 static void NG_AIEnemyMine(V3XOVI *OVI)
 {
     SGActor *data = (SGActor*)OVI->data;
@@ -617,34 +535,6 @@ static void NG_AIEnemyMine(V3XOVI *OVI)
 			p->Shield=-1;
     }
     g_SGObjects.CallMode[t_ENEMY] = (u_int8_t)kk;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : static void NG_AIEnemyPatrol(V3XOVI *OVI, SGActor *data)
-*
-* DESCRIPTION : Track - ok
-*
-*/
-void V3XTrack_Draw(V3XTRI *TRI, int f)
-{
-    int i;
-    V3XVECTOR a, x;
-    V3XVECTOR2 n, m;
-    V3XVector_Cpy(x, TRI->keys[TRI->numFrames-1].info.pos);
-    V3XVector_TransformProject_pts(&x, &a);
-    m.x = a.x; m.y = a.y;
-    for (i=0;i<TRI->numFrames;i++)
-    {
-        V3XVector_Cpy(x, TRI->keys[i].info.pos);
-        if (V3XVector_TransformProject_pts(&x, &a))
-        {
-            n.x = a.x;
-            n.y = a.y;
-            GX_ClippedLine( &n, &m, i<f ? i+1 : g_SGGame.CI_WHITE);
-            m=n;
-        }
-    }
     return;
 }
 /*------------------------------------------------------------------------

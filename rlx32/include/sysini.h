@@ -67,13 +67,10 @@ _RLXEXPORTFUNC    int            RLXAPI  SelectConfigClass(char const *className
 _RLXEXPORTFUNC    ConfigClass    RLXAPI *GetConfigClass(char const *className, ConfigFile *c_file);
 _RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_long(char *s, ConfigFile *ini);
 _RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_bool(char *s, ConfigFile *ini);
-_RLXEXPORTFUNC    int            RLXAPI  GetCF_uchar2(char *s, ConfigFile *ini, u_int8_t *val);
-_RLXEXPORTFUNC    int            RLXAPI  GetCF_hexa2(char *s, ConfigFile *ini, int32_t *val);
 _RLXEXPORTFUNC    char           RLXAPI *GetCF_str(char *s, ConfigFile *ini);
 _RLXEXPORTFUNC    char           RLXAPI *GetCF_str2(char *s, ConfigFile *ini);
 _RLXEXPORTFUNC    int            RLXAPI  GetCF_long2(char *s, ConfigFile *ini, int32_t *val);
 _RLXEXPORTFUNC    int            RLXAPI  GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val);
-_RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_hexa(char *s, ConfigFile *ini);
 
 __end_extern_c
 

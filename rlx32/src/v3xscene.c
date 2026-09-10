@@ -782,7 +782,6 @@ static void V3x_render_buildGeometry(V3XSCENE *Scene, GXVIEWPORT *fen, int spec)
         v3xpoly_SortByDistance(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
         if (V3X.Client->Capabilities&(GXSPEC_ENABLEZBUFFER|GXSPEC_ENABLEWBUFFER))
         {
-            //v3xpoly_SortByTexture(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
             v3xpoly_SortByID(V3X.Buffer.RenderedFaces, V3X.Buffer.RenderedFaces+V3X.Buffer.MaxFaces-1);
         }
     }
@@ -791,39 +790,6 @@ static void V3x_render_buildGeometry(V3XSCENE *Scene, GXVIEWPORT *fen, int spec)
     return;
 }
 
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void v3x_GetGlobalMatrix(V3XOVI *OVI, V3XMATRIX *Mat)
-*
-* DESCRIPTION :
-*
-*/
-static void v3x_GetGlobalMatrix(V3XOVI *OVI, V3XMATRIX *Mat)
-{
-    V3XMESH  *obj = OVI->mesh;
-    switch(OVI->matrix_Method) {
-        case V3XMATRIX_Quaternion:
-        v3x_EvalMatrixRotation_q(obj);
-        break;
-        case V3XMATRIX_Vector:
-        v3x_EvalMatrixRotation2(obj);
-        break;
-        case V3XMATRIX_Vector2:
-        v3x_EvalMatrixRotation3(obj);
-        break;
-        case V3XMATRIX_Euler:
-        v3x_EvalMatrixEuler(obj);
-        break;
-    }
-    // (obj->matrix.Matrix);
-    if (OVI->parent)
-    {
-        V3XMESH *objP = OVI->parent->mesh;
-        v3x_GetGlobalMatrix(OVI->parent, &objP->matrix);
-        V3XMatrix_Multiply3x4(*Mat, objP->matrix, obj->matrix);
-    } else *Mat = obj->matrix;
-    return;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  : static int v3x_qsort_functionZ( const void *a, const void *b)
@@ -937,45 +903,6 @@ void V3XScene_Viewport_Build(V3XSCENE *Scene, GXVIEWPORT *ViewPrt)
     GX.View=Old;
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XCL_MESH_Optimize(V3XCL_MESH *mesh, V3XSCENE *scene, V3XVECTOR *pos, unsigned mode)
-*
-* Description :  Optimize collision mesh
-*
-*/
-void V3XCL_MESH_Optimize(V3XCL_MESH *mesh, V3XSCENE *scene, V3XVECTOR *pos, unsigned mode)
-{
-    // Trés simple avec le portal, on traite que le secteur actuel.
-    if (mode&V3XCL_MESHOPT_PORTAL)
-    {
-        unsigned i;
-        V3XOVI *OVI = scene->OVI;
-        for (i=0;i<mesh->maxsectors;OVI++, i++)
-        {
-            if ((OVI->state&V3XSTATE_CULLED)||
-            (OVI->state&V3XSTATE_BSPCULLED))
-            mesh->sectorList[i] = 0x1;
-            else mesh->sectorList[i] = 0;
-        }
-    }
-    // On ne traite pas les objets non visible.
-    if (mode&V3XCL_MESHOPT_HIDDENOBJ)
-    {
-        unsigned i;
-        V3XOVI *OVI = scene->OVI;
-        for (i=0;i<mesh->maxsectors;OVI++, i++)
-        {
-            if (OVI->state&V3XSTATE_CULLED)
-            {
-                mesh->sectorList[i]=0x1;
-            }
-            else mesh->sectorList[i] = 0;
-        }
-    }
-    UNUSED(pos);
-    return;
-}
 
 /*------------------------------------------------------------------------
 *
@@ -1053,121 +980,4 @@ int V3XVECTOR_IsVisible(V3XSCENE *Scene, V3XVECTOR *start, V3XVECTOR *end, unsig
         }
     }
     return 1;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XMESH_SetFixedDistance(V3XMESH *mesh, V3XSCALAR z)
-*
-* Description :
-*
-*/
-void V3XMESH_SetFixedDistance(V3XMESH *mesh, V3XSCALAR z)
-{
-    int i;
-    V3XPOLY *fce = mesh->face;
-    mesh->flags|=V3XMESH_NOZSORT;
-    for (i=0;i<mesh->numFaces;i++, fce++)  fce->distance = z;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XOVI_DisplayObject(V3XOVI *OVI, int mode)
-*
-* Description :
-*
-*/
-
-
-void V3XOVI_DisplayObject(V3XOVI *OVI, int mode)
-{
-    V3XOVI **oo = OVI->child;
-
-    if (mode&V3XOVID_HIDE)
-    OVI->state|=mode&V3XOVID_FULL?V3XSTATE_HIDDEN:V3XSTATE_HIDDENDISPLAY;
-    else
-    OVI->state&=~(V3XSTATE_HIDDEN|V3XSTATE_HIDDENDISPLAY);
-    if (!oo) return;
-    while (*oo!=NULL)
-    {
-        V3XOVI *o = *oo;
-        if (mode)
-        o->state|=(mode&V3XOVID_FULL?V3XSTATE_HIDDEN:V3XSTATE_HIDDENDISPLAY);
-        else
-        o->state&=~(V3XSTATE_HIDDEN|V3XSTATE_HIDDENDISPLAY);
-        oo++;
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XOVI *V3XOVI_ChildGetByName(V3XOVI *parent, char *name)
-*
-* DESCRIPTION :
-*
-*/
-V3XOVI *V3XOVI_ChildGetByName(V3XOVI *parent, const char *name)
-{
-    V3XOVI **oo = parent->child;
-    while (*oo!=NULL)
-    {
-        V3XOVI *o = *oo;
-        V3XORI *ORI = o->ORI;
-        if (SDL_strcasecmp(ORI->name, name)==0) return o;
-        oo++;
-    }
-    return 0;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode)
-*
-* Description :
-*
-*/
-void V3XCL_NewFromGroupMesh(V3XOVI *parent, int mode)
-{
-    V3XOVI **oo = parent->child;
-    V3XORI *pORI = parent->ORI;
-    while (*oo!=NULL)
-    {
-        V3XOVI *o = *oo;
-        if (o)
-        {
-            V3XORI *ORI = o->ORI;
-            if (ORI->type==V3XOBJ_MESH)
-            {
-                ORI->Cs = V3XCL_NewFromMesh(o->mesh, mode);
-                if (pORI->Cs)
-                {
-                    ORI->Cs->ID = pORI->Cs->ID;
-                }
-            }
-            oo++;
-        }
-    }
-    if (!parent->ORI->Cs)
-    parent->ORI->Cs = V3XCL_NewFromMesh(parent->mesh, mode);
-    return ;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XScene_Viewport_BuildOVI(V3XSCENE *Scene, V3XOVI *OVI, GXVIEWPORT *ViewPrt)
-*
-* Description :
-*
-*/
-void V3XScene_Viewport_BuildOVI(V3XSCENE *Scene, V3XOVI *OVI, GXVIEWPORT *ViewPrt)
-{
-    GXVIEWPORT prevView = GX.View;
-    V3XOVI **OVIf = OVI->child;
-    if (ViewPrt)  GX.View = *ViewPrt;
-    while(*OVIf!=NULL)
-    {
-        V3XScene_Viewport_BuildOVI(Scene, *OVIf, NULL);
-        (**OVIf).state|=V3XSTATE_MATRIXUPDATE;
-        OVIf++;
-    }
-    if (((OVI->state&V3XSTATE_HIDDEN)==0)) V3XScene_ObjectBuild(OVI, 0);
-    GX.View = prevView;
-    return;
 }

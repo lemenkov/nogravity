@@ -33,21 +33,14 @@ __extern_c
     // Kernel allocation
 _RLXEXPORTFUNC    int     RLXAPI  V3XKernel_Alloc(void);
 _RLXEXPORTFUNC    void    RLXAPI  V3XKernel_Release(void);
-void V3XKernel_CRC(int code);
 _RLXEXPORTFUNC    void    RLXAPI  V3XKernel_RenderClass(void);
-_RLXEXPORTFUNC    void    RLXAPI  V3XKernel_PushList(V3XBUFFER *pipe);
-_RLXEXPORTFUNC    void    RLXAPI  V3XKernel_PopList(V3XBUFFER *pipe);
-_RLXEXPORTFUNC    void    RLXAPI  V3XKernel_PopAddList(V3XBUFFER *pipe);
 
 _RLXEXPORTFUNC    void    RLXAPI  V3XPlugIn_Add( int id, void (* __plug)(const void *) );
 
     // Meshes
-_RLXEXPORTFUNC    V3XMESH RLXAPI *V3XMesh_New(int numVerts, int numFaces, int numMaterial, int numEdgesPerPoly);
 _RLXEXPORTFUNC    void    RLXAPI  V3XMesh_Release(V3XMESH *obj);
 _RLXEXPORTFUNC    void    RLXAPI V3XMesh_ReleaseDup(V3XMESH *obj);
 _RLXEXPORTFUNC    void    RLXAPI  V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2);
-_RLXEXPORTFUNC    void    RLXAPI  V3XMesh_NormalizePoly(V3XMESH *Ob);
-_RLXEXPORTFUNC    void    RLXAPI  V3XMesh_NormalizeEdges(V3XMESH *Ob);
 
     // Polygons
 _RLXEXPORTFUNC    void     RLXAPI  V3XPoly_Alloc(V3XPOLY *f, int som);
@@ -57,8 +50,6 @@ _RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_ZClipNear(V3XPOLY *polygon);
 _RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_ZClipFar(V3XPOLY *polygon);
 _RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_Duplicate(V3XPOLY *clip);
 _RLXEXPORTFUNC    void     RLXAPI  V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *pos, V3XSCALAR lx, V3XSCALAR ly, int option);
-_RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_AddToPipeline(V3XPOLY *fce, unsigned options);
-_RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_NewFromPipeline(void);
 
     // Memory
     #define V3X_CALLOC(a, b) (b*)MM_heap.malloc((a)*sizeof(b))

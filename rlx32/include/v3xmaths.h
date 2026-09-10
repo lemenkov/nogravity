@@ -377,8 +377,6 @@ if ((A).z<CST_ZERO) \
 }
 
 __extern_c
-_RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_X(int32_t Theta, V3XSCALAR *Matrice);
-_RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_Y(int32_t Theta, V3XSCALAR *Matrice);
 _RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_Z(int32_t Theta, V3XSCALAR *Matrice);
 _RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_X_Local(int32_t Theta, V3XSCALAR *Matrice);
 _RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_Y_Local(int32_t Theta, V3XSCALAR *Matrice);

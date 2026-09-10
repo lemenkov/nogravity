@@ -45,48 +45,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xrend.h"
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :
-*
-* DESCRIPTION :
-*
-*/
-void V3XMatrix_Rotate_X(int32_t Theta, V3XSCALAR *Matrice)
-{
-    V3XSCALAR sin, cos;
-    V3XSCALAR M[9];
-    sin = sin16(Theta);
-    cos = cos16(Theta);
-    M[3]=MULF32(cos, Matrice[3])-MULF32(sin, Matrice[6]);
-    M[4]=MULF32(cos, Matrice[4])-MULF32(sin, Matrice[7]);
-    M[5]=MULF32(cos, Matrice[5])-MULF32(sin, Matrice[8]);
-    M[6]=MULF32(sin, Matrice[3])+MULF32(cos, Matrice[6]);
-    M[7]=MULF32(sin, Matrice[4])+MULF32(cos, Matrice[7]);
-    M[8]=MULF32(sin, Matrice[5])+MULF32(cos, Matrice[8]);
-    Matrice[3]=M[3];
-    Matrice[4]=M[4];
-    Matrice[5]=M[5];
-    Matrice[6]=M[6];
-    Matrice[7]=M[7];
-    Matrice[8]=M[8];
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XMatrix_BuildFromVectorUP(V3XMATRIX *M0, V3XVECTOR *v, V3XVECTOR *Source)
-*
-* Description :
-*
-*/
-void V3XMatrix_BuildFromVectorUP(V3XMATRIX *M0, V3XVECTOR *v, V3XVECTOR *Source)
-{
-    V3XVector_Normalize(&M0->v.K, v);
-    V3XVector_ProjectOnVector(&M0->v.J, Source, &M0->v.K);
-    V3XVector_Normalize (&M0->v.J, &M0->v.J);
-    V3XVector_CrossProduct(&M0->v.I, &M0->v.J, &M0->v.K);
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  void V3XMatrix_BuildFromVector(V3XMATRIX *M0, V3XVECTOR *v, int roll)
 *
 * DESCRIPTION :
@@ -135,32 +93,6 @@ void V3XMatrix_BuildFromNVector(V3XMATRIX *M0, V3XVECTOR *v, int roll)
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  V3XSCALAR V3XVector_DistanceToPlane(V3XVECTOR *Point, V3XVECTOR *PlanePoint, V3XVECTOR *PlaneNormal)
-*
-* DESCRIPTION :
-*
-*/
-V3XSCALAR V3XVector_DistanceToPlane(V3XVECTOR *Point, V3XVECTOR *PlanePoint, V3XVECTOR *PlaneNormal)
-{
-    V3XVECTOR point_to_plane;
-    V3XVector_Dif( &point_to_plane, (Point), (PlanePoint));
-    return V3XVector_DotProduct((PlaneNormal), &point_to_plane);
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XVector_IntersectPointPlane(V3XVECTOR *isect, V3XVECTOR *Point, V3XVECTOR *PlanePoint, V3XVECTOR *PlaneNormal)
-*
-* DESCRIPTION :
-*
-*/
-V3XSCALAR V3XVector_IntersectPointPlane(V3XVECTOR *isect, V3XVECTOR *Point, V3XVECTOR *PlanePoint, V3XVECTOR *PlaneNormal)
-{
-    V3XSCALAR k = V3XVector_DistanceToPlane(Point, PlanePoint, PlaneNormal);
-    V3XVector_Madd(isect, PlaneNormal, Point, k);
-    return k;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  int V3XVector_TransformProject_pts(V3XVECTOR *input, V3XVECTOR *result)
 *
 * DESCRIPTION :
@@ -182,18 +114,6 @@ int V3XVector_TransformProject_pts(V3XVECTOR *input, V3XVECTOR *result)
     V3XVector_ProjectWithCenterAndTest((*result), temp, flag);
     result->z = temp.z;
     return flag==0;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int V3XVector_Project(V3XVECTOR *result, V3XVECTOR *input)
-*
-* DESCRIPTION :
-*
-*/
-int V3XVector_Project(V3XVECTOR *result, V3XVECTOR *input)
-{
-    V3XVector_ProjectWithoutCenter((*result), (*input));
-    return 1;
 }
 /*------------------------------------------------------------------------
 *
@@ -289,29 +209,6 @@ int V3XVector_IntersectSphereSegment(V3XSCALAR radius, V3XVECTOR *center, V3XVEC
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  void V3XMatrix_Rotate_Y(int32_t Theta, V3XSCALAR *Matrice)
-*
-* DESCRIPTION :
-*
-*/
-void V3XMatrix_Rotate_Y(int32_t Theta, V3XSCALAR *Matrice)
-{
-    V3XSCALAR sin, cos;
-    V3XSCALAR M[9];
-    sin = (V3XSCALAR)sin16(Theta);
-    cos = (V3XSCALAR)cos16(Theta);
-    M[0]=MULF32(cos, Matrice[0])-MULF32(sin, Matrice[6]);
-    M[1]=MULF32(cos, Matrice[1])-MULF32(sin, Matrice[7]);
-    M[2]=MULF32(cos, Matrice[2])-MULF32(sin, Matrice[8]);
-    M[6]=MULF32(sin, Matrice[0])+MULF32(cos, Matrice[6]);
-    M[7]=MULF32(sin, Matrice[1])+MULF32(cos, Matrice[7]);
-    M[8]=MULF32(sin, Matrice[2])+MULF32(cos, Matrice[8]);
-    Matrice[0]=M[0];    Matrice[1]=M[1];    Matrice[2]=M[2];
-    Matrice[6]=M[6];    Matrice[7]=M[7];    Matrice[8]=M[8];
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  void V3XMatrix_Rotate_Z(int32_t Theta, V3XSCALAR *Matrice)
 *
 * DESCRIPTION :
@@ -403,23 +300,6 @@ void V3XMatrix_Rotate_Z_Local(int32_t Theta, V3XSCALAR *Matrice)
     Matrice[6]=M[6];    Matrice[1]=M[1];
     Matrice[4]=M[4];    Matrice[7]=M[7];
     return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XSCALAR V3XVector_AudioInfo(V3XVECTOR *v, V3XSCALAR *panning, V3XSCALAR *volume, V3XSCALAR maxDist)
-*
-* DESCRIPTION :
-*
-*/
-V3XSCALAR V3XVector_AudioInfo(V3XVECTOR *v, V3XSCALAR *panning, V3XSCALAR *volume, V3XSCALAR maxDist)
-{
-    V3XSCALAR    distance;
-    V3XVECTOR   VV;
-    V3XVector_Dif(&VV, v, &V3X.Camera.M.v.Pos);
-    distance = V3XVector_Normalize(&VV, &VV);
-    *panning = V3XVector_DotProduct(&VV, &V3X.Camera.M.v.I);
-    *volume = (distance<maxDist) ? CST_ONE : maxDist / distance;
-    return distance;
 }
 
 /*------------------------------------------------------------------------

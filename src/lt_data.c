@@ -50,8 +50,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_data.h"
 #include "lt_func.h"
 
-char *g_szWeaponNames[]={"", g_szGmT[1], g_szGmT[2], g_szGmT[3], g_szGmT[4], g_szGmT[5], g_szGmT[6], g_szGmT[6]};
-char *g_szPowerUpNames[]={" ", g_szGmT[7], g_szGmT[8], g_szGmT[9], g_szGmT[10], g_szGmT[11], g_szGmT[12], NULL};
 char *g_szCOM[]={
     " ",
     g_szGmT[15],
@@ -155,7 +153,6 @@ SGShip g_cShip, g_pShip[3]=
 
      SGMenuPosition g_SGMenuPos;
      SGGameStruct g_SGGame;
-     SGHudDisplay g_SGHudNormal, *g_SGHudCurrent;
 	 GXSPRITE g_csPicture;
      GXSPRITEGROUP *g_pspHud, *g_pspCat, *g_pspHud2, *g_pFont, *g_pSmallFont;
      GXSPRITEGROUP *g_pspFX[32], *g_pFontMenuLrg, *g_pFontMenuSml;
@@ -165,7 +162,7 @@ SGShip g_cShip, g_pShip[3]=
      u_int8_t g_ubSampleUsed[32];
      SGFXAudioTable g_cFXTable;
      V3XMATRIX g_mtxMissile;
-     SGPlayer g_pPlayers[2], *g_pPlayer;
+     SGPlayer *g_pPlayer;
      SGMISSION g_SGObjects;
      RW_Interface *g_pGameBoard;
      SGStarfield Starfield;
@@ -174,10 +171,8 @@ SGShip g_cShip, g_pShip[3]=
      SGGameItem *g_pGameItem;
      SGGameStat g_cGameStat;
      SGPlayerSave g_pSaveGames[MAX_SAVE_GAMES], g_pBestGames[MAX_SAVE_GAMES], *g_pCurrentGame;
-     SYS_WAD *g_pWadVoice;
      SYS_FILEIO *g_pGameIO;
      SGMusic g_pMusicInfo[32];
      SGAI g_cAI;
 	 char g_szGmT[MAX_TEXT_MENUS][32];
-     char *g_szMenuSessions[16];
 	 SYS_TIMER g_cTimer;

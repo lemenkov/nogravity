@@ -193,7 +193,6 @@ _RLXEXPORTFUNC    void RLXAPI           V3XMesh_SetRender(V3XMESH *obj);
 
     // Additional Primitives
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Null(V3XPOLY *fce);
-_RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Point(V3XPOLY *fce);
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Wired(V3XPOLY *fce);
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Color(V3XPOLY *fce);
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_SpriteAny(V3XPOLY *fce);
@@ -213,7 +212,6 @@ _RLXEXPORTFUNC    void CALLING_C        V3XCSP_3DSprite(GXSPRITE *sp, int32_t x,
 _RLXEXPORTFUNC    void CALLING_C        V3XCSP_3DSprite_Alpha(GXSPRITE *sp, int32_t x, int32_t y, int32_t new_lx, int32_t new_ly);
 
  #ifdef _GX_CSP_H
-_RLXEXPORTDATA    extern CSP_FUNCTION   V3X_CSPset, V3X_CSPset_zoom;
  #endif
 #define V3X_CSP_RegisterSprite(f, _f) (f).handle=&(_f);
 __end_extern_c

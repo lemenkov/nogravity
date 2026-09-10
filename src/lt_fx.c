@@ -811,13 +811,6 @@ SGEffect *NG_FXNew(V3XVECTOR *pos, int type, int lop, SGScript *pInf, int kp, V3
     return EJ;
 }
 
-void NG_FXChangeRenderObject(V3XMESH *obj, int nouv)
-{
-    int i;
-    for (i=0;i<obj->numMaterial;i++)
-     obj->material[i].Render=nouv;
-    return;
-}
 
 void NG_ChangeGameDetail(void)
 {

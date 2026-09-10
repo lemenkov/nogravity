@@ -71,9 +71,7 @@ __extern_c
    void RW_Zone_CreateWithButton(RW_Interface *pInt, RW_Button *But);
    void RW_Zone_CreateWithText(RW_Interface *pInt, char *szText, int x, int y, int bAllocate);
    int  RW_Interface_Scan(RW_Interface *pInt, int pCurSel, int *pRetSel, PFRWCALLBACK pfCallback);
-   void RW_Create(GXSPRITEGROUP *pFont);
    void RW_Interface_BuildTree(RW_Interface *pInt);
-   void RW_Release(void);
    int RW_InputText(RW_Interface *, char *t, int numChar, PFRWCALLBACK pfCallback);
 
 _RLXEXPORTDATA    extern RW_SYSTEM RW;

@@ -47,7 +47,6 @@ void NG_MenuCredits(void);
 void NG_ExitMessage(int quit);
 int NG_BriefingGame(void);
 void NG_ReadMissionList(void);
-void NG_ReleaseMissionList();
 int NG_MainMenu(void);
 void NG_CleanUp(void);
 void SGMOU_MapKeyboard();
@@ -55,7 +54,6 @@ void SGJOY_MapKeyboard();
 void SGJOY_ReadAxis(int *lpAxisX, int *lpAxisY, int *lpAxisThrottle, int *lpAxisRoll, int *status);
 void NG_DrawFlash();
 void NG_ResetKey();
-void NG_SetGamma(float gamma);
 
 void NG_RosterReset(void);
 void NG_RosterLoad(void);
@@ -87,7 +85,6 @@ void NG_WaitForKeyWithDelay(int temps);
 
 void CALLING_C NG_DrawCircle(struct _v3xvector2 *c, int32_t r, int32_t cx, int cote);
 void NG_StageReadFile(char *fn, int extrn);
-void NG_StretchFont(GXSPRITEGROUP *pSpriteGroup, int fx, int fy);
 void NG_DrawTicker(void);
 void NG_DrawBackgroundPic(char *szFilename, int TrackPlay, int mode);
 void NG_CheckSystems(void);
@@ -117,13 +114,11 @@ GXSPRITEGROUP *NG_LoadMovie(char *file, int die);
 void NG_WeaponCreate(void);
 int NG_WeaponFire(SGActor *Jj, int type, V3XOVI *target);
 void NG_WeaponUpdate(void);
-int NG_MomentumValue(int x, int mx);
 
 // Nav
 void NG_NAVReset(int reset);
 void NG_NAVClear(void);
 
-void NG_StretchFont(GXSPRITEGROUP *pSpriteGroup, int fx, int fy);
 void NG_GamePlay(void);
 void NG_DrawVideoSubtitles(FLI_STRUCT *);
 void NG_ReadLanguagePack(void);
@@ -134,7 +129,6 @@ int NG_ExecMainMenu(char **menu, int def, u_int32_t defColor, u_int8_t spacing);
 void NG_AIRandomAim(V3XVECTOR *a, V3XVECTOR *cent, V3XSCALAR r);
 void NG_AIRandomAimEx(V3XVECTOR *a, V3XVECTOR *cent, V3XSCALAR r, int32_t al, int32_t bl);
 V3XOVI *NG_AILocateNearestEnemy(V3XVECTOR *pos, V3XVECTOR *dist, V3XSCALAR *di, int mode);
-V3XOVI *NG_AILocateNearestTarget(V3XVECTOR *pos, V3XVECTOR *dist, V3XSCALAR *di);
 void NG_AISetTacticMode(void);
 
 // HUD
@@ -157,7 +151,6 @@ void NG_FXAvary(V3XOVI *mOVI, SGScript *pInf);
 V3XOVI *NG_SetSpherePos(V3XOVI *OVI, V3XMATRIX *Mat, V3XSCALAR scale, int status);
 void NG_FXSetSceneShading(V3XSCENE *Scene, int limit);
 void NG_FXNoTextureScene(V3XSCENE *Scene);
-void NG_FXChangeRenderObject(V3XMESH *obj, int nouv);
 void NG_FXFlare(void);
 void NG_FXImpact(int power);
 void NG_FXLoadData();
@@ -193,7 +186,6 @@ void NG_AudioStopMusic(void);
 void NG_AudioPauseMusic(void);
 void NG_AudioResumeMusic(void);
 
-void NG_MenuMessage(char *tex);
 
 __end_extern_c
 

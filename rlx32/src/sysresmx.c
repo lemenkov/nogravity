@@ -126,34 +126,6 @@ void filewad_close(SYS_WAD *pWad)
 		MM_heap.free(pWad);
 }
 
-int filewad_closeall(SYS_WAD *pWad)
-{
-	UNUSED(pWad);
-	return 0;
-}
-
-SYS_FILEHANDLE filewad_get(SYS_FILEHANDLE fp)
-{
-	return fp;
-}
-
-void filewad_makepath(SYS_WAD *pWad, char *dest, const char *fname, int nLen)
-{
-	if (!pWad)
-		pWad = filewad_getcurrent();
-	MakePathUUU(dest, pWad ? pWad->s_Path : "", fname);
-	UNUSED(nLen);
-}
-
-void filewad_getcwd(const SYS_WAD *pWad, char *curpath, int len)
-{
-	if (!pWad)
-		pWad = filewad_getcurrent();
-	if (pWad)
-		SDL_strlcpy(curpath, pWad->s_Path, len);
-	else
-		curpath[0] = 0;
-}
 
 // Set the current subdirectory ("" for the root); names given to
 // FIO_res are then relative to it.

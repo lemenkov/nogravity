@@ -229,23 +229,6 @@ void NG_ReadLanguagePack(void)
     FIO_cur = g_pGameIO;
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void NG_StretchFont(GXSPRITEGROUP *pSpg, int fx, int fy)
-*
-* DESCRIPTION :
-*
-*/
-void NG_StretchFont(GXSPRITEGROUP *pSpg, int fx, int fy)
-{
-    GXSPRITE *sp=pSpg->item;
-    int i;
-    for (i=pSpg->maxItem;i!=0;i--, sp++)
-    {
-        CSP_Resize(sp, (sp->LX*fx)>>8, (sp->LY*fy)>>8, GX.View.BytePerPixel);
-    }
-    return;
-}
 
 /*------------------------------------------------------------------------
 *

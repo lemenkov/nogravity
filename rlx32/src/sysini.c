@@ -37,21 +37,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 static ConfigItemData C_DATA;
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :
-*
-* DESCRIPTION :
-*
-*/
-int GetCF_uchar2(char *s, ConfigFile *ini, u_int8_t *val)
-{
-    ConfigItemData  *itemData;
-    itemData = GetConfigItem(s, T_LONG, ini);
-    if (itemData==NULL) return 0;
-    *val = (u_int8_t)itemData->i_long;
-    return 1;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  int GetCF_long2(char *s, ConfigFile *ini, int32_t *val)
 *
 * DESCRIPTION :
@@ -61,21 +46,6 @@ int GetCF_long2(char *s, ConfigFile *ini, int32_t *val)
 {
     ConfigItemData  *itemData;
     itemData = GetConfigItem(s, T_LONG, ini);
-    if (itemData==NULL) return 0;
-    *val = itemData->i_long;
-    return 1;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int GetCF_hexa2(char *s, ConfigFile *ini, int32_t *val)
-*
-* DESCRIPTION :
-*
-*/
-int GetCF_hexa2(char *s, ConfigFile *ini, int32_t *val)
-{
-    ConfigItemData  *itemData;
-    itemData = GetConfigItem(s, T_HEX, ini);
     if (itemData==NULL) return 0;
     *val = itemData->i_long;
     return 1;
@@ -94,20 +64,6 @@ int GetCF_bool2(char *s, ConfigFile *ini, u_int8_t *val)
     if (itemData==NULL) return 0;
     *val = itemData->i_bool;
     return 1;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int32_t GetCF_hexa(char *s, ConfigFile *ini)
-*
-* DESCRIPTION :
-*
-*/
-int32_t GetCF_hexa(char *s, ConfigFile *ini)
-{
-    ConfigItemData  *itemData;
-    itemData = GetConfigItem(s, T_HEX, ini);
-    if (itemData==NULL) return 0;
-    return itemData->i_long;
 }
 /*------------------------------------------------------------------------
 *

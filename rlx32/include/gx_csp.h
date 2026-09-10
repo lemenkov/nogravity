@@ -118,23 +118,18 @@ struct _sys_fileio;
 
 __extern_c
     // Sprite
-_RLXEXPORTFUNC    GXSPRITE RLXAPI *CSP_GetFn(const char *filename, unsigned option);
 _RLXEXPORTFUNC    void   RLXAPI  CSP_Get(int32_t xx, int32_t yy, GXSPRITE *capt, u_int8_t *buf, int32_t width, int32_t byte);
-_RLXEXPORTFUNC    void   RLXAPI  CSP_CaptureFrom(int32_t xx, int32_t yy, GXSPRITE *capt);
 _RLXEXPORTFUNC    void   RLXAPI  CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp);
-_RLXEXPORTFUNC    void   RLXAPI  CSP_DrawRect(int32_t x, int32_t y, int32_t lx, int32_t ly, GXSPRITE *sp);
 
     // Sprite familly
 _RLXEXPORTFUNC    void   RLXAPI  CSPG_Release(GXSPRITEGROUP *pSpriteGroup);
 _RLXEXPORTFUNC    GXSPRITEGROUP   RLXAPI *CSPG_GetFn(char *filename, struct _sys_fileio *f, unsigned option);
 
 _RLXEXPORTFUNC    int32_t   RLXAPI  CSPG_TxLen(const char *texte, const GXSPRITEGROUP *Fonte);
-_RLXEXPORTFUNC    int32_t   RLXAPI  CSPG_TxLenS(const char *texte, int32_t fx, GXSPRITEGROUP *Fonte);
 
     // Graphic Text writer
 _RLXEXPORTFUNC    void   RLXAPI  CSP_DrawText(const char *texte, int32_t xx, int32_t yy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION sp);
 _RLXEXPORTFUNC    void   RLXAPI  CSP_DrawTextC(const char *str, int x, int y, int attr1, int attr2, const GXSPRITEGROUP *Fonte, CSP_FUNCTION spz);
-_RLXEXPORTFUNC    void   RLXAPI  CSP_ZoomText(const char *texte, int32_t xx, int32_t yy, int32_t fx, int32_t fy, const GXSPRITEGROUP *Fonte, CSP_FUNCTION func);
     //
 __end_extern_c
 
@@ -142,7 +137,6 @@ __end_extern_c
 #define CSP_ColorKey(c)  GX.csp_cfg.colorKey = c
 #define CSP_Alpha(c)  GX.csp_cfg.alpha = c
 
-#define CSP_ZoomCenterText(texte, yy, factor, Fonte) CSP_ZoomText(texte, GX.View.xmin+(((GX.View.xmax-GX.View.xmin)-CSPG_TxLenS(texte, factor, Fonte))>>1), yy, factor, Fonte)
 #define CSP_DrawCenterText(texte, yy, Fonte, sp)     CSP_DrawText(texte, GX.View.xmin+(((GX.View.xmax-GX.View.xmin)-CSPG_TxLen(texte, Fonte))>>1), yy, Fonte, sp)
 #define CSP_DrawCenterCText(texte, yy, Fonte, sp)    CSP_DrawTextC(texte, GX.View.xmin+(((GX.View.xmax-GX.View.xmin)-CSPG_TxLen(texte, Fonte))>>1), yy, Fonte, sp)
 #define CSP_WriteText(texte, xx, yy, Fonte)          CSP_DrawText(texte, xx, yy, Fonte, GX.csp_cfg.put)

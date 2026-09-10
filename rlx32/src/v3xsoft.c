@@ -126,34 +126,3 @@ void RLXAPI v3xpoly_SortByID( V3XPOLY **si, V3XPOLY **sj)
 *
 */
 #define ALGO3(fce)  ((uintptr_t)(((V3XMATERIAL*)(fce).Mat)->texture[0].handle))
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :
-*
-* DESCRIPTION :
-*
-*/
-void RLXAPI v3xpoly_SortByTexture( V3XPOLY **si, V3XPOLY **sj)
-{
-    V3XPOLY **p = (si+((sj-si)>>1)), **sk, **sl;
-    V3XPOLY  *q;
-    uintptr_t p0 = ALGO3(**p);
-    for ( sk = si, sl = sj ; sk<=sl ; )
-    {
-        for( ; ALGO3(**sk)<p0 ; sk++ ){}
-        for( ; p0<ALGO3(**sl); sl-- ){}
-        if (sk<=sl)
-        {
-            if (sk!=sl)
-            {
-                q = *sk;
-                *sk = *sl;
-                *sl = q;
-            }
-            sk++; sl--;
-        }
-    }
-    if (si<sl) v3xpoly_SortByTexture(si, sl);
-    if (sk<sj) v3xpoly_SortByTexture(sk, sj);
-    return;
-}

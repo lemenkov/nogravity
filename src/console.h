@@ -41,7 +41,6 @@ __extern_c
 	void sysConHandleInput();
 	void sysConSave(const char *szFilename);
 	int sysConBindCmd(const char *szCmd, PFV3XCNLCMD pfFunc);
-	int sysConBindCVar(const char *szVar, const void *pData);
 	void sysConCreate();
 	int sysConParse(char *cmd);
 	void sysConSetLimits(int x, int y, int w, int h);

@@ -503,16 +503,6 @@ int V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename)
 	return 1;
 }
 
-void V3XA_Handle_Release(V3XA_HANDLE *pHandle)
-{
-	if (pHandle->sample)
-	{
-		ChannelInvalidate(pHandle);
-		SDL_free(pHandle->sample);
-		pHandle->sample = NULL;
-	}
-	pHandle->length = 0;
-}
 
 //-------------------------------------------------------------------------
 // Streams (music)
@@ -701,65 +691,6 @@ void V3XAStream_ReleaseAll(void)
 	SDL_UnlockMutex(g_StreamLock);
 }
 
-static void Locked_V3XAStream_Rewind(V3XA_STREAM handle)
-{
-	SND_STREAM *st = StreamGet(handle);
-	if (!st)
-		return;
-	SDL_ClearAudioStream(st->stream);
-	if (Sound_Rewind(st->sample))
-	{
-		st->eof = 0;
-		st->playing = 1;
-	}
-}
-
-void V3XAStream_Rewind(V3XA_STREAM handle)
-{
-	if (!g_StreamLock)
-		Locked_V3XAStream_Rewind(handle);
-	return;
-	SDL_LockMutex(g_StreamLock);
-	Locked_V3XAStream_Rewind(handle);
-	SDL_UnlockMutex(g_StreamLock);
-}
-
-static void Locked_V3XAStream_Stop(V3XA_STREAM handle)
-{
-	SND_STREAM *st = StreamGet(handle);
-	if (st)
-		SDL_UnbindAudioStream(st->stream);
-}
-
-void V3XAStream_Stop(V3XA_STREAM handle)
-{
-	if (!g_StreamLock)
-		Locked_V3XAStream_Stop(handle);
-	return;
-	SDL_LockMutex(g_StreamLock);
-	Locked_V3XAStream_Stop(handle);
-	SDL_UnlockMutex(g_StreamLock);
-}
-
-static int Locked_V3XAStream_Start(V3XA_STREAM handle)
-{
-	SND_STREAM *st = StreamGet(handle);
-	if (!st)
-		return 0;
-	return SDL_BindAudioStream(g_Device, st->stream) ? 1 : 0;
-}
-
-int V3XAStream_Start(V3XA_STREAM handle)
-{
-	if (!g_StreamLock)
-		return Locked_V3XAStream_Start(handle);
-	SDL_LockMutex(g_StreamLock);
-	{
-		int r = Locked_V3XAStream_Start(handle);
-		SDL_UnlockMutex(g_StreamLock);
-		return r;
-	}
-}
 
 //-------------------------------------------------------------------------
 // Driver entry point

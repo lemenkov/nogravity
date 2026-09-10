@@ -63,13 +63,6 @@ u_int32_t static *CreateSquareArray(void)
         return pTable + 255;
     }
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : void PAL_fadeChannel(rgb24_t *pf, int st, int fi, int start, int fin, rgb48_t *coul, int revrse)
-*
-* DESCRIPTION :
-*
-*/
 
 #define SGN(a)       ((a)==0 ? 0 : (( (a) >0) ? (1) : (-1)))
 
@@ -138,49 +131,6 @@ void PAL_fadeChannel(rgb24_t *pf, int st, int fi, int start, int fin, rgb48_t *c
     }while (i!=fin);
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : void PAL_cycle(rgb24_t *pf, int start, int fin)
-*
-* DESCRIPTION :
-*
-*/
-void PAL_cycle(rgb24_t *pf, int start, int fin)
-{
-    u_int8_t *palfade = (u_int8_t*)pf;
-    u_int8_t *st=palfade+start*3, *fi=palfade+fin*3;
-    u_int8_t
-    r=*(st),
-    g=*(st+1),
-    b=*(st+2);
-    memcpy(st, st+3, (fin-start)*3);
-    *(fi) =r;
-    *(fi+1)=g;
-    *(fi+2)=b;
-    GX.gi.setPalette((u_int32_t)start, (u_int32_t)(fin-start+1), st);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : void PAL_fadeChannel(u_int8_t *palfade, int st, int fi, int start, int fin, rgb48_t coul, u_int8_t revrse)
-*
-* DESCRIPTION :
-*
-*/
-void PAL_fade(rgb24_t *pf, int pal_start, int pal_fin, int start, int fin, int echelle, int revrse)
-{
-    rgb48_t coul;
-    coul.rouge=coul.bleu=coul.vert=echelle;
-    PAL_fadeChannel(pf, pal_start, pal_fin, start, fin, &coul, revrse);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : void PAL_fadeChannel(u_int8_t *palfade, int st, int fi, int start, int fin, RGB coul, u_int8_t revrse)
-*
-* DESCRIPTION :
-*
-*/
 void PAL_fading(rgb24_t *palfade, int start, int fin, int echelle, int revrse)
 {
     rgb48_t coul;
@@ -230,17 +180,6 @@ void ACT_LoadFn(rgb24_t *pal, char *filename2)
     return;
 }
 
-void RGBA_to_RGB(rgb32_t *tab, unsigned size)
-{
-	for (;size!=0;tab++, size--)
-	{
-		tab->r = (u_int8_t)xMUL8(tab->a, tab->r);
-		tab->g = (u_int8_t)xMUL8(tab->a, tab->g);
-		tab->b = (u_int8_t)xMUL8(tab->a, tab->b);
-		tab->a = 0;
-	}
-	return;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  : u_int32_t RGBconvert(int c, u_int8_t *palette)
@@ -549,193 +488,9 @@ u_int8_t *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp, voi
     if (!tgt) MM_heap.free(source);
     return target;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :
-*
-* DESCRIPTION :
-*
-*/
-static void RGB_Blur(GXSPRITE *sp)
-{
-    u_int32_t i, size=sp->LX*(sp->LY-2);
-    rgb24_t *edi=(rgb24_t*)sp->data, *a, *b, *c, *d, *e, *esi;
-    i = sizeof(rgb24_t)*sp->LX*sp->LY;
-    esi = (rgb24_t*) MM_heap.malloc(i);
-    memcpy(esi, edi, i);
-    a = edi+=sp->LX;
-    b = esi+1+sp->LX;
-    c = esi-1+sp->LX;
-    d = esi-sp->LX+sp->LX;
-    e = esi+sp->LX+sp->LX;
-    for (i=size;i!=0;a++, b++, c++, d++, e++, i--)
-    {
-        a->r = (u_int8_t)(((u_int32_t)b->r + (u_int32_t)c->r + (u_int32_t)d->r + (u_int32_t)e->r)>>2);
-        a->g = (u_int8_t)(((u_int32_t)b->g + (u_int32_t)c->g + (u_int32_t)d->g + (u_int32_t)e->g)>>2);
-        a->b = (u_int8_t)(((u_int32_t)b->b + (u_int32_t)c->b + (u_int32_t)d->b + (u_int32_t)e->b)>>2);
-    }
-    MM_heap.free(esi);
-    return ;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void RGBA_Blur(GXSPRITE *sp)
-*
-* DESCRIPTION :
-*
-*/
-static void RGBA_Blur(GXSPRITE *sp)
-{
-    u_int32_t i, size=sp->LX*(sp->LY-2);
-    rgb32_t *edi=(rgb32_t*)sp->data, *a, *b, *c, *d, *e;
-    edi+=sp->LX;
-    a = edi;
-    b = edi+1;
-    c = edi-1;
-    d = edi-sp->LX;
-    e = edi+sp->LX;
-    for (i=size;i!=0;a++, b++, c++, d++, e++, i--)
-    {
-        a->r = (u_int8_t)(((u_int32_t)b->r + (u_int32_t)c->r + (u_int32_t)d->r + (u_int32_t)e->r)>>2);
-        a->g = (u_int8_t)(((u_int32_t)b->g + (u_int32_t)c->g + (u_int32_t)d->g + (u_int32_t)e->g)>>2);
-        a->b = (u_int8_t)(((u_int32_t)b->b + (u_int32_t)c->b + (u_int32_t)d->b + (u_int32_t)e->b)>>2);
-    }
-    return ;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void RGB_Darker(GXSPRITE *sp, int alpha)
-*
-* DESCRIPTION :
-*
-*/
-static void RGB_Darker(GXSPRITE *sp, int alpha)
-{
-    u_int32_t i, size=sp->LX*sp->LY;
-    rgb24_t *a=(rgb24_t*)sp->data;
-    for (i=size;i!=0;a++, i--)
-    {
-        a->r = (u_int8_t)((a->r * alpha)>>8);
-        a->g = (u_int8_t)((a->g * alpha)>>8);
-        a->b = (u_int8_t)((a->b * alpha)>>8);
-    }
-    return ;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  #define MAT_R(n) (u_int32_t) (Mat[n]->r)
-*
-* DESCRIPTION :
-*
-*/
 #define MAT_R(n) (u_int32_t) (Mat[n]->r)
 #define MAT_G(n) (u_int32_t) (Mat[n]->g)
 #define MAT_B(n) (u_int32_t) (Mat[n]->b)
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RGB_AntiAlias(GXSPRITE *sp)
-*
-* DESCRIPTION :
-*
-*/
-void RGB_AntiAlias(GXSPRITE *sp)
-{
-    u_int32_t
-    lx = sp->LX,
-    i = sizeof(rgb24_t)*lx*sp->LY,
-    size= lx * (sp->LY-2)-2;
-    rgb24_t *edi = (rgb24_t*) sp->data,
-    *esi = (rgb24_t*) MM_heap.malloc(i), *oesi;
-    memcpy(esi, edi, i);
-    oesi=esi;
-    edi+=lx+1;
-    esi+=lx+1;
-    for (i=size;i!=0;esi++, edi++, i--)
-    {
-        rgb24_t *Mat[9];
-        Mat[0]=esi-lx-1;  Mat[1]=esi-lx; Mat[2]=esi-lx+1;
-        Mat[3]=esi   -1;  Mat[4]=esi   ; Mat[5]=esi   +1;
-        Mat[6]=esi+lx-1;  Mat[7]=esi+lx; Mat[8]=esi+lx+1;
-        edi->r = (u_int8_t)(( MAT_R(0)   + MAT_R(1)*2 + MAT_R(2)
-        + MAT_R(3)*2 + MAT_R(4)*4 + MAT_R(5)*2
-        + MAT_R(6)   + MAT_R(7)*2 + MAT_R(8)   )>>4);
-        edi->g = (u_int8_t)(( MAT_G(0)   + MAT_G(1)*2 + MAT_G(2)
-        + MAT_G(3)*2 + MAT_G(4)*4 + MAT_G(5)*2
-        + MAT_G(6)   + MAT_G(7)*2 + MAT_G(8)   )>>4);
-        edi->b = (u_int8_t)(( MAT_B(0)   + MAT_B(1)*2 + MAT_B(2)
-        + MAT_B(3)*2 + MAT_B(3)*4 + MAT_B(5)*2
-        + MAT_B(6)   + MAT_B(6)*2 + MAT_B(8)   )>>4);
-    }
-    MM_heap.free(oesi);
-    return ;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :
-*
-* DESCRIPTION :
-*
-*/
-void CSP_AntiAliasRGB(GXSPRITE *sp, int tbpp, int sbpp)
-{
-    int32_t sz=sp->LX*sp->LY;
-    switch(sbpp) {
-        case 3: RGB_AntiAlias(sp); break;
-        default: // FIXME : gourmand en memoire en mode MM_CALLOC
-        {
-            int a = MM_heap.active;
-            u_int8_t *xp = NULL;
-            if (a)  MM_heap.active=0; // conv en mem centrale
-            sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, 3, sp->data, GX.ColorTable, sbpp, sz);
-            RGB_AntiAlias(sp);
-            if (a)  {MM_heap.active = a; xp=sp->data;}
-            sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, tbpp, sp->data, GX.ColorTable, 3, sz);
-            if (a)  {free(xp);}
-        }
-        break;
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void CSP_SmoothRGB(GXSPRITE *sp, int tbpp, int sbpp)
-*
-* DESCRIPTION :
-*
-*/
-void CSP_SmoothRGB(GXSPRITE *sp, int tbpp, int sbpp)
-{
-    int32_t sz=sp->LX*sp->LY;
-    switch(GX.View.BytePerPixel) {
-        case 4: RGBA_Blur(sp); break;
-        case 3: RGB_Blur(sp); break;
-        default: // FIXME : gourmand en memoire en mode MM_CALLOC
-        sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, 3, sp->data, GX.ColorTable, sbpp, sz);
-        RGB_Blur(sp);
-        sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, tbpp, sp->data, GX.ColorTable, 3, sz);
-        break;
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void CSP_DarkRGB(GXSPRITE *sp, int alpha, int tbpp, int sbpp)
-*
-* DESCRIPTION :
-*
-*/
-void CSP_DarkRGB(GXSPRITE *sp, int alpha, int tbpp, int sbpp)
-{
-    int32_t sz=sp->LX*sp->LY;
-    switch(sbpp) {
-        case 3: RGB_Darker(sp, alpha);
-        default: // FIXME : gourmand en memoire en mode MM_CALLOC
-        sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, 3, sp->data, GX.ColorTable, sbpp, sz);
-        RGB_Darker(sp, alpha);
-        sp->data = (u_int8_t*)RGB_SmartConverter(NULL, GX.ColorTable, tbpp, sp->data, GX.ColorTable, 3, sz);
-        break;
-    }
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  u_int32_t RGB_findNearestColor(rgb24_t *col, rgb24_t *pal)
@@ -762,18 +517,6 @@ u_int32_t RGB_findNearestColor(const rgb24_t *col, const rgb24_t *pal)
         }
     }
     return c;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void CSP_Remap8bit(GXSPRITE *sp, rgb24_t *oldpal, rgb24_t *newpal)
-*
-* DESCRIPTION :
-*
-*/
-void CSP_Remap8bit(GXSPRITE *sp, rgb24_t *oldpal, rgb24_t *newpal)
-{
-    RGB_SmartConverter(NULL, newpal, 1, sp->data, oldpal, 1, sp->LX*sp->LY);
-    return;
 }
 /*------------------------------------------------------------------------
 *
@@ -876,160 +619,7 @@ u_int8_t **REALCOLOR_LoadFn(const char *xpal)
     for(i=0;i<256;i++) pe[i] = sp.data+i*256;
     return pe;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : u_int8_t *create_shadepal(u_int8_t *pal, int r, int g, int b, int mode)
-*
-* DESCRIPTION :cherche dans pal, les couleur les + proches dans GX.ColorTable
-*
-*/
-static void REALCOLOR_RgbMul(rgb24_t *res, rgb24_t *a, rgb24_t *b)
-{
-    res->r = (u_int8_t)(((u_int32_t)a->r * (u_int32_t)b->r )>>8);
-    res->g = (u_int8_t)(((u_int32_t)a->g * (u_int32_t)b->g )>>8);
-    res->b = (u_int8_t)(((u_int32_t)a->b * (u_int32_t)b->b )>>8);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void REALCOLOR_RgbAdd(rgb24_t *res, rgb24_t *a, rgb24_t *b)
-*
-* DESCRIPTION :
-*
-*/
-static void REALCOLOR_RgbAdd(rgb24_t *res, rgb24_t *a, rgb24_t *b)
-{
-    u_int32_t v;
-    v = ((u_int32_t)a->r + (u_int32_t)b->r ); res->r = (v<255) ? (u_int8_t)v : (u_int8_t)255;
-    v = ((u_int32_t)a->g + (u_int32_t)b->g ); res->g = (v<255) ? (u_int8_t)v : (u_int8_t)255;
-    v = ((u_int32_t)a->b + (u_int32_t)b->b ); res->b = (v<255) ? (u_int8_t)v : (u_int8_t)255;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void REALCOLOR_RgbSub(rgb24_t *res, rgb24_t *a, rgb24_t *b)
-*
-* DESCRIPTION :
-*
-*/
-static void REALCOLOR_RgbSub(rgb24_t *res, rgb24_t *a, rgb24_t *b)
-{
-    int32_t v;
-    v = ((int32_t)a->r - (int32_t)b->r ); res->r = (v>0) ? (u_int8_t)v : (u_int8_t)0;
-    v = ((int32_t)a->g - (int32_t)b->g ); res->g = (v>0) ? (u_int8_t)v : (u_int8_t)0;
-    v = ((int32_t)a->b - (int32_t)b->b ); res->b = (v>0) ? (u_int8_t)v : (u_int8_t)0;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void REALCOLOR_RgbAlpha(rgb24_t *res, rgb24_t *a, rgb24_t *b, int alpha)
-*
-* DESCRIPTION :
-*
-*/
-static void REALCOLOR_RgbAlpha(rgb24_t *res, rgb24_t *a, rgb24_t *b, int alpha)
-{
-    u_int32_t alpha_1 = 256L - (u_int32_t)alpha;
-    res->r = (u_int8_t)(((u_int32_t)a->r * alpha + (u_int32_t)b->r * alpha_1)>>8);
-    res->g = (u_int8_t)(((u_int32_t)a->g * alpha + (u_int32_t)b->g * alpha_1)>>8);
-    res->b = (u_int8_t)(((u_int32_t)a->b * alpha + (u_int32_t)b->b * alpha_1)>>8);
-    return;
-}
 // pal: palette de la map, clr : couleur … mixer  mode, alpha, quantize
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  u_int8_t *REALCOLOR_Compute(rgb24_t *pal, rgb24_t *clr, int mode, int alpha, int quantize)
-*
-* DESCRIPTION :
-*
-*/
-u_int8_t *REALCOLOR_Compute(rgb24_t *pal, rgb24_t *clr, int mode, int alpha, int quantize)
-{
-    rgb24_t *pal2=NULL;
-    //  Table de correspondance
-    if (mode!=REALCOLOR_RgbReal)
-    {
-        u_int32_t i;
-        rgb24_t *ppal = pal,
-        *ppal2;
-        pal2 = (rgb24_t*) MM_heap.malloc(256*sizeof(rgb24_t));
-        for (ppal2=pal2,
-        i=256;
-        i!=0;
-        ppal++,
-        ppal2++,
-        i--)
-        {
-            switch(mode) {
-                case REALRGBMIX_Alpha:
-                REALCOLOR_RgbAlpha(ppal2, ppal, clr, alpha);
-                break;
-                case REALRGBMIX_Mul:
-                REALCOLOR_RgbMul(ppal2, ppal, clr);
-                break;
-                case REALRGBMIX_Add:
-                REALCOLOR_RgbAdd(ppal2, ppal, clr);
-                break;
-                case REALRGBMIX_Sub:
-                REALCOLOR_RgbSub(ppal2, ppal, clr);
-                break;
-                case REALRGBMIX_Neg:
-                REALCOLOR_RgbSub(ppal2, clr, ppal);
-                break;
-            }
-        }
-    }
-    switch(quantize) {
-        case 1:
-        // Recherche des couleurs
-        {
-            u_int8_t *palmap = (u_int8_t*) MM_heap.malloc(256), *ppal3;
-            rgb24_t *ppal2;
-            int32_t i;
-            if (mode==REALCOLOR_RgbReal) pal2=clr;
-            for (i=256,
-            ppal3=palmap,
-            ppal2=pal2;
-            i!=0;
-            ppal2++,
-            ppal3++,
-            i--)
-            {
-                *ppal3 = (u_int8_t)RGB_findNearestColor(ppal2, pal);
-            }
-            if (mode!=REALCOLOR_RgbReal)  MM_heap.free(pal2);
-            return palmap;
-        }
-        case 2:
-        {
-            u_int16_t *pm, *palmap = (u_int16_t*) MM_heap.malloc(256*2);
-            rgb24_t *ppal2;
-            int32_t i;
-            for (i=256, pm=palmap, ppal2=pal2;i!=0;pm++, ppal2++, i--)
-            {
-                *pm = (u_int16_t)RGB_PixelFormat(ppal2->r, ppal2->g, ppal2->b);
-            }
-            memcpy(pal2, palmap, 256*2);
-            MM_heap.free(palmap);
-            return (u_int8_t*)pal2;
-        }
-        case 3:
-        return (u_int8_t*)pal2;
-        case 4:
-        {
-            rgb32_t *palmap = MM_CALLOC(256, rgb32_t);
-            rgb24_t *ppal2;
-            u_int32_t *pm;
-            int32_t i;
-            for (i=256, pm=(u_int32_t*)palmap, ppal2=pal2;i!=0;pm++, ppal2++, i--)
-            {
-                *pm = RGB_PixelFormat(ppal2->r, ppal2->g, ppal2->b);
-            }
-            return (u_int8_t*)palmap;
-        }
-    }
-    return NULL;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void PAL_SetRedCyanPalette(void)
@@ -1067,38 +657,6 @@ void PAL_SetRedCyanPalette(void)
     {
         StereoRed[i] = (u_int8_t)(RGB_ToGray(pold->r, pold->g, pold->b)>>4);
         StereoBlue[i] = (u_int8_t)(StereoRed[i]<<4);
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RGB_SetAlphaBit(u_int16_t *mp, int32_t size)
-*
-* DESCRIPTION :
-*
-*/
-void RGB_SetAlphaBit(u_int16_t *mp, int32_t size)
-{
-    int32_t i;
-    for (i=size;i!=0;mp++, i--)
-    {
-        if (*mp) (*mp)|=(1L<<15);
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RGB_Build332ColorTable(rgb24_t *lut)
-*
-* DESCRIPTION :
-*
-*/
-void RGB_Build332ColorTable(rgb24_t *lut)
-{
-    unsigned r, g, b;
-    for (b=0;b<4;b++) for (g=0;g<8;g++) for (r=0;r<8;r++, lut++)
-    {
-        RGB_Set(*lut, r<<5, g<<5, b<<6);
     }
     return;
 }

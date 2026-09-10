@@ -77,31 +77,6 @@ void TRG_Generate(void)
     }
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XMESH *V3XMesh_New(int numVerts, int faces, int matos, int maxside)
-*
-* DESCRIPTION :
-*
-*/
-V3XMESH *V3XMesh_New(int numVerts, int faces, int matos, int maxside)
-{
-    int j;
-    V3XMESH *obj = (V3XMESH * ) MM_heap.malloc(sizeof(V3XMESH));
-    obj->scale = CST_ONE;
-    obj->numVerts = (u_int16_t)numVerts;
-    obj->numFaces = (u_int16_t)faces;
-    obj->numMaterial = (u_int8_t)matos;
-    obj->vertex  = V3X_CALLOC(  (obj->numVerts+1)  , V3XVECTOR);
-    obj->uv = V3X_CALLOC(  (obj->numVerts+1)  , V3XUV);
-    obj->normal = V3X_CALLOC(  (obj->numVerts+1)  , V3XVECTOR);
-    obj->normal_face = V3X_CALLOC(  (obj->numFaces+1)  , V3XVECTOR);
-    obj->face = V3X_CALLOC(  (obj->numFaces+1)  , V3XPOLY);
-    obj->material = V3X_CALLOC(  (obj->numMaterial+1), V3XMATERIAL);
-    for (j=0;j<=obj->numFaces;j++)  V3XPoly_Alloc( obj->face + j, maxside);
-    obj->matrix.Matrix[0] = obj->matrix.Matrix[4] = obj->matrix.Matrix[8] = CST_ONE;
-    return obj;
-}
 /*------------------------------------------------------------------------ bc
 *
 * PROTOTYPE  :  void RLXAPI static *v3x_mallocopy(void *b, u_int32_t sz)
@@ -250,29 +225,6 @@ static void v3x_NothingToDo(void *ovi)
     UNUSED(ovi);
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int V3XKernel_Alloc(void)
-*
-* DESCRIPTION :
-*
-*/
-void V3XKernel_CRC(int code)
-{
-    unsigned i;
-    for (i=0;i<V3X.Buffer.MaxClippedFaces;i++)
-    {
-        SYS_ASSERT(V3X.Buffer.ClippedFaces[i].faceTab);
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int V3XKernel_Alloc(void)
-*
-* Description :
-*
-*/
 int V3XKernel_Alloc(void)
 {
     unsigned int k;
@@ -412,139 +364,6 @@ void V3XPoly_Release(V3XPOLY *f)
 
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  : static void v3xpoly_normal(V3XVECTOR *mesh, V3XPOLY *b, V3XVECTOR *Res, int off)
-*
-* DESCRIPTION :
-*
-*/
-static void v3xpoly_normal(V3XVECTOR *mesh, V3XPOLY *b, V3XVECTOR *Res, int off)
-{
-    V3XVECTOR p, q;
-    unsigned
-    a1 = b->faceTab[(0+off)&3],
-    a2 = b->faceTab[(1+off)&3],
-    a3 = b->faceTab[(2+off)&3];
-    V3XVector_Dif(&p, &mesh[a2], &mesh[a1]);
-    V3XVector_Dif(&q, &mesh[a3], &mesh[a1]);
-    V3XVector_Normalize(&p, &p);
-    V3XVector_Normalize(&q, &q);
-    V3XVector_CrossProduct(Res, &p, &q);
-    V3XVector_Normalize(Res, Res);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XMesh_NormalPoly(V3XMESH *mesh)
-*
-* DESCRIPTION :
-*
-*/
-void V3XMesh_NormalizePoly(V3XMESH *mesh)
-{
-    unsigned i;
-    V3XVECTOR *f2;
-    V3XPOLY *f;
-    for (f =mesh->face, f2=mesh->normal_face, i=mesh->numFaces;i!=0;f++, f2++, i--)
-    {
-        switch(f->numEdges) {
-            case 0:
-            case 1:
-            case 2:
-            V3XVector_Set(f2, CST_ONE, CST_ZERO, CST_ZERO);
-            break;
-            case 3:
-            v3xpoly_normal(mesh->vertex, f, f2, 0);
-            break;
-            default:
-            {
-                V3XVECTOR v, w;
-                v3xpoly_normal(mesh->vertex, f, &v, 0);
-                v3xpoly_normal(mesh->vertex, f, &w, 2);
-                V3XVector_Sum(f2, &v, &w);
-                V3XVector_Normalize(f2, f2);
-            }
-            break;
-        }
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : void Calcul_Normal_Edges(V3XMESH *mesh)
-*
-* DESCRIPTION :
-*
-*/
-void V3XMesh_NormalizeEdges(V3XMESH *mesh)
-{
-    int j, i, k;
-    V3XPOLY *f;
-    V3XVECTOR *v=mesh->normal,
-    *n=mesh->normal_face;
-    for (i=0;i<mesh->numVerts;i++)
-		V3XVector_Set(&v[i], CST_ZERO, CST_ZERO, CST_ZERO);
-    for (i=mesh->numFaces, f=mesh->face;i!=0;f++, n++, i--)
-    {
-        for (j=f->numEdges;j!=0;j--)
-        {
-            k = f->faceTab[j-1];
-            V3XVector_Inc(&v[k], n);
-        }
-    }
-    for (i=mesh->numVerts;i!=0;v++, i--)
-		V3XVector_Normalize(v, v);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XPOLY *V3XPoly_AddToPipeline(V3XPOLY *fce, unsigned options)
-*
-* DESCRIPTION :
-*
-*/
-V3XPOLY *V3XPoly_AddToPipeline(V3XPOLY *fce, unsigned options)
-{
-    if ((fce)&&(options&2))
-    {
-        fce = V3XPoly_ZClipNear(fce);
-    }
-    if ((fce)&&(options&1))
-    {
-        fce = V3XPoly_XYClipping(fce);
-    }
-    if (fce)
-    {
-        V3XPoly_QAddPipeline(fce);
-        return fce;
-    }
-    return 0;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XPOLY *V3XPoly_NewFromPipeline(void)
-*
-* DESCRIPTION :
-*
-*/
-V3XPOLY *V3XPoly_NewFromPipeline(void)
-{
-    if (V3X.Buffer.MaxClipped>=V3X.Buffer.MaxClippedFaces) return NULL;
-    return V3X.Buffer.ClippedFaces + V3X.Buffer.MaxClipped;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  V3XMATERIAL *V3XMaterial_NewFromPipeline(void)
-*
-* DESCRIPTION :
-*
-*/
-V3XMATERIAL *V3XMaterial_NewFromPipeline(void)
-{
-    V3XMATERIAL *Mat=V3X.Buffer.Mat+V3X.Buffer.MaxMat;
-    return Mat;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  void V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *p, V3XSCALAR lx, V3XSCALAR ly)
 *
 * DESCRIPTION :
@@ -595,50 +414,4 @@ void V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, V3XVECTOR *p, V3XSCALAR lx, V3
     f->distance = p->z + p->z;
     return;
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XKernel_PushList(V3XBUFFER *pipe)
-*
-* Description :
-*
-*/
-void V3XKernel_PushList(V3XBUFFER *pipe)
-{
-    *pipe = V3X.Buffer;
-    V3X.Buffer.RenderedFaces   += pipe->MaxFaces;
-    V3X.Buffer.ClippedFaces    += pipe->MaxClipped;
-    V3X.Buffer.Mat             += pipe->MaxMat;
-    V3X.Buffer.MaxFacesDisplay -= pipe->MaxFaces;
-    V3X.Buffer.MaxClippedFaces -= pipe->MaxClipped;
-    V3X.Buffer.MaxTmpMaterials     -= pipe->MaxMat;
-    V3X.Buffer.MaxFaces = V3X.Buffer.MaxClipped = V3X.Buffer.MaxMat = 0;
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XKernel_PopList(V3XBUFFER *pipe)
-*
-* Description :
-*
-*/
-void V3XKernel_PopList(V3XBUFFER *pipe)
-{
-    V3X.Buffer = *pipe;
-    return;
-}
 // 2 nouvelles fonctions
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void V3XKernel_PopAddList(V3XBUFFER *pipe)
-*
-* Description :
-*
-*/
-void V3XKernel_PopAddList(V3XBUFFER *pipe)
-{
-    pipe->MaxFaces+=V3X.Buffer.MaxFaces;
-    pipe->MaxClipped+=V3X.Buffer.MaxClipped;
-    pipe->MaxMat+=V3X.Buffer.MaxMat;
-    V3X.Buffer = *pipe;
-    return;
-}
