@@ -1,0 +1,65 @@
+;
+; Informations Episode 7
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Numatic
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_2]
+Name=The evil
+Line1 =no informations available
+Time=240
+Bonus=5000
+
+[level_3]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_4]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_5]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_6]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_7]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_8]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_9]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+[level_10]
+Name=**vide**
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+@

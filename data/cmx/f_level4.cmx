@@ -1,0 +1,95 @@
+; Textes Mission 4 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Chasseurs
+Line1 =Une escadrille vous attend
+Line2 =aux coordonnees FE53.E433.0055
+Line3 =la bataille fait rage.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Missile
+Line1 =Plusieurs missiles plasma ont
+Line2 =ete tires vers la base X23.
+Line3 =Ils ne doivent pas atteindre
+Line4 =leur cible.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Lanceur
+Line1 =Les missiles venaient du
+Line2 =point XE3F.4323.8E21, surement
+Line3 =une base secrete.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Quasar Explorateur
+Line1 =Un croiseur ennemi approche,
+Line2 =recuperer vos coequipiers aux
+Line3 =differents NAV et detruisez
+Line4 =le.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Le champ de mines d'AURORA
+Line1 =Nettoyez chaque point NAV des
+Line2 =mines qui nous en empechent
+Line3 =l'acces
+Time=0
+Bonus=5000
+
+[level_6]
+Name=La guerre de l'espace
+Line1 =Rendez vous aux coordonnees
+Line2 =X544.E432.4821, des
+Line3 =transporteurs ont ete
+Line4 =attaques.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Nettoyeur
+Line1 =3 transporteurs contenant des
+Line2 =informations importantes pour
+Line3 =la suite de votre mission,
+Line4 =vont sortir de l'hyper espace
+Line5 =au milieu d'un champ de mine.
+Line6 =Faites le menage avant leur
+Line7 =arrivee.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=Sur la route
+Line1 =Escortez ce vaisseau a bon
+Line2 =port, ils vous en seront
+Line3 =reconnaissant.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Raid 
+Line1 =Des vaisseaux de tailles
+Line2 =importantes se trouve dans le
+Line3 =secteur Enigma.
+Line4 =Vous devriez verifier s'ils 
+Line5 =ne sont pas en possession de 
+Line6 =votre bien.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Orbitale
+Line1 =Au dernier point Nav se
+Line2 =trouve ce que vous cherchez.
+Line3 =Bonne chance.
+Time=0
+Bonus=5000
+
+@

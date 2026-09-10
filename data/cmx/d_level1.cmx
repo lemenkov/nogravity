@@ -1,0 +1,150 @@
+;
+; Informations Episode 1
+;
+;      123456789012345678901234567890
+[level_1]
+Name=oolro3 Sektor
+Line1 =In diesem auftrag mussen sie
+Line2 =bis zum NAV 2 patrouilliren wo
+Line3 =ihr ein Minenfeld finden wird 
+Line4 =den sie zerstoren mussen. 
+Line5 =ein Verkehrstrager des
+Line6 =Imperiums wartet auf sie im 
+Line7 =NAV 3. Begleiten sie ihn bis
+Line8 =zum Hyperraum infahrt Punkt.
+Line9 =Achtung. die Radaren haben  
+Line10=Raumschiffe des Feindes in
+Line11=diesem Sektor aufgespuhrt.
+Time=0
+Bonus=5000
+
+
+[level_2]
+Name=Uberaschungs Angriff
+Line1 =Wahrend sie den 
+Line2 =Verkehrstrager begleideten
+Line3 =war eure Base angegriffen.
+Line4 =Sie mussen sie beschutzen. 
+Line5 =~
+Line6 =6 Verkehrstrager der vx12
+Line7 =klasse fliegen bereitz zum 
+Line8 =Planet Oolro. Sie mussen sie 
+Line9 =umbedingt Auffangen und
+Line10=runterschiessen.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Der Bestrafer
+Line1=Ein Kampfraumschiffstaffel des
+Line2=Imperiums wartet auf ihre
+Line3=befehle im Nav Punkt 2
+Line4=~
+Line5=Sie mussen ein bedeudentes
+Line6=Militarmaterial Lager finden
+Line7=und alle Containers zerstoren.
+Line9=~
+
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Die Begleitung
+Line1=3 Vehrkehrstrager die am rand
+Line2=des Oolro Sektor fliegen 
+Line3=brauchen eine Begleitung
+Line4=~
+Line5=Ihre Ladung must umbedingt 
+Line6=ankommen da sie sehr wichtig
+Line7=ist.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Enias Sektor
+Line1=Ein Hilferuf gibt uns zu
+Line2=glauben das die Verkehrstrager
+Line3=in ein Hinterhalt geraten sind
+Line4=~
+Line5=Ihre Ladung must umbedingt 
+Line6=beigetreiben sein.
+Time=0
+Bonus=5000
+
+
+[level_6]
+Name=Die Aurea Felder
+Line1=Eine Truppezussamenfassung ist
+Line2=bereits im gang in den
+Line3=432.23.4T3 Koordinaten.
+Line4=Es ist umbedingt notwendig das
+Line5=sie sie Auffangen und 
+line6=runterschiesst.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Der Angriff
+Line1=Eine Zussamenfassung von
+Line2=truppen des Feindes hat sich
+Line3=im Sektor 7 gemacht. Man zeigt
+Line4=uns auch an das 6 militar
+Line5=Verkherstrager der 5d Klasse
+Line6=auch in diesem bereich sind.
+Line7=~
+Line8=Euren auftrag besteht in der
+Line9=zerstorung des haupt Verkehrs-
+Line10=trager. Dummerwiese haben wir
+Line11=keinen Hinweis um ihn von den
+Line12=anderen zu unterscheiden.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=die Kabel
+Line1=Ein Hilferuf ist uns von dem
+Line2=tx2 Vorpost angekommen.
+Line3=Es scheind als ob er in die 
+Line4=Hande des Feindes gefallen war.
+Line5=~
+Line6=Euren auftrag besteht in der 
+Line7=befreiung der Audio-com Station
+Line8=Achtung. Wenn sich den Feind
+Line9=verloren fuhlt, kann er alles
+Line10=zerstoren.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Das minenfeld
+Line1=Die minen sind ein grosses
+Line2=Problem fur unsere Verkehrs-
+Line3=trager.
+line4=~
+Line5=Wir verlangen sie die versch-
+Line6=iedene NAV punkte zu klaren
+Line7=so das unsere Truppen besser
+line8=herumfliegen konnen 
+Line9=~
+Line10=Die Zeit ist kurz. Sie mussen
+Line11=alles geklahrt haben bevor
+Line12=die ankunft des commandeurs.
+Time=300
+Bonus=5000
+
+[level_10]
+Name=Triccia Base
+Line1=Ein neues Sektor ist gefunden
+Line2=worden. Sie mussen es von alle
+Line3=seine Verteidigungskrafte 
+line4=klaren.
+Line5=Nav punkt 2. Die Kanonen.
+Line6=Nav punkt 3. Die Minen.
+Line7=~
+Line8=Euren entgultiges ziel ist der
+Line9=Generator der triccia base,
+Line10=Ein Weld-Asteroid.
+Time=0
+Bonus=5000
+
+@

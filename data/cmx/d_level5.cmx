@@ -1,0 +1,127 @@
+;
+; Informations Episode 5
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Doomed
+Line1 =Wir sind in der Hohle des
+Line2 =Schwans. Der name dieses 
+Line3 =bereichs kommt von den magnet-
+Line4 =ige Storungen das das Schwarze
+Line5 =loch erzeugt.
+Line6 =Die Machinen sowie die
+Line7 =Menschen leiden sehr unter
+line8 =diesen Storungen. Sie werden
+line9 =das schnell ausfinden warend
+line10=sie patrouilliren.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=MODUL B1
+Line1 =Es wurden Kisten im R343 
+Line2 =bereich Aufgespuhrt. Euren
+Line3 =Auftrag ist sie zu beitreiben
+Line4 =und zum Communicationszentrum
+Line5 =im TT56 Sektor fliegen, wo
+Line6 =den Warp auf sie wartet.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Auf dem BALL
+Line1 =Modulen greifen unsere Anlagen
+Line2 =an! Beschutzt sie zu jedem
+Line3 =preis.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Der blaue Termin
+Line1 =2 von unsere Powerfelder
+Line2 =sind angegriffen worden. Sie
+Line3 =verteitigen sich wie sie 
+Line4 =konnen, aber sie werdern es  
+Line5 =nicht mehr sehr lange tun 
+Line6 =konnen gegen die Feinde derer
+Line7 =zahl grosser wird.
+Line8 =~
+Line9 =Die Modules werden alles tun
+Line10=vur sie aufzuhalten.
+Line8 =Geht schnell dorthin!
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Der Felzen
+Line1 =Ein Sender des feindes ist
+Line2 =versteckt in einem Asteroid.
+Line3 =Sie mussen es umbedingt
+Line4 =Zerstoren.
+Line5 =~
+Line6 =Es ist uns nicht gelungen es
+Line7 =prezis zu localisieren, sie
+Line8 =mussen das tun. Wenn es notig
+Line9 =ware, konnten sie sogar das
+Line10=ganze Asteroidfeld zerstoren!
+Time=0
+Bonus=5000
+
+[level_6]
+Name=ANGRIFF PUNKT
+Line1 =Ein feindliches Hauptschiff
+Line2 =ist in unserem bereich 
+Line3 =Erscheinen.
+Line4 =~
+Line5 =Findet und Zerstort es.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=DIE FLUCHT 
+Line1 =Man wartet auf sie an den
+Line2 =GG4-3R2 Koordinaten.
+Line3 =~
+Line4 =Die Modulen werden sie sicher
+Line5 =auffangen wollen.
+Line6 =~
+Line7 =Greift sie nicht an!
+Time=0
+Bonus=5000
+
+[level_8]
+Name=HILFE
+Line1 =Wir haben einen Hilgeruf von
+Line2 =3 Verkehrstrager die von den
+Line3 =Modulen angegriffen worden
+Line4 =bekommen.
+Line5 =~
+Line6 =Sobald sie den Nav 2 geklart
+Line7 =haben, fliegen sie zum Nav 4
+Line8 =um ein 4er Verkehrstrager zu
+Line9 =empfangen. Ich denke nicht das
+Line10=die Modulen sie in ruhe lassen
+Line11=werden!
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Vipers
+Line1 =Wir sind in der nahe des 
+Line2 =ziels. Um den Feind zu
+Line3 =schwachen mussen sie die
+Line4 =Relais und die Atomkraftwerke
+Line5 =zerstoren.
+Line6 =~
+Line7 =Achtung, diese Anlagen sind
+Line8 =unter hoher beschutzung!
+Time=0
+Bonus=5000
+
+[level_10]
+Name=final round
+Line1 = Noch nichts hier
+Time=0
+Bonus=5000
+
+@

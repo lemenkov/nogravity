@@ -1,0 +1,99 @@
+; Textes Mission 4 (Spanish)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Cazas
+Line1 =Un escuadrón espera ayuda en
+Line2 =coordenadas FE53.E433.0055
+Line3 =La batalla es encarnizada.
+
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Misil
+Line1 =Han lanzado misiles
+Line2 =desde una base enemiga.
+Line3 =Apuntan a la BASE X 23.
+Line4 =No deben alcanzar su
+Line5 =objetivo.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Lanzador
+Line1 =Vienen misiles del 
+Line2 =punto XE3F.4323.8E21
+Line3 =Debes buscar allí una
+Line4 =base espía.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Explorador Quasar 
+Line1 =Se acercan enemigos.
+Line2 =Busca a tu equipo y
+Line3 =prepárate para la lucha.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Campo minado AURORA 
+Line1 =Limpia de minas cada punto
+Line2 =de navegación.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Guerras Espaciales
+Line1 =Ve a las coordenadas
+Line2 =X544.E432.4821;
+Line3 =los transportes han
+Line4 =sido atacados.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Depurador
+
+Line1 =Tres naves saldrán del 
+Line2 =hiperespacio en mitad de
+Line3 =un campo de minas; límpialo
+Line4 =antes de que lleguen.
+
+Time=0
+Bonus=5000
+
+[level_8]
+Name=De camino
+Line1 =Escolta la nave a su
+Line2 =destino.
+
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Incursión
+
+Line1 =Hay unas naves de gran
+Line2 =importancia en la zona H5J.
+Line3 =Ve allí para comprobar su
+Line4 =estado y destrúyelas si
+Line5 =es necesario.
+
+
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Orbital
+Line1 =En el último punto de
+Line2 =navegación encontrarás
+Line3 =algo interesante.
+Line4 =¡Buena suerte!
+
+Time=0
+Bonus=5000
+
+@

@@ -1,0 +1,132 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 9
+LastCase = 3 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 3
+Scene = STAGE_39.3DS
+Path = .\ep_3
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=nmy
+Realname=Phantom_IV
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+Aim=yes
+AfterDestroy=ADD_AIM
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 1]
+Basename=nmy2
+Realname=Phantom_IV
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+Aim=yes
+AfterDestroy=ADD_AIM
+SoundAppear=warp.SNX
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Wait=200
+
+[case 2]
+Basename=trans31
+Type=t_FRIEND
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Shield=245
+Weight=1024
+Sight=1024
+Aim=no
+AfterDestroy=FAILED
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+Event=6
+ColorRadar=1
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 3]
+Basename=trans32
+Type=t_FRIEND
+Tactic=TRACK
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=5
+Shield=350
+Weight=1024
+Sight=2048
+Aim=yes
+AfterDestroy=FAILED
+AfterTrack=ADD_AIM
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+@

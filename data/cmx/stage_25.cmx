@@ -1,0 +1,104 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 2 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 3
+Scene = STAGE_25.3DS
+Path = .\EP_2
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Sky = 3D
+SunFlare = yes
+Debris = yes
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=box
+Type=t_FRIEND
+Movement=FIXE
+Shield=100
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 1]
+Basename=cube
+Type=t_FRIEND
+Movement=FIXE
+Shield=100
+Weight=25000
+Scoring=-256
+Collision=NONE
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 2]
+Basename=pirate
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=32
+Tactic=HIND
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+Aim=yes
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+
+@

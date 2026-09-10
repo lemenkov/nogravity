@@ -1,0 +1,206 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 8 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 3
+Scene = STAGE_17.3DS
+Path = .\EP_1
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=ami
+Type=t_FRIEND
+Shield=60
+Weight=350
+Scoring=32
+Tactic=FIGHT_PATROL1
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Attack=10
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+Doppler=doppler.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 1]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+NeverHide=yes
+NeverShock=50
+
+[case 2]
+Basename=vmere3
+Type=t_ENEMY
+Sight=1024
+Shield=800
+Weight=200000
+ExplodeMode=EXPLOD3.FLC
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=2
+Event=6
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 3]
+Basename=vmere4
+Type=t_ENEMY
+Sight=1024
+Shield=400
+Weight=200000
+ExplodeMode=EXPLOD3.FLC
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=2
+Aim=yes
+AfterDestroy=ADD_AIM
+Event=6
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Scoring=256
+
+[case 4]
+Basename=nmy
+Type=t_ENEMY
+Shield=50
+Weight=350
+MaxShoot=0
+Scoring=128
+Tactic=FIGHT_PATROL1
+Respawn=0
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 5]
+Basename=nmy2
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 6]
+Basename=base8
+Type=t_ENEMY
+Sight=1024
+Shield=100
+Scoring=98
+Weight=200000
+Movement=FIXE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+AfterDestroy=FAILED
+ExplodeMode=EXPLOD3.FLC
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=4
+Event=6
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 7]
+Basename=tourne1
+Type=t_ENEMY
+Sight=1024
+Scoring=98
+Shield=100
+Weight=200000
+Movement=TURN_AROUND_Y
+SpeedMax=-4
+ExplodeMode=EXPLOD3.FLC
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+Event=6
+NeverShock=50
+
+[case 8]
+Basename=tourne2
+Type=t_ENEMY
+Sight=1024
+Scoring=98
+Shield=100
+Weight=200000
+Movement=TURN_AROUND_Y
+SpeedMax=4
+ExplodeMode=EXPLOD3.FLC
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+Event=6
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+@

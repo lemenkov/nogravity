@@ -1,0 +1,173 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 6
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 2
+Scene = STAGE_12.3DS
+Path = .\Ep_1
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+[case 0]
+Basename=base
+Realname=base_X23
+Type=t_FRIEND
+Movement=TURN_AROUND_Y
+Shield=500
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+ColorRadar=1
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 1]
+Basename=trans3
+Realname=transporter
+Type=t_ENEMY
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Shield=245
+Weight=1024
+Sight=1024
+Aim=yes
+AfterDestroy=ADD_AIM
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+Event=6
+ColorRadar=2
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 2]
+Basename=nmy
+Realname=phantom_Z3
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+Aim=yes
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 3]
+Basename=ami
+Type=t_FRIEND
+Shield=60
+Weight=350
+Scoring=2
+Tactic=FIGHT_PATROL1
+Respawn=0
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+Doppler=doppler.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 4]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+NeverHide=yes
+NeverShock=50
+
+[case 5]
+Basename=nmy2
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Aim=yes
+AfterDestroy=ADD_AIM
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 6]
+Basename=aster1
+Type=t_OBSTACLE
+Shield=120
+Weight=1000
+MaxShoot=0
+SpeedMax=12
+Movement=TURN_RANDOM
+Scoring=64
+Respawn=0
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+PlayerNearby=NOTHING
+AfterDestroy=NONE
+SoundExplode=explode.SNX
+DebrisMode=ASTER.FLC
+NeverShock=50
+
+@

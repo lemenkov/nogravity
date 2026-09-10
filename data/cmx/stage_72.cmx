@@ -1,0 +1,64 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 1 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 9
+Scene = STAGE_72.3DS
+Path = .\ep_B
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=bulle
+Type=t_OBSTACLE
+Shield=20000
+Weight=1000
+SpeedMax=10
+Movement=TURN_RANDOM
+Scoring=1024
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+PlayerNearby=NOTHING
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.snX
+
+[case 1]
+Basename=points
+Type=t_OBSTACLE
+Shield=2000
+Weight=2500
+Collision=AUTOSPHERE
+Aim=yes
+CollisionStyle=ADD_SCORE_HIDE
+Scoring=200
+NeverHide=yes
+
+@

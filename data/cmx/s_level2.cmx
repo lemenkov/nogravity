@@ -1,0 +1,102 @@
+; Textes Mission 2 (Spanish)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=La caza (1ra parte)
+Line1 =Cazas enemigos te persiguen,
+Line2 =tu única salida es volver al
+Line3 =punto de Navegación.
+Time=0
+Bonus=2500
+
+[level_2]
+Name=Enjambre Mortal
+Line1 =Piratas han atacado una base;
+Line2 =defiende su campo de energía y
+Line3 =ayuda a combatir al enemigo.
+Time=0
+Bonus=2500
+
+[level_3]
+Name=Rescatadme
+Line1 =Ve a las coordenadas
+Line2 =EF5C.3DEF.5732, donde hallarás 
+Line3 =una nave con valiosa
+Line4 =información.
+Line5 =Ve allí antes que ella, pues
+Line6 =no te esperará.
+Time=0
+Bonus=2500
+
+[level_4]
+Name=Patrulla
+Line1 =Hay un importante movimiento
+Line2 =de tropas en tu área.
+Line3 =Escolta a las tropas y
+Line4 =destruye todo enemigo
+Line5 =potencial.
+
+Time=0
+Bonus=2500
+
+[level_5]
+Name=Domingo Negro
+Line1 =Los enemigos están probando
+Line2 =una nueva arma.
+Line3 =Halla la base de pruebas y 
+Line4 =destruye el prototipo.
+
+
+Time=0
+Bonus=2500
+
+[level_6]
+Name=Patrulla Territorial
+Line1 =Se han puesto una gran
+Line2 =cantidad de minas en tu
+Line3 =zona; destrúyelas todas.
+
+Time=0
+Bonus=2500
+
+[level_7]
+Name=Sueño de Vulcano 
+Line1 =Ve a las coordenadas
+Line2 =EF55.3D98.5700.
+Time=0
+Bonus=2500
+
+[level_8]
+Name=CF55.3D41.1401.
+Line1 =Unos espías han localizado
+Line2 =una base secreta en las
+Line3 =coordenadas CF55.3D41.1401.
+Line4 =Destruye antes su transmisor.
+
+Time=0
+Bonus=2500
+
+[level_9]
+Name=Prudencia
+Time=0
+Bonus=2500
+Line1 =Una de nuestras naves ha
+Line2 =perdido su mercancía; 
+Line3 =encuéntrala antes que los
+Line4 =piratas.   
+
+
+[level_10]
+Name=Piratas       		
+Time=0
+Bonus=30000
+
+Line1 =Tu estrella se ha localizado
+Line2 =en la base del asteroide 
+Line3 =pirata. Están esperando que 
+Line4 =negocies con ellos.
+Line5 =Destrúyelos, nada de 
+Line6 =negociaciones con piratas
+
+@

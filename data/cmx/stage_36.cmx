@@ -1,0 +1,168 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 4
+LastCase = 5 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 1
+Scene = STAGE_36.3DS
+Path = .\ep_3
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=mine
+Type=t_ENEMY
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+Scoring=64
+Tactic=MINE
+Respawn=0
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+AfterDestroy=ADD_AIM
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 1]
+Basename=nmy
+Type=t_ENEMY
+Shield=50
+Weight=350
+MaxShoot=0
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+[case 2]
+Basename=ami
+Type=t_FRIEND
+Shield=60
+Weight=350
+Scoring=64
+Tactic=FIGHT_PATROL1
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Attack=10
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+Doppler=doppler.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 3]
+Basename=station1
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=24
+ShieldMax=24
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=2
+Sight=1024
+NeverHide=yes
+ColorRadar=1
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 4]
+Basename=station2
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=24
+ShieldMax=24
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=3
+Sight=1024
+NeverHide=yes
+ColorRadar=1
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 5]
+Basename=nmy2
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+@

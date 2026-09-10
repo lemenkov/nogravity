@@ -1,0 +1,22 @@
+#NoGravityMotionSoundTrackBundle
+menu= TRACK04.OGG 4 1
+final= TRACK08.OGG 8 1
+overture= TRACK02.OGG 0 1
+intro= intro.OGG 0 1
+credits= FINMONDE.OGG 3 1
+failed= GAMEOVER.OGG 0 1
+success= MISSSUCC.OGG 0 1
+track1= TRACK02.OGG 2 1
+track2= TRACK03.OGG 5 1
+track3= TRACK04.OGG 6 1
+track4= TRACK05.OGG 7 1
+track5= TRACK06.OGG 2 1
+track6= TRACK07.OGG 5 1
+track7= TRACK08.OGG 6 1
+track8= TRACK05.OGG 7 1
+track9= TRACK02.OGG 2 1
+track10= TRACK07.OGG 2 1
+* * 0 1
+0 pour Sample
+1 pour CD
+@

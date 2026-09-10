@@ -1,0 +1,90 @@
+; Textes Mission 1 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Líder Negro
+Line1 =Vienen naves enemigas hacia 
+Line2 =tu zona, intercéptalas en el
+Line3 =campo de minas.
+Time=0
+Bonus=3000
+
+[level_2]
+Name=Machaca avispas
+Line1 =Unos objetos no identificados
+Line2 =acaban de entrar en nuestra
+Line3 =galaxia, su velocidad es
+Line4 =inusualmente alta.
+Line5 =Intercéptalos.
+
+Time=0
+Bonus=3000
+
+[level_3]
+Name=Destrucción Total
+Line1 =Ve a las coordenadas
+Line2 =EF65.5434.952E.,
+Line3 =acaba de empezar una batalla
+Line4 =y necesitarán tu ayuda.
+Time=0
+Bonus=3000
+
+[level_4]
+Name=Tras el fuego
+Line1 =Están atacando la base; 
+Line2 =vuelve aquí.
+Line3 =Ningún atacante debe
+Line4 =escapar.
+Time=0
+Bonus=3000
+
+[level_5]
+Name=Punto Nav. 4
+Line1 =Ve al punto Nav. 4 y destruye
+Line2 =todo transporte que halles.
+
+Time=0
+Bonus=3000
+
+[level_6]
+Name=Nexo Alfa
+Line1 =Nexo Alfa está en peligro, ve
+Line2 =allí tan rápido como puedas.
+Time=0
+Bonus=3000
+
+[level_7]
+Name=Crucero
+Line1 =Ve a las coordenadas
+Line2 =EF54.G432.2586.
+Line3 =3 coroneles enemigos deben
+Line4 =de estar reunidos allí, 
+Line5 =destruye su nave primero.
+
+Time=0
+Bonus=3000
+
+[level_8]
+Name=Hiperespacio
+Line1 =Se acercan enemigos 
+Line2 =por el hiperespacio,
+Line3 =prepárate para la lucha.
+Time=0
+Bonus=3000
+
+[level_9]
+Name=Salida
+Line1 =Escolta la nave de
+Line2 =carga a su destino.
+Time=0
+Bonus=3000
+
+[level_10]
+Name=Arañas
+Line1 =¡Lo lograste!. Ahora
+Line2 =ya sabes qué hacer...
+Time=0
+Bonus=20000
+
+@

@@ -1,0 +1,112 @@
+;
+; Informations Episode 2
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Sun down
+Line1 =Euer ziel ist ihren feinden
+Line2 =zu entfliehen. Fliegt am
+Line3 =schnellsten zu den Nav punkte
+line4 =und springt ins hyperraum.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Der Bienenkorb
+Line1 =Eine gruppe von Siedler aus
+Line2 =dem 8s Sektor sind 
+Line3 =angegriffen worden. Sie 
+Line4 =mussen sie umbedingt helfen
+Line5 =ihren Powerfeld zu beschutzen
+Line6 =und die Piraten
+Line7 =zuruckzuschlagen.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Die Rettung
+Line1 =Ein Lebensmittel Transport
+Line2 =sollte an den XF5G
+Line3 =Koordinaten ankommen. Sie
+line4 =mussen umbedingt dort sein
+Line5 =bevor seiner Ankunft
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Die Patrouille
+Line1 =Die Piraten haben ausgefunden
+Line2 =wo der Hyperraum ausflug
+Line3 =punkt ist. Mansche
+Line4 =Raumschiffe sind bereits
+Line5 =unterwegs um sie zu Auffangen.
+Line6 =Euren auftrag ist Sie und den
+Line7 =Transport zu beschutzen.  
+Line8 =Diese piraten mussen bestraft
+Line9 =werden. Wir werden uns wieder 
+Line10=am EN-T680 Lager treffen.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Schwarzen Sontag
+Line1 =Eine Zusammenfassung von
+Line2 =Piratenraumschiffe ist durch-
+Line3 =gefuhrt in diesem Sektor. Sie
+Line4 =testen eine neue sorte von
+Line5 =Raumschiff. Euren Auftrag ist
+Line6 =ihre Base zu finden und die
+Line7 =Prototype zu zerstoren... 
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Zuruckflug
+Line1 =Amiralschiff BF5. Euren
+Line2 =Auftrag ist den Bereich
+Line3 =minenfrei zu machen. 
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Vulcan Traum
+Line1 =Diesen Auftrag sollte ohne
+Line2 =problem sein. Keinen Pirat
+Line3 =war im Bereich Aufgespuhrt.
+Line4 =Mit ihren Kollegen, Vereinigt
+Line5 =euch mit den Forschungs Raum-
+Line6 =schiffe and den FD55-YR5
+Line7 =Koordinaten 
+Time=0
+Bonus=5000
+
+[level_8]
+Name=XZ88 YA455 Lage
+Line1 =Unsere Spionen haben uns die
+Line2 =Koordinaten einer Piraten
+Line3 =Infrastruktur angegeben. Es
+Line4 =ist ein Relais des RR99 Typ.
+Line5 =Euren auftrag ist alle Relais
+Line6 =zu zerstoren. Wir wunschen ihr
+Line7 =das beste. Die Koordinaten der
+Line8 =Anlage sind XZ88 YA455. 
+Time=0
+Bonus=5000
+
+[level_9]
+Name=After down 
+Line1 =Einen von unseren Verkehrs-
+Line2 =trager hat Waren verloren.
+Line3 =Euren auftrag ist sie zu 
+Line4 =beitreiben bevor sie in den
+Line5 =Handen den Piraten fallen.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Letzten Punkt
+Line1 =Noch nichts hier
+Time=0
+Bonus=5000
+
+@

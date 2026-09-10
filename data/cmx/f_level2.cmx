@@ -1,0 +1,112 @@
+; Textes Mission 2 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=La fuite
+Line1 =Vous avez ete pris en chasse,
+Line2 =rejoignez les Nav au plus
+Line3 =vite, c'est probablement
+Line4 =votre seule chance de salut.
+Time=0
+Bonus=2500
+
+[level_2]
+Name=Ruche mortel
+Line1 =Une base a ete attaquee par
+Line2 =une bande de pirates.
+Line3 =Aidez les a proteger leur
+Line4 =champ de force et repoussez
+Line5 =les attaquants.
+
+Time=0
+Bonus=2500
+
+[level_3]
+Name=Operation SOS
+Line1 =Un transporteur contenant des
+Line2 =informations vitales pour la
+Line3 =suite de votre mission doit
+Line4 =se rendre aux coordonnees,
+Line5 =EF5C.3DEF.5732
+Line6 =Soyez-y avant son arrivé,
+Line7 =il ne vous attendra pas.
+Time=0
+Bonus=2500
+
+[level_4]
+Name=Patrouille
+Line1 =Un deplacement de forces
+Line2 =massives a lieu vers votre
+Line3 =secteur.
+Line4 =Protegez le convoi et
+Line5 =detruisez tous les
+Line6 =assaillants.
+Time=0
+Bonus=2500
+
+[level_5]
+Name=Soleil Noir
+Line1 =Un regroupement de forces
+Line2 =ennemis a lieu pour tester
+Line3 =une nouvelle arme.
+Line4 =Destruisez tous
+Line5 =les prototypes
+
+Time=0
+Bonus=2500
+
+[level_6]
+Name=Patrouille de retour
+Line1 =De nombreuses mines ont ete
+Line2 =reperees dans ce secteur,
+Line3 =detruisez les pour la bonne
+Line4 =Suite des operations.
+Time=0
+Bonus=2500
+
+[level_7]
+Name=Le reve vulcain
+Line1 =Rendez-vous au coordonnees
+Line2 =EF55.3D98.5700.
+Time=0
+Bonus=2500
+
+[level_8]
+Name=CF55.3D41.1401.
+Line1 =Une base secrete a ete reperee
+Line2 =aux coordonnees
+Line3 =CF55.3D41.1401.
+Line4 =Detruisez en priorite tous les
+Line5 =relais.
+
+Time=0
+Bonus=2500
+
+[level_9]
+Name=Courage
+Line1 =Un convoi ayant recupere la
+Line2 =deuxieme branche de votre
+Line3 =etoile, a ete attaque.
+Line4 =Rendez-vous sur place,
+Line5 =il reste peut-etre une chance
+Line6 =de la recuperer.
+Time=0
+Bonus=2500
+
+[level_10]
+Name=Pirates
+Line1 =Nous avons recu un message des
+Line2 =pirates ayant detruit la base,
+Line3 =ils sont en possession de
+Line4 =votre bien.
+Line5 =Ils vous attendent dans leur
+Line6 =base asteroide pour un
+Line7 =echange.
+Line8 =On ne discute pas avec des
+Line9 =pirates, vous savez ce que
+Line10=vous avez a faire.
+Time=0
+Bonus=30000
+
+@

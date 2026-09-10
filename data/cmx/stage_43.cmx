@@ -1,0 +1,156 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 5
+LastCase = 5 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 2
+Scene = STAGE_43.3DS
+Path = .\ep_4
+Palette = stage.act
+PartTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=pirate
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=130
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+[case 1]
+Basename=pirate2
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=130
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=no
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Wait=2100
+
+[case 2]
+Basename=pirate3
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=130
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=no
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+Wait=7000
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 3]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+NeverHide=yes
+NeverShock=50
+
+[case 4]
+Basename=fusee
+Type=t_ENEMY
+Shield=150
+Weight=2500
+SpeedMax=0
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD 
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+AnimMode=6
+ColorRadar=3
+Aim=yes
+AfterDestroy=ADD_AIM
+
+
+[case 5]
+Basename=base
+Realname=Base_X23
+Type=t_FRIEND
+Movement=TURN_AROUND_Y
+Shield=250
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+AfterDestroy=FAILED
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+ColorRadar=1
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+
+
+@

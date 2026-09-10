@@ -1,0 +1,72 @@
+; Textes Mission Training (english)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=sunrise 1
+
+Line1 =Flying conditions in our
+Line2 =galaxy are really different
+Line3 =from yours.
+Line4 =You will have to learn how to
+Line5 =fly and fight again.
+Line6 =Let's start with a simple
+Line7 =flying exercise,
+Line8 =you have two minutes to finish
+Line9 =it.
+
+
+Time=175
+Bonus=1000
+
+[level_2]
+Name=sunrise 2
+Line1 =OK. You can fly, but what
+Line2 =about fighting at the same
+Line3 =time.
+Line4 =Destroy every target and
+Line5 =watch your time.
+
+Time=200
+Bonus=1000
+
+[level_3]
+Name=sunrise 3
+Line1 =Same thing but now the guns
+Line2 =are loaded.
+Line3 =Don't forget to reload your
+Line4 =shield.
+
+
+Time=0
+Bonus=5000
+
+[level_4]
+Name=sunrise 4
+Line1 =Our galaxy is a mine field,
+Line2 =to locate and destroy them is
+Line3 =often the key to success in
+Line4 =your mission.
+Line5 =A good occasion for you to
+Line6 =experiment the 3D radar (R)
+Line7 =and the self guided missiles.
+Line8 =You have only a limited
+Line9 =number.
+
+
+[level_5]
+Name=sunrise 5
+
+Line1 =Last training session, destroy
+Line2 =every target in each area
+Line3 =(check on the left hand side
+Line4 =of your sight), then go to the
+Line5 =Nav point and press Q for the
+Line6 =next area.
+Line7 =You will then be ready for a
+Line8 =real fight.
+
+Time=0
+Bonus=5000
+
+@

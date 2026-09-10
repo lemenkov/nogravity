@@ -1,0 +1,101 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 3 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 6
+Scene = STAGE_55.3DS
+Path = .\ep_5
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=hole
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Z
+SpeedMax=-2
+NeverHide=yes
+NeverShock=50
+
+[case 1]
+Basename=mod
+RealName=XXS 50
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=HIND
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=19
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Wait=8400
+
+[case 2]
+Basename=aster2
+Realname=asteroide
+Type=t_OBSTACLE
+Shield=120
+Weight=1000
+SpeedMax=10
+Movement=TURN_RANDOM
+NeverHide=yes
+Scoring=32
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SoundExplode=explode.SNX
+DebrisMode=ASTER.FLC
+
+[case 3]
+Basename=aster3
+Realname=asteroide
+Type=t_OBSTACLE
+Shield=120
+Weight=1000
+SpeedMax=10
+Movement=TURN_RANDOM
+Scoring=32
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SoundExplode=explode.SNX
+DebrisMode=ASTER.FLC
+DebrisMode2=DEBRIS1.FLC
+Aim=yes
+AfterDestroy=ADD_AIM
+
+@

@@ -1,0 +1,136 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 5
+LastCase = 4 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 1
+Scene = STAGE_47.3DS
+Path = .\ep_4
+Palette = stage.act
+PartTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+NeverHide=yes
+NeverShock=50
+
+
+[case 1]
+Basename=mine
+Type=t_ENEMY
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+Scoring=64
+Tactic=MINE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+AfterDestroy=ADD_AIM
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+AfterDestroy=ADD_AIM
+Aim=yes
+
+[case 2]
+Basename=trans1
+Realname=Transporter
+Type=t_FRIEND
+Shield=10
+Weight=2500
+AfterDestroy=FAILED
+Collision=AUTOSPHERE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode2.SNX
+BigExplode=yes
+NeverHide=yes
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+NeverShock=50
+SoundAppear=warp.SNX
+AppearMode=SPJMP.FLC
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Wait=4200
+
+[case 3]
+Basename=trans2
+Realname=Transporter
+Type=t_FRIEND
+Shield=10
+Weight=2500
+AfterDestroy=FAILED
+Collision=AUTOSPHERE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode2.SNX
+BigExplode=yes
+NeverHide=yes
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+NeverShock=50
+SoundAppear=warp.SNX
+AppearMode=SPJMP.FLC
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Wait=6000
+
+[case 4]
+Basename=trans3
+Realname=Transporter
+Type=t_FRIEND
+Shield=10
+Weight=2500
+AfterDestroy=FAILED
+Collision=AUTOSPHERE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode2.SNX
+BigExplode=yes
+NeverHide=yes
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+NeverShock=50
+SoundAppear=warp.SNX
+AppearMode=SPJMP.FLC
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+Wait=7000
+
+
+@

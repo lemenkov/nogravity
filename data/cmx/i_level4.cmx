@@ -1,0 +1,121 @@
+;
+; Informations Episode 4
+;
+;      123456789012345678901234567890
+[level_1]
+Name=under a dark moon
+Line1 =Bien venu dans notre secteur
+Line2 =sergent. Pour votre premiŠre
+Line3 =vous aurez … faire un peut
+Line4 =le m‚nage aux coordonn‚es
+Line5 =H53-H33. Plusieurs de nos
+Line6 =vaisseaux sont d‚j… sur
+Line7 =place et livre bataille
+Line8 =des opposants au pouvoir
+Line9 =de l'empereur.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=red alert
+Line1 =Plusieurs missiles ont ‚t‚
+Line2 =tir‚s en notre direction.
+Line3 =Plus exactement sur la base
+Line4 =X23 ou nous nous trouvons.
+Line5 =Plusieurs dignitaires sont
+Line6 =en ces lieux. Il n'est nul
+Line7 =besoin de vous dire quelles
+Line8 =seraient les cons‚quences 
+Line9 =si un de ces missiles nous
+Line10=percutait !
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Point Jump 4
+Line1 =Grƒce … votre intervention,
+Line2 =nous avons pu rep‚rer 
+Line3 =l'endroit d'ou a ‚t‚ tir‚ les
+Line4 =missiles. Votre mission
+Line5 =consiste … vous rendre aux
+Line6 =coordonn‚es B33-S1 et de
+Line7 =d‚truire les missiles.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Quasar Explorer
+Line1 =un croiseur ennemi va bient“t
+Line2 =arriv‚. Ils sont trop
+Line3 =nombreux pour vous seul. 
+Line4 =AprŠs avoir r‚cup‚r‚s des
+Line5 =co‚quipiers dans les 
+Line6 =diff‚rents navs, retournez
+Line7 =d‚truire le croiseur. 
+Line8 =Bonne chance !
+Time=0
+Bonus=5000
+
+[level_5]
+Name=AURORA MINE FIELD 
+Line1 =Des mines infestent le
+Line2 =secteur. Votre travail est
+Line3 =de nettoyer tout les points
+Line4 =navs. 
+Time=0
+Bonus=5000
+
+[level_6]
+Name=STAR SHIP TROOPER
+Line1 =Un groupe de vaisseaux 
+Line2 =attaquent nos transporteurs.
+Line3 =Plusieurs transporteurs sont
+Line4 =en danger aux coordonn‚es
+Line5 =X544-Y7. Votre mission 
+Line6 =consiste … patrouiller et …
+Line7 =‚liminer les rebelles.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=PROTECT AND SURVIVE
+Line1 =Une erreur a ‚t‚ faite par
+Line2 =les techniciens de 3
+Line3 =transporteurs. De mauvaises
+Line4 =coordonn‚es ont ‚t‚ 
+Line5 =introduite dans
+Line6 =l'ordinateur de saut dans
+Line7 =l'hyper espace. Ils risquent
+Line8 =d'apparaŒtre dans un champ
+Line9 =de mines. votre mission est
+Line10=de d‚truire les mines.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=On the way
+Line1 =Le groupement XENON nous
+line2 =demande d'escorter un de leur
+Line3 =convoi. Votre mission est de
+Line4 =leur permettre d'arriver
+Line5 =… bon port.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Raid
+Line1 =nos radars nous indiquent
+Line2 =que des gros vaisseaux ont
+Line3 =warp‚ dans le secteur H5J.
+Line4 =Votre mission est de les
+Line5 =rep‚rer et de les ‚liminer.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=the station
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+@

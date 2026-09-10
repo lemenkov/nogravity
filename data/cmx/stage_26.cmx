@@ -1,0 +1,290 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 14 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 3
+Scene = STAGE_26.3DS
+Path = .\EP_2
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=Champ
+Type=t_OBSTACLE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Sight=1024
+Shield=2000
+Weight=20000
+Event=6
+NeverHide=yes
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+BigExplode=yes
+NeverShock=50
+
+[case 1]
+Basename=field1
+Type=t_FRIEND
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Sight=1024
+Shield=1
+Weight=20000
+ExplodeMode=EXPLOD3.FLC
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+Event=6
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 2]
+Basename=cannon
+Type=t_FRIEND
+Sight=1024
+Attack=20
+NeverHide=yes
+Weight=20000
+Shield=20
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=4
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+BigExplode=yes
+
+[case 3]
+Basename=ami
+Type=t_FRIEND
+Shield=60
+Weight=350
+MaxShoot=0
+Scoring=108
+Tactic=FIGHT_PATROL1
+Respawn=0
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Attack=10
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+Doppler=doppler.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 4]
+Basename=vmere
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=300
+Weight=25000
+MaxShoot=0
+Scoring=512
+Tactic=NONE
+Attack=NONE
+Respawn=0
+Collision=AUTOSPHERE
+SpeedMax=0
+Sight=0
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+ColorRadar=1
+
+[case 5]
+Basename=bras1
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=4
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+[case 6]
+Basename=bras2
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=-5
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+[case 7]
+Basename=bras3
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=3
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+[case 8]
+Basename=bras4
+Type=t_FRIEND
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=-4
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+[case 9]
+Basename=mine
+Type=t_ENEMY
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+Scoring=64
+Tactic=MINE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+AfterDestroy=ADD_AIM
+Aim=yes
+
+
+[case 10]
+Basename=nmy1
+Type=t_ENEMY
+Shield=100
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+Aim=yes
+Wait=70  
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 11]
+Basename=nmy2
+SameAs=nmy1
+Wait=100
+Shield=100
+
+[case 12]
+Basename=nmy3
+SameAs=nmy1
+Wait=250
+Shield=100       
+
+[case 13]
+Basename=nmy4
+SameAs=nmy1
+Wait=290
+Shield=100
+
+[case 14]
+Basename=nmy5
+SameAs=nmy1
+Wait=500
+Shield=100
+
+@

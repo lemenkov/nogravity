@@ -1,0 +1,102 @@
+; Textes Mission 5 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Perturbations
+Line1 =Rien de special pour le
+Line2 =moment, si ce n'est les
+Line3 =perturbations magnetiques
+Line4 =habituelles dans ce secteur.
+Line5 =Soyez quand meme sur vos
+Line6 =gardes.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Containers
+Line1 =Des containers ont ete reperes
+Line2 =dans le secteur Tesla 1.
+Line3 =Recuperez les et transportez
+Line4 =les au secteur Gamma 3.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Protection
+Line1 =Protegez les installations.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Ligne de front
+Line1 =Deux de nos bases ont ete
+Line2 =attaquees. Elles ne tiendront
+Line3 =pas longtemps, nous avons
+Line4 =besoin de tous les vaisseaux
+Line5 =disponibles.
+Line6 =L'acces aux bases devrait
+Line7 =etre difficile vu les forces
+Line8 =engagees par nos ennemis.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Le rocher
+Line1 =Un emetteur secret a ete
+Line2 =decouvert, ses emissions
+Line3 =proviennent d'un champ
+Line4 =d'asteroides, retrouvez le
+Line5 =et detruisez le a tout prix.
+Line6 =Pulverisez chaque asteroide,
+Line7 =si necessaire.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Espoir
+Line1 =Nous avons recu le signal
+Line2 =d'arrivee d'un vaisseau mere.
+Line3 =Trouvez le, il peut contenir
+Line4 =un element de votre etoile.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=La chasse (II)
+Line1 =Vous etes attendu au point
+Line2 =042E.38EF.8213.
+Line3 =N'engagez le combat que si
+Line4 =vous croisez d'autres
+Line5 =vaisseaux.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=Convoi
+Line1 =3 transporteurs ont ete
+Line2 =attaques au point NAV 2.
+Line3 =Allez les aider et
+Line4 =rendez-vous au NAV 4, pour
+Line5 =preparer l'arrivee du
+Line6 =4eme.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Viperes
+Line1 =Detruisez les relais et les
+Line2 =generateurs pour affaiblir
+Line3 =la forteresse, avant de
+Line4 =passer a l'attaque finale.
+
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Combat Final
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+@

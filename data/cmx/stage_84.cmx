@@ -1,0 +1,71 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 1 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 8
+Scene = STAGE_84.3DS
+Path = .\ep_1
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+[case 0]
+Basename=mine
+Type=t_ENEMY
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+Scoring=64
+Tactic=MINE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+       
+[case 1]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+Sight=0
+NeverHide=yes
+NeverShock=50
+@
+

@@ -1,0 +1,74 @@
+; Textes Mission Training (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=sunrise 1
+Line1 =Les conditions de vol sont
+Line2 =tres differentes dans nos deux
+Line3 =atmospheres, vous devez
+Line4 =reapprendre a piloter et a
+Line5 =combattre.
+Line6 =Commencons par un simple test
+Line7 =de pilotage, vous avez deux
+Line8 =minutes pour terminer ce
+Line9 =parcours.
+
+Time=175
+Bonus=1000
+
+[level_2]
+Name=sunrise 2
+Line1 =Maintenant que vous savez a
+Line2 =peu pres vous diriger, voyons
+Line3 =si vous pouvez tirer en meme
+Line4 =temps.
+Line5 =Detruisez toute les cibles sur
+Line6 =ce parcours.
+Line7 =Votre temps est toujours
+Line8 =limite.
+
+Time=200
+Bonus=1000
+
+[level_3]
+Name=sunrise 3
+Line1 =Meme chose, mais cette fois
+Line2 =les canons sont armes.
+Line3 =Pensez a recharger votre
+Line4 =bouclier.
+
+Time=0
+Bonus=5000
+
+[level_4]
+Name=sunrise 4
+Line1 =Notre galaxie est truffee de
+Line2 =mines, les reperer, et les
+Line3 =detruire est souvent la
+Line4 =condition de reussite d'une
+Line5 =mission.
+Line6 =Une bonne occasion pour
+Line7 =apprendre le maniement du
+Line8 =radar 3D et des missiles
+Line9 =a tetes chercheuses.
+Line10=Attention, ils ne sont pas
+Line11=illimites et le temps non
+Line12=plus.
+Time = 175
+
+[level_5]
+Name=sunrise 5
+Line1 =Derniere mission avant de vous
+Line2 =lacher seul(e) dans l'espace.
+Line3 =Detruisez vos objectifs dans
+Line4 =chaque secteur et retrouvez
+Line5 =les balises Nav pour acceder
+Line6 =au suivant.
+Line7 =Vous serez ensuite pret(e) a
+Line8 =partir au combat.
+
+Time=0
+Bonus=5000
+
+@

@@ -1,0 +1,112 @@
+;
+; Informations Episode 2
+;
+;      123456789012345678901234567890
+[level_1]
+Name=sun down
+Line1 =votre seul but est d'‚chapper
+Line2 =… vos adversaires. Rejoignez
+Line3 =au plus vite les fins de navs
+line4 =en restant en vie !
+Time=0
+Bonus=5000
+
+[level_2]
+Name=the hive
+Line1 =un groupe de colons du
+Line2 =secteur 8s est attaqu‚. Il
+Line3 =est imp‚ratif de les aider …
+Line4 =prot‚ger leur champs de force
+Line5 =et de repousser les pirates.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=the rescue
+Line1 =un convoie de vivres est
+Line2 =attendu aux cordonn‚e XF5G.
+Line3 =Il faut … tout prix arriv‚
+Line4 =au point de rencontre avant
+Line5 =son arriv‚.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=the patrol
+Line1 =Les coordonn‚es du saut ont
+Line2 =‚t‚ pirat‚ et intercept‚.
+Line3 =plusieurs vaisseaux sont en
+Line4 =train de faire des manoeuvres
+Line5 =pour vous intercepter. Votre
+Line6 =mission est de prot‚ger le
+Line7 =convoie.Ces pirates doivent 
+Line8 =ˆtres punies. notre prochain
+Line9 =point de rencontre sera
+Line10=l'entrepot EN-T680
+Time=0
+Bonus=5000
+
+[level_5]
+Name=Black Sunday
+Line1 =Un regroupement de vaisseaux
+Line2 =pirates s'est ‚ffectu‚ dans
+Line3 =le secteur. Ils testent un
+Line4 =nouveau type de vaisseau.
+Line5 =Votre mission est de trouver
+Line6 =leur repŠre et d'‚liminer
+Line7 =les prototypes... 
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Home Patrol
+Line1 =Vaisseau amirale BF5. Votre
+Line2 =mission est de nettoyer le
+Line3 =secteur de ses mines. 
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Vulcano Dream
+Line1 =Cette mission ne doit poser
+Line2 =aucun problŠmes. Aucun pirate
+Line3 =n'a ‚t‚ d‚tect‚ dans ce 
+Line4 =secteur. Avec vos hommes,
+Line5 =rejoignez les vaisseaux
+Line6 =d'exploration aux coordonn‚es
+Line7 =FD55-YR5. 
+Time=0
+Bonus=5000
+
+[level_8]
+Name=XZ88 YA455 position
+Line1 =No espions nous ont transmis
+Line2 =les coordonn‚es d'une 
+Line3 =infrastructure pirate. Il
+Line4 =de relais du type RR99. votre
+Line5 =mission est de d‚truire tous
+Line6 =les relais en priorit‚.
+Line7 =Bonne chance. Les cordonn‚es
+Line8 =du site sont les suivantes:
+Line9 =XZ88 YA455. 
+Time=0
+Bonus=5000
+
+[level_9]
+Name=After down 
+Line1 =marchandises ont ‚t‚ perdu
+Line2 =par un de nos convoyeur.
+Line3 =Votre mission est de tous
+Line4 =les r‚cup‚r‚s avant qu'ils
+Line5 =ne tombent entre les mains
+Line6 =des pirates.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=last point
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+@

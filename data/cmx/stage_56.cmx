@@ -1,0 +1,108 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 3 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 6
+Scene = STAGE_56.3DS
+Path = .\ep_5
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=hole
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Z
+SpeedMax=-2
+NeverHide=yes
+NeverShock=50
+
+[case 1]
+Basename=mod
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=19
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+[case 2]
+Basename=mere
+Type=t_ENEMY
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Shield=800
+Weight=20000
+Aim=yes
+AfterDestroy=ADD_AIM
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=2
+Event=6
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 3]
+Basename=cannon
+Type=t_ENEMY
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Tactic=ATTACK0
+Shield=30
+Sight=2048
+Weight=20000
+Attack=20
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=4
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+
+
+@

@@ -1,0 +1,89 @@
+; Textes Mission 5 (Spanish)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Perturbaciones
+Line1 =Nada especial por el momento
+Line2 =excepto las habituales 
+Line3 =perturbaciones magnéticas.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Contenedores
+Line1 =Se ha localizado un transporte
+Line2 =en el sector Tesla 1.
+Line3 =Búscalo y tráelo al
+Line4 =sector Gamma 3.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Protección
+Line1 =Protege las instalaciones.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Frente
+Line1 =Dos de nuestras bases han
+Line2 =sido atacadas. No aguantarán 
+Line3 =por mucho tiempo.
+Line4 =Necesitamos todos los
+Line5 =cazas disponibles.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=La ROCA
+Line1 =Se ha descubierto un
+Line2 =transmisor secreto en el
+Line3 =campo de asteroides. Búscalo
+Line4 =y destrúyelo.
+Line5 =Podría estar escondido en 
+Line6 =cualquier asteroide.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Esperanza
+Line1 =Va a llegar una nave nodriza.
+Line2 =Búscala.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=La Caza (2da parte)
+Line1 =Has estado esperando en las
+Line2 =coordenadas 042E.38EF.8213.
+Line3 =No te metas en la lucha.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=Convoy
+Line1 =Han atacado a tres naves de 
+Line2 =carga en el punto Nav. 2, 
+Line3 =ve a ayudarlos y ve al punto
+Line4 =naval 4 y prepárate para la
+Line5 =llegada de una cuarta nave.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Zumbadores
+Line1 =Destruye todos los
+Line2 =transmisores y generadores
+Line3 =para debilitar la fortaleza.
+
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Lucha Final
+Line1 =No hay información.
+Time=0
+Bonus=5000
+
+@

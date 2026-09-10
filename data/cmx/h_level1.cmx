@@ -1,0 +1,146 @@
+;
+; Informations Episode 1
+;
+;      123456789012345678901234567890
+[level_1]
+Name=oolro3 sector
+Line1 =Dans cette mission vous devez
+Line2 =patrouiller jusqu'au NAV 2 ou
+Line3 =vous trouverez des mines qu'il
+Line4 =faudra d‚truire. 
+Line5 =un transporteur de l'empire
+Line6 =vous attend au nav 3.
+Line7 =escortez le jusqu'au point
+Line8 =de saut.
+Line9 =Attention. Les radars ont  
+Line10=d‚tect‚ la pr‚sence d'ennemis
+Line11=dans ce secteur.
+Time=0
+Bonus=5000
+
+
+[level_2]
+Name=Surprise attack
+Line1 =Pendant votre escorte, votre
+Line2 =base a ‚t‚ attaqu‚e.
+Line3 =Vous devez la prot‚ger. 
+Line4 =~
+Line5 =6 transporteurs de type vx12
+Line6 =se dirigent vers la planete
+Line7 =oolro. Vous devez les 
+Line8 =intercepter a tout prix.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=The Punisher
+Line1=Une escadrille de chasseurs
+Line2=imperiaux attendent vos 
+Line3=ordres au Point Nav 2.
+Line4=~
+Line5=vos devez trouvez un 
+Line6=stock important de materiel
+Line7=militaire, il faut d‚truire 
+Line8=tous les containers.
+Line9=~
+
+Time=0
+Bonus=5000
+
+[level_4]
+Name=The Escort
+Line1=3 transporteurs aux limites
+Line2=d'oolro ont besoins d'une 
+Line3=escorte.
+Line4=~
+Line5=Ce chargement doit 
+Line6=imperativement arriver … bon
+Line7=port. Son chargement est trŠs
+Line8=important.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=ENIAs sector
+Line1=Un message de d‚tresse nous
+Line2=indique que les transporteurs
+Line3=sont tomb‚s dans une embuscade.
+Line4=~
+Line5=Leur chargement doit 
+Line6=imperativement etre recupere.
+Time=0
+Bonus=5000
+
+
+[level_6]
+Name=The Aurea fields
+Line1=Un regroupement de troupe est
+Line2=en train de se former aux
+Line3=coordonnees 432.23.4T3.
+Line4=Il est imperatif de les
+Line5=intercepter.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=THe Assault
+Line1=Un regroupement de troupes
+Line2=ennemies s'est form‚ dans le
+Line3=secteur 7. On nous indique
+Line4=que 6 transporteurs militaires
+Line5=de categorie 5d sont aussi dans
+Line6=le secteur.
+Line7=~
+Line8=Votre mission consiste a
+Line9=detruire le transporteur mere.
+Line10=Malheureusement, aucune
+Line11=indication n'est connu pour le
+Line12=differencier des autres.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=the wires
+Line1=Un signal de d‚tresse nous
+Line2=est parvenu du poste avance
+Line3=tx2. Il serait tombe entre les
+Line4=mains de l'ennemi.
+Line5=~
+Line6=Votre mission sera de liberer
+Line7=le complexe audio-com.
+Line8=Attention. l'ennemi se sentant
+Line9=perdu peut tout detruire.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=The mines field
+Line1=Les mines posent beaucoup de
+Line2=problemes a nos transporteurs.
+Line3=~
+Line4=Il vous est demande de nettoyer
+Line5=les differents nav pour une
+Line6=plus grande facilite de 
+line7=deplacement de nos troupes.
+Line8=~
+Line9=Le temps presse. Vous devez tout
+Line10=nettoyer avant l'arriv‚ du
+Line11=commandeur en chef.
+Time=300
+Bonus=5000
+
+[level_10]
+Name=triccia base
+Line1=Un nouveau secteur a ete trouve.
+Line2=Il faut le nettoyer de toute
+Line3=ses defenses.
+Line4=Point Nav 2. Les cannons.
+Line5=point nav 3. Les mines.
+Line6=~
+Line7=Votre but final sera le
+Line8=generateur de la base tricia,
+Line9=Un asteroide monde.
+Time=0
+Bonus=5000
+
+@

@@ -1,0 +1,108 @@
+;
+; Informations Episode 3
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Der Leader
+Line1 =Willkommen in diesem bereich,
+Line2 =Sie werden uns sehr nutzlich
+Line3 =sein um hier wieder Ordnung
+Line4 =zu bringen.
+Line5 =Der Baron ist zahlenmassig
+Line6 =Uberlegen, aber wir konnen
+Line7 =unsere Lage immer noch halten.
+Line8 =Feindliche Raumschiffe 
+Line9 =Nahren sich. Euren Auftrag
+Line10=ist sie zu stoppen im
+Line11=minenfeld.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Der erste Kontakt
+Line1 =Unbekannte Raumschiffe sind
+Line2 =in diesem Sektor eingebrochen
+Line3 =und sie fliegen mit hoher
+Line4 =Geschwindigheit. Fangt sie
+Line5 =ab und schiesst sie runter!
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Der erste Angriff
+Line1 =Alarm! Raumschiffe haben einen 
+Line2 =Vorpost satellit angegriffen.
+Line3 =Fliegt sofort zum punkt
+Line4 =X65-G44.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Nach dem Feuer
+Line1 =Feindliche Raumschiffe greifen
+Line2 =unsere Base an! Beschutzt uns
+Line3 =und verfolgt sie. Es muss
+Line4 =keinen von ihnen uberleben!
+Time=0
+Bonus=5000
+
+[level_5]
+Name=NAV Punkt 4
+Line1 =Diesen Auftrag ist sehr
+Line2 =wichtig. Eine Zussamenfassung
+Line3 =von TruppenFrachter des
+Line4 =feindes hat sich am Nav Punkt
+Line5 =4 gebaut. Euren Auftrag ist
+Line6 =alle diese Frachter zu 
+Line7 =zerstoren.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Base 101
+Line1 =Wir haben bereits einen Hilfe
+Line2 =ruf empfangen. Die Base 101
+Line3 =wird angegriffen. Euren
+Line4 =Auftrag ist am schnellsten
+Line5 =dorthin zu fliegen um unsere
+Line6 =Anlage zu beschutzen.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Der grosse Auffanger.
+Line1 =Eine zussamenfassung von Raum
+Line2 =schiffe des Feindes hat sich
+Line3 =an den Koordinaten X54-G432
+Line4 =gemacht. 3 Oberst sind in
+Line5 =diesem Geleit. Sie mussen sie
+Line6 =bevorrechtig zerstoren.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=Base Angriff
+Line1 =Feindliche Raumschiffe sind
+Line2 =im Hyperraum Angepuhrt worden.
+Line3 =Die base ist in der Alarme 5 
+Line4 =lage. Seit bereit zum Kampfen
+Line5 =da die Raumschiffe von einem
+Line6 =Moment zum anderen vom
+Line7 =Hyperraum ausspringen werden.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Der Ausweg
+Line1 =Euren auftrag besteht aus der
+Line2 =begleitung des Versorgers.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Die Spinne
+Line1 =Noch nichts hier
+Time=0
+Bonus=5000
+
+@

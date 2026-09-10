@@ -1,0 +1,255 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 10 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 6
+Scene = STAGE_60.3DS
+Path = .\ep_5
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=hole
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Z
+SpeedMax=-2
+NeverHide=yes
+NeverShock=50
+
+[case 1]
+Basename=react1
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=200
+Weight=10000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=200
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+Avary=10
+
+[case 2]
+Basename=react2
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=200
+Weight=10000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=-4
+Sight=200
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+Avary=10
+
+[case 3]
+Basename=reacte
+Type=t_ENEMY
+Movement=fixe
+Shield=50
+Weight=10000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=200
+NeverHide=yes
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+Avary=10
+
+[case 4]
+Basename=vmere
+Type=t_ENEMY
+Movement=TURN_AROUND_X
+Shield=1000
+Weight=25000
+MaxShoot=0
+Scoring=512
+Tactic=NONE
+Attack=NONE
+Respawn=0
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=0
+Sight=0
+NeverHide=yes
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+ColorRadar=2
+Aim=yes
+AfterDestroy=ADD_AIM 
+
+[case 5]
+Basename=bras1
+Type=t_ENEMY
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=4
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+
+[case 6]
+Basename=bras2
+Type=t_ENEMY
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=-5
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+
+[case 7]
+Basename=bras3
+Type=t_ENEMY
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=3
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+[case 8]
+Basename=bras4
+Type=t_ENEMY
+Movement=TURN_AROUND_X
+Shield=1024
+Weight=25000
+MaxShoot=0
+Scoring=-256
+Tactic=NONE
+Attack=NONE
+Respawn=0
+SpeedMax=3
+Sight=0
+AfterDestroy=NONE
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=flag_st.SNX
+FinisHim=ELECTRI2.FLC
+NeverHide=yes
+BigExplode=yes
+
+[case 9]
+Basename=mod
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=no
+SpeedMax=19
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+[case 10]
+Basename=mod2
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=19
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+@

@@ -1,0 +1,102 @@
+; Textes Mission 1 (Spanish)
+; do not write after 0
+; 21/02/98
+;      123456789012345678901234567890
+[level_1]
+Name=Sector 1
+Line1 =Ve al segundo punto de Nav.
+Line2 =y destruye todas las minas.
+Line3 =Un carguero te espera en el
+Line4 =punto de Nav. 3, escóltalo 
+Line5 =al punto de remolque.
+Line6 =Tienen información
+Line7 =importante para ti.
+Line8 =Ten ciudado; esto ya no es
+Line9 =un entrenamiento, estás en 
+Line10=territorio enemigo.
+Time=0
+Bonus=2000
+
+[level_2]
+Name=Ataque sorpresa
+Line1 =Atacan la base; todas las
+Line2 =naves han de volver para
+Line3 =protegerla.
+Line4 =En tu camino, encuentras
+Line5 =seis naves enemigas
+Line6 =trasnportando materiales.
+Line7 =Destrúyelas todas.
+Time=0
+Bonus=2000
+
+[level_3]
+Name=El Ajusticiador
+Line1 =Busca el escuadrón imperial
+Line2 =en el punto de Nav. 2 y
+Line3 =destruye todo contenedor
+Line4 =que halles.
+Time=0
+Bonus=2000
+
+[level_4]
+Name=Escolta
+Line1 =Te esperan tres naves
+Line2 =en la frotera del imperio,
+Line3 =búscalas y escóltalas.
+Time=0
+Bonus=2000
+
+[level_5]
+Name=Sector ENIAS 
+Line1 =Recibimos un SOS en tu
+Line2 =zona; debes rescatar el
+Line3 =transporte.
+Time=0
+Bonus=2000
+
+
+[level_6]
+Name=Campos aúreos
+Line1 =Habrá una concentración 
+Line2 =enemiga en las coordenadas:
+Line3 =432E.2FED.4E3D.
+Line4 =Intercéptalos.
+Time=0
+Bonus=2000
+
+[level_7]
+Name=Intercambio
+Line1 =Ve al área 7, y destruye
+Line2 =la nave nodriza.
+Line3 =No sabemos cómo es.
+
+Time=0
+Bonus=2000
+
+[level_8]
+Name=Tenso
+Line1 =Han atacado una estación
+Line2 =avanzada; intenta liberarla
+Line3 =antes de que el enemigo
+Line4 =destruya todo.
+Time=0
+Bonus=2000
+
+[level_9]
+Name=Campo minado
+Line1 =La base Tricia ha sido
+Line2 =localizada; limpia la zona
+Line3 =antes de que lleguen las
+Line4 =tropas.
+Time=300
+Bonus=2000
+
+[level_10]
+Name=Base Tricia 
+Line1 =Destruye todas los cañones
+Line2 =y minas antes de ocuparte
+Line3 =de la base principal.
+Time=0
+Bonus=100000
+
+@

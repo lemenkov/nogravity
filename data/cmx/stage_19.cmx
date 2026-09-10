@@ -1,0 +1,144 @@
+include stageall.cmx
+;include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 5 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 5
+Scene = STAGE_19.3DS
+Path = .\ep_1
+ParTime = 212
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=mine
+Type=t_OBSTACLE
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+Scoring=32
+Tactic=MINE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 1]
+Basename=transp
+Type=t_FRIEND
+Shield=400
+Weight=2500
+Movement=TURN_AROUND_Y
+SpeedMax=1
+AfterDestroy=FAILED
+Collision=AUTOSPHERE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+NeverHide=yes
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 2]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+NeverHide=yes
+NeverShock=50
+
+[case 3]
+Basename=trans2
+Type=t_FRIEND
+Shield=400
+Weight=2500
+Movement=TURN_AROUND_Y
+SpeedMax=1
+AfterDestroy=FAILED
+Collision=AUTOSPHERE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+NeverHide=yes
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 4]
+Basename=aster2
+Type=t_ENEMY
+Shield=120
+Weight=1000
+SpeedMax=5
+Movement=TURN_RANDOM
+Scoring=32
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+PlayerNearby=NOTHING
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=ASTER.FLC
+DebrisMode2=DEBRIS1.FLC
+NeverShock=50
+
+[case 5]
+Basename=cannon2
+Type=t_ENEMY
+Tactic=ATTACK0
+Sight=1024
+Scoring=256
+Attack=20
+NeverHide=yes
+Weight=20000
+Shield=20
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=4
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+@

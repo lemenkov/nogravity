@@ -1,0 +1,173 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 6 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 6
+Scene = STAGE_59.3DS
+Path = .\ep_5
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=mine
+Type=t_ENEMY
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+MaxShoot=0
+Scoring=32
+Tactic=MINE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+AfterDestroy=ADD_AIM
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 1]
+Basename=hole
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Z
+SpeedMax=-2
+NeverHide=yes
+NeverShock=50
+
+[case 2]
+Basename=boss01
+Type=t_ENEMY
+Shield=400
+Weight=350
+Scoring=256
+Tactic=FIGHT_PATROL1
+Attack=3
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=no
+SpeedMax=12
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=NONE
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverHide=yes
+
+[case 3]
+Basename=react1
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=200
+Weight=10000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=200
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+Avary=10
+
+[case 4]
+Basename=react2
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=200
+Weight=10000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=-4
+Sight=200
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+Avary=10
+
+[case 5]
+Basename=reacte
+Type=t_ENEMY
+Movement=fixe
+Shield=50
+Weight=10000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=200
+NeverHide=yes
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+Avary=10
+
+[case 6]
+Basename=relais
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=100
+Weight=5000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=3
+Sight=1024
+NeverHide=yes
+ColorRadar=2
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+@

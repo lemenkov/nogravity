@@ -1,0 +1,72 @@
+;
+; Informations Episode 8
+;
+;      123456789012345678901234567890
+[level_1]
+Name=sunrise 1
+Line1 =Mission d'entrainement 1
+Line2 =~
+Line3 =Vous avez 2 minutes pour
+Line4 =effectuer le parcours dans
+Line5 =son int‚gralit‚.
+Time=175
+Bonus=5000
+
+[level_2]
+Name=sunrise 2
+Line1 =Mission d'entrainement 2
+Line2 =~
+Line3 =Le but de cet entrainement
+Line4 =est de d‚truire toutes les
+Line5 =cibles avant la fin du
+Line6 =compte … rebourg.
+Time=200
+Bonus=5000
+
+[level_3]
+Name=sunrise 3
+Line1 =Mission d'entrainement 3
+Line2 =~
+Line3 =Des cannons d'entrainement
+Line4 =ont ‚t‚ install‚ sur le
+Line5 =parcours. Vous devez tous les
+Line6 =‚liminer et finir le parcours.
+Line7 =~
+Line8 =des bonus vous permettrons de
+Line9 =remonter votre bouclier.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=sunrise 4
+Line1 =des mines sont disperc‚e dans
+Line2 =l'espace. Votre but est de
+Line3 =toutes les d‚truires avant la
+Line4 =fin du temps imparti.
+Line5 =~
+Line6 =Pour mieux vous rep‚rer, 
+Line7 =utilisez le radar 3D (R),
+Line8 =ainsi que des missile (6)
+Line9 =en accrochant les cibles
+Line10=avec (L).
+Time=200
+Bonus=5000
+
+[level_5]
+Name=sunrise 5
+Line1 =Mission d'entrainement 5
+Line2 =~
+Line3 =Votre mission est compos‚e de
+Line4 =plusieurs points navs. 
+Line5 =~
+Line6 =Un compteur(gauche du viseur)
+Line7 =vous indique le nombre
+Line8 =d'objectif … d‚truire pour
+Line9 =pouvoir changer de nav.
+Line10=Une fois le compteur … 0,
+Line11=rapprochez vous de la balise
+Line12=qui clignote et appuyez sur Q
+Time=0
+Bonus=5000
+
+@

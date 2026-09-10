@@ -1,0 +1,128 @@
+; Textes Mission 1 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Secteur 1
+Line1 =Patrouillez jusqu'au NAV 2 et
+Line2 =detruisez les mines.
+Line3 =Un transporteur vous attend
+Line4 =au Nav 3, ils ont des
+Line5 =informations importantes
+Line6 =concernant la premiere
+Line7 =branche de l'etoile,
+Line8 =escortez le jusqu'au point de
+Line9 =saut en echange.
+Line10=Attention, ceci n'est plus un
+Line11=entrainement,
+Line12=vous etes en secteur ennemi.
+
+Time=0
+Bonus=2000
+
+[level_2]
+Name=Attaque Surprise 
+Line1 =La base est attaquee, toutes
+Line2 =les forces doivent la
+Line3 =rejoindre pour en assurer la
+Line4 =protection.
+Line5 =Sur votre route, vous
+Line6 =croiserez 6 transporteurs de
+Line7 =materiel militaire,
+Line8 =detruisez les tous.
+Time=0
+Bonus=2000
+
+[level_3]
+Name=Le vengeur
+Line1 =Une escadrille vous attend au
+Line2 =Nav 2, detruisez tous les
+Line3 =containers, que vous trouverez
+Line4 =dans ce secteur.
+Time=0
+Bonus=2000
+
+[level_4]
+Name=Escorte
+Line1 =Retrouvez les 3 transporteurs
+Line2 =aux limites de l'empire et
+Line3 =escortez les.
+Line4 =Ils ont certainement des
+Line5 =nouvelles interessantes vous
+Line6 =concernant.
+Time=0
+Bonus=2000
+
+[level_5]
+Name=Secteur ENIAS
+Line1 =Nous avons recu un message
+Line2 =de detresse dans votre
+Line3 =secteur, retrouvez les
+Line4 =vaisseaux attaques.
+Line5 =Sauvez tout ce que vous
+Line6 =pouvez.
+Time=0
+Bonus=2000
+
+
+[level_6]
+Name=Les champs d'Aurea
+Line1 =Un regroupement de forces a
+Line2 =lieu aux coordonnees
+Line3 =432E.2FED.4E3D.
+Line4 =Une des branches de votre
+Line5 =etoile doit s'y echanger.
+
+Time=0
+Bonus=2000
+
+[level_7]
+Name=Le pacte
+Line1 =Vous etes arrive apres la
+Line2 =transaction, l'etoile se
+Line3 =trouve a bord du vaisseau
+Line4 =mere du secteur 7.
+Line5 =A vous de le retrouvez et
+Line6 =de le detruire. Nous n'avons 
+Line7 =aucune information sur son
+Line8 =apparence.
+
+Time=0
+Bonus=2000
+
+[level_8]
+Name=Cable
+Line1 =Une de nos patrouilles
+Line2 =avancee a recupere votre
+Line3 =bien.
+Line4 =Nous avons recu quelque
+Line5 =minutes plus tard un signal
+Line6 =de detresse.
+Line7 =Tenter de les liberer avant
+Line8 =que la base ne soit detruite.
+Time=0
+Bonus=2000
+
+[level_9]
+Name=Champs de mines
+Line1 =Nous avons reperes la base
+Line2 =Tricia. nous sommes surs
+Line3 =que votre etoile s'y trouve.
+Line4 =Commencer par detruire les
+Line5 =champs de mines. Le temps
+Line6 =presse, nous vous avons
+Line7 =envoyes des troupes en
+Line8 =renfort.
+Time=300
+Bonus=2000
+
+[level_10]
+Name=Base Triccia
+Line1 =Vous etes proche du but !
+Line2 =Nettoyez tous environs de la
+Line3 =base, mines et batteries avant
+Line4 =de passer a l'attaque.
+Time=0
+Bonus=100000
+
+@

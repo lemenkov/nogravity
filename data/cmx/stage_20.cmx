@@ -1,0 +1,419 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 17 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 2
+Scene = STAGE_20.3DS
+Path = .\ep_1
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+[NAV 4]
+Sky = no
+SunFlare = no
+Debris = yes
+;
+;
+; Configuration
+;
+;
+[case 0]
+Basename=base
+Type=t_FRIEND
+Movement=TURN_AROUND_Y
+Shield=100
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+ColorRadar=1
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 1]
+Basename=ami2
+Type=t_ENEMY
+Shield=100
+Weight=350
+Scoring=32
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+Aim=yes
+AfterDestroy=ADD_AIM
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=1
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+
+[case 2]
+Basename=ami
+Type=t_FRIEND
+Shield=250
+Weight=350
+Scoring=32
+Tactic=FIGHT_PATROL1
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Attack=10
+Sight=1024
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+Doppler=doppler.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=1
+
+[case 3]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+NeverHide=yes
+NeverShock=50
+
+[case 4]
+Basename=bigaster
+Type=t_ENEMY
+Movement=fixe
+Shield=10000
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+
+[case 5]
+Basename=aster0
+Type=t_OBSTACLE
+Shield=100
+Weight=1000
+MaxShoot=0
+SpeedMax=12
+Movement=TURN_RANDOM
+Scoring=32
+Respawn=0
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+PlayerNearby=NOTHING
+AfterDestroy=NONE
+SoundExplode=explode.SNX
+DebrisMode=ASTER.FLC
+NeverShock=50
+
+[case 6]
+Basename=aster2
+Type=t_ENEMY
+Shield=120
+Weight=1000
+SpeedMax=5
+Movement=TURN_RANDOM
+Scoring=64
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+PlayerNearby=NOTHING
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+SoundExplode=explode.SNX
+DebrisMode=ASTER.FLC
+DebrisMode2=DEBRIS1.FLC
+NeverShock=50
+
+[case 7]
+Basename=cannon2
+Type=t_ENEMY
+Tactic=ATTACK0
+Sight=1024
+Attack=20
+NeverHide=yes
+Weight=20000
+Shield=20
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+ColorRadar=4
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 8]
+Basename=mine
+Type=t_ENEMY
+Movement=TURN_RANDOM
+Shield=20
+Weight=250
+Scoring=32
+Tactic=MINE
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=15
+Sight=2048
+Avary=64
+AfterDestroy=ADD_AIM
+Aim=yes
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+ColorRadar=4
+DebrisMode=DEBRIS1.FLC
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 9]
+Basename=Chrmface
+Realname=Gawa
+Type=t_ENEMY
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+ColorRadar=4
+Tactic=ATTACK1
+Shield=100
+Sight=2048
+Weight=2000
+Attack=20
+Aim=yes
+;// Pas de Warp, on a gagn‚
+AfterDestroy=SUCCESS
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+[case 10]
+Basename=reacteur
+Type=t_ENEMY
+Movement=fixe
+Shield=10000
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+; ************** Bruit du reacteur
+SoundAmbiant=ambient1.SNX
+; ************** Un but pour compter
+EventCode=SHIELDOFFDIE
+Event=6
+Remplace=Chrmface
+
+[case 11]
+Basename=boss01
+Type=t_ENEMY
+Shield=400
+Weight=350
+Scoring=256
+Tactic=HIND
+Attack=21
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+AfterDestroy=ADD_AIM
+SpeedMax=18
+Sight=3000
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverHide=yes
+Stealth=1024
+
+[case 12]
+Basename=points
+Type=t_OBSTACLE
+Shield=200000
+Weight=250000
+Scoring=1
+Sight=1024
+Collision=AUTOSPHERE
+CollisionStyle=NAVWARP
+;//************** Warp en NAV 4
+Code=4
+Aim=no
+CollisionStyle=ADD_SCORE_HIDE
+SoundAppear=warp.SNX
+AppearMode=spjmp.FLC
+
+
+[case 13]
+Basename=boss02
+Type=t_ENEMY
+Shield=200
+Weight=350
+Scoring=256
+Tactic=HIND
+Attack=21
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Aim=yes
+SpeedMax=18
+Sight=3000
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverHide=yes
+;//**************  Replace : pas remplace (et mettre le code)
+Remplace=points
+Code=66
+Stealth=1024
+
+[case 14]
+Basename=react1
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=10000
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 15]
+Basename=react2
+Type=t_ENEMY
+Movement=TURN_AROUND_Y
+Shield=10000
+Weight=25000
+Scoring=-256
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=-4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 16]
+Basename=bigaster2
+Type=t_ENEMY
+Movement=fixe
+Shield=10000
+Weight=25000
+Scoring=-256
+Collision=NONE
+SpeedMax=4
+Sight=1024
+NeverHide=yes
+AfterDestroy=NONE
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=flag_st.SNX
+BigExplode=yes
+DebrisMode=DEBRIS1.FLC
+NeverShock=50
+
+[case 17]
+Basename=cannon
+Type=t_ENEMY
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Tactic=ATTACK0
+Shield=50
+Sight=2048
+Weight=20000
+Attack=20
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=4
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+; ************** Un but pour compter
+Aim=yes
+AfterDestroy=ADD_AIM
+; ************** La chose a detruire ou a tire, c'est les cannons
+EventCode=ENABLE
+; ************** Active si destruit (sinon touch‚ par BYSHOOT)
+EventType=BYDESTROY
+Event=6
+
+
+@

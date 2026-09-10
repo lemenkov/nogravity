@@ -1,0 +1,90 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 3 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 8
+Scene = STAGE_83.3DS
+Path = .\ep_1
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=porte
+Type=t_OBSTACLE
+Shield=2000
+Weight=2500
+Collision=NONE
+NeverShock=50
+
+[case 1]
+Basename=planet
+Type=t_OBSTACLE
+Movement=TURN_AROUND_Y
+SpeedMax=2
+Sight=0
+NeverHide=yes
+NeverShock=50
+
+[case 2]
+Basename=points
+Type=t_OBSTACLE
+Shield=2000
+Weight=250000
+Collision=AUTOSPHERE
+Aim=yes
+CollisionStyle=ADD_SCORE_HIDE
+Scoring=512
+NeverShock=50
+ColorRadar=255
+AppearMode=spjmp.FLC
+SoundAppear=bonus.SNX
+
+
+[case 3]
+Basename=cannont
+Type=t_ENEMY
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+Tactic=ATTACK0
+Shield=15
+Sight=2048
+Weight=20000
+Attack=20
+ExplodeMode=EXPLOD3.FLC
+SoundExplode=explode.SNX
+DebrisMode=DEBRIS1.FLC
+NeverHide=yes
+ColorRadar=4
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+@
+

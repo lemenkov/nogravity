@@ -1,0 +1,99 @@
+; Textes Mission 1 (Francais)
+; Ne pas depasser le dernier zero  __
+; 21/02/98
+;      123456789012345678901234567890
+[level_1]
+Name=Sector One
+Line1 =Go to the second Nav point
+Line2 =destroy all the mines.
+Line3 =A cargo is waiting for you at
+Line4 =Nav 3, and escort it to the
+Line5 =warp point.
+Line6 =They have important
+Line7 =informations for you.
+Line8 =Be careful, this is not a
+Line9 =training any more, you are in
+Line10=enemy territory.
+Time=0
+Bonus=2000
+
+[level_2]
+Name=Surprise attack
+Line1 =The base is attacked, every
+Line2 =ship has to come back to
+Line3 =protect it.
+Line4 =On your way you find six
+Line5 =enemies ships transporting
+Line6 =materials.Destroy all of them.
+Time=0
+Bonus=2000
+
+[level_3]
+Name=The Punisher
+Line1 =Meet the imperial squadron at
+Line2 =the Nav point 2 and destroy
+Line3 =all containers you will find.
+Time=0
+Bonus=2000
+
+[level_4]
+Name=Escorter
+Line1 =Three ships are waiting for
+Line2 =you at the empire's border,
+Line3 =meet them and escort them.
+Time=0
+Bonus=2000
+
+[level_5]
+Name=ENIAS Sector
+Line1 =We received a SOS from your
+Line2 =area, you must rescue the
+Line3 =freight.
+Time=0
+Bonus=2000
+
+
+[level_6]
+Name=The Aurea fields
+Line1 =An enemy gathering will take
+Line2 =place on coordinates :
+Line3 =432E.2FED.4E3D.Intercept them.
+Time=0
+Bonus=2000
+
+[level_7]
+Name=The Trade
+Line1 =Go to the area 7, and destroy
+Line2 =the mother ship.
+Line3 =We don't know what it looks
+Line4 =like.
+
+Time=0
+Bonus=2000
+
+[level_8]
+Name=Wired
+Line1 =An advanced station has been
+Line2 =attacked, try to liberate it
+Line3 =before the enemy destroys
+Line4 =everything.
+Time=0
+Bonus=2000
+
+[level_9]
+Name=Mines field
+Line1 =The Tricia Base has been
+Line2 =located, clean the area before
+Line3 =the troops arrive.
+Time=300
+Bonus=2000
+
+[level_10]
+Name=Triccia base
+Line1 =Destroy all the guns and
+Line2 =then the mines before taking
+Line3 =care of the main base.
+Time=0
+Bonus=100000
+
+@

@@ -1,0 +1,101 @@
+; Textes Mission 2 (English)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=The Chase (part 1)
+Line1 =Fighters are chasing you, your
+Line2 =only chance is to regain the
+Line3 =Nav point.
+Time=0
+Bonus=2500
+
+[level_2]
+Name=Deadly Hive
+Line1 =Pirates have attacked a base,
+Line2 =defend its energy field and
+Line3 =help fighting the enemy.
+Time=0
+Bonus=2500
+
+[level_3]
+Name=Rescue me
+Line1 =Go to coordinates
+Line2 =EF5C.3DEF.5732, A ship will
+Line3 =meet you there with precious
+Line4 =information.
+Line5 =Be there before it, or it
+Line6 =won't wait.
+Time=0
+Bonus=2500
+
+[level_4]
+Name=Patrol
+Line1 =There is important troop
+Line2 =movement in your area.
+Line3 =Escort the troops and
+Line4 =destroy every potential enemy.
+
+Time=0
+Bonus=2500
+
+[level_5]
+Name=Black Sunday
+Line1 =The enemies are testing a new
+Line2 =weapon.
+Line3 =Find the test base and destroy
+Line4 =the prototype.
+
+
+Time=0
+Bonus=2500
+
+[level_6]
+Name=Home Patrol
+Line1 =A lot of mines have been laid
+Line2 =in your area, destroy them
+Line3 =all.
+
+Time=0
+Bonus=2500
+
+[level_7]
+Name=Vulcano Dream
+Line1 =Go to coordinates
+Line2 =EF55.3D98.5700.
+Time=0
+Bonus=2500
+
+[level_8]
+Name=CF55.3D41.1401.
+Line1 =A secret base has been located
+Line2 =by spies on coordinates
+Line3 =CF55.3D41.1401.
+Line4 =destroy their transmission
+Line5 =relay first.
+
+Time=0
+Bonus=2500
+
+[level_9]
+Name=Wisdom
+Time=0
+Bonus=2500
+Line1 =Merchandise has been lost by
+Line2 =one of our ship, find it
+Line3 =before the pirates.
+
+
+[level_10]
+Name=Pirats
+Time=0
+Bonus=30000
+
+Line1 =Your star has been located
+Line2 =inside the pirate's asteroid
+Line3 =base. They are waiting for
+Line4 =you to trade it.
+Line5 =Destroy them, no negociation
+Line6 =with pirates
+
+@

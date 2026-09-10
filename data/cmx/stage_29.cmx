@@ -1,0 +1,81 @@
+include stageall.cmx
+include enemy1.cmx
+
+[LiTHiUM FOE Informations]
+Version = 1
+LastCase = 1 ; Maximum de cas dans le fichier (0 … 64)
+;
+;
+;Scene Config
+;
+;
+[Scene]
+Music = 3
+Scene = STAGE_29.3DS
+Path = .\EP_2
+ParTime = 60
+;
+;
+;World Config
+;
+;
+[World]
+Focal = 225
+ZClip = 3024
+FogFactor = 1
+
+[NAV 0]
+Sky = yes
+SunFlare = yes
+Debris = yes
+
+;
+;
+; Configuration
+;
+;
+
+[case 0]
+Basename=NMY
+Type=t_ENEMY
+Shield=50
+Weight=350
+Scoring=128
+Tactic=FIGHT_PATROL1
+Attack=10
+Collision=AUTOSPHERE
+CollisionStyle=BUMP_LOSE_SHIELD
+SpeedMax=16
+Aim=yes
+Sight=512
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode2.SNX
+FinisHim=ELECTRI2.FLC
+SoundFinish=spark.SNX
+DebrisMode=DEBRIS1.FLC
+Doppler=doppler.SNX
+ColorRadar=2
+AfterDestroy=ADD_AIM
+
+[case 1]
+Basename=box
+Type=t_OBSTACLE
+Movement=TURN_RANDOM
+Shield=40
+Weight=250
+Scoring=98
+Collision=AUTOSPHERE
+CollisionStyle=ADD_SCORE_HIDE
+SpeedMax=20
+ColorRadar=3
+AfterDestroy=ADD_AIM
+DebrisMode=DEBRIS1.FLC
+Aim = yes
+ExplodeMode=EXPLOD2.FLC
+SoundExplode=explode.SNX
+SoundAppear=warp.SNX
+AppearMode=spjmp.flc
+NeverShock=50
+
+
+@

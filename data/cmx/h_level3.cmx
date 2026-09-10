@@ -1,0 +1,107 @@
+;
+; Informations Episode 3
+;
+;      123456789012345678901234567890
+[level_1]
+Name=the leader
+Line1 =Bien venu dans notre secteur,
+Line2 =vous ne serez pas de trop
+Line3 =pour y remettre de l'ordre.
+Line4 =Le baron est en sup‚riorit‚
+Line5 =num‚rique. Heureusement nos
+Line6 =positions nous permettent
+Line7 =de tenir le coup. 
+Line8 =Des vaisseaux approchent,
+Line9 =votre mission est de les
+Line10=intercepter dans la zone
+Line11=min‚e.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=first contact
+Line1 =Des vaisseaux inconnus sont
+Line2 =entr‚s dans notre secteur.
+Line3 =Leur vitesse est trŠs ‚lev‚e.
+Line4 =Interceptez les !
+Time=0
+Bonus=5000
+
+[level_3]
+Name=first attack
+Line1 =Alerte! des vaisseaux 
+Line2 =attaques un satellite avanc‚.
+Line3 =Dirigez vous imm‚diatement
+Line4 =au point X65-G44.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=after fire
+Line1 =Des vaisseaux attaquent notre
+Line2 =base! D‚fendez nous et
+Line3 =poursuivez les. Il ne doit en
+Line4 =rest‚ aucun!
+Time=0
+Bonus=5000
+
+[level_5]
+Name=nav point 4
+Line1 =Cette mission est trŠs
+Line2 =importante. Un rassemblement
+Line3 =de cargos transportant des
+Line4 =troupes c'est effectu‚ au
+Line5 =point nav 4. Votre mission
+Line6 =est de d‚truire tous les
+Line7 =cargos.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=base 101
+Line1 =nous avons intercepter un
+Line2 =message. Nous venons juste
+Line3 =de finir de le d‚crypter.
+Line4 =Une attaque est lanc‚e contre
+Line5 =la base 101. votre mission
+Line6 =est de vous y rendre le plus
+Line7 =vite possible, et de d‚fendre
+Line8 =notre installation.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=big interceptor
+Line1 =une regroupement de vaisseaux
+Line2 =c'est op‚r‚ aux coordonn‚es
+Line3 =X54-G432. 3 colonels sont
+Line4 =dans le convoie. Ils faut les
+Line5 =d‚truire en priorit‚.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=base attack
+Line1 =Des vaisseaux ont ‚t‚ rep‚r‚s
+Line2 =dans l'hyper espace. La base
+Line3 =est en alerte 5. Pr‚parez
+Line4 =vous au combat. La sortie
+Line5 =de l'hyper espace est
+Line6 =imminente.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Way out
+Line1 =Votre mission est d'escorter
+Line2 =le ravitailleur.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=spiders
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+@

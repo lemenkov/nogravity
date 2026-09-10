@@ -1,0 +1,65 @@
+;
+; Informations Episode 7
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Neumático
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_2]
+Name=El maligno
+Line1 =no hay información disponible
+Time=240
+Bonus=5000
+
+[level_3]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_4]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_5]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_6]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_7]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_8]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_9]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+[level_10]
+Name=**vácío**
+Line1 =no hay información disponible
+Time=0
+Bonus=5000
+
+@

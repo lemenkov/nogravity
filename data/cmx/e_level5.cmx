@@ -1,0 +1,89 @@
+; Textes Mission 5 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Disturbances
+Line1 =Nothing special for the moment
+Line2 =except the usual magnetic
+Line3 =perturbations.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Containers
+Line1 =Freight has been located in
+Line2 =sector Tesla 1.
+Line3 =Find it and bring it to
+Line4 =sector Gamma 3.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Protection
+Line1 =Protect the installations.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Front Line
+Line1 =Two of our bases have been
+Line2 =attacked, they won’t last 
+Line3 =long.
+Line4 =We need every available
+Line5 =fighters.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=The ROCK
+Line1 =A secret transmitter has been
+Line2 =discovered in the asteroid 
+Line3 =field. Find it and destroy 
+Line4 =it.
+Line5 =It could be hidden in any
+Line6 =asteroid.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Hope
+Line1 =A mother ship will arrive.
+Line2 =Find it.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=The Chase (part 2)
+Line1 =You have been waiting at
+Line2 =coordinates 042E.38EF.8213.
+Line3 =Do not engage in the fight.
+Time=0
+Bonus=5000
+
+[level_8]
+Name=Convoy
+Line1 =Three freight ships have been
+Line2 =attacked at the Nav point 2, 
+Line3 =go help them and go to the
+Line4 =Nav point 4 to prepare for
+Line5 =the arrival of a fourth ship.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Vipers
+Line1 =Destroy all the transmission
+Line2 =relays and generators to 
+Line3 =weaken the fortress.
+
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Final Fight
+Line1 =No informations .
+Time=0
+Bonus=5000
+
+@

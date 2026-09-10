@@ -1,0 +1,120 @@
+;
+; Informations Episode 4
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Unter einen dunkelen Mond
+Line1 =Willkommen in diesem bereich
+Line2 =Unteroffizier. Vur ihren
+Line3 =ersten Auftrag im bereich
+Line4 =schicken wir sie den H53-H33
+Line5 =Sektor zu klaren. Mansche von
+Line6 =unseren Kampfraumschiffe sind
+Line7 =schon dort und schlachten mit
+Line8 =den gegners der macht des
+Line9 =Kaisers.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Alarm!
+Line1 =Mehrere Rakete sind wurden in
+Line2 =unsere richtung geschossen.
+Line3 =Da mehrere Wurderntrager
+Line4 =bei uns als gast sind, must
+Line5 =diesen angriff gestoppt sein.
+Line6 =Sie wissen ja was passieren
+Line7 =wurde wenn eine von diesen
+Line8 =Raketen die base treffen
+Line9 =wurde.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Springpunkt 4
+Line1 =Danke ihrer einmischung haben
+Line2 =wir das Ort woher die Raketen
+Line3 =geschossen wurden finden
+Line4 =konnen. Euren auftrag ist
+Line5 =zu den B33-S1 Koordinaten
+Line6 =zu fliegen und dort die
+Line7 =Raketen zerstoren.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Quasar Erforscher
+Line1 =Ein Feindlicher Kreuzer wird
+Line2 =bald ankommen. Die gegner
+Line3 =sind zuviel vur sie allein.
+Line4 =Nachdem sie ihre Mitgleider
+Line5 =in den verschiedenen Navs
+Line6 =gefunden haben, fliegt
+Line7 =zuruck und zerstort den
+Line8 =Kreuzer. Wir winschen sie
+Line9 =Alles bestens.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=AURORA MINENFELD 
+Line1 =Minen verseuchen das
+Line2 =bereich. Eure Aufgabe ist
+Line3 =alle Nav punkte zu klaren.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=STAR SHIP TROOPER
+Line1 =Eine Rebellen Kampfgruppe 
+Line2 =greift unsere Verkehrstrager.
+Line3 =an. Ein paar von ihnen sind
+Line4 =in gefahr an den X544-Y7
+Line5 =Koordinaten. Euren Auftrag 
+Line6 =ist zu patrouillieren und
+Line7 =die Rebellen zu stoppen.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=BESCHUTZE UND UBERLEBE
+Line1 =Die technikers von 3 Verkehrs-
+Line2 =trager haben einen fehler
+Line3 =gemacht. Falsche Koordinaten
+Line4 =wurden in den Hyperraum 
+Line5 =kontrol Computer eingetypt.
+Line6 =Sie riskieren in einen
+Line7 =Minenfeld wieder aufzutauchen.
+Line8 =Euren Auftrag besteht in der
+Line9 =zerstorung von alle Minen
+Time=0
+Bonus=5000
+
+[level_8]
+Name=Auf dem Weg
+Line1 =Die XENON Vereinigung hat uns
+line2 =vur die begleitung eines ihres
+Line3 =Transports um hilfe gefragt.
+Line4 =Euren Auftrag ist sie zu
+Line5 =beschutzen so das sie in einem
+line6 =guten Zustand annkommen.
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Der Einbruch
+Line1 =Unsere Radaren zeigen uns das
+Line2 =grosse Raumschiffe in den
+Line3 =H5J Sektor gewarpt haben.
+Line4 =Euren Auftrag ist sie zu
+Line5 =entdecken und zerstoren.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Die Station
+Line1 =noch nichts hier
+Time=0
+Bonus=5000
+
+@

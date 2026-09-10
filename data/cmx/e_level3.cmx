@@ -1,0 +1,89 @@
+; Textes Mission 1 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Black Leader
+Line1 =Enemy ships are coming to your
+Line2 =area, intercept them in the
+Line3 =mine field.
+Time=0
+Bonus=3000
+
+[level_2]
+Name=Wasp buster
+Line1 =Unidentified flying objects
+Line2 =just entered our galaxy, their
+Line3 =speed is unusually high.
+Line4 =Intercept them.
+
+Time=0
+Bonus=3000
+
+[level_3]
+Name=Total Destruction
+Line1 =Go to coordinates
+Line2 =EF65.5434.952E.,
+Line3 =a fight just started
+Line4 =they will need your help.
+Time=0
+Bonus=3000
+
+[level_4]
+Name=after fire
+Line1 =The base is attacked, come
+Line2 =back here.
+Line3 =None of the attacker must
+Line4 =escape.
+Time=0
+Bonus=3000
+
+[level_5]
+Name=nav point 4
+Line1 =Go to Nav point 4 and destroy
+Line2 =every freighter ship you meet.
+
+Time=0
+Bonus=3000
+
+[level_6]
+Name=Nexus Alpha
+Line1 =Nexus Alpha is in danger, go
+Line2 =there as fast as you can.
+Time=0
+Bonus=3000
+
+[level_7]
+Name=Cruiser
+Line1 =Go to coordinates
+Line2 =EF54.G432.2586.
+Line3 =3 enemy colonels
+Line4 =should gather there, destroy
+Line5 =their ship first.
+
+Time=0
+Bonus=3000
+
+[level_8]
+Name=HyperSpace
+Line1 =Enemies are approaching
+Line2 =through hyperspace,
+Line3 =get ready for the fight.
+Time=0
+Bonus=3000
+
+[level_9]
+Name=Way out
+Line1 =Escort the cargo ship
+Line2 =to its destination.
+Time=0
+Bonus=3000
+
+[level_10]
+Name=spiders
+Line1 =You made it !. Now
+Line2 =you know what to do...
+Time=0
+Bonus=20000
+
+@

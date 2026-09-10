@@ -1,0 +1,76 @@
+;
+; Informations Episode 8
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Sonnenaufgang 1
+Line1 =Training Auftrag 1
+Line2 =~
+Line3 =Sie haben 2 Minuten um die
+Line4 =Strecke in seiner voller
+Line5 =lange zu fliegen.
+Time=175
+Bonus=5000
+
+[level_2]
+Name=Sonnenaufgang 2
+Line1 =Training Auftrag 2
+Line2 =~
+Line3 =Der ziel dieses Training ist
+Line4 =die zerstorung von allen
+Line5 =Zielscheiben bevor das ende
+Line6 =des Countdowns.
+Time=200
+Bonus=5000
+
+[level_3]
+Name=Sonnenaufgang 3
+Line1 =Training Auftrag 3
+Line2 =~
+Line3 =Training Kannone wurden auf
+Line4 =der Strecke angesetzt. Sie
+Line5 =mussen sie alle zerstoren und
+Line6 =die strecke bis ans ende
+line7 =fliegen.
+Line8 =~
+Line9 =Bonuskapseln werden ihren
+Line10 =Schield von zeit zu zeit
+Line11 =wieder sterken.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Sonnenaufgang 4
+Line1 =Minen wurden im Weltraum 
+Line2 =zerstreut. Eures ziel ist sie
+Line3 =alle zu zerstoren bevor die
+Line4 =ende der zugeteilten zeit.
+Line5 =~
+Line6 =Um sie sich besser zurecht 
+Line7 =zu finden, Benutzt den 3D
+Line8 =Radar (R) sowie die Raketen
+Line9 =(6) indem sie die Zielscheiben
+Line10=mit der L taste lockieren.
+Time=200
+Bonus=5000
+
+[level_5]
+Name=Sonnenaufgang 5
+Line1 =Training Auftrag 5
+Line2 =~
+Line3 =Euren Auftrag ist aus mehere
+Line4 =Nav punkte erzeugt. 
+Line5 =~
+Line6 =Ein Zahler (Der links von dem
+Line7 =Visier ist) gibt ihnen die 
+Line8 =anzahl von Zielscheiben die
+Line9 =sie noch zerstoren mussen um
+Line10=in den anderen Nav zu
+Line11=springen. Sobald der Zahler
+Line12=auf 0 ist, dans fliegt zu der
+Line13=blinkender Baliese und druckt
+Line14=auf die A taste.
+Time=0
+Bonus=5000
+
+@

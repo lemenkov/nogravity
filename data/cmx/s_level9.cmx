@@ -1,0 +1,118 @@
+;
+; Informations Episode 1
+;
+;      123456789012345678901234567890
+[level_1]
+Name=no informations available
+Line1 =
+Line2 =
+Line3 =
+Line4 =
+Line5 =
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=mine_01
+Spec1=Mine to destroy
+Brief2=base_
+Spec2=Friend Base.³do not destroy
+
+[level_2]
+Name=no informations available
+Line1=
+Line2=
+Line3=
+Line4=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=trans_
+Spec1=Transporter
+Brief2=vais1_
+Spec2=Interceptor
+Brief3=ship_
+Spec3=Your Ship
+
+[level_3]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=mere_
+Spec1=SuperShip Centor
+Brief2=ship_
+Spec2=Your Ship
+
+[level_4]
+Name=no informations available
+Line1=
+Line2=
+Line3=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=ship_
+Spec1=Your Ship
+
+[level_5]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=ship_
+Spec1=Your Ship
+
+[level_6]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+Bonus=5000
+WeaponMax=3
+Brief1=ship_
+Spec1=Your Ship
+
+[level_7]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=ship_
+Spec1=Your Ship
+
+[level_8]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=ship_
+Spec1=Your Ship
+
+[level_9]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=ship_
+Spec1=Your Ship
+
+[level_10]
+Name=no informations available
+Line1=
+Line2=
+Time=0
+WeaponMax=3
+Bonus=5000
+Brief1=ship_
+Spec1=Your Ship
+@

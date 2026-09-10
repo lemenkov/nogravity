@@ -1,0 +1,97 @@
+; Textes Mission 1 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Leader Noir
+Line1 =Des vaisseaux ennemis se
+Line2 =deplacent en votre direction,
+Line3 =interceptez les dans la zone
+Line4 =minee
+Time=0
+Bonus=3000
+
+[level_2]
+Name=Insecticide
+Line1 =Des objets volants non
+Line2 =identifies approchent a tres
+Line3 =haute vitesse de notre
+Line4 =systeme.
+Line5 =Stoppez les le plus rapidement
+Line6 =possible.
+Time=0
+Bonus=3000
+
+[level_3]
+Name=Destruction Global
+Line1 =Rendez vous au coordonnees
+Line2 =EF65.5434.952E.
+Line3 =Un combat vient d'y etre
+Line4 =engagé, ils vont avoir
+Line5 =besoin de vous.
+Time=0
+Bonus=3000
+
+[level_4]
+Name=Apres le combat
+Line1 =Retour immediat a la base !, 
+Line2 =nous subissons une attaque.
+Line3 =Aucun assaillant ne doit y en
+Line4 =echapper.
+Time=0
+Bonus=3000
+
+[level_5]
+Name=NAV point 4
+Line1 =Une rumeur court sur la
+Line2 =possibilite que votre bien se
+Line3 =trouve au NAV 4, detruisez
+Line4 =tous les vaisseaux que vous y
+Line5 =rencontrerez.
+Time=0
+Bonus=3000
+
+[level_6]
+Name=Nexus Alpha
+Line1 =La base Nexus Alpha est en
+Line2 =danger, rejoignez- la au plus
+Line3 =vite.
+Time=0
+Bonus=3000
+
+[level_7]
+Name=Croiseur
+Line1 =Un regroupement militaire
+Line2 =ennemi a lieu aux coordonnees
+Line3 =EF54.G432.2586.
+Line4 =3 colonels s'y trouvent,
+Line5 =detruisez leur vaisseau en
+Line6 =priorite
+Time=0
+Bonus=3000
+
+[level_8]
+Name=HyperEspace
+Line1 =Un groupement ennemi approche
+Line2 =en hyper espace,
+Line3 =Preparez vous au combat
+Time=0
+Bonus=3000
+
+[level_9]
+Name=Sortie de secours
+Line1 =Escortez le ravitailleur
+Line2 =jusqu'a bon port, ils vous
+Line3 =donneront les coordonnees de
+Line4 =la base ou se trouve votre
+Line5 =etoile.
+Time=0
+Bonus=3000
+
+[level_10]
+Name=Arachnides
+Line1 =A vous de jouer.
+Time=0
+Bonus=20000
+
+@

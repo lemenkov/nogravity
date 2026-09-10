@@ -1,0 +1,99 @@
+; Textes Mission 4 (Francais)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=Fighters
+Line1 =A squadron is waiting for help
+Line2 =at coordinates FE53.E433.0055
+Line3 =The battle is raging furiously.
+
+Time=0
+Bonus=5000
+
+[level_2]
+Name=Missile
+Line1 =Missiles have been launched
+Line2 =from an enemy base.
+Line3 =They are targeting BASE X 23.
+Line4 =They must not hit their
+Line5 =target.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=Launcher
+Line1 =Missiles were coming from 
+Line2 =point XE3F.4323.8E21
+Line3 =You should find a spy base
+Line4 =there.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=Quasar Explorer
+Line1 =Enemies are approaching.
+Line2 =Find your team and get ready
+Line3 =for the fight.
+Time=0
+Bonus=5000
+
+[level_5]
+Name=AURORA Mine field
+Line1 =Clean each Nav Point of the
+Line2 =mines you will find.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=Space Wars
+Line1 =Go to coordinates
+Line2 =X544.E432.4821,
+Line3 =freighters have been
+Line4 = attacked.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=Cleaner
+
+Line1 =Three ships will exit
+Line2 =hyperspace in the middle of
+Line3 =a mine field, clean the area
+Line4 =before their arrival.
+
+Time=0
+Bonus=5000
+
+[level_8]
+Name=On the way
+Line1 =Escort the ship to its
+Line2 =destination.
+
+Time=0
+Bonus=5000
+
+[level_9]
+Name=Raid
+
+Line1 =Ships of sizable importance
+Line2 =are in the area H5J.
+Line3 =Go there to check their
+Line4 =status and destroy them if
+Line5 =necessary.
+
+
+Time=0
+Bonus=5000
+
+[level_10]
+Name=Orbital
+Line1 =At the last Nav Point,
+Line2 =you will find something
+Line3 =interesting.
+Line4 =Good luck!
+
+Time=0
+Bonus=5000
+
+@

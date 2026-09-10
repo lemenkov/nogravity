@@ -1,0 +1,72 @@
+; Textes Mission Training (english)
+; Ne pas depasser le dernier zero  __
+; 18/12/97                          v
+;      123456789012345678901234567890
+[level_1]
+Name=amanecer 1
+
+Line1 =Las condiciones de vuelo de  
+Line2 =nuestra galaxia son muy 
+Line3 =diferentes de las vuestras.
+Line4 =Tendrás que aprender de
+Line5 =nuevo a volar y a luchar.
+Line6 =Empecemos con un simple
+Line7 =ejercicio de vuelo:
+Line8 =tienes dos minutos para 
+Line9 =terminarlo.
+
+
+Time=175
+Bonus=1000
+
+[level_2]
+Name=amanecer 2
+Line1 =Bien. Puedes volar, pero
+Line2 =¿qué tal luchar al mismo
+Line3 =tiempo?
+Line4 =Destruye todos los blancos
+Line5 =y controla tu tiempo.
+
+Time=200
+Bonus=1000
+
+[level_3]
+Name=amanecer 3
+Line1 =Lo mismo, pero ahora las
+Line2 =armas están cargadas.
+Line3 =No olvides recargar tu
+Line4 =escudo.
+
+
+Time=0
+Bonus=5000
+
+[level_4]
+Name=amanecer 4
+Line1 =Nuestra galaxia es un campo
+Line2 =de minas; hallarlas y
+Line3 =destruirlas es a menudo la
+Line4 =clave del éxito en tu misión.
+Line5 =Es una buena ocasión de
+Line6 =experimentar el radar 3D (R)
+Line7 =y los misiles teledirigidos.
+Line8 =Sólo tienes un número
+Line9 =limitado.
+
+
+[level_5]
+Name=amanecer 5
+
+Line1 =Último entrenamiento: destruye 
+Line2 =destruye todos los blancos de
+Line3 =cada zona (comprueba la
+Line4 =izquierda de tu vista), luego
+Line5 =ve al punto Nav. y pulsa A para
+Line6 =ir a la zona siguiente.
+Line7 =Entonces estarás listo para 
+Line8 =una batalla real.
+
+Time=0
+Bonus=5000
+
+@

@@ -1,0 +1,126 @@
+;
+; Informations Episode 5
+;
+;      123456789012345678901234567890
+[level_1]
+Name=Doomed
+Line1 =nous somme dans la fosse
+Line2 =du signe. Nom commun‚ment
+Line3 =donn‚ … ce secteur trŠs sujet
+Line4 =aux perturbations magn‚tiques
+Line5 =provoqu‚es par le trou noir.
+Line6 =Les machineries en souffrent
+Line7 =beaucoup, ainsi que les
+line8 =hommes. Vous remarquerez
+line9 =rapidement en faisant votre
+line10=patrouille.
+Time=0
+Bonus=5000
+
+[level_2]
+Name=MODULE B1
+Line1 =Des caisses ont ‚t‚ rep‚r‚es
+Line2 =dans le secteur R343. votre
+Line3 =mission est de les r‚cup‚rer
+Line4 =et de vous rendre aux centre
+Line5 =de communication du secteur
+Line6 =TT56 ou le warp vous attend.
+Time=0
+Bonus=5000
+
+[level_3]
+Name=On the BALL
+Line1 =Des modules attaquent nos
+Line2 =installations! Prot‚gez-les
+Line3 =… tout prix.
+Time=0
+Bonus=5000
+
+[level_4]
+Name=blue dead Line
+Line1 =2 de nos champs de forces
+Line2 =sont attaqu‚s. Ils essayent
+Line3 =de se d‚fendre comme ils
+Line4 =peuvent, mais ils ne 
+Line5 =r‚sisterons pas longtemps
+Line6 =face au nombre d'ennemis
+Line7 =grandissants.
+Line8 =~
+Line9 =les modules ferons tout pour
+Line10=vous ralentir en chemin.
+Line8 =D‚pˆchez vous!
+Time=0
+Bonus=5000
+
+[level_5]
+Name=THe ROCK
+Line1 =Un ‚metteur ennemi a ‚t‚
+Line2 =cach‚ dans un ast‚roide.
+Line3 =Il est imp‚ratif de le 
+Line4 =d‚truire.
+Line5 =~
+Line6 =Nous n'avons pas r‚ussit
+Line7 =… le localiser exactement.
+Line8 =C'est … vous de le trouver.
+Line9 =S'il le faut, d‚truisez tout
+Line10=le champ d'ast‚roid.
+Time=0
+Bonus=5000
+
+[level_6]
+Name=AUSSAULT POINT
+Line1 =Un vaisseau mŠre ennemi est
+Line2 =apparu dans notre secteur.
+Line3 =~
+Line4 =Trouvez le et d‚truisez le.
+Time=0
+Bonus=5000
+
+[level_7]
+Name=ESCAPE 
+Line1 =Vous ˆtes attendu aux
+Line2 =coordonn‚es GG4-3R2.
+Line3 =~
+Line4 =Les modules vont s–rement
+Line5 =vouloir vous interceptez.
+Line6 =~
+Line7 =N'engagez pas le combat!
+Time=0
+Bonus=5000
+
+[level_8]
+Name=HELP
+Line1 =Nous avons re‡u un signal de
+Line2 =d‚tresse de 3 transporteur
+Line3 =qui sont attaqu‚s par des
+Line4 =modules.
+Line5 =~
+Line6 =Une fois que vous aurez
+Line7 =nettoy‚ le nav 2, Allez
+Line8 =accueillir un 4e transporteur
+Line9 =au point nav 4. Je ne pense 
+Line10=pas que les modules le laisse
+Line11=tranquile!
+Time=0
+Bonus=5000
+
+[level_9]
+Name=vipers
+Line1 =Le but est proche. 
+Line2 =pour affaiblir l'ennemi
+Line3 =vous devez d‚truire les
+Line4 =relais ainsi que les
+Line5 =generateurs atomiques.
+Line6 =~
+Line7 =attention, ces installations
+Line8 =sont sous haute surveillance.
+Time=0
+Bonus=5000
+
+[level_10]
+Name=final round
+Line1 =no informations available
+Time=0
+Bonus=5000
+
+@
