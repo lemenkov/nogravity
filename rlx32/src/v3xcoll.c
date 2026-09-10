@@ -45,7 +45,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 * DESCRIPTION :
 *
 */
-V3XCL *V3XCL_New(int numItem )
+static V3XCL *V3XCL_New(int numItem )
 {
     V3XCL *Cs = (V3XCL*)MM_heap.malloc(sizeof(V3XCL));
     Cs->numItem = numItem ;
@@ -72,7 +72,7 @@ void V3XCL_Release(V3XCL *Cs)
 * DESCRIPTION :
 *
 */
-void V3XCL_findGlobalSphere(V3XMESH *obj, V3XCL_SPHERE *Cs)
+static void V3XCL_findGlobalSphere(V3XMESH *obj, V3XCL_SPHERE *Cs)
 {
     int32_t j;
     V3XVECTOR *caller=obj->vertex;
@@ -425,7 +425,7 @@ int V3XCL_Test(V3XCL *a, V3XCL *b)
 * DESCRIPTION :
 *
 */
-void V3X_DrawSphere(V3XMATRIX *mat, V3XVECTOR *center, V3XSCALAR r, u_int32_t cl)
+static void V3X_DrawSphere(V3XMATRIX *mat, V3XVECTOR *center, V3XSCALAR r, u_int32_t cl)
 {
 	char __temp[2048];
     int32_t det = 8, det1=4096L/det;
@@ -448,7 +448,7 @@ void V3X_DrawSphere(V3XMATRIX *mat, V3XVECTOR *center, V3XSCALAR r, u_int32_t cl
 * DESCRIPTION :
 *
 */
-void V3XBBox_Draw(V3XVECTOR *mini, V3XVECTOR *maxi, u_int32_t cl)
+static void V3XBBox_Draw(V3XVECTOR *mini, V3XVECTOR *maxi, u_int32_t cl)
 {
 	char __temp[2048];
     V3XVECTOR *b=(V3XVECTOR*)__temp;

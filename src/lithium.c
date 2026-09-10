@@ -60,6 +60,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_struc.h"
 #include "lt_data.h"
 #include "lt_func.h"
+static void NG_CreateDisplayList(void);
 
 
 static u_int8_t *g_HeapBuffer;
@@ -71,7 +72,7 @@ static u_int32_t g_HeapSize = 0x800000;
 * Description :
 *
 */
-void NG_CleanUp(void)
+static void NG_CleanUp(void)
 {
     if (g_HeapBuffer)
 		free(g_HeapBuffer);
@@ -84,7 +85,7 @@ void NG_CleanUp(void)
 * DESCRIPTION :
 *
 */
-void NG_SetGameInfo(void)
+static void NG_SetGameInfo(void)
 {
     g_SGSettings.Menu = 1;
 	g_SGSettings.VerticalSync = 1;
@@ -593,7 +594,7 @@ static int EnumDisplayMode(char **ModeList)
 
 }
 
-void NG_CreateDisplayList(void)
+static void NG_CreateDisplayList(void)
 {
     SGMenu *pMenu = g_pMenuVideo + 0;
     pMenu->max = EnumDisplayMode(pMenu->Val);

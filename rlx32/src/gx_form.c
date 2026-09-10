@@ -42,7 +42,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "gx_cdc.h"
 #include "_rlx.h"
 
-IMG_Codec IMG_FormList[]={
+static IMG_Codec IMG_FormList[]={
     {".png", PNG_unpack},
 	{NULL, NULL}
 };
@@ -54,7 +54,7 @@ IMG_Codec IMG_FormList[]={
 * DESCRIPTION :
 *
 */
-int IMG_LoadFp(const char *filename, SYS_FILEHANDLE fp, GXSPRITE *sp)
+static int IMG_LoadFp(const char *filename, SYS_FILEHANDLE fp, GXSPRITE *sp)
 {
     int bpp, op=1;
     GXSPRITE spp;

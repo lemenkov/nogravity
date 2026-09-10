@@ -80,12 +80,10 @@ _RLXEXPORTFUNC    void    RLXAPI  RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c);
 _RLXEXPORTFUNC    unsigned   RLXAPI  RGB_SetPixelFormat(int r, int g, int b);    //
 
     // Operation Palette
-_RLXEXPORTFUNC    void    RLXAPI  PAL_fadeChannel(rgb24_t *pf, int st, int fi, int start, int fin, rgb48_t *coul, int revrse);
 _RLXEXPORTFUNC    void    RLXAPI  PAL_fading(     rgb24_t *palfade, int start, int fin, int echelle, int revrse);
 
     // Load color Table
 _RLXEXPORTFUNC    void    RLXAPI  ACT_LoadFn(rgb24_t *pal, char *filename2);
-_RLXEXPORTFUNC    void    RLXAPI  ACT_LoadFp(rgb24_t *pal, SYS_FILEHANDLE in);
 
     // Color converters
 _RLXEXPORTFUNC    u_int32_t   RLXAPI  RGB_convert(int c, rgb24_t *palette);

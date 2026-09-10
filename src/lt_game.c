@@ -280,7 +280,7 @@ static void NG_UpdateCamera(void)
 * DESCRIPTION :
 *
 */
-void PauseSoundGame(void)
+static void PauseSoundGame(void)
 {
     NG_AudioPauseMusic();
     V3XA.Client->ChannelFlushAll(1);
@@ -293,7 +293,7 @@ void PauseSoundGame(void)
 * DESCRIPTION :
 *
 */
-void ResumeSoundGame(void)
+static void ResumeSoundGame(void)
 {
     V3XA.Client->ChannelFlushAll(1);
     NG_AudioResumeMusic();
@@ -330,7 +330,7 @@ void NG_RenderView(void)
 * Description :
 *
 */
-int ShowHelpBack(void)
+static int ShowHelpBack(void)
 {
     timer_Reset(&g_cTimer);
     NG_RenderView();
@@ -345,7 +345,7 @@ int ShowHelpBack(void)
 * DESCRIPTION :
 *
 */
-void NG_MissionSummary(int sty)
+static void NG_MissionSummary(int sty)
 {
     GXSPRITEGROUP *pFont = 1  ? g_pspDispFont : g_pspCat;
     int quit = 0;
@@ -384,7 +384,7 @@ void NG_MissionSummary(int sty)
 * DESCRIPTION :
 *
 */
-void ShowHelp(void)
+static void ShowHelp(void)
 {
     u_int32_t tim = (SDL_GetTicks() / 1000);
     int32_t p=MM_heap.push();
@@ -517,7 +517,7 @@ static int NG_DisplayDropMenu(char **menu)
 * DESCRIPTION :
 *
 */
-int NG_QuitGame(void)
+static int NG_QuitGame(void)
 {
     u_int32_t tim=(SDL_GetTicks() / 1000), ret=0;
     char *PauseMenu[]={g_szGmT[165],
@@ -1623,7 +1623,7 @@ void NG_DisplayWarp(void)
 * DESCRIPTION :
 *
 */
-void NG_StarfieldUpdate(void)
+static void NG_StarfieldUpdate(void)
 {
     unsigned i;
     V3XSCALAR spid = g_pPlayer->J.pInf.fSpeed / 8;
@@ -2619,7 +2619,7 @@ void NG_DrawFlash()
     }
 }
 
-void NG_DrawOverlay(void)
+static void NG_DrawOverlay(void)
 {
    	NG_FXDraw();
 

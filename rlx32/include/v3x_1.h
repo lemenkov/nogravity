@@ -40,21 +40,15 @@ _RLXEXPORTFUNC    void     RLXAPI V3XMatrix_BuildFromVector(V3XMATRIX *M0, V3XVE
 _RLXEXPORTFUNC    void     RLXAPI V3XMatrix_BuildFromNVector(V3XMATRIX *M0, V3XVECTOR *v, int roll);
 
     // Vector operator
-_RLXEXPORTFUNC    V3XSCALAR RLXAPI V3XVector_ProjectPointLine(V3XVECTOR *res, V3XVECTOR *u, V3XVECTOR *e0, V3XVECTOR *e1);
-_RLXEXPORTFUNC    int      RLXAPI V3XVector_IntersectPlaneSegmentEx(V3XVECTOR * isect, V3XVECTOR * start, V3XVECTOR * end, V3XVECTOR *normal, V3XSCALAR d, V3XSCALAR* pr);
 _RLXEXPORTFUNC    int      RLXAPI V3XVector_IntersectPlaneSegment(V3XVECTOR * isect, V3XVECTOR * start, V3XVECTOR * end, V3XVECTOR *normal, V3XVECTOR *point);
 _RLXEXPORTFUNC    int      RLXAPI V3XVector_IntersectSphereSegment(V3XSCALAR radius, V3XVECTOR *center, V3XVECTOR *start, V3XVECTOR *end);
 _RLXEXPORTFUNC    int      RLXAPI V3XVector_InPoly(V3XVECTOR * isect, int numVerts, V3XVECTOR *vertex, V3XVECTOR *normal);
    // Bounding boxes
-_RLXEXPORTFUNC    void     RLXAPI V3XBBox_Compute(V3XVECTOR *mini, V3XVECTOR *maxi, int numVerts, V3XVECTOR *vertex);
-_RLXEXPORTFUNC    int      RLXAPI V3XBBox_Inside(V3XVECTOR *vertex, V3XVECTOR *mini, V3XVECTOR *maxi);
-_RLXEXPORTFUNC    void     RLXAPI V3XBBox_Draw(V3XVECTOR *mini, V3XVECTOR *maxi, u_int32_t cl);
 
    // Transformation
 _RLXEXPORTFUNC    void     RLXAPI V3XVector_WorldPos(V3XMATRIX *Mat, V3XVECTOR *input, V3XVECTOR *result);
 _RLXEXPORTFUNC    int      RLXAPI V3XVector_TransformProject_pts(V3XVECTOR *input, V3XVECTOR *result);
     // Primitive graphique
-_RLXEXPORTFUNC    void     RLXAPI V3X_DrawSphere(V3XMATRIX *mat, V3XVECTOR *centre, V3XSCALAR r, u_int32_t cl);
 _RLXEXPORTFUNC    void     RLXAPI V3X_DrawBox(V3XVECTOR *Min1, V3XVECTOR *Max1, u_int32_t cl);
 
 __end_extern_c

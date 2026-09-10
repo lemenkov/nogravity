@@ -163,7 +163,7 @@ V3XOVI RLXAPI *V3XScene_Camera_GetByName(V3XSCENE *pScene, const char *name)
 * Description :
 *
 */
-void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
+static void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
 {
     V3XOVI *OVI;
     V3XORI *nORI, *cORI;
@@ -230,7 +230,7 @@ void RLXAPI V3XScene_CRC_Check(V3XSCENE* pScene)
     return;
 }
 /* 1 */
-void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *pScene)
+static void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *pScene)
 {
     int i, n=0, j=0;
     for (i=0;i<pScene->numOVI;i++)
@@ -257,7 +257,7 @@ void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *pScene)
 * DESCRIPTION :
 *
 */
-void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
+static void RLXAPI V3XScene_Validate(V3XSCENE* pScene)
 {
     V3XTVI *TVI;
     V3XTRI *TRI;
@@ -712,7 +712,7 @@ static u_int32_t BGETFIELD(u_int32_t bf, int base, int length)
 }
 #endif
 
-V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
+static V3XMATERIAL *V3XMaterials_GetFp(SYS_FILEHANDLE in, int numMaterial)
 {
     V3XMATERIAL *Mat;
     u_int32_t *raw;
@@ -1466,7 +1466,7 @@ static void ReadSceneNodes(V3XSCENE *pScene, SYS_FILEHANDLE in, int bFormat97)
 }
 
 #define HEAD1 28
-_RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
+static V3XSCENE RLXAPI *V3XScene_GetFromFile_VMX(const char *filename)
 {
     u_int8_t *temp, *sy;
     SYS_FILEHANDLE in = FIO_gzip.fopen(filename, "rb");

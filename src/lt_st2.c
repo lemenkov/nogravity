@@ -94,7 +94,7 @@ static void v3x_RenderOneObject(V3XSCENE *Scene, V3XOVI *OVI)
     return;
 }
 
-void NG_RenderDisplayBox(RW_Button *but, V3XMATRIX *Mat, V3XOVI *OVI)
+static void NG_RenderDisplayBox(RW_Button *but, V3XMATRIX *Mat, V3XOVI *OVI)
 {
     GXVIEWPORT CamFen;
     int m = V3X.Camera.matrix_Method;
@@ -153,7 +153,7 @@ void NG_DrawTicker(void)
     return;
 }
 
-void NG_HudDisplayRear(void)
+static void NG_HudDisplayRear(void)
 {
     RW_Button *b = g_pGameBoard->item+VCfg_win_rear;
     V3XMATRIX Cam = V3X.Camera.M;
@@ -163,7 +163,7 @@ void NG_HudDisplayRear(void)
     return;
 }
 
-int NG_HudDisplayLocked(V3XOVI *OVI)
+static int NG_HudDisplayLocked(V3XOVI *OVI)
 {
     V3XMATRIX Cam;
     RW_Button *but = g_pGameBoard->item+VCfg_win_camis;

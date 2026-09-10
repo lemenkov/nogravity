@@ -88,9 +88,9 @@ void NG_WaitForKeyWithDelay(int dt)
     return;
 }
 
-u_int8_t SGJOY_ButtonKeys[128];
-char SGPOV_ButtonKeys[128];
-char SGMOU_ButtonKeys[128];
+static u_int8_t SGJOY_ButtonKeys[128];
+static char SGPOV_ButtonKeys[128];
+static char SGMOU_ButtonKeys[128];
 
 int NG_SampleButtonJoystick()
 {

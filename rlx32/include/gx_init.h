@@ -38,8 +38,6 @@ __extern_c
 
 _RLXEXPORTFUNC	  void  RLXAPI  GX_KernelAlloc();
 _RLXEXPORTFUNC    void  RLXAPI  GX_SetupViewport(struct _gx_viewport *pView, int x, int y, int bpp);
-_RLXEXPORTFUNC    void  RLXAPI  GX_SetupDefaultViewport(int x, int y, int bbp);
-_RLXEXPORTFUNC    void  RLXAPI  GX_EntryPoint(struct RLXSYSTEM *p);
 _RLXEXPORTFUNC	  void  RLXAPI  GX_GetGraphicInterface(struct GXSYSTEM *p);
 
 _V3XEXPORTFUNC    void  RLXAPI  V3X_EntryPoint(struct RLXSYSTEM *p);

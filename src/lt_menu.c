@@ -75,8 +75,8 @@ typedef struct {
     GXSPRITEGROUP *desp;
 }ShapeStruct;
 
-int g_cFadeValue;
-int g_cFadeValueDir;
+static int g_cFadeValue;
+static int g_cFadeValueDir;
 static int bControlSetup = 0;
 
 static char *g_pRootMain[]={g_szGmT[45], g_szGmT[46], g_szGmT[48], g_szGmT[49], g_szGmT[50], g_szGmT[51], g_szGmT[52], NULL};
@@ -183,7 +183,7 @@ static int xADD8(int a, int b)
 	return min(255, a + b);
 }
 
-u_int32_t NG_PixelFormat(int r, int g, int b, int a)
+static u_int32_t NG_PixelFormat(int r, int g, int b, int a)
 {
  	r = xADD8(RLX.Video.Gamma, xMUL8(r, g_cFadeValue));
 	g = xADD8(RLX.Video.Gamma, xMUL8(g, g_cFadeValue));
@@ -191,7 +191,7 @@ u_int32_t NG_PixelFormat(int r, int g, int b, int a)
 	return RGBA_PixelFormat(r,g,b,a);
 }
 
-void NG_UpdateColor()
+static void NG_UpdateColor()
 {
 	COLOR_WHITE = NG_PixelFormat(255, 255, 255, 0);
 	COLOR_GRAY = NG_PixelFormat(180, 180, 190, 0);
@@ -211,7 +211,7 @@ void NG_UpdateColor()
 		g_cFadeValue=0;
 }
 
-void NG_ResetColor()
+static void NG_ResetColor()
 {
 	g_cFadeValue = 0;
 	g_cFadeValueDir = 8;
@@ -360,7 +360,7 @@ static GXSPRITE *NG_GetCursorSprite2(void)
     return g_cCursorMenu.pSelectAnim->item+g_cCursorMenu.Frame2;
 }
 
-void GX_DrawBoxEffect3D(int32_t x, int32_t y, int32_t lx, int32_t ly)
+static void GX_DrawBoxEffect3D(int32_t x, int32_t y, int32_t lx, int32_t ly)
 {
     int32_t xlx=x+lx, yly=y+ly;
     GX.gi.drawHorizontalLine ( x - 1, y - 1, lx + 3, COLOR_GRAY1);
@@ -914,7 +914,7 @@ static void NG_ExecSubMenu(char *name, SGMenu *pMenu,  PFRWCALLBACK  pf)
 }
 
 
-int NG_ExecMainMenu(char **menu, int def, u_int32_t defColor, u_int8_t HSpacing)
+static int NG_ExecMainMenu(char **menu, int def, u_int32_t defColor, u_int8_t HSpacing)
 {
     int but, ok=0;
     int j = array_size((const char **)menu)-1;
@@ -1252,7 +1252,7 @@ static int CallbackMenuMap(RW_Interface *pInterface, int mode)
     return STUB_TaskControl();
 }
 
-void NG_ResizeInterface2(RW_Interface *Interf)
+static void NG_ResizeInterface2(RW_Interface *Interf)
 {
     int32_t i;
     RW_Button *b;
@@ -1549,7 +1549,7 @@ static void ChangeLanguage()
 	NG_SetLanguage(g_SGSettings.Language);
 }
 
-int NG_JoystickCalibration();
+static int NG_JoystickCalibration(void);
 
 static void NG_OptionsMenu(void)
 {
@@ -2077,7 +2077,7 @@ int NG_EndLevel(void)
 // Move the Z Rotation all the way up and down
 
 // Joystick calibration (Mac only)
-int NG_JoystickCalibration()
+static int NG_JoystickCalibration()
 {
 	char raw[256];
 	int part = 0;

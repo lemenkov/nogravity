@@ -62,9 +62,7 @@ __extern_c
 
 _RLXEXPORTFUNC    int            RLXAPI  ReadConfig(char const *fileName, ConfigFile *c_file);
 _RLXEXPORTFUNC    void           RLXAPI  DestroyConfig(ConfigFile *q);
-_RLXEXPORTFUNC    ConfigItemData RLXAPI *GetConfigItem(char const *itemName, enum ConfigDataType type, ConfigFile *c_file);
 _RLXEXPORTFUNC    int            RLXAPI  SelectConfigClass(char const *className, ConfigFile *c_file);
-_RLXEXPORTFUNC    ConfigClass    RLXAPI *GetConfigClass(char const *className, ConfigFile *c_file);
 _RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_long(char *s, ConfigFile *ini);
 _RLXEXPORTFUNC    int32_t           RLXAPI  GetCF_bool(char *s, ConfigFile *ini);
 _RLXEXPORTFUNC    char           RLXAPI *GetCF_str(char *s, ConfigFile *ini);

@@ -70,7 +70,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 * DESCRIPTION :
 *
 */
-void NG_StarfieldCreate(void)
+static void NG_StarfieldCreate(void)
 {
     int i;
     Starfield.maxStars = 300;
@@ -88,7 +88,7 @@ void NG_StarfieldCreate(void)
 * DESCRIPTION :
 *
 */
-void NG_StarfieldRelease(void)
+static void NG_StarfieldRelease(void)
 {
     int i;
     MM_heap.free(Starfield.Stars);
@@ -123,7 +123,7 @@ static int CENTER_Y(int y)
 	return (GX.View.lHeight -y) / 2;
 }
 
-void NG_ResizeInterface(RW_Interface *Interf)
+static void NG_ResizeInterface(RW_Interface *Interf)
 {
     int32_t i;
     RW_Button but, *b;
@@ -342,7 +342,7 @@ static void NG_FreeGameData()
 
 }
 
-void NG_ReleaseFonts()
+static void NG_ReleaseFonts()
 {
 	int x = MM_heap.active;
     MM_heap.active = 0;
@@ -365,7 +365,7 @@ void NG_ReleaseFonts()
     return;
 }
 
-void NG_LoadFonts()
+static void NG_LoadFonts()
 {
     int x = MM_heap.active;
     MM_heap.active = 0;
@@ -397,7 +397,7 @@ void NG_LoadFonts()
 }
 
 
-void GX_drawGouraudRect(int32_t x, int32_t y, int32_t dx, int32_t dx2, int32_t dy, rgb32_t *c, rgb32_t *d)
+static void GX_drawGouraudRect(int32_t x, int32_t y, int32_t dx, int32_t dx2, int32_t dy, rgb32_t *c, rgb32_t *d)
 {
     int i=0;
     for (i=0;i<dx2;i++)
@@ -419,7 +419,7 @@ void GX_drawGouraudRect(int32_t x, int32_t y, int32_t dx, int32_t dx2, int32_t d
 * Description :
 *
 */
-void NG_DrawLoadingBar(int step)
+static void NG_DrawLoadingBar(int step)
 {
     int lw = (7*GX.View.lWidth)/8, x = (GX.View.lWidth-lw)/2;
     int p = (lw * step)/100;
@@ -1039,7 +1039,7 @@ void NG_NAVReset(int reset)
 * DESCRIPTION :
 *
 */
-void NG_NAVClear(void)
+static void NG_NAVClear(void)
 {
     int i;
     V3XSCENE *Scene = g_SGGame.Scene;
@@ -1192,7 +1192,7 @@ static void NG_InitGameVariables(void)
 * DESCRIPTION :
 *
 */
-void NG_InitGameGraphics(void)
+static void NG_InitGameGraphics(void)
 {
     g_SGObjects.Sky = V3XScene_OVI_GetByName(g_SGGame.Scene, "sky_");
     g_SGObjects.Sky->state |= V3XSTATE_GIANT;
@@ -1211,7 +1211,7 @@ void NG_InitGameGraphics(void)
 * DESCRIPTION :
 *
 */
-void NG_InitGameShip(void)
+static void NG_InitGameShip(void)
 {
     g_cShip = g_pShip[g_pPlayer->Si->code];
     switch (g_pPlayer->Si->code) {

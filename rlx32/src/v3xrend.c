@@ -66,7 +66,7 @@ union _v3x_2dclipInfo
 * DESCRIPTION :
 *
 */
-void CALLING_C V3XRENDER_Wired(V3XPOLY *fce)
+static void CALLING_C V3XRENDER_Wired(V3XPOLY *fce)
 {
     int32_t *s=(int32_t*)fce->shade;
     V3XMATERIAL *mat = (V3XMATERIAL*)fce->Mat;
@@ -171,7 +171,7 @@ int V2XVector_Clip( V3XVECTOR2 *a, V3XVECTOR2 *b )
 * Description :
 *
 */
-int V3XSegment_ClipNear(V3XVECTOR *a)
+static int V3XSegment_ClipNear(V3XVECTOR *a)
 {
     V3XSCALAR t;
     V3XVECTOR C;
@@ -194,7 +194,7 @@ int V3XSegment_ClipNear(V3XVECTOR *a)
 * DESCRIPTION :
 *
 */
-int GX_ClipLine(V3XVECTOR *aa, V3XVECTOR *bb, V3XVECTOR *a, V3XVECTOR *b)
+static int GX_ClipLine(V3XVECTOR *aa, V3XVECTOR *bb, V3XVECTOR *a, V3XVECTOR *b)
 {
     int g=0;
     V3XVector_WorldPos(NULL, a, V3X.Buffer.rot_vertex+0);
@@ -726,7 +726,7 @@ void CALLING_C V3XCSP_3DSprite_Alpha(GXSPRITE *sp, int32_t x, int32_t y, int32_t
 * DESCRIPTION :
 *
 */
-void RLXAPI V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
+static void RLXAPI V3X_CSP_Initialize(GXSPRITE *sp, V3XMATERIAL *mat)
 {
     V3XSPRITEINFO   *item = (V3XSPRITEINFO*)sp->handle;
     V3XMATERIAL *mt = &item->mat;

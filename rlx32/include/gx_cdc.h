@@ -41,7 +41,6 @@ typedef struct {
 
 __extern_c
 
-_RLXEXPORTDATA  extern IMG_Codec IMG_FormList[];
 
 __end_extern_c
 

@@ -40,7 +40,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 NG_GameSettings g_SGSettings;
 
-void NG_GetIniFilename(char *tex)
+static void NG_GetIniFilename(char *tex)
 {
 	sprintf(tex, "%s/nogravity.ini", RLX.IniPath);
 }

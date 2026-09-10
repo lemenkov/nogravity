@@ -66,7 +66,7 @@ u_int32_t static *CreateSquareArray(void)
 
 #define SGN(a)       ((a)==0 ? 0 : (( (a) >0) ? (1) : (-1)))
 
-void PAL_fadeChannel(rgb24_t *pf, int st, int fi, int start, int fin, rgb48_t *coul, int revrse)
+static void PAL_fadeChannel(rgb24_t *pf, int st, int fi, int start, int fin, rgb48_t *coul, int revrse)
 {
     u_int8_t *palfade = (u_int8_t*)pf;
     u_int8_t *Pa2 = (u_int8_t*) GX.ColorTables[0];
@@ -145,7 +145,7 @@ void PAL_fading(rgb24_t *palfade, int start, int fin, int echelle, int revrse)
 * DESCRIPTION :
 *
 */
-void ACT_LoadFp(rgb24_t *pal, SYS_FILEHANDLE in)
+static void ACT_LoadFp(rgb24_t *pal, SYS_FILEHANDLE in)
 {
     int i, j;
     u_int8_t *tmp;
@@ -629,7 +629,7 @@ u_int8_t **REALCOLOR_LoadFn(const char *xpal)
 */
 
 __extern_c
-u_int8_t      *StereoRed, *StereoBlue;
+static u_int8_t      *StereoRed, *StereoBlue;
 __end_extern_c
 
 void PAL_SetRedCyanPalette(void)

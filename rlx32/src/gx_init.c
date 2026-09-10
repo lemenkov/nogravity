@@ -44,7 +44,7 @@ struct GXSYSTEM   GX;
 * DESCRIPTION :
 *
 */
-void GX_SetupDefaultViewport(int x, int y, int bbp)
+static void GX_SetupDefaultViewport(int x, int y, int bbp)
 {
 	SYS_ASSERT(x);
 	SYS_ASSERT(y);

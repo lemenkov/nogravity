@@ -70,7 +70,7 @@ extern GXSPRITE g_csPicture;
 * DESCRIPTION :
 *
 */
-void NG_FadeInBackground()
+static void NG_FadeInBackground()
 {
 	int i;
 	int s = (V3X.Client->Capabilities&GXSPEC_HARDWARE) ? 4 : 8;
@@ -88,7 +88,7 @@ void NG_FadeInBackground()
 }
 
 
-void NG_FadeOutBackground()
+static void NG_FadeOutBackground()
 {
 	int i;
 	int s = (V3X.Client->Capabilities&GXSPEC_HARDWARE) ? 4 : 8;

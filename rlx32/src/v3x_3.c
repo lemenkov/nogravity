@@ -43,6 +43,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xtrig.h"
 #include "v3xmaps.h"
 #include "v3xrend.h"
+static void V3XMatrix_Rotate_Z(int32_t Theta, V3XSCALAR *Matrice);
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void V3XMatrix_BuildFromVector(V3XMATRIX *M0, V3XVECTOR *v, int roll)
@@ -122,7 +123,7 @@ int V3XVector_TransformProject_pts(V3XVECTOR *input, V3XVECTOR *result)
 * DESCRIPTION :
 *
 */
-int V3XVector_IntersectPlaneSegmentEx(V3XVECTOR * isect, V3XVECTOR * start, V3XVECTOR * end, V3XVECTOR *normal, V3XSCALAR d, V3XSCALAR* pr)
+static int V3XVector_IntersectPlaneSegmentEx(V3XVECTOR * isect, V3XVECTOR * start, V3XVECTOR * end, V3XVECTOR *normal, V3XSCALAR d, V3XSCALAR* pr)
 {
     V3XVECTOR dv;
     V3XSCALAR r, num, denom;
@@ -159,7 +160,7 @@ int V3XVector_IntersectPlaneSegment(V3XVECTOR * isect, V3XVECTOR * start, V3XVEC
 * Description :
 *
 */
-V3XSCALAR V3XVector_ProjectPointLine(V3XVECTOR *res, V3XVECTOR *u, V3XVECTOR *e0, V3XVECTOR *e1)
+static V3XSCALAR V3XVector_ProjectPointLine(V3XVECTOR *res, V3XVECTOR *u, V3XVECTOR *e0, V3XVECTOR *e1)
 {
     V3XVECTOR v, w;
     V3XSCALAR vl, wl;
@@ -214,7 +215,7 @@ int V3XVector_IntersectSphereSegment(V3XSCALAR radius, V3XVECTOR *center, V3XVEC
 * DESCRIPTION :
 *
 */
-void V3XMatrix_Rotate_Z(int32_t Theta, V3XSCALAR *Matrice)
+static void V3XMatrix_Rotate_Z(int32_t Theta, V3XSCALAR *Matrice)
 {
     V3XSCALAR sin, cos;
     V3XSCALAR M[9];
@@ -309,7 +310,7 @@ void V3XMatrix_Rotate_Z_Local(int32_t Theta, V3XSCALAR *Matrice)
 * DESCRIPTION :
 *
 */
-void V3XBBox_Compute(V3XVECTOR *mini, V3XVECTOR *maxi, int numVerts, V3XVECTOR *vertex)
+static void V3XBBox_Compute(V3XVECTOR *mini, V3XVECTOR *maxi, int numVerts, V3XVECTOR *vertex)
 {
     int i;
     *mini = *maxi = *vertex;
@@ -331,7 +332,7 @@ void V3XBBox_Compute(V3XVECTOR *mini, V3XVECTOR *maxi, int numVerts, V3XVECTOR *
 * DESCRIPTION :
 *
 */
-int V3XBBox_Inside(V3XVECTOR *vertex, V3XVECTOR *mini, V3XVECTOR *maxi)
+static int V3XBBox_Inside(V3XVECTOR *vertex, V3XVECTOR *mini, V3XVECTOR *maxi)
 {
     if (vertex->x>maxi->x) return 0;
     if (vertex->y>maxi->y) return 0;

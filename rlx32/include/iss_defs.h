@@ -184,7 +184,6 @@ _RLXEXPORTFUNC    void   V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL c
 _RLXEXPORTFUNC    int    V3XAStream_Poll(V3XA_STREAM handle);
 _RLXEXPORTFUNC    int    V3XAStream_PollAll(void);
 _RLXEXPORTFUNC    void   V3XAStream_Release(V3XA_STREAM handle);
-_RLXEXPORTFUNC    void   V3XAStream_ReleaseAll(void);
 
 _RLXEXPORTFUNC	  void	 V3XA_EntryPoint(struct RLXSYSTEM *pRlx);
 _RLXEXPORTDATA    extern struct V3XAUDIO  V3XA;

@@ -44,6 +44,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "v3xtrig.h"
 #include "v3xmaps.h"
 #include "v3xrend.h"
+static void V3XPoly_Release(V3XPOLY *f);
+static void V3XPoly_Alloc(V3XPOLY *f, int som);
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void V3XPlugIn_Add(int id, void (*plug)(const void *))
@@ -326,7 +328,7 @@ void V3XKernel_Release(void)
 * DESCRIPTION :
 *
 */
-void V3XPoly_Alloc(V3XPOLY *f, int som)
+static void V3XPoly_Alloc(V3XPOLY *f, int som)
 {
     f->numEdges = (u_int8_t) som;
     f->visible = 1;
@@ -346,7 +348,7 @@ void V3XPoly_Alloc(V3XPOLY *f, int som)
 * DESCRIPTION :
 *
 */
-void V3XPoly_Release(V3XPOLY *f)
+static void V3XPoly_Release(V3XPOLY *f)
 {
 	SYS_ASSERT(f);
     MM_heap.free(f->ZTab);

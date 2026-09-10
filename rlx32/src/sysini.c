@@ -34,6 +34,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "systools.h"
 #include "sysresmx.h"
 #include "sysini.h"
+static ConfigItemData *GetConfigItem(char const *itemName, enum ConfigDataType type, ConfigFile *c_file);
+static ConfigClass *GetConfigClass(char const *className, ConfigFile *c_file);
 static ConfigItemData C_DATA;
 /*------------------------------------------------------------------------
 *
@@ -275,7 +277,7 @@ int ReadConfig(char const *fileName, ConfigFile *c_file)
 * DESCRIPTION :
 *
 */
-ConfigItemData *GetConfigItem(char const *itemName, enum ConfigDataType type, ConfigFile *c_file)
+static ConfigItemData *GetConfigItem(char const *itemName, enum ConfigDataType type, ConfigFile *c_file)
 {
     ConfigClass *c = c_file->currentClass;
     ConfigItem  *i;
@@ -332,7 +334,7 @@ int SelectConfigClass(char const *className, ConfigFile *c_file)
 * DESCRIPTION :
 *
 */
-ConfigClass *GetConfigClass(char const *className, ConfigFile *c_file)
+static ConfigClass *GetConfigClass(char const *className, ConfigFile *c_file)
 {
     ConfigClass *c = c_file->firstClass;
     if( !c_file ) return NULL;

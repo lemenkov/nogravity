@@ -53,7 +53,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 * DESCRIPTION :
 *
 */
-V3XRESOURCE_ITEM *V3XResources_Put(V3XRESOURCE *bm, const char *filename, void *data, int type)
+static V3XRESOURCE_ITEM *V3XResources_Put(V3XRESOURCE *bm, const char *filename, void *data, int type)
 {
     int i;
     V3XRESOURCE_ITEM *bi=NULL, *bj = bm->item;
@@ -100,7 +100,7 @@ int V3XResources_Del(V3XRESOURCE *bm, const char *filename)
 * DESCRIPTION :
 *
 */
-void *V3XResources_Get(V3XRESOURCE *bm, const char *filename, int type)
+static void *V3XResources_Get(V3XRESOURCE *bm, const char *filename, int type)
 {
     int i;
     V3XRESOURCE_ITEM *bi=NULL, *bj=bm->item;
@@ -160,7 +160,7 @@ void V3XResources_Animated(V3XRESOURCE *bm)
 * DESCRIPTION :
 *
 */
-int V3XCache_Material(V3XMATERIAL *Mat, int option)
+static int V3XCache_Material(V3XMATERIAL *Mat, int option)
 {
     if (Mat->fli)
     {

@@ -502,7 +502,7 @@ void NG_AudioResumeMusic(void)
 }
 
 
-void NG_AudioUpdate()
+static void NG_AudioUpdate()
 {
     if (!(V3XA.State & 1))
 		return;

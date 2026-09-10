@@ -829,7 +829,7 @@ static void NG_AIEnemyHind(V3XOVI *OVI)
 * DESCRIPTION :
 *
 */
-void V3XLIGHT_AddOmni(V3XVECTOR *pos, V3XSCALAR intensity, rgb24_t *color, int type, int flags)
+static void V3XLIGHT_AddOmni(V3XVECTOR *pos, V3XSCALAR intensity, rgb24_t *color, int type, int flags)
 {
     V3XLIGHT *lite = V3X.Light.light + V3X.Light.numSource;
     if (V3X.Light.numSource<V3X.Buffer.MaxLight-1)

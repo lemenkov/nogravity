@@ -98,7 +98,6 @@ void		GPU_ClearDepth(void);
 GPU_TEXTURE	*GPU_CreateTexture(int w, int h, SDL_GPUTextureFormat format, int mipmaps, const void *pixels);
 void		GPU_UpdateTexture(GPU_TEXTURE *tex, const void *pixels);
 void		GPU_DestroyTexture(GPU_TEXTURE *tex);
-void		GPU_FakeViewPort(void);
 
 // Pixel conversion helpers (gpu_display.c).  Output byte order matches
 // what the old OpenGL renderer fed to GL_BGRA / GL_RGB, so the textures

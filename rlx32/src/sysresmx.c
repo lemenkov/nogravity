@@ -45,12 +45,12 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 SYS_FILEIO  *	FIO_cur = &FIO_std;
 SYS_WAD		*	FIO_wad;
 
-void MakePathUUU(char *dest, const char *path, const char *lpFilename);
+static void MakePathUUU(char *dest, const char *path, const char *lpFilename);
 
 // path + "/" + name, with the name's backslashes turned into slashes,
 // a leading "./" dropped and lower cased (that is how the files are
 // stored); path itself is copied as is.
-void MakePathUUU(char *dest, const char *path, const char *lpFilename)
+static void MakePathUUU(char *dest, const char *path, const char *lpFilename)
 {
 	size_t n = 0;
 	const char *s = lpFilename;

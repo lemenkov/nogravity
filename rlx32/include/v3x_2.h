@@ -43,8 +43,6 @@ _RLXEXPORTFUNC    void    RLXAPI V3XMesh_ReleaseDup(V3XMESH *obj);
 _RLXEXPORTFUNC    void    RLXAPI  V3XMesh_Duplicate(V3XMESH *mesh1, V3XMESH *mesh2);
 
     // Polygons
-_RLXEXPORTFUNC    void     RLXAPI  V3XPoly_Alloc(V3XPOLY *f, int som);
-_RLXEXPORTFUNC    void     RLXAPI  V3XPoly_Release(V3XPOLY *f);
 _RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_XYClipping(V3XPOLY *clip);
 _RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_ZClipNear(V3XPOLY *polygon);
 _RLXEXPORTFUNC    V3XPOLY  RLXAPI *V3XPoly_ZClipFar(V3XPOLY *polygon);

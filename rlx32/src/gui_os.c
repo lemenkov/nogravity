@@ -80,7 +80,7 @@ void RW_Zone_CreateWithSize(RW_Interface *pInt, int x, int y, int lx, int ly)
     return;
 }
 
-void RW_Zone_CreateWithButton(RW_Interface *pInt, RW_Button *But)
+static void RW_Zone_CreateWithButton(RW_Interface *pInt, RW_Button *But)
 {
     RW_Zone_CreateWithSize(pInt, But->X, But->Y, But->LX, But->LY);
     return;
@@ -390,7 +390,7 @@ int RW_InputText(RW_Interface *pInt, char *t, int numChar, PFRWCALLBACK pfCallba
     return finish;
 }
 
-RW_Interface * RW_Interface_GetFp(SYS_FILEHANDLE in)
+static RW_Interface * RW_Interface_GetFp(SYS_FILEHANDLE in)
 {
     RW_Interface *pInterface = RW_Interface_Create(0);
     char SPChead[4];

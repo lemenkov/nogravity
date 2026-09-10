@@ -51,6 +51,7 @@ SDL3 audio backend: 2026 - Peter Lemenkov
 #include "systools.h"
 #include "sysresmx.h"
 #include "iss_defs.h"
+static void V3XAStream_ReleaseAll(void);
 
 struct V3XAUDIO V3XA;
 
@@ -681,7 +682,7 @@ static void Locked_V3XAStream_ReleaseAll(void)
 	}
 }
 
-void V3XAStream_ReleaseAll(void)
+static void V3XAStream_ReleaseAll(void)
 {
 	if (!g_StreamLock)
 		Locked_V3XAStream_ReleaseAll();

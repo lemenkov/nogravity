@@ -62,7 +62,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 * DESCRIPTION :
 *
 */
-SGScript *GetSifByName(char *s)
+static SGScript *GetSifByName(char *s)
 {
 
     SGScript *pScript, *f=NULL;

@@ -60,18 +60,19 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_struc.h"
 #include "lt_data.h"
 #include "lt_func.h"
+static void NG_RosterReset(void);
 
-void NG_GetHscFilename(char *tex)
+static void NG_GetHscFilename(char *tex)
 {
 	sprintf(tex, "%s/nogravity.hsc", RLX.IniPath);
 }
 
-void NG_GetPtsFilename(char *tex)
+static void NG_GetPtsFilename(char *tex)
 {
 	sprintf(tex, "%s/nogravity.pts", RLX.IniPath);
 }
 
-void NG_ReadLevelInfo(SGLevelItem *LI, ConfigFile *iniFile)
+static void NG_ReadLevelInfo(SGLevelItem *LI, ConfigFile *iniFile)
 {
     int j;
     SDL_strlcpy(LI->name, GetCF_str2("Name", iniFile), 31);
@@ -91,7 +92,7 @@ void NG_ReadLevelInfo(SGLevelItem *LI, ConfigFile *iniFile)
     return;
 }
 
-void NG_ReadMissionData(char *name, SGEpisodeItem *EP)
+static void NG_ReadMissionData(char *name, SGEpisodeItem *EP)
 {
     ConfigFile iniFile;
     if ( ReadConfig(name, &iniFile) == 0 )
@@ -144,7 +145,7 @@ void NG_ReadMissionList(void)
     return;
 }
 
-void NG_HighScoresReset(void)
+static void NG_HighScoresReset(void)
 {
     int i, j;
 	sysConPrint("High scores reset");
@@ -359,7 +360,7 @@ void NG_RosterLoad(void)
     return;
 }
 
-void NG_RosterReset(void)
+static void NG_RosterReset(void)
 {
     int i;
     for (i=0;i<MAX_SAVE_GAMES;i++)

@@ -93,7 +93,6 @@ enum {CTRL_Mouse, CTRL_Keyb, CTRL_Joystick};
 extern "C" {
     #endif
 	void   NG_SaveGameInfo(void);
-	void   NG_SetGameInfo(void);
 	void   NG_ReadGameConfig(void);
     extern NG_GameSettings g_SGSettings;
 #ifdef __cpluspluis

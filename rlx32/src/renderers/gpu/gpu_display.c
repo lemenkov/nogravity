@@ -992,7 +992,7 @@ static unsigned long MouseUpdate(void *device)
 	return ret;
 }
 
-void GPU_FakeViewPort(void)
+static void GPU_FakeViewPort(void)
 {
 	MSE_ClientDriver *m = g_pRLX->Control.mouse;
 	g_WindowW = g_pRLX->pGX->View.lWidth;
@@ -1215,7 +1215,7 @@ GXCLIENTDRIVER GX_GPU = {
 	"SDL_GPU"
 };
 
-_RLXEXPORTFUNC void RLXAPI GX_EntryPoint(struct RLXSYSTEM *p)
+static void RLXAPI GX_EntryPoint(struct RLXSYSTEM *p)
 {
 	g_pRLX = p;
 	GPU_SetPrimitiveSprites();

@@ -355,8 +355,6 @@ _RLXEXPORTFUNC void RLXAPI V3XScene_Camera_Select(V3XOVI *OVI);
 _RLXEXPORTFUNC void RLXAPI V3XScene_OVI_Duplicate(V3XSCENE *Scene, V3XOVI *OVI, int fois);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XScene_OVI_GetByName(V3XSCENE *Scene, const char *name);
 //
-_RLXEXPORTFUNC void RLXAPI V3XScene_Validate(V3XSCENE* Scene);
-_RLXEXPORTFUNC void RLXAPI V3XScene_CRC_Check(V3XSCENE* Scene);
 _RLXEXPORTFUNC int RLXAPI V3XScene_Verify(V3XSCENE *Scene);
 _RLXEXPORTFUNC void RLXAPI V3XScene_ResetKF(V3XSCENE *Scene);
 _RLXEXPORTFUNC void RLXAPI V3XScene_Release(V3XSCENE *Scene);
@@ -366,7 +364,6 @@ _RLXEXPORTFUNC V3XSCENE RLXAPI *V3XScene_GetFromFile(const char *filename);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_GetFromFile(V3XSCENE *Scene, const char *filename, int doChild);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_InstanceOVI(V3XSCENE *Scene, V3XOVI *cOVI, int mode);
 _RLXEXPORTFUNC V3XOVI RLXAPI *V3XOVI_InstanceGroup(V3XSCENE *Scene, V3XOVI *cOVI, int mode);
-_RLXEXPORTFUNC void RLXAPI V3XOVI_BuildChildren(V3XOVI *OVI, V3XSCENE *Scene);
 
 //
 _RLXEXPORTFUNC void RLXAPI V3XScene_LoadTextures(V3XSCENE *Scene, void (*callback)(void *));//

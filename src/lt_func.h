@@ -48,16 +48,13 @@ void NG_ExitMessage(int quit);
 int NG_BriefingGame(void);
 void NG_ReadMissionList(void);
 int NG_MainMenu(void);
-void NG_CleanUp(void);
 void SGMOU_MapKeyboard();
 void SGJOY_MapKeyboard();
 void SGJOY_ReadAxis(int *lpAxisX, int *lpAxisY, int *lpAxisThrottle, int *lpAxisRoll, int *status);
 void NG_DrawFlash();
 void NG_ResetKey();
 
-void NG_RosterReset(void);
 void NG_RosterLoad(void);
-void NG_RosterReset(void);
 void NG_RosterSaveSlot(int i);
 void NG_RosterSave(void);
 
@@ -72,7 +69,6 @@ void NG_RenderView(void);
 void NG_DrawHelpFile(GXSPRITEGROUP *font, int color2, int xz);
 void NG_InstallHandlers(void);
 int NG_ColorToNAV(int x);
-void NG_CreateDisplayList(void);
 
 void NG_LoadGameData(void);
 void NG_ReleaseGameData(void);
@@ -90,10 +86,6 @@ void NG_DrawBackgroundPic(char *szFilename, int TrackPlay, int mode);
 void NG_CheckSystems(void);
 
 // Starfield
-void NG_LoadFonts();
-void NG_ReleaseFonts();
-void NG_StarfieldCreate(void);
-void NG_StarfieldRelease(void);
 int NG_FXGetByName(char *s);
 void NG_FXLoadList();
 void NG_FXDraw();
@@ -104,8 +96,6 @@ void NG_AddMoreLights(void);
 V3XOVI *NG_GetFreeSphere(void);
 void NG_DisplayWarp(void);
 
-void NG_RenderDisplayBox(struct _button_item *but, V3XMATRIX *Mat, V3XOVI *OVI);
-void NG_InitGameShip(void);
 void NG_LevelUpdate(void);
 void NG_InitAnimateStage(void);
 GXSPRITEGROUP *NG_LoadMovie(char *file, int die);
@@ -117,13 +107,11 @@ void NG_WeaponUpdate(void);
 
 // Nav
 void NG_NAVReset(int reset);
-void NG_NAVClear(void);
 
 void NG_GamePlay(void);
 void NG_DrawVideoSubtitles(FLI_STRUCT *);
 void NG_ReadLanguagePack(void);
 void NG_SetLanguage(int l);
-int NG_ExecMainMenu(char **menu, int def, u_int32_t defColor, u_int8_t spacing);
 
 // AI
 void NG_AIRandomAim(V3XVECTOR *a, V3XVECTOR *cent, V3XSCALAR r);
@@ -136,8 +124,6 @@ void NG_HudLockTargetOff(void);
 void NG_HudLockTargetReset(void);
 void NG_HudLockTargetOn(void);
 void NG_HudDisplayCamera(void);
-int NG_HudDisplayLocked(struct _v3x_ovi *OVI);
-void NG_HudDisplayRear(void);
 GXSPRITEGROUP *NG_LoadSpriteGroup(char *filename, int resize);
 void NG_LoadBackground(char *file, GXSPRITE *sp);
 void NG_ChangeGameDetail(void);

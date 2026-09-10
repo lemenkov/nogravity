@@ -66,7 +66,7 @@ for (;ecx!=0;edi+=2, ecx--) *(u_int16_t*)edi=ax;
 * DESCRIPTION :
 *
 */
-void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight, u_int8_t *ColorTable)
+static void CALLING_C FLI_ChunkDecode(u_int8_t *Buffer, u_int32_t Chunks, u_int8_t *output, u_int32_t dwWidth, u_int32_t dwHeight, u_int8_t *ColorTable)
 {
 	char tex[256];
     u_int8_t *esi, *edi, *oesi, *oedi;

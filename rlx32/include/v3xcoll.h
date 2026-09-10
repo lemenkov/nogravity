@@ -130,9 +130,7 @@ __extern_c
 
 _RLXEXPORTFUNC    void   RLXAPI  V3XPlug_CollisionMove(const void *OVI); // plug in for V3XSCENE
 //
-_RLXEXPORTFUNC    V3XCL  RLXAPI *V3XCL_New(int numItems);
 _RLXEXPORTFUNC    V3XCL  RLXAPI *V3XCL_NewFromMesh(V3XMESH *obj, int mode);
-_RLXEXPORTFUNC    void   RLXAPI  V3XCL_findGlobalSphere(V3XMESH *obj, V3XCL_SPHERE *Cs);
 _RLXEXPORTFUNC    void   RLXAPI  V3XCL_Release(V3XCL *Cs);
 //
 _RLXEXPORTFUNC    void   RLXAPI  V3XCL_Xform(V3XCL *Cs);

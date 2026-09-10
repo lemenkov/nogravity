@@ -193,14 +193,12 @@ _RLXEXPORTFUNC    void RLXAPI           V3XMesh_SetRender(V3XMESH *obj);
 
     // Additional Primitives
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Null(V3XPOLY *fce);
-_RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Wired(V3XPOLY *fce);
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_Color(V3XPOLY *fce);
 _RLXEXPORTFUNC    void CALLING_C        V3XRENDER_SpriteAny(V3XPOLY *fce);
 
 
     // Primitive
 _RLXEXPORTFUNC    int  RLXAPI           V2XVector_Clip( V3XVECTOR2 *a, V3XVECTOR2 *b );
-_RLXEXPORTFUNC    int  RLXAPI           GX_ClipLine(V3XVECTOR *aa, V3XVECTOR *bb, V3XVECTOR *a, V3XVECTOR *b);
 _RLXEXPORTFUNC    int  RLXAPI           GX_ClippedLine(V3XVECTOR2 *a, V3XVECTOR2 *b, u_int32_t cc);
 _RLXEXPORTFUNC    void RLXAPI           GX_ClippedLine3D(V3XVECTOR *a, V3XVECTOR *b, u_int32_t c);
 

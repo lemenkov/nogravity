@@ -42,6 +42,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "gx_rgb.h"
 
 #include "console.h"
+static int sysConParse(char *cmd);
 
 
 struct sys_console_item
@@ -87,7 +88,7 @@ static int							m_cHd, m_cH;
 
 static GXSPRITEGROUP			*	m_pFont;
 
-void sysConClear()
+static void sysConClear()
 {
 	struct sys_console_item *p = m_pFirst;
 	while(p)
@@ -136,7 +137,7 @@ int sysConIsActive()
 	return !!m_bActive;
 }
 
-void sysConToggle()
+static void sysConToggle()
 {
 	if (!m_cHd)
 	{
@@ -299,7 +300,7 @@ void sysConHandleInput()
 		}
 }
 
-void
+static void
 sysConSave(const char *szFilename)
 {
 	SYS_FILEHANDLE fp = FIO_std.fopen(szFilename, "wt");
@@ -338,7 +339,7 @@ sysConBindCmd(const char *szCmd, PFV3XCNLCMD pfFunc)
 	return 0;
 }
 
-int
+static int
 onClear(char *parms)
 {
     sysConClear();
@@ -425,7 +426,7 @@ void sysConCreate()
 	sysConBindCmd("/condump", onConDump);
 }
 
-int sysConParse(char *cmd)
+static int sysConParse(char *cmd)
 {
 	struct sys_console_cmd *p = m_pFirstCmd;
 

@@ -68,7 +68,6 @@ __extern_c
    RW_Interface *RW_Interface_GetFn(char *filename);
    void RW_Interface_Release(RW_Interface *pInt);
    void RW_Zone_CreateWithSize(RW_Interface *pInt, int x, int y, int lx, int ly);
-   void RW_Zone_CreateWithButton(RW_Interface *pInt, RW_Button *But);
    void RW_Zone_CreateWithText(RW_Interface *pInt, char *szText, int x, int y, int bAllocate);
    int  RW_Interface_Scan(RW_Interface *pInt, int pCurSel, int *pRetSel, PFRWCALLBACK pfCallback);
    void RW_Interface_BuildTree(RW_Interface *pInt);

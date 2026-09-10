@@ -118,7 +118,6 @@ struct _sys_fileio;
 
 __extern_c
     // Sprite
-_RLXEXPORTFUNC    void   RLXAPI  CSP_Get(int32_t xx, int32_t yy, GXSPRITE *capt, u_int8_t *buf, int32_t width, int32_t byte);
 _RLXEXPORTFUNC    void   RLXAPI  CSP_Resize(GXSPRITE *sp, int lx, int ly, int bpp);
 
     // Sprite familly

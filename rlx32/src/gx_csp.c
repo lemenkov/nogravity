@@ -90,7 +90,7 @@ static int CSP_Offset2[]={
 * DESCRIPTION :
 *
 */
-_RLXEXPORTFUNC void CSP_Get(int32_t xx, int32_t yy, GXSPRITE *capt, u_int8_t *buf, int32_t width, int32_t byte)
+static void CSP_Get(int32_t xx, int32_t yy, GXSPRITE *capt, u_int8_t *buf, int32_t width, int32_t byte)
 {
     u_int32_t cx, lx=capt->LX*byte, lxx=width*byte;
     u_int8_t *v=buf+(yy*width+xx)*byte,
