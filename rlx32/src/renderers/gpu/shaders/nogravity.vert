@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 #version 450
 
 // Vertices arrive already projected: x,y in logical pixels (origin top

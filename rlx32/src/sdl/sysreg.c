@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 1996-2004 realtech VR
+// SPDX-License-Identifier: GPL-2.0-or-later
 //-------------------------------------------------------------------------
 /*
 Copyright (C) 1996, 2004 - realtech VR

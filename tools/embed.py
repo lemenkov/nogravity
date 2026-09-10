@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
 """Embed binary or text files as C byte arrays.
 
 usage: embed.py OUTPUT.c INPUT...

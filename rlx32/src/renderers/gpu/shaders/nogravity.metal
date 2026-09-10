@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 #include <metal_stdlib>
 using namespace metal;
 

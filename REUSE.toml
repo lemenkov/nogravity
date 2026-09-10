@@ -1,0 +1,17 @@
+version = 1
+SPDX-PackageName = "nogravity"
+SPDX-PackageSupplier = "Peter Lemenkov <lemenkov@gmail.com>"
+
+# The game data, released under the GPL by realtech VR together with the
+# code (see README.TXT), imported from NOGRAVITY.RMX as plain files.
+[[annotations]]
+path = "data/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "1996-2005 realtech VR"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+[[annotations]]
+path = ["README.TXT", ".gitignore", ".gitattributes", "REUSE.toml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["1996-2005 realtech VR", "2026 Peter Lemenkov <lemenkov@gmail.com>"]
+SPDX-License-Identifier = "GPL-2.0-or-later"

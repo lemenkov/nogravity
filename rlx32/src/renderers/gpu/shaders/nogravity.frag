@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 #version 450
 
 layout(location = 0) in vec3 v_uvq;

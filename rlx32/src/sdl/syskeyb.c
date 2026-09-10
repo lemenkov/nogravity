@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 1996-2004 realtech VR
+// SPDX-FileCopyrightText: 2005 Matt Williams
+// SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 //-------------------------------------------------------------------------
 /*
 Copyright (C) 1996, 2004 - realtech VR
