@@ -55,11 +55,8 @@ _RLXEXPORTFUNC    void     RLXAPI  V3XPoly_SpriteZoom(V3XPOLY *f, GXSPRITE *sp, 
     #define V3XPoly_QAlloc() V3X.Buffer.ClippedFaces + V3X.Buffer.MaxClipped
     #define V3XPoly_QTemp()  V3X.Buffer.ClippedFaces + V3X.Buffer.MaxClippedFaces
     #define V3XPoly_QExhausted() (V3X.Buffer.MaxClipped>=V3X.Buffer.MaxClippedFaces)
-    #define V3XPoly_QAllocated()  V3X.Buffer.MaxClipped++
 
     #define V3XMaterial_QAlloc() V3X.Buffer.Mat + V3X.Buffer.MaxMat
-	#define V3XMaterial_QExhausted() (V3X.Buffer.MaxMat>= V3X.Buffer.MaxTmpMaterials)
-    #define V3XMaterial_QAllocated()  V3X.Buffer.MaxMat++
 
 __end_extern_c
 

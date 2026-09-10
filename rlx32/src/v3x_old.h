@@ -74,15 +74,5 @@ typedef struct _v3x_layer97
     u_int8_t               filler4[32];
 }V3XLAYER97; //228 octets
 
-typedef struct _v3x_chunk
-{
-    u_int32_t           	ckId;     // Chunk ID
-    u_int32_t           	ckSize;   // Chunk Size
-}v3xCHUNK;
 
 #define MAKEID(d, c, b, a) (((int32_t)(a)<<24) | ((int32_t)(b)<<16) | ((int32_t)(c)<<8) | ((int32_t)(d)) )
-#define ID_LYLT MAKEID('V','L','L','T')
-#define ID_LYZB MAKEID('V','L','Z','B')
-#define ID_LYFG MAKEID('V','L','F','G')
-#define ID_LYTM MAKEID('V','L','T','M')
-#define ID_LYBG MAKEID('V','L','B','G')

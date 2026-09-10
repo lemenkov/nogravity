@@ -31,18 +31,12 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 // Video caps
 enum {
-	GX_CAPS_FBDIRECT = 0x1,      // FB can be accessed direclty
 	GX_CAPS_FBLINEAR = 0x2,      // FB is linear
-	GX_CAPS_FBLINEARIZED = 0x4,      // FB was linearized
 	GX_CAPS_BACKBUFFERINVIDEO = 0x8,      // The backbuffer is in video memory
 	GX_CAPS_VSYNC = 0x10,     // Vertical sync after page flipping
 	GX_CAPS_FBINTERLEAVED = 0x20,     // FB is interleaved (1 line/2)
-	GX_CAPS_FBINTERLEAVESWAP = 0x40,     // FB is interleaved odd/even and swap
-	GX_CAPS_DRAWFRONTBACK = 0x80,     // FB write on the display page (not on the back page)
 	GX_CAPS_3DSYSTEM = 0x200,    // 3D display buffer (for Direct3D)
-	GX_CAPS_WINDOWED = 0x400,    // Display in a window (for BeOS, Windows)
 
-	GX_CAPS_FBTRIPLEBUFFERING = 0x2000,   // Enable Triple buffering
 	GX_CAPS_MULTISAMPLING = 0x4000      // Reserved
 };
 
@@ -51,15 +45,8 @@ enum
 	GX_STATE_BACKBUFFERPAGE = 0x100,    // Internal (buffer page 0/1)
 	GX_STATE_LOCKED = 0x800,    // FB is locked (write is allowed)
     GX_STATE_SCENEBEGUN = 0x1000,   // 3D Scene has begun.
-	GX_STATE_MENUBAR = 0x2000,
-	GX_STATE_VIEWPORTCHANGED = 0x4000
 };
 
-enum
-{
-	GX_CAPS2_CANRENDERWINDOW = 0x1,
-	GX_CAPS2_CANRENDERFULLSCREEN = 0x2
-};
 
 // User video driver
 typedef struct _gx_colormask {
@@ -115,15 +102,6 @@ typedef struct _gx_offplain {
     u_int8_t             flags[16];
 }GXSCREENBUFFERS;
 
-// DOS and BeOS hardware chipset features
-enum {
-      GX_HARDWARE_cursor = 0x1, // Has hardware cursor
-      GX_HARDWARE_rect = 0x2, // Can draw rectangle
-      GX_HARDWARE_line = 0x4, // Can draw lines
-      GX_HARDWARE_blitter  = 0x8, // Can do BitBLT
-      GX_HARDWARE_scrn = 0x10, // Reserved
-      GX_HARDWARE_turbo = 0x20  // Reserved
-};
 
 // Hardware chipset features
 typedef struct {
@@ -205,14 +183,5 @@ extern struct GXSYSTEM	GX;
 
 __end_extern_c
 
-#define GFX_byte(dest, val)              *(u_int8_t*)(dest)=(u_int8_t)val
-#define GFX_word(dest, val)              *(u_int16_t*)(dest)=(u_int16_t)val
-#define GFX_dword(dest, val)             *(u_int32_t*)(dest)=(u_int32_t)val
-#define GFX_read(target)                *target
-#define GFX_memset2(target, val, size)    {int __i=size;u_int16_t *__a=(u_int16_t*)(target);for(;__i!=0;__a++, __i--) *__a=(u_int16_t)(val);}
-#define GFX_memset4(target, val, size)    {int __i=size;u_int32_t *__a=(u_int32_t*)(target);for(;__i!=0;__a++, __i--) *__a=(u_int32_t)(val);}
-
-#define GFX_memset(target, val, size)     memset(target, val, size)
-#define GFX_memcpy(target, source, size)  memcpy(target, source, size)
 
 #endif

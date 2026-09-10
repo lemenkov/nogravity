@@ -26,9 +26,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 */
 //-------------------------------------------------------------------------
 #define LK_MAX        22
-#define MUSIC_CDAUDIO  1
-#define MUSIC_MODULE   2
-#define MUSIC_WAVE     3
 
 #define MAX_KEYS	  32
 typedef struct

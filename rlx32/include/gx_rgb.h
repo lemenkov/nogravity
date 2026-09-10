@@ -43,27 +43,11 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define RGB_332(x) (  ((unsigned)(x).r>>5) + (((unsigned)(x).g>>5)<<3) + (((unsigned)(x).b>>6)<<6)  )
 #define RGB_ToGray(r, g, b)    ((((unsigned)(b)*29L)+((unsigned)(g)*150L)+((unsigned)(r)*77L))>>8)
 #define RGB_Make32bit(r, g, b, a) (unsigned)(b)+((unsigned)(g)<<8)+((unsigned)(r)<<16)+((unsigned)(a)<<24)
-#define RGB_Alpha50(a, b)        ((((a)&GX.View.RGB_Magic)+((b)&GX.View.RGB_Magic))>>1)
-#define RGB_Specular(a, ext)   ((unsigned)a.ext+(unsigned)GX.AmbientColor.ext>255 ? 255 : a.ext+GX.AmbientColor.ext)
 #define RGB_Set(pal, xr, xg, xb) { (pal).r=(u_int8_t)(xr); (pal).g=(u_int8_t)(xg);  (pal).b=(u_int8_t)(xb); }
 #define RGB32_Set(pal, xr, xg, xb, xa) { (pal).r=(u_int8_t)(xr); (pal).g=(u_int8_t)(xg);  (pal).b=(u_int8_t)(xb); (pal).a=(u_int8_t)(xa);}
 
 // 48 bit color structure
-typedef struct{
-    unsigned rouge;
-    unsigned vert;
-    unsigned bleu;
-} rgb48_t;
 
-// Mix method for 8bit blending table
-enum {
-    REALRGBMIX_Alpha, // Alpha blending
-    REALRGBMIX_Mul,  // Mul blending
-    REALRGBMIX_Add,  // Additive blending
-    REALRGBMIX_Sub,  // Substractive blending
-    REALRGBMIX_Neg,  // Inverse blending
-    REALCOLOR_RgbReal
-};
 // 8bit fade method
 
 // Functions
@@ -92,9 +76,6 @@ _RLXEXPORTFUNC    void    RLXAPI  PAL_SetRedCyanPalette(void);
 
     // Fast macro for color fading.
 
-#define RASTER_CMDRESET       0xFF
-#define RASTER_CMDBORDER      0x31
-#define RASTER_CMDBACK        0x00
 
 __end_extern_c
 

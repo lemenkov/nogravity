@@ -30,7 +30,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 #include "v3xtypes.h"
 
-#define MAX_V3XA_AUDIO_VOLUME			1.f
 #define MAX_V3XA_CLIENT_DRIVER_NAME		128
 #define MAX_V3XA_AUDIO_PATH				256
 #define MAX_V3XA_AUDIO_MIX				32
@@ -43,15 +42,7 @@ typedef int V3XA_CHANNEL;
 enum {
     V3XA_FMT16BIT     = 0x1,        // 16Bit samples
     V3XA_FMTSTEREO    = 0x2,        // Stereo 2-Channels sample
-    V3XA_FMTPCM       = 0x4,        // PCM format
-    V3XA_FMTPACKED    = 0x8,        // Compressed sample
-    V3XA_FMTMULTI     = 0x10,       // Reserved
-    V3XA_FMTVOLATILE  = 0x20,       // Reserved
-    V3XA_FMTBIGENDIAN = 0x40,       // Big endian samples
-    V3XA_FMT3D        = 0x80,       // 3D Samples
     V3XA_FMTIEEE      = 0x100,      // 32 bit float samples
-    V3XA_FMTUNKSIZE   = 0x200,      // Unknown size
-    V3XA_PANSURROUND  = 100         // Surround panning value for Surround play.
 };
 
 // A sample loaded in memory
@@ -73,11 +64,6 @@ typedef struct _v3xa_handle
 typedef int V3XA_STREAM;
 
 // Channel infos
-typedef struct _v3xa_channelInfo
-{
-    u_int8_t              Volume;
-    u_int8_t              filler[3];
-}V3XA_CHANNELINFO;
 
 // Wave driver
 typedef struct _v3xa_wave_client_driver

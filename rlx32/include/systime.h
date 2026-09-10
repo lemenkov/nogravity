@@ -31,7 +31,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 // Frame pacing timer: runs at iFreq Hz and waits for iMinFrame ticks per frame.
 
 #define SYS_TIMER_FLAGS_START	1
-#define SYS_TIMER_FLAGS_NOSKIP  2
 
 typedef struct _sys_timerhandle
 {

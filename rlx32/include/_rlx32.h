@@ -109,9 +109,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #endif
 
 
-#define float64_t double
-#define float32_t float
-
 typedef struct _gx_sprite
 {
     u_int32_t    LX, LY;
@@ -138,12 +135,6 @@ typedef struct _gx_bgr32
 #define RGBENDIAN rgb32_t
 #endif
 
-typedef struct _gx_sprite_sw{
-	int		bpp;
-	u_int32_t	palette[256];
-	void *  reserved;
-} GXSPRITESW;
-
 
 /* Thread, and I/O handle *******************************************************/
 
@@ -159,8 +150,6 @@ typedef FILE * SYS_FILEHANDLE ; /* I/O file handle. */
 #define SYS_ASSERT(_condition)
 #endif
 
-#define SYS_BREAK()
-#define SYS_FAILED(condition) ((condition)!=0)
 
 __extern_c
 _RLXEXPORTFUNC void     RLXAPI   SYS_Msg(char *fmt, ...);

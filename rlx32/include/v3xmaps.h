@@ -32,10 +32,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 // Texture & material cache system
 
-enum {
-   V3XMAT_LOADIMAGE = 0x1,
-   V3XMAT_LOADRGB = 0x2
-};
 
 // Advanced 2D sprites system
 
@@ -63,17 +59,9 @@ typedef struct _v3xsprite
     GXSPRITE		sp;
 }V3XSPRITE;
 
-typedef struct _v3xspritegroup
-{
-    GXSPRITEGROUP    spg;
-    V3XSPRITEINFO  * item;
-    V3XMATERIAL		 mat;
-}V3XSPRITEGROUP;
 
 enum {
     V3XRESOURCETYPE_TEXTURE = 0x1,
-    V3XRESOURCETYPE_STREAM = 0x2,
-    V3XRESOURCETYPE_MATERIAL = 0x3,
     V3XRESOURCETYPE_TEXTURE2 = 0x4
 };
 

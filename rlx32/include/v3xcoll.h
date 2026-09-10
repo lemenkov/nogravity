@@ -29,10 +29,8 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define __V3X98COLLISION
 
 enum {
-    V3XCTYPE_NONE = 0x0 , // non-registred item
     V3XCTYPE_SPHERE = 0x1 , // sphere
     V3XCTYPE_AXISBOX = 0x2 , // axis aligned bounding box
-    V3XCTYPE_FREEAXISBOX = 0x3 , // free axis bounding box (not implanted)
     V3XCTYPE_MESH = 0x4    // mesh
 };
 
@@ -41,12 +39,7 @@ enum {
     V3XCMODE_INVERTCONDITION = 0x10, // Invert condition (invert vector)
     V3XCMODE_NOFEEDBACK = 0x20, // do no smooth replacement.
     V3XCMODE_DONTMOVE = 0x40, // reference mesh can't move
-    V3XCMODE_HIT  = 0x80, // Was hit
-    V3XCMODE_DISPLAY = 0x100, // Draw collision mesh
-    V3XCMODE_INVALIDATE = 0x200, // Disable collision system (not treated)
-    V3XCMODE_CALLBACKONLY = 0x400, // If collision, call callback, don't compute displacement
     V3XCMODE_REFLEX = 0x800, // If collision, call callback, don't compute displacement
-	V3XCMODE_REPLACEONPRJ = 0x1000
 };
 
 typedef struct _v3xcl_faceitem{
@@ -121,10 +114,6 @@ typedef struct _v3x_cl{
 	V3XCL_ITEM        *last_hit;
 }V3XCL;
 
-enum {
-   V3XCL_MESHOPT_PORTAL = 0x1, // Optimize collision mesh with portal;
-   V3XCL_MESHOPT_HIDDENOBJ = 0x2 // Do no treat hidden object
-};
 
 __extern_c
 

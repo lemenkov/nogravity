@@ -156,11 +156,6 @@ static __inline void V3XVector_PolarSet(V3XVECTOR *a, const V3XVECTOR *b, V3XSCA
     a->z = b->z + MULF32(sin16(bl), r);
 }
 
-#define V3XSCALAR_Blend(r, a, b, kA, kB)\
-{\
-    V3XSCALAR delt = DIVF32((kA), (kB));\
-    (r) = (a) - MULF32((V3XSCALAR)((a) - (b)), delt);\
-}
 
 static __inline void V3XVector_Slerp(V3XVECTOR *r, const V3XVECTOR *a, const V3XVECTOR *b, V3XSCALAR k)
 {
@@ -327,12 +322,6 @@ if ((A).z<CST_ZERO) \
     (R).z =  MULF32(M[2], (A).x) + MULF32(M[5], (A).y) + MULF32(M[8], (A).z);\
 }
 
-#define V3XVector_ApplyTransposeMatrixTrans(R, A, M)\
-{\
-    (R).x =  MULF32(M[0], (A).x) + MULF32(M[3], (A).y) + MULF32(M[6], (A).z) - M[ 9];\
-    (R).y =  MULF32(M[1], (A).x) + MULF32(M[4], (A).y) + MULF32(M[7], (A).z) - M[10];\
-    (R).z =  MULF32(M[2], (A).x) + MULF32(M[5], (A).y) + MULF32(M[8], (A).z) - M[11];\
-}
 
 #define V3XMatrix_Rot_XYZ(M, rot)\
 { \
@@ -352,29 +341,6 @@ if ((A).z<CST_ZERO) \
     M[8] =  MULF32(cy, cz);\
 }
 
-#define V3XMatrix_Rot_X(M, angle)\
-{\
-    V3XSCALAR c = cos16(angle), s = sin16(angle);\
-    M[0] =  CST_ONE; M[1] =  CST_ZERO; M[2] =  CST_ZERO; \
-    M[3] =  CST_ZERO;     M[4] =  c; M[5] = -s; \
-    M[6] =  CST_ZERO;     M[7] =  s; M[8] =  c; \
-}
-
-#define V3XMatrix_Rot_Y(M, angle)\
-{\
-    V3XSCALAR c = cos16(angle), s=sin16(angle);\
-    M[0] =  c;     M[1] =  CST_ZERO;     M[2] =  s; \
-    M[3] =  CST_ZERO; M[4] =  CST_ONE;    M[5] =  CST_ZERO; \
-    M[6] = -s;     M[7] =  CST_ZERO;     M[8] =  c; \
-}
-
-#define V3XMatrix_Rot_Z(M, angle)\
-{\
-    V3XSCALAR c = cos16(angle), s = sin16(angle);\
-    M[0] =  c; M[1] = -s; M[2] =  CST_ZERO; \
-    M[3] =  s; M[4] =  c; M[5] =  CST_ZERO; \
-    M[6] =  CST_ZERO; M[7] =  CST_ZERO; M[8] =  CST_ONE; \
-}
 
 __extern_c
 _RLXEXPORTFUNC    void    RLXAPI  V3XMatrix_Rotate_X_Local(int32_t Theta, V3XSCALAR *Matrice);

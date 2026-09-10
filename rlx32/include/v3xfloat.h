@@ -50,18 +50,7 @@ typedef float V3XSCALAR;
 #define xSHRD(x, k) ( (x)*(1.f/((float)(1L<<(k))) )   )
 
 // Cast
-#define xFLOATtoINT(x) (int)(x)
-#define xINTtoFLOAT(x) (V3XSCALAR)(x)
 
-#define xCASTTOREAL(a, b){\
-	(a).x = (float)(b).x;\
-	(a).y = (float)(b).y;\
-	(a).z = (float)(b).z;}
-
-#define xCASTTOFIX(a, b){\
-	(a).x = (int32_t)(b).x;\
-	(a).y = (int32_t)(b).y;\
-	(a).z = (int32_t)(b).z;}
 
 #define xADJUSTFIX(x, fact)    xSHLD(x, 16-(fact))
 

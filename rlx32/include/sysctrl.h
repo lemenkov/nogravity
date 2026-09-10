@@ -74,10 +74,8 @@ typedef struct _RClientDriver_Joystick
 
 }JOY_ClientDriver;
 
-#define sJOY_GetValue(b) sJOY->rgbButtons[b]
 #define sJOY_IsHeld(b) !!sJOY->rgbButtons[b]
 #define sJOY_IsClicked(b)  (sJOY->rgbButtons[b] && (!sJOY->steButtons[b]))
-#define sJOY_IsReleased(b)  ((!sJOY->rgbButtons[b]) && sJOY->steButtons[b])
 
 
 __extern_c
@@ -125,10 +123,8 @@ typedef struct _RClientDriver_Keybrd
 }KEY_ClientDriver;
 
 
-#define sKEY_GetValue(b) ( SKEY_GET_BIT(sKEY->rgbButtons, b) )
 #define sKEY_IsHeld(b) ( !!SKEY_GET_BIT(sKEY->rgbButtons, b) )
 #define sKEY_IsClicked(b) ( SKEY_GET_BIT(sKEY->rgbButtons, b) && (!SKEY_GET_BIT(sKEY->steButtons, b)))
-#define sKEY_IsReleased(b) ( (!SKEY_GET_BIT(sKEY->rgbButtons, b)) && SKEY_GET_BIT(sKEY->steButtons, b))
 
 __extern_c
   _RLXEXPORTFUNC KEY_ClientDriver *KEY_SystemGetInterface_STD(void);
@@ -160,7 +156,6 @@ typedef struct _RClientDriver_Mouse
 
 }MSE_ClientDriver;
 
-#define sMOU_GetValue(b) sMOU->rgbButtons[b]
 #define sMOU_IsHeld(b) !!sMOU->rgbButtons[b]
 #define sMOU_IsClicked(b)  (sMOU->rgbButtons[b] && (!sMOU->steButtons[b]))
 #define sMOU_IsReleased(b)  ((!sMOU->rgbButtons[b]) && sMOU->steButtons[b])

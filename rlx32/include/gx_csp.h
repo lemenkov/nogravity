@@ -36,22 +36,6 @@ enum {
     CSPLOAD_FORCE8 = 0x8
 };
 
-// Font text write
-enum {
-    CSPM_CHARSET_32,  // 32 characters
-    CSPM_CHARSET_128, // 128 characters
-    CSPM_CHARSET_255  // 255+ characters
-};
-
-enum {
-   DD_TTYPE_BOLD = 0x1,
-   DD_TTYPE_ITALIC = 0x2,
-   DD_TTYPE_UNDERLINE = 0x4,
-   DD_TTYPE_STRIKEOUT = 0x8,
-   DD_TTYPE_HDCOPENED = 0x10,
-   DD_TTYPE_HDCCLOSE = 0x20,
-   DD_TTYPE_GETWIDTH = 0x80
-};
 
 // Get Area definition (SPC file item structures)
 typedef struct{
@@ -129,11 +113,9 @@ _RLXEXPORTFUNC    void   RLXAPI  CSP_DrawTextC(const char *str, int x, int y, in
 __end_extern_c
 
 #define CSP_Color(c)     GX.csp_cfg.color = c
-#define CSP_ColorKey(c)  GX.csp_cfg.colorKey = c
 #define CSP_Alpha(c)  GX.csp_cfg.alpha = c
 
 #define CSP_DrawCenterText(texte, yy, Fonte, sp)     CSP_DrawText(texte, GX.View.xmin+(((GX.View.xmax-GX.View.xmin)-CSPG_TxLen(texte, Fonte))>>1), yy, Fonte, sp)
-#define CSP_DrawCenterCText(texte, yy, Fonte, sp)    CSP_DrawTextC(texte, GX.View.xmin+(((GX.View.xmax-GX.View.xmin)-CSPG_TxLen(texte, Fonte))>>1), yy, Fonte, sp)
 #define CSP_WriteText(texte, xx, yy, Fonte)          CSP_DrawText(texte, xx, yy, Fonte, GX.csp_cfg.put)
 #define CSP_WriteCenterText(texte, yy, Fonte)       CSP_DrawCenterText(texte, yy, Fonte, GX.csp_cfg.put)
 #endif

@@ -34,31 +34,18 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
     #define M_PI        3.14159265358979323846
 #endif
 
-#define M_PI2048          (M_PI/2048.f)
 #define M_PI180           (M_PI/180.f)
-#define M2048_PI          (2048.f/M_PI)
-#define M180_PI           (180.f/M_PI)
 
 // Precision format
-#define SIN_PREC          15
-#define DEG_PREC          12
 
 // Conversion
-#define SIN_DegToRad(x)    ((x) * M_PI180)
-#define SIN_RadToDeg(x)    ((x) * M180_PI)
-#define SIN_ToDeg(x)      (((x)*360L) >> DEG_PREC)
-#define SIN_FromDeg(x)    (((x)<<DEG_PREC)/360)
 #define SIN_Trunc(x)      ((unsigned)(x)&4095)
 
 // Short Integer table
-#define SIN_cos(x)        (*((short*)TRG_Table + SIN_Trunc(x)))
-#define SIN_sin(x)        (*((short*)TRG_Table + SIN_Trunc((x)-1024)))
-#define SIN_tan(x) (SIN_sin(x)/SIN_cos(x))
 
 // Floating point table
 #define TRG_cos(x)        (*((float*)TRG_Table + SIN_Trunc(x       )))
 #define TRG_sin(x)        (*((float*)TRG_Table + SIN_Trunc((x)-1024)))
-#define TRG_tan(x) (TRG_sin(x)/TRG_cos(x))
 
 
 __extern_c

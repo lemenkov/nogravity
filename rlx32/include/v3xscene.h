@@ -43,15 +43,9 @@ enum {
 
 enum {
 	V3XORI_DUPLICATED = 0x1,
- V3XORI_CSDUPLICATED = 0x2,
- V3XORI_ABSTRACT = 0x4
+ V3XORI_CSDUPLICATED = 0x2
 };
 
-enum {
-	V3XOVID_SHOW = 0x0,
-	V3XOVID_HIDE = 0x1,
-	V3XOVID_FULL = 0x2
-};
 
 // Keyframe state
 
@@ -80,17 +74,14 @@ enum {
  V3XSTATE_PROCESSED = 0x40, // object was processed
  V3XSTATE_TOPROCESS = 0x80, // object was processed
  V3XSTATE_PRSCOLLISION = 0x100, // object should be processed in collision pipeline.
- V3XSTATE_HIDDENBYKF = 0x200, // object was hidden by a keyframe key.
  V3XSTATE_CULLNEVER = 0x400, // object should be never culled (except if outside viewport).
  V3XSTATE_GIANT = 0x800, //
  V3XSTATE_DISPLAYCOL = 0x1000, // display collision mesh
  V3XSTATE_BSPCULLED = 0x2000,
- V3XSTATE_HIDEHIEARCHY = 0x4000,
  V3XSTATE_INSTANCED = 0x8000 // FULL
 };
 enum {
- V3XSUBDEF_PSECTOR = 0x1,
- V3XSUBDEF_GRAVITY = 0x2
+ V3XSUBDEF_PSECTOR = 0x1
 };
 
 // Internal : reset pipeline
@@ -268,22 +259,10 @@ enum {
 	V3XBG_SIDE = 0x3, // barre side
  V3XBG_GRAD = 0x4, // gradient background
  V3XBG_IMG = 0x8, // picture
- V3XBG_IMGZ = 0x10, // Z buffer
  V3XBG_CALCINDEX = 0x20, // Recalc IndexColor
  V3XBG_STEREO = 0x40, // Stereo rendering mixed
- V3XBG_STEREOIL = 0x80, // Stereo rendering interleaved
- V3XBG_MOTIONBLUR= 0x100, // Motion Blur
- V3XBG_FILTERING = 0x200 // Frame filtering
 };
 
-enum {
- V3XSCENE_NEWVIEWPORT = 0x1,
- V3XSCENE_NEWCAMERA = 0x2,
- V3XSCENE_NEWLIGHT = 0x4,
- V3XSCENE_NEWNODES = 0x8,
- V3XSCENE_NEWKF = 0x10,
- V3XSCENE_NEWOBJECTS = 0x20
-};
 
 typedef struct _v3x_layerbg{
 	u_int32_t flags; // type of background
@@ -303,7 +282,6 @@ typedef struct _v3x_layerbg{
 
 enum V3XFG{
 	V3XFG_LIN = 0x1, // fog linear
-	V3XFG_EXP = 0x4, // fog exp
 };
 
 typedef struct _v3x_layerfog{
@@ -314,9 +292,6 @@ typedef struct _v3x_layerfog{
 	rgb32_t color; // fog color
 }V3XLAYER_FOG; //SizeOf: 20b
 
-enum {
-	V3XZB_IMG = 0x1, // has special
-};
 
 typedef struct _v3x_layerZbuffer{
  u_int32_t flags; // Z Buffer

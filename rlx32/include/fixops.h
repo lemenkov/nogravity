@@ -30,17 +30,11 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define __FIXOPCODE
 
 #define xMUL8(a, b) ((u_int32_t)(((u_int32_t)(a)*(u_int32_t)(b))>>8))
-#define SHL16(x)         ((int32_t)(x)<<16)
-#define SHR16(x)         ((int32_t)(x)>>16)
-#define SHLD(x)          ((int32_t)(x)<<16)
-#define SHRD(x)          ((int32_t)(x)>>16)
 
   #define fMUL(x, y)        (((float)(x)*(float)(y))*(1.f/65536.f))
   #define fDIV(x, y)        (((float)(x)*65536.f)/(float)(y))
   #define VMUL(x, y)        (int32_t)fMUL(x, y)
   #define VDIV(x, y)        (int32_t)fDIV(x, y)
-  #define VMUL2(x)         VMUL(x, x)
-  #define VMUL_DIV(x, y, z)  ((((float)(x)*(float)(y))/(float)(z)))
 
 
 #endif

@@ -32,7 +32,6 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
      Definitions (version and fixed mul or floating point)
  */
 
-#define V3XVERSION     0x500
 
 #include "v3xtypes.h"
 #include "v3xmaths.h"
@@ -40,17 +39,13 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 enum {
       V3XOPTION_WARNING = 0x1, // Enable warning level
-      V3XOPTION_DEBUG = 0x2, // Enable debug output
       V3XOPTION_AMBIANT = 0x4, // Enable ambiant override
       V3XOPTION_COLLISION = 0x8, // Enable collision detection
-      V3XOPTION_ADDMESH = 0x10,
       V3XOPTION_DUPPOLY = 0x20,
       V3XOPTION_COLLISIONDRAW = 0x40,
       V3XOPTION_97  = 0x80,
-      V3XOPTION_PUSHSCENE = 0x100,
       V3XOPTION_USESAMELUT = 0x200,
       V3XOPTION_TRUECOLOR = 0x400,
-      V3XOPTION_TRACER = 0x800,
       V3XOPTION_PORTALCULL = 0x1000,
 	  V3XOPTION_RAYTRACE  = 0x2000
 
@@ -65,7 +60,6 @@ enum {
       V3XMATRIX_Euler = 0x0, // Matrix mode with euler angles
       V3XMATRIX_Vector = 0x1, // Matrix mode with non-normalize vector direction
       V3XMATRIX_Custom = 0x2, // Custom matrix mode
-      V3XMATRIX_Euler2 = 0x3, // Matrix mode with euler angles (Lightwave)
       V3XMATRIX_Vector2 = 0x4, // Matrix mode with normalized vector
       V3XMATRIX_Quaternion = 0x5  // Quaternion mode
 };
@@ -76,20 +70,16 @@ enum {
       V3XLIGHTTYPE_OMNI = 0x2, // Omni light
       V3XLIGHTTYPE_OMNI_Z = 0x3, // Z light
       V3XLIGHTTYPE_DIRECTIONAL = 0x4, // Directional light
-      V3XLIGHTTYPE_CUSTOM = 0x10 // Custom light
 };
 enum {
       V3XLIGHTCAPS_LENZFLARE = 0x1, // Lenz flare (material is valid)
-      V3XLIGHTCAPS_NEGATIVE = 0x2, // Negative light (substract)
       V3XLIGHTCAPS_DYNAMIC = 0x4, // Dynamic calculation
       V3XLIGHTCAPS_RANGE  = 0x8, // Has a range
-      V3XLIGHTCAPS_FOGGY  = 0x10, // Create a fog if camera in the range
       V3XLIGHTCAPS_INFINITE = 0x20, // Infinite lite (no z-fogging)
       V3XLIGHTCAPS_REALLF = 0x40, // Realistic lenz flare
       V3XLIGHTCAPS_FIXEDSIZE = 0x80 // Realistic lenz flare
 };
 enum {
-      V3XENVMAPTYPE_NONE  = 0x0, // Disable environment mapping
       V3XENVMAPTYPE_LIGHT = 0x1, // Environmnent mapping with light influence
       V3XENVMAPTYPE_CAMERA = 0x2, // Jugi' model environmnnnt mapping
       V3XENVMAPTYPE_PLANE = 0x4, // Environment mapping with coordinate mapping
@@ -100,21 +90,7 @@ enum {
       V3XBLENDMODE_SUB  = 0x1, // substractive alpha
       V3XBLENDMODE_ALPHA = 0x2, // alpha
       V3XBLENDMODE_ADD  = 0x3, // additive
-      V3XBLENDMODE_STIPPLE = 0x4   // Stippled
 };
-
-enum {
-      V3XMTXBLEND_ADD = 0x1, // additive
-      V3XMTXBLEND_LIGHTMAP = 0x2  // light
-};
-
-
-enum {
-      V3XFILTER_DEFAULT = 0x0, // Use default filtering mode
-      V3XFILTER_NONE = 0x1  // Disable filtering
-};
-
-
 
 
 /*
@@ -147,27 +123,6 @@ typedef struct _v3xpoly{
     u_int8_t        NeedToClip;          // reserved
 }V3XPOLY;
 
-typedef struct _v3xpoly_l{
-    union
-	{
-         struct _v3xmaterial        *Mat;            // Material structures
-         int        matIndex;       // Material index in the mesh
-    };
-    u_int32_t       *faceTab;
-    V3XlPTS			*dispTab;
-    V3XlUV			**uvTab;
-    V3XSCALAR		distance;
-    union {
-        int32_t		*shade;
-        rgb32_t		*rgb;
-		void		*lightmap;
-    };
-    V3XWPTS			*ZTab;
-    u_int8_t        numEdges;
-    u_int8_t		flags;
-    u_int8_t        visible;
-    u_int8_t        NeedToClip;
-}V3XPOLY_L;
 
 /*
      Mesh Material definitions (128 bytes size)
@@ -295,13 +250,8 @@ enum {
     V3XMESH_MINZSORT = 0x10, // Min Z sort
     V3XMESH_MAXZSORT = 0x20, // Max Z sort
     V3XMESH_PRESHADED = 0x40, // Preshade : do not compute lighting
-    V3XMESH_HASUV = 0x80, // Have UV mesh
-    V3XMESH_HASSHADE = 0x100, // Shaded Mesh
-    V3XMESH_HASNORMAL = 0x200, // Have normal edge mesh
     V3XMESH_EXCPTDYNLIGHT = 0x400, // do not shaded by dynamic light
     V3XMESH_HASSHADETABLE = 0x800, // Contains pre-shading value
-    V3XMESH_NOOPTIMIZE = 0x1000,
-    V3XMESH_HASMIRRORMATERIAL = 0x2000, // Is a 'mirror' object.
     V3XMESH_NOZSORT			 = 0x4000,
 	V3XMESH_LOWDETAIL		 = 0x8000,
 	V3XMESH_LODNEVER		 = 0x10000,
@@ -567,7 +517,6 @@ typedef struct _v3x_tx_cache_item {
 typedef struct _v3x_time {
 	unsigned		ms;
 }V3XTIMER;
-
 
 
 // Texture primitives group. (non valid with HW drivers)

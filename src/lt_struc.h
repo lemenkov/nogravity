@@ -45,12 +45,10 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define MAX_COM_DELAY 256
 #define MAX_LINES_README_TXT 450
 
-#define MAX_EXPLOSIONS 256
 #define MAX_DEBRIS 32
 #define MAX_BLASTS 16
 
 #define REFRESH_FNF 7
-#define CURVE_PREC 32
 #define RADARMAX 8000 * g_SGSettings.WorldUnit
 
 #include "_nginfo.h"
@@ -61,8 +59,7 @@ enum MODE_PLAYER
 	GODMODE = 0x1,
 	STEALTHMODE = 0x2,
 	DOOMEDMODE = 0x4,
-	TURBOMODE = 0x8,
-	FROZENMODE = 0x10
+	TURBOMODE = 0x8
 };
 
 
@@ -286,20 +283,6 @@ typedef struct _sg_mission
 }SGMISSION;
 
 
-typedef struct {
-	u_int8_t				behind,
-						led,
-						radar,
-						win_radar,
-						sp_radar,
-						win_rear,
-						sp_rear,
-						win_camis,
-						sp_camis,
-						win_radar2,
-						sp_radar2;
-}SGHudDisplay;
-
 enum NG_GAMESTATE{
  	GAMESTATE_PLAY,
  	GAMESTATE_DEAD,
@@ -372,10 +355,6 @@ typedef struct {
 	u_int32_t		Mx;
 }SGStarfield;
 
-typedef struct {
-	char 		EpisodeName[32];
-	char 		LevelName[10][32];
-}SGEpisode;
 
 typedef struct {
 	char 		name[32];
@@ -511,4 +490,3 @@ typedef struct {
 #define LK_DOWN g_SGSettings.key[19]
 #define LK_RIGHT g_SGSettings.key[20]
 #define LK_LEFT g_SGSettings.key[21]
-#define LK_TALK g_SGSettings.key[22]

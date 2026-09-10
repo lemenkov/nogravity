@@ -43,10 +43,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 
 enum SYS_WAD_STATUS
 {
-	SYS_WAD_STATUS_DISABLED		= 0x0,	// Resource stream is disabled
 	SYS_WAD_STATUS_ENABLED		= 0x1,	// Resource stream is enabled
-	SYS_WAD_STATUS_OVERLAY		= 0x2,	// Resource is at the trail of the executable
-	SYS_WAD_STATUS_PROFILE		= 0x4	// Enable profiler
 };
 
 // Stream class (remapped from the standard STDIO.H functions).
