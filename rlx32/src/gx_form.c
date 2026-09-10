@@ -66,8 +66,6 @@ int IMG_LoadFp(const char *filename, SYS_FILEHANDLE fp, GXSPRITE *sp)
 	}
     sp->data = NULL;
     sp->handle = NULL;
-    if (RLX.Video.Config&RLXVIDEO_ConvertImg8bit)
-		op|=2;
     while (upk->ext!=NULL)
     {
         if (strstr(filename, upk->ext))

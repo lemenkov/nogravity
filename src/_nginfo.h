@@ -76,7 +76,6 @@ typedef struct
     u_int8_t 	Menu;
     u_int8_t 	rearview;
     u_int8_t 	HalfSize;
-    u_int8_t 	OS;
 	u_int8_t 	FlipYMouse;
     u_int8_t 	FrameSkip;
 	u_int8_t 	Ctrl;

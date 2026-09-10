@@ -389,7 +389,7 @@ void V3XMaterial_Register(V3XMATERIAL *mat)
         Gr = V3X.Client->primitive->Linear256x256x8b;
         Gc = V3X.Client->primitive->Corrected256x256x8b;
         // Rendu 'Corrige'
-        if ((mat->info.Perspective)&&((GX.View.BitsPerPixel!=32)&&(RLX.V3X.Id!=1)))
+        if ((mat->info.Perspective)&&(GX.View.BitsPerPixel!=32))
         {
             G = V3X.Client->primitive->Corrected256x256x8b;
         }
@@ -1028,7 +1028,7 @@ static void CALLING_C V3X_CSP_pset(int32_t x, int32_t y, GXSPRITE *item)
     RGB_GetPixelFormat(&mat->diffuse, GX.csp_cfg.color);
     mat->alpha = (u_int8_t)GX.csp_cfg.alpha;
     mat->specular = mat->diffuse;
-    mat->info.Transparency = RLX.V3X.Id>1 ? V3XBLENDMODE_ALPHA : V3XBLENDMODE_ADD;
+    mat->info.Transparency = V3XBLENDMODE_ALPHA;
     V3XVector_Set((V3XVECTOR*)&pos[0], sp->x         , sp->y           , sp->z);
     V3XVector_Set((V3XVECTOR*)&pos[1], sp->x         , sp->y+item->LY  , sp->z);
     V3XVector_Set((V3XVECTOR*)&pos[2], sp->x+item->LX, sp->y+item->LY  , sp->z);
@@ -1048,7 +1048,7 @@ static void CALLING_C V3X_CSP_pset_zoom(GXSPRITE *item, int32_t x, int32_t y, in
     RGB_GetPixelFormat(&mat->diffuse, GX.csp_cfg.color);
     mat->alpha = (u_int8_t)GX.csp_cfg.alpha;
     mat->specular = mat->diffuse;
-    mat->info.Transparency = RLX.V3X.Id>1 ? V3XBLENDMODE_ALPHA : V3XBLENDMODE_ADD;
+    mat->info.Transparency = V3XBLENDMODE_ALPHA;
     V3XVector_Set((V3XVECTOR*)&pos[0], sp->x   , sp->y     , sp->z);
     V3XVector_Set((V3XVECTOR*)&pos[1], sp->x   , sp->y+ly  , sp->z);
     V3XVector_Set((V3XVECTOR*)&pos[2], sp->x+lx, sp->y+ly  , sp->z);

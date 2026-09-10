@@ -371,13 +371,6 @@ int NG_Audio3DUpdate(V3XVECTOR *pos, V3XVECTOR *speed, int playChannel, int inde
 		return 0;
     }
 
-    if (RLX.Audio.Config&RLXAUDIO_Use3D)
-    {
-        V3XA.Client->ChannelSetParms(playChannel, pos, speed, NULL);
-        V3XA.Client->ChannelSetVolume(playChannel, (float)g_SGSettings.VolFX / 100);
-		return 1;
-    }
-    else
     {
         float volume;
         V3XSND_GetPosition(&Pan, &volume, pos, 4096.);
@@ -401,19 +394,9 @@ int NG_Audio3DPlay(int index, V3XVECTOR *pos, V3XVECTOR *speed)
 
     if (NG_AllocSoundChannel(&info, index)>=0)
     {
-        if (RLX.Audio.Config & RLXAUDIO_Use3D)
-        {
-            V3XRANGE range = {1000.f, 100000.f};
-            info.smpHandle->sampleFormat|=V3XA_FMT3D;
-            V3XA.Client->ChannelPlay(info.playChannel, 44100, (float)g_SGSettings.VolFX / 100, 0, info.smpHandle);
-            V3XA.Client->ChannelSetParms(info.playChannel, pos, speed, &range);
-        }
-        else
-        {
-            V3XSND_GetPosition(&info.pan, &info.volume, pos, 4096.);
-            info.volume = (info.volume * (float)g_SGSettings.VolFX) / 100;
-            V3XA.Client->ChannelPlay(info.playChannel, 44100, info.volume, info.pan, info.smpHandle);
-        }
+        V3XSND_GetPosition(&info.pan, &info.volume, pos, 4096.);
+        info.volume = (info.volume * (float)g_SGSettings.VolFX) / 100;
+        V3XA.Client->ChannelPlay(info.playChannel, 44100, info.volume, info.pan, info.smpHandle);
     }
     else
 		info.playChannel = -1;

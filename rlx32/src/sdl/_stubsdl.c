@@ -63,7 +63,6 @@ int main(int argc, char *argv[])
   STUB_OsCustom(NULL);
   STUB_CheckUp(NULL);
   STUB_ReadyToRun();
-  RLX.System.Running = TRUE;
   STUB_MainCode();
   STUB_Down();
   STUB_QuitRequested();

@@ -964,31 +964,6 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
                 case CTRL_Joystick: // Joystick Control
 					*InMax= (int)(16.f*g_cTimer.fCounter);
 
-                switch(RLX.Control.Id)
-				{
-                    case RLXCTRL_JoyPad:
-						if (sJOY)
-						{
-							sJOY->Update(0);
-							SGJOY_MapKeyboard();
-							sKEY->scanCode = 255;
-							if (sKEY_IsHeld(LK_LEFT ))
-								*dx=-1;
-							if (sKEY_IsHeld(LK_RIGHT))
-								*dx= 1;
-							if (sKEY_IsHeld(LK_UP))
-								*dy=-1;
-							if (sKEY_IsHeld(LK_DOWN))
-								*dy= 1;
-							g_pPlayer->Mv.x -= (float)(3*(*dx)) * g_cTimer.fCounter;
-							g_pPlayer->Mv.y -= (float)(3*(*dy)) * g_cTimer.fCounter;
-							RollControl(ra);
-						}
-                    break;
-                    case RLXCTRL_ThrustMaster:
-                    case RLXCTRL_JoyAnalog:
-                    case RLXCTRL_SideWinder:
-                    default:
 						if (sJOY)
 						{
 							int axisX, axisY, axisRoll, axisThrottle, status;
@@ -1025,8 +1000,6 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
 							}
 
 						}
-                    break;
-                }
                 sKEY->scanCode=1;
                 break;
                 case CTRL_Keyb:  // Keyboard Control
@@ -1653,13 +1626,8 @@ void NG_DisplayWarp(void)
 void NG_StarfieldUpdate(void)
 {
     unsigned i;
-    V3XSCALAR spid = g_pPlayer->J.pInf.fSpeed / ((RLX.V3X.Id>RLX3D_Software) ? 8 : 1);
-    V3XSCALAR zm = DIVF32((V3XSCALAR)16, Starfield.Zclip);
+    V3XSCALAR spid = g_pPlayer->J.pInf.fSpeed / 8;
     V3XVECTOR *v;
-    int32_t c = (int32_t)(255 * g_pPlayer->J.pInf.fSpeed / g_pPlayer->J.pInf.fSpeedMax);
-    u_int32_t s;
-    if (c<0) c=-c;
-    s = RGB_PixelFormat(c, c, c);
     if ((g_SGGame.Count&128)==0)
     {
         int32_t ct = (Starfield.maxStars/2);
@@ -1703,7 +1671,6 @@ void NG_StarfieldUpdate(void)
                     p2->y = p1->y+MULF32(y, d);
                     p2->z = p1->z+MULF32(z, d);
                 }
-                if ((RLX.V3X.Id>RLX3D_Software))
                 {
                     p3.x = ( p1->x + p2->x )/2;
                     p3.y = ( p1->y + p2->y )/2;
@@ -1728,10 +1695,6 @@ void NG_StarfieldUpdate(void)
                         RGB32_Set(V3X.Ln.lineColor[V3X.Ln.nbLines+1], 0, 0, 0, 0);
                         V3X.Ln.nbLines+=2;
                     }
-                }
-                else
-                {
-                    GX_ClippedLine((V3XVECTOR2*)p1, (V3XVECTOR2*)p2, GX.View.BytePerPixel == 1 ? (u_int32_t)(95 - MULF32(zm, W.z+Starfield.Zclip)) : s);
                 }
             }
         }

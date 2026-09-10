@@ -404,7 +404,7 @@ _RLXEXPORTFUNC void CSP_ZoomText(const char *texte, int32_t xx, int32_t yy, int3
 _RLXEXPORTFUNC GXSPRITE *CSP_GetFn(const char *filename, unsigned option)
 {
     SYS_FILEHANDLE in;
-    int32_t dp = RLX.V3X.Id == RLX3D_OPENGL ? 4 : GX.View.BytePerPixel;
+    int32_t dp = 4;
     GXSPRITE *sp=(GXSPRITE *) MM_heap.malloc(sizeof(GXSPRITE));
     in = FIO_cur->fopen(filename, "rb");
     if( in )

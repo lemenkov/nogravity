@@ -61,10 +61,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include "lt_data.h"
 #include "lt_func.h"
 
-#define APP_NAME "No Gravity"
-#define STUB_SIG "application/x-vnd.Realtech-nogravity"
 
-static char *Pname=APP_NAME, *Psig=STUB_SIG;
 static u_int8_t *g_HeapBuffer;
 static u_int32_t g_HeapSize = 0x800000;
 /*------------------------------------------------------------------------
@@ -110,31 +107,7 @@ void NG_SetGameInfo(void)
 void NG_CheckSystems(void)
 {
     GX.View.Flags|=GX_CAPS_VSYNC;
-    switch(RLX.Control.Id){
-        case RLXCTRL_Keyboard:
-        g_SGSettings.Ctrl=CTRL_Keyb;
-        break;
-        case RLXCTRL_Mouse:
-        break;
-        case RLXCTRL_JoyAnalog:
-        case RLXCTRL_JoyPad:
-        case RLXCTRL_ThrustMaster:
-        case RLXCTRL_SWIFT:
-        case RLXCTRL_VirtualIO:
-        break;
-    }
-    switch(RLX.V3X.Id) {
-        case RLX3D_DIRECT3D:
-        g_SGSettings.TexFiltering = 1;
-        break;
-        case RLX3D_3DFX:
-        case RLX3D_OPENGL:
-        g_SGSettings.TexFiltering = 1;
-        g_SGSettings.TexFiltering = 1;
-        case RLX3D_S3VIRGE:
-        g_SGSettings.TexFiltering = 1;
-        break;
-    }
+    g_SGSettings.TexFiltering = 1;
 	if ((g_SGSettings.Ctrl >= CTRL_Joystick) && (!sJOY->numControllers))
 		g_SGSettings.Ctrl = CTRL_Mouse;
 	if ((g_SGSettings.Ctrl == CTRL_Mouse) && (!sMOU->numControllers))
@@ -438,9 +411,6 @@ end:
 */
 void STUB_Default(void)
 {
-    RLX.Dev.ApplicationName = Pname;
-    RLX.Dev.TeamSignature = Psig;
-    RLX.App.Heap_Required = 0x580000;
     NG_ReadGameConfig();
 
 	V3X.Buffer.MaxLight = 16;
@@ -449,9 +419,6 @@ void STUB_Default(void)
     V3X.Buffer.MaxClippedFaces = 1280;
     V3X.Ln.maxLines = 1024;
 
-	RLX.Audio.Config|=RLXAUDIO_Enable;
-    RLX.Audio.Config|=RLXAUDIO_UseHwMixer;
-    RLX.Audio.Config&=~RLXAUDIO_Use3D;
 	V3XA.State|=1;
 
     return;

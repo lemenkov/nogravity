@@ -143,7 +143,6 @@ void NG_SaveGameInfo(void)
 #endif
         fprintf(in, "Language=%d\n", (int)g_SGSettings.Language);
         fprintf(in, "Difficulty=%d\n", g_SGSettings.Difficulty);
-        fprintf(in, "OS=%d\n", g_SGSettings.OS);
         fprintf(in, "\n[Video]\n");
         fprintf(in, "Dithering=%s\n", YesNo[ g_SGSettings.Dithering ]);
         fprintf(in, "TexFiltering=%s\n", YesNo[ g_SGSettings.TexFiltering ]);
@@ -220,9 +219,6 @@ void NG_ReadGameConfig(void)
             g_SGSettings.Intro = (u_int8_t)GetCF_bool("Intro", &iniFile);
             g_SGSettings.Language = (u_int8_t)GetCF_long("Language", &iniFile);
             g_SGSettings.Difficulty = (u_int8_t)GetCF_long("Difficulty", &iniFile);
-            g_SGSettings.OS = (u_int8_t)GetCF_long("OS", &iniFile);
-            if (!g_SGSettings.OS)
-				g_SGSettings.OS=66;
         }
 
         if(SelectConfigClass("Video", &iniFile))
@@ -317,39 +313,18 @@ void NG_ReadGameConfig(void)
         g_SGSettings.VisualsFx = 3;
         g_SGSettings.Language = 0;
         g_SGSettings.Ctrl = CTRL_Mouse;
-        g_SGSettings.OS = 0;
-		RLX.V3X.Id = RLX3D_DIRECT3D;
-    }
-    if (g_SGSettings.OS!=RLX.System.Id)
-    {
+
+        // First run: display defaults, then write the settings file.
         RLX.Video.Gamma = 1;
         g_SGSettings.Sky = 1;
         g_SGSettings.Dithering = 1;
         g_SGSettings.LensFX = 1;
-	g_SGSettings.Fullscreen = 1;
-		g_SGSettings.ResolutionX = 640;
-		g_SGSettings.ResolutionY = 480;
-		g_SGSettings.ColorDepth = 32;
-
-        switch(RLX.V3X.Id)
-		{
-            case RLX3D_3DFX:
-            case RLX3D_DIRECT3D:
-            case RLX3D_OPENGL:
-		        g_SGSettings.TexFiltering = 1;
-			    g_SGSettings.VisualsFx = 4;
-            break;
-            case RLX3D_S3VIRGE:
-            g_SGSettings.TexFiltering = 1;
-            g_SGSettings.VisualsFx = 2;
-            g_SGSettings.showInf = 0;
-            break;
-            default:
-            g_SGSettings.VisualsFx = 3;
-            g_SGSettings.TexFiltering = 0;
-            break;
-        }
-        g_SGSettings.OS = RLX.System.Id;
+        g_SGSettings.Fullscreen = 1;
+        g_SGSettings.ResolutionX = 640;
+        g_SGSettings.ResolutionY = 480;
+        g_SGSettings.ColorDepth = 32;
+        g_SGSettings.TexFiltering = 1;
+        g_SGSettings.VisualsFx = 4;
         NG_SaveGameInfo();
     }
     return;

@@ -1766,7 +1766,7 @@ void NG_DrawHelpFile(GXSPRITEGROUP *Font, int color2, int xz)
             sKEY->Update(0);
 			sJOY->Update(0);
 
-			g_SGSettings.bClearView = ((RLX.System.Id==RLXOS_DOS32)&&(RLX.V3X.Id<=1)) ? 2 : 1;
+			g_SGSettings.bClearView = 1;
             GX.Client->Lock();
 
 			CSP_Color(COLOR_WHITE);

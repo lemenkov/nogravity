@@ -28,143 +28,33 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #ifndef _RLXREGISTRY
 #define _RLXREGISTRY
 
+// Run time configuration shared between the game and the rlx32 drivers.
+
 enum {
-    RLXOS_DOS32  = 0x1,
-    RLXOS_WIN32  = 0x2,
-    RLXOS_BEOS = 0x4,
-    RLXOS_MACOS  = 0x8,
-    RLXOS_BEOSINTEL = 0x10,
-    RLXOS_PSX = 0x20,
-    RLXOS_LINUX  = 0x21
+    RLXVIDEO_Windowed = 0x10
 };
+
 enum {
-    RLXSYSTEM_Enable = 0x1,
-    RLXSYSTEM_MultiThread = 0x2,
-    RLXSYSTEM_Network  = 0x4,
-    RLXSYSTEM_IntelMMX = 0x8,
-    RLXSYSTEM_Amd3DNow = 0x10,
-    RLXSYSTEM_IntelXMMX = 0x20
+    RLXCTRL_Uncalibrated = 0x4
 };
 
 typedef struct {
-    u_int32_t  Config;
-    u_int8_t  Id, DietMode, Processor, Running;
-    char  *CPU_List[8];
-}RLX_RegisterSystem;
-
-enum {
-    RLXAUDIO_Enable = 0x1,
-    RLXAUDIO_Use16BIT  = 0x2,
-    RLXAUDIO_UseSTEREO = 0x4,
-    RLXAUDIO_UseSURRND = 0x8,
-    RLXAUDIO_UseBASS = 0x10,
-    RLXAUDIO_FlipSTEREO = 0x20,
-    RLXAUDIO_CacheONDISK = 0x40,
-    RLXAUDIO_DetectHARDWARE = 0x80,
-    RLXAUDIO_EnableCDAudio = 0x100,
-    RLXAUDIO_Use3D = 0x200,
-    RLXAUDIO_UseHwMixer = 0x400
-};
-
-typedef struct {
-    u_int32_t  Config;
-    u_int8_t  WaveDeviceId, MidiDeviceId, ChannelToMix, filler;
-    u_int16_t ioPort;
-    u_int32_t  SamplingRate, CacheSize;
-    u_int32_t  SR_to_Khz[8];
+    u_int8_t  ChannelToMix;
 }RLX_RegisterAudio;
 
-enum {
-    RLXVIDEO_Enable = 0x1,
-    RLXVIDEO_Use2DHARDWARE = 0x2,
-    RLXVIDEO_UseLFB = 0x4,
-    RLXVIDEO_WideDAC = 0x8,
-    RLXVIDEO_Windowed = 0x10,
-    RLXVIDEO_ConvertImg8bit = 0x20
-};
-
-
-enum {
-    RLXVIDEO_VGA,
-    RLXVIDEO_SVGA,
-    RLXVIDEO_VESA12,
-    RLXVIDEO_VESA2,
-    RLXVIDEO_VESA2U,
-    RLXVIDEO_3D
-};
-
-enum {
-    RLXVIDEO_Primary,
-    RLXVIDEO_Secondary
-};
-
 typedef struct {
     u_int32_t  Config;
-    u_int8_t  Id;
-    u_int8_t  Refresh;
     u_int8_t  Gamma;
-    u_int8_t  filler;
 }RLX_RegisterVideo;
-
-enum {
-    RLX3D_none,
-    RLX3D_Software,
-    RLX3D_S3VIRGE,
-    RLX3D_3DFX,
-    RLX3D_DYNAMIC,
-    RLX3D_DIRECT3D,
-    RLX3D_OPENGL,
-    RLX3D_METAL,
-};
-enum {
-    RLX3D_Reserved = 0x1,
-    RLX3D_NoPalettizedTex = 0x2,
-    RLX3D_UseMultiTex = 0x4,
-    RLX3D_UseAGP = 0x8,
-    RLX3D_AutoDetect = 0x10,
-    RLX3D_FakeHardware = 0x20,
-    RLX3D_TexManager = 0x40,
-    RLX3D_NoBusMastering = 0x80,
-	RLX3D_FullQualityTex = 0x100
-};
-typedef struct {
-    u_int32_t  Config;
-    u_int8_t  Id;
-    u_int8_t  DefaultResize;
-    u_int8_t  filler[2];
-}RLX_Register3D;
-
-enum {
-    RLXCTRL_Keyboard,
-    RLXCTRL_Mouse,
-    RLXCTRL_JoyAnalog,
-    RLXCTRL_JoyPad,
-    RLXCTRL_ThrustMaster,
-    RLXCTRL_SWIFT,
-    RLXCTRL_VirtualIO,
-    RLXCTRL_SideWinder
-};
-
-enum {
-    RLXCTRL_Enable = 0x1,
-    RLXCTRL_IntKeyboard = 0x2,
-	RLXCTRL_Uncalibrated = 0x4
-};
 
 struct _RClientDriver_Mouse;
 struct _RClientDriver_Joystick;
 struct _RClientDriver_Keybrd;
 
 typedef struct {
-    u_int32_t Config;
-    u_int8_t Id;
-	u_int8_t Device;
-    u_int8_t filler[2];
-
 	struct _RClientDriver_Mouse *mouse;
 	struct _RClientDriver_Joystick *joystick;
 	struct _RClientDriver_Keybrd *keyboard;
-
 }RLX_RegisterController;
 
 typedef struct {
@@ -180,30 +70,11 @@ typedef struct {
 }RLX_RegisterJoystickCal;
 
 typedef struct {
-    u_int8_t  Id;
-    u_int8_t  filler[3];
-}RLX_RegisterNetwork;
-
-typedef struct {
-    char   *ApplicationName;
-    char   *TeamSignature;
     char   *Developper;
-    u_int8_t   ReleaseVersion;
-    u_int8_t   Status;
 }RLX_RegisterDevelopper;
-
-enum {
-    RLXAPP_IsRunning  = 0x1,
-    RLXAPP_IsPaused = 0x2,
-    RLXAPP_Signal = 0x4,
-    RLXAPP_DefaultRegs = 0x8
-};
 
 typedef struct {
     char    UserName[16];
-    u_int32_t   Config;
-    u_int32_t   Heap_Start;
-    u_int32_t   Heap_Required;
 }RLX_RegisterApplication;
 
 
@@ -218,17 +89,13 @@ typedef unsigned		(*RLXAPI PFRGB_SETPIXELFORMAT)(int r, int g, int b);
 struct _sys_memory;
 
 typedef struct RLXSYSTEM{
-    RLX_RegisterSystem      System;
     RLX_RegisterAudio       Audio;
     RLX_RegisterVideo       Video;
-    RLX_Register3D          V3X;
     RLX_RegisterController  Control;
     RLX_RegisterJoystickCal Joy;
-    RLX_RegisterNetwork     Network;
     RLX_RegisterDevelopper  Dev;
     RLX_RegisterApplication App;
     char 					IniPath[256];
-    char 					IniFilename[12];
 	PFGXSETUPVIEWPORT		pfSetViewPort;			// Set Viewport callback
 	PFRGB_SMARTCONVERTER	pfSmartConverter;		// Color conversion callback
 	PFRGB_GETPIXELFORMAT	pfGetPixelFormat;		// Get Pixel Format callback
@@ -236,15 +103,9 @@ typedef struct RLXSYSTEM{
 	struct _sys_memory	*	mm_heap;
 	struct GXSYSTEM		*	pGX;
 	struct V3XSYSTEM	*	pV3X;
-	void				*	pApplication; // BEOS specific
 }STUB_Registry;
 
 __extern_c
-    _RLXEXPORTFUNC char  *SYSREG_GetString(char *value, void *Class, char *Group, char *Key);
-    _RLXEXPORTFUNC int    SYSREG_SetString(char *value, void *Class, char *Group, char *Key);
-    _RLXEXPORTFUNC void   STUB_RegistryReset(STUB_Registry *regs);
-    _RLXEXPORTFUNC void   STUB_RegistryRead(STUB_Registry *regs);
-    _RLXEXPORTFUNC int    STUB_RegistryWrite(STUB_Registry *regs);
     _RLXEXPORTDATA extern STUB_Registry RLX;
 __end_extern_c
 

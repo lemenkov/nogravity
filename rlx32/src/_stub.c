@@ -165,11 +165,6 @@ static void STUB_CheckSystem(void *hwnd)
 
 void STUB_CheckUp(void *hwnd)
 {
-#ifdef __STUB_RLX
-    if ((RLX.App.Config&RLXAPP_DefaultRegs)==0)
-        STUB_RegistryRead(&RLX);
-#endif
-
 	STUB_CheckSystem(hwnd);
     STUB_CheckControl(hwnd);
     STUB_CheckAudio(hwnd);
