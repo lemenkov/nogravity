@@ -505,7 +505,7 @@ void sysConRender()
 
 	{
 		char szOut[512];
-		sprintf(szOut,"%s%c", m_pInput.text, (timer_ms()%1000 < 500) ? '_' : ' ');
+		sprintf(szOut,"%s%c", m_pInput.text, (SDL_GetTicks()%1000 < 500) ? '_' : ' ');
 
 		{
 			int v = m_pFont->item[0].LY + 1;

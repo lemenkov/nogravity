@@ -304,7 +304,7 @@ _RLXEXPORTFUNC FLI_STRUCT *FLI_Open( SYS_FILEHANDLE in, int md)
     pAnim->bitmap.LY = pAnim->Header.Struct.height;
     pAnim->bitmap.LX = pAnim->Header.Struct.width;
     pAnim->bitmap.data = pAnim->decompBuffer;
-    pAnim->LastTime = timer_ms();
+    pAnim->LastTime = SDL_GetTicks();
     pAnim->Flags       |= FLX_DECOMPRESSFRAME + FLX_LOOPANIMATION + FLX_ISPLAYING;
     pAnim->CurrentFrame = 0;
 

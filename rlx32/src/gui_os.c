@@ -154,7 +154,7 @@ static int ScanKeys(RW_Interface *pInt, int *pCurSel, int *pPrevSel)
 	if (sJOY->numControllers)
 	{
 		static unsigned to;
-		unsigned tc = timer_ms();
+		unsigned tc = SDL_GetTicks();
 		if (tc > to)
 		{
 			to = tc + 125;
@@ -390,7 +390,7 @@ int RW_InputText(RW_Interface *pInt, char *t, int numChar, PFRWCALLBACK pfCallba
 				}
 			}
 
-		sprintf(tmp, "%s%c", text, timer_ms()%1000<500 ? '_' : ' ');
+		sprintf(tmp, "%s%c", text, SDL_GetTicks()%1000<500 ? '_' : ' ');
 		RW.szInputText = tmp;
 		pfCallback(pInt, 2);
 

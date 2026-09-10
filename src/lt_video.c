@@ -201,9 +201,9 @@ void NG_PlayGameOver(void)
 	NG_FadeInBackground();
     g_SGSettings.Menu = 0;
     NG_AudioSay("ins05");
-	g_uiTrackTime = timer_sec();
+	g_uiTrackTime = (SDL_GetTicks() / 1000);
 
-    while (((delta=timer_sec()-g_uiTrackTime)<20)&&(!esc))
+    while (((delta=(SDL_GetTicks() / 1000)-g_uiTrackTime)<20)&&(!esc))
     {
 		char tex[256];
         sKEY->Update(0);

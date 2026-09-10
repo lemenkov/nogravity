@@ -140,12 +140,12 @@ void NG_DrawTicker(void)
 	char tex[256];
     pf->poly+=V3X.Buffer.MaxFaces;
     pf->frame++;
-    if (timer_ms()-pf->time>2000)
+    if (SDL_GetTicks()-pf->time>2000)
     {
         pf->pps = pf->poly/2;
         pf->fps = pf->frame/2;
         pf->poly = pf->frame = 0;
-        pf->time = timer_ms();
+        pf->time = SDL_GetTicks();
     }
     sprintf(tex, "%d fps %d pps",(int) pf->fps, (int)pf->pps);
 	CSP_Color(g_SGGame.CI_WHITE);

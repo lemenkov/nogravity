@@ -338,10 +338,10 @@ static void NG_ReleaseMenuInterface(void)
 
 static GXSPRITE *NG_GetCursorSprite(void)
 {
-    if (timer_ms()-g_cCursorMenu.Time>g_cCursorMenu.pShapeAnim->speed)
+    if (SDL_GetTicks()-g_cCursorMenu.Time>g_cCursorMenu.pShapeAnim->speed)
     {
         g_cCursorMenu.Frame++;
-        g_cCursorMenu.Time = timer_ms();
+        g_cCursorMenu.Time = SDL_GetTicks();
     }
     if (g_cCursorMenu.Frame>=g_cCursorMenu.pShapeAnim->maxItem)
 		g_cCursorMenu.Frame=0;
@@ -351,10 +351,10 @@ static GXSPRITE *NG_GetCursorSprite(void)
 
 static GXSPRITE *NG_GetCursorSprite2(void)
 {
-    if (timer_ms()-g_cCursorMenu.Time2>g_cCursorMenu.pSelectAnim->speed)
+    if (SDL_GetTicks()-g_cCursorMenu.Time2>g_cCursorMenu.pSelectAnim->speed)
     {
         g_cCursorMenu.Frame2++;
-        g_cCursorMenu.Time2 = timer_ms();
+        g_cCursorMenu.Time2 = SDL_GetTicks();
     }
     if (g_cCursorMenu.Frame2>=g_cCursorMenu.pSelectAnim->maxItem) g_cCursorMenu.Frame2=0;
     return g_cCursorMenu.pSelectAnim->item+g_cCursorMenu.Frame2;
@@ -1223,7 +1223,7 @@ static int CallbackMenuMap(RW_Interface *pInterface, int mode)
 	if (g_nShipAnim)
     {
 		FLI_STRUCT *a = g_pShipAnims[id];
-		u_int32_t t = timer_ms();
+		u_int32_t t = SDL_GetTicks();
 		u_int32_t dl = t - a->LastTime ;
 		sp2 = &a->bitmap;
 		if (dl > (u_int32_t)a->Header.Struct.speed)

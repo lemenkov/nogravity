@@ -386,13 +386,13 @@ void NG_MissionSummary(int sty)
 */
 void ShowHelp(void)
 {
-    u_int32_t tim = timer_sec();
+    u_int32_t tim = (SDL_GetTicks() / 1000);
     int32_t p=MM_heap.push();
     PauseSoundGame();
     NG_DrawHelpFile(g_pspDispFont, g_SGGame.CI_BLUELIGHT, 10);
     MM_heap.pop(p);
     ResumeSoundGame();
-    g_cGameStat.time_start+=timer_sec()-tim;
+    g_cGameStat.time_start+=(SDL_GetTicks() / 1000)-tim;
     timer_Update(&g_cTimer);
     timer_Update(&g_cTimer);
     return;
@@ -519,7 +519,7 @@ static int NG_DisplayDropMenu(char **menu)
 */
 int NG_QuitGame(void)
 {
-    u_int32_t tim=timer_sec(), ret=0;
+    u_int32_t tim=(SDL_GetTicks() / 1000), ret=0;
     char *PauseMenu[]={g_szGmT[165],
         g_szGmT[166],
         g_szGmT[168],
@@ -553,7 +553,7 @@ int NG_QuitGame(void)
         break;
     }
     ResumeSoundGame();
-    g_cGameStat.time_start+= timer_sec() - tim;
+    g_cGameStat.time_start+= (SDL_GetTicks() / 1000) - tim;
     timer_Update(&g_cTimer);
     timer_Update(&g_cTimer);
     return ret;
@@ -1115,7 +1115,7 @@ static void NG_ReadInput(int *dx, int *dy, int *InMax)
                 if (sKEY_IsClicked(LK_NEXTWEAPON)||(sMOU->lZ))
                 {
 					static int old_t;
-					int t = timer_ms();
+					int t = SDL_GetTicks();
 					if (t-old_t>100)
 					{
 						int s = sMOU->lZ ? sMOU->lZ/abs(sMOU->lZ) : 1;
@@ -2592,10 +2592,10 @@ static void NG_DrawHUD()
         {
             g_SGSettings.ComNumber=COM_TimeShort;g_SGSettings.ComTime=MAX_COM_DELAY;
         }
-        if (timer_sec() - g_SGGame.oldTimer)
+        if ((SDL_GetTicks() / 1000) - g_SGGame.oldTimer)
         {
             g_SGObjects.Time--;
-            g_SGGame.oldTimer = timer_sec();
+            g_SGGame.oldTimer = (SDL_GetTicks() / 1000);
             if (g_SGObjects.Time==0)
             {
                 g_SGSettings.ComNumber=COM_Failed;g_SGSettings.ComTime=MAX_COM_DELAY;
@@ -2729,8 +2729,8 @@ void NG_GamePlay(void)
 
     V3XScene_Viewport_Build(g_SGGame.Scene, &GX.View);
 
-	g_cGameStat.time_start = timer_sec();
-    V3X.Time.ms = timer_ms();
+	g_cGameStat.time_start = (SDL_GetTicks() / 1000);
+    V3X.Time.ms = SDL_GetTicks();
 
     timer_Update(&g_cTimer);
 
@@ -2805,7 +2805,7 @@ void NG_GamePlay(void)
 				g_pPlayer->Mx.but = 0;
 
 
-			V3X.Time.ms = timer_ms();
+			V3X.Time.ms = SDL_GetTicks();
 
 			g_SGGame.Count++;
 			g_SGSettings.cursor = ((g_SGGame.Count&15) == 0) ? 2 : ((g_SGGame.Count&15)<8);
@@ -2818,7 +2818,7 @@ void NG_GamePlay(void)
 	if (g_cFXTable.Engine<255)
 		NG_AudioStopSound(g_cFXTable.Engine);
     timer_Stop(&g_cTimer);
-    g_cGameStat.time_end = timer_sec();
+    g_cGameStat.time_end = (SDL_GetTicks() / 1000);
 
     if (g_SGObjects.FinCode==GAMESTATE_WON)
     {

@@ -30,6 +30,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define __RLX32_H
 
 #include <assert.h>
+#include <SDL3/SDL.h>
 /* Compiler setup ***********************************************************/
 
 #include "config.h"
@@ -149,21 +150,6 @@ typedef struct _gx_sprite_sw{
 #include <stdio.h>
 
 typedef FILE * SYS_FILEHANDLE ; /* I/O file handle. */
-#ifdef __BEOS__
-#include <kernel/OS.h>
-typedef thread_id SYS_THREADHANDLE;
-typedef void* SYS_MUTEXHANDLE; /* Mutex handle. */
-#elif defined __MACH__
-#include <pthread.h>
-typedef pthread_mutex_t SYS_MUTEXHANDLE; /* Mutex handle. */
-typedef pthread_t SYS_THREADHANDLE; /* Thread handle. */
-#elif defined __LINUX__
-typedef void * SYS_MUTEXHANDLE; /* Mutex handle. */
-typedef void * SYS_THREADHANDLE; /* Thread handle. */
-#else
-typedef void* SYS_MUTEXHANDLE; /* Mutex handle. */
-typedef void* SYS_THREADHANDLE; /* Thread handle. */
-#endif
 
 /* Error/Debug/Trace functions *****************************************************/
 

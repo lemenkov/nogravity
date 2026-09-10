@@ -70,7 +70,6 @@ static void V3X_Euler2Matrix(V3XMESH *Ob)
     return;
 }
 */
-SYS_THREAD static g_cThreadCollision;
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  :  void RLXAPI V3XPlug_CollisionMove(const void *data)
@@ -468,7 +467,6 @@ int32_t static V3x_TestAllCollision(V3XSCENE *Scene)
         }
     }
 
-	g_cThreadCollision.nStatus = 1;
     UNUSED(Scene);
     return 0;
 }

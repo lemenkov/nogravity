@@ -32,10 +32,7 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #include <string.h>
 #include "_rlx32.h"
 
-#ifndef __amigaos__
 #define USE_THREAD
-#define USE_MUTEX
-#endif
 
 #include "_rlx.h"
 #include "_stub.h"
@@ -69,8 +66,8 @@ static V3XA_HANDLE *g_pFXTable;
 static int			g_nSample;
 static V3XA_STREAM	g_pWavStream;
 static volatile int	m_Status;
-static SYS_THREAD	m_Thread;
-static SYS_MUTEX	m_Mutex;
+static SDL_Thread  *m_Thread;
+static SDL_Mutex   *m_Mutex;
 
 typedef struct
 {
@@ -228,24 +225,22 @@ void NG_AudioLoadWave(void)
     return;
 }
 
-static u_int32_t CALLING_STD Thread(void *context)
+static int SDLCALL Thread(void *context)
 {
 	UNUSED(context);
 
 	while (1)
 	{
-#ifdef USE_MUTEX
-		mutex_lock(&m_Mutex);
-#endif
+		SDL_LockMutex(m_Mutex);
 		if (!m_Status)
+		{
+			SDL_UnlockMutex(m_Mutex);
 			break;
+		}
 		V3XAStream_Poll(g_pWavStream);
-#ifdef USE_MUTEX
-		mutex_unlock(&m_Mutex);
-#endif
-		timer_snooze(75);
+		SDL_UnlockMutex(m_Mutex);
+		SDL_Delay(75);
 	}
-	thread_exit(0);
 	return 0;
 }
 
@@ -270,14 +265,9 @@ void NG_AudioPlayTrack(int i)
 	}
 
 #ifdef USE_THREAD
-	m_Thread.hThread = 0;
-	m_Thread.pArgument = NULL;
-	m_Thread.pFunc = Thread;
 	m_Status = 1;
-#ifdef USE_MUTEX
-	mutex_init(&m_Mutex);
-#endif
-	thread_begin(&m_Thread, SYS_THREAD_PRIORITY_NORMAL);
+	m_Mutex = SDL_CreateMutex();
+	m_Thread = SDL_CreateThread(Thread, "music", NULL);
 #endif
 
     return;
@@ -480,28 +470,24 @@ void NG_AudioStopMusic(void)
 
 	if (g_pWavStream)
 	{
-#ifdef USE_MUTEX
+		SDL_LockMutex(m_Mutex);
 		m_Status = 0;
-		mutex_lock(&m_Mutex);
-#endif
 		for(i=g_SGSettings.VolMusic;i!=0;i--)
 		{
 			V3XAStream_SetVolume(g_pWavStream, 0, (float)i/100);
 			V3XAStream_Poll(g_pWavStream);
 			V3XA.Client->Poll(0);
-			timer_snooze((64L*12L)/((g_SGSettings.VolMusic*4)+1));
+			SDL_Delay((64L*12L)/((g_SGSettings.VolMusic*4)+1));
 		}
 
 		V3XAStream_Release(g_pWavStream);
 
-#ifdef USE_MUTEX
-		mutex_unlock(&m_Mutex);
-#endif
+		SDL_UnlockMutex(m_Mutex);
 
-		thread_end(&m_Thread);
-#ifdef USE_MUTEX
-		mutex_destroy(&m_Mutex);
-#endif
+		SDL_WaitThread(m_Thread, NULL);
+		m_Thread = NULL;
+		SDL_DestroyMutex(m_Mutex);
+		m_Mutex = NULL;
 		g_pWavStream = 0;
 	}
 
@@ -575,7 +561,7 @@ void NG_AudioPlayWarp(void)
 		g_SGGame.FlashAlpha = 0;
 	}
 
-	t = timer_ms();
+	t = SDL_GetTicks();
 
     do
     {
@@ -596,7 +582,7 @@ void NG_AudioPlayWarp(void)
 			g_SGGame.FlashAlpha=255;
 
 
-    }while(timer_ms()<t+5000);
+    }while(SDL_GetTicks()<t+5000);
 
     if (pWavStream)
 		V3XAStream_Release(pWavStream);

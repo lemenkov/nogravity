@@ -31,26 +31,7 @@ Linux/SDL Port: 2005 - Matt Williams
 #include <stdio.h>
 #include <SDL3/SDL.h>
 #include "_rlx32.h"
-#include "systools.h"
 #include "systime.h"
-
-// Time in millisecond
-u_int32_t timer_ms(void)
-{
-  return (u_int32_t)SDL_GetTicks();
-}
-
-// Time in seconds
-u_int32_t timer_sec(void)
-{
-  return (u_int32_t)(SDL_GetTicks() / 1000);
-}
-
-// Snooze (wait + release CPU)
-void timer_snooze(u_int32_t t)
-{
-  SDL_Delay(t);
-}
 
 // Internal clock runs in microseconds.
 static const int64_t g_iFreq = 1000000;
@@ -84,7 +65,7 @@ void timer_Update(SYS_TIMER *tm)
     	ticks_passed = tm->tEnd - tm->tStart;
 		ticks_left = (int64_t)ticks_to_wait - (int64_t)ticks_passed;
 		if (ticks_left > ticks_min)
-			timer_snooze(1);
+			SDL_Delay(1);
 		else if (ticks_left > 0)
 			SDL_DelayNS(10000); // Release the CPU briefly instead of spinning.
     }while(ticks_left>=0);
@@ -103,81 +84,4 @@ void timer_Start(SYS_TIMER *tm, int iFreq, int iMinFrame)
     GET_TICK(&tm->tStart);
     timer_Update(tm);
     return;
-}
-
-int32_t thread_begin(SYS_THREAD *pThread, enum SYS_THREAD_PRIORITY_ENUM priority)
-{
-  UNUSED(priority);
-  pThread->nStatus = 0;
-  pThread->hThread = (void *)SDL_CreateThread((SDL_ThreadFunction)pThread->pFunc, "nogravity", pThread->pArgument);
-  if (pThread->hThread != NULL)
-  {
-    pThread->nStatus = 1;
-    return 0;
-  }
-  else
-    return -1;
-}
-
-void thread_end(SYS_THREAD *pThread)
-{
-  SDL_WaitThread((SDL_Thread *)pThread->hThread, NULL);
-  pThread->hThread = NULL;
-  pThread->nStatus = 0;
-  return;
-}
-
-void thread_exit(int code)
-{
-  UNUSED(code);
-  // Not needed: threads simply return from their entry function.
-  return;
-}
-
-int mutex_init(SYS_MUTEX *mutex)
-{
-  if (mutex == NULL)
-  {
-    return -1;
-  }
-  if (mutex->hMutex != NULL)
-  {
-    SDL_DestroyMutex((SDL_Mutex *)mutex->hMutex);
-  }
-  mutex->hMutex = SDL_CreateMutex();
-  return (mutex->hMutex != NULL) ? 0 : -1;
-}
-
-int mutex_destroy(SYS_MUTEX *mutex)
-{
-  if ((mutex == NULL) ||
-      (mutex->hMutex == NULL))
-  {
-    return -1;
-  }
-  SDL_DestroyMutex((SDL_Mutex *)mutex->hMutex);
-  mutex->hMutex = NULL;
-  return 0;
-}
-
-int mutex_lock(SYS_MUTEX *mutex)
-{
-  if ((mutex == NULL) ||
-      (mutex->hMutex == NULL))
-  {
-    return -1;
-  }
-  SDL_LockMutex((SDL_Mutex *)mutex->hMutex);
-  return 0;
-}
-
-int mutex_unlock(SYS_MUTEX *mutex)
-{
-  if ((mutex == NULL) ||
-      (mutex->hMutex == NULL))
-  {
-    return -1;
-  }
-  SDL_UnlockMutex((SDL_Mutex *)mutex->hMutex);
-  return 0;
 }

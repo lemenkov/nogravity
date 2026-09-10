@@ -75,14 +75,14 @@ int NG_WaitForKeyPress(void)
 
 void NG_WaitForKeyWithDelay(int dt)
 {
-    u_int32_t t = timer_sec() + dt;
+    u_int32_t t = (SDL_GetTicks() / 1000) + dt;
 
 	while(STUB_TaskControl() == 0)
     {
 		if (NG_WaitForKeyPress())
 			break;
 
-		if (timer_sec()>=t)
+		if ((SDL_GetTicks() / 1000)>=t)
 			break;
     }
     return;
