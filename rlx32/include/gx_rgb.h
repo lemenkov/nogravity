@@ -72,7 +72,6 @@ __extern_c
 
     // Pixel format
 _RLXEXPORTFUNC    void    RLXAPI  RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c);    //
-_RLXEXPORTFUNC    unsigned   RLXAPI  RGB_SetPixelFormat(int r, int g, int b);    //
 
     // Operation Palette
 

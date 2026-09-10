@@ -78,14 +78,6 @@ typedef struct {
 }RLX_RegisterApplication;
 
 
-struct _gx_rgb24;
-struct _gx_viewport;
-
-typedef void			(*RLXAPI PFGXSETUPVIEWPORT)(struct _gx_viewport *pView, int width, int height, int bitsPerPixel); // setup viewport size
-typedef u_int8_t		*	(*RLXAPI PFRGB_SMARTCONVERTER)(void *dst, struct _gx_rgb24 *dst_pal, int dst_bpp, void *src, const struct _gx_rgb24 *src_pal, int src_bpp, u_int32_t size);
-typedef void			(*RLXAPI PFRGB_GETPIXELFORMAT)(struct _gx_rgb24 *rgb, u_int32_t c);
-typedef unsigned		(*RLXAPI PFRGB_SETPIXELFORMAT)(int r, int g, int b);
-
 struct _sys_memory;
 
 typedef struct RLXSYSTEM{
@@ -96,10 +88,6 @@ typedef struct RLXSYSTEM{
     RLX_RegisterDevelopper  Dev;
     RLX_RegisterApplication App;
     char 					IniPath[256];
-	PFGXSETUPVIEWPORT		pfSetViewPort;			// Set Viewport callback
-	PFRGB_SMARTCONVERTER	pfSmartConverter;		// Color conversion callback
-	PFRGB_GETPIXELFORMAT	pfGetPixelFormat;		// Get Pixel Format callback
-	PFRGB_SETPIXELFORMAT	pfSetPixelFormat;		// Set Pixel Format calbback
 	struct _sys_memory	*	mm_heap;
 	struct GXSYSTEM		*	pGX;
 	struct V3XSYSTEM	*	pV3X;

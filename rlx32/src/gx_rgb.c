@@ -125,17 +125,6 @@ u_int32_t RGB_convert(int c, rgb24_t *palette)
         return RGB_PixelFormat((u_int32_t)p->r, (u_int32_t)p->g, (u_int32_t)p->b);
     }
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c)
-*
-* DESCRIPTION :
-*
-*/
-unsigned RGB_SetPixelFormat(int r, int g, int b)
-{
-	return RGB_PixelFormat(r,g,b);
-}
 void RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c)
 {
     rgb->r = (u_int8_t)(((c>>GX.View.ColorMask.RedFieldPosition  ) & ((1<<GX.View.ColorMask.RedMaskSize)  -1)) << (8-GX.View.ColorMask.RedMaskSize  ));

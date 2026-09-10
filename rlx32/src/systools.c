@@ -158,23 +158,6 @@ char *file_name(char *a)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  :  int file_exists(char *f)
-*
-* DESCRIPTION :
-*
-*/
-int file_exists(const char *f)
-{
-    SYS_FILEHANDLE in = FIO_std.fopen(f, "rb");
-    if (in)
-    {
-        FIO_std.fclose(in);
-        return 1;
-    }
-    return 0;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :
 *
 * DESCRIPTION :

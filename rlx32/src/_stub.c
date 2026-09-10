@@ -81,89 +81,37 @@ void STUB_Down(void)
     return;
 }
 
-static int STUB_CheckAudio(void *hwnd)
+// Bring everything up: memory and file system, input, audio, the 3D
+// engine and the display.
+void STUB_CheckUp(void)
 {
-	V3XA_EntryPoint(&RLX);
- #ifdef _DEBUG
-     SYS_Debug("init audio..\n");
- #endif
-    if (!V3XA.Client->Initialize(hwnd))
-		V3XA.State |= 1;
-	else
-		V3XA.State &= ~1;
-    return V3XA.State & 1;
-}
+	RLX.mm_heap = &MM_heap;
+	RLX.pGX = &GX;
+	RLX.pV3X = &V3X;
+	sysInitFS();
 
-static int STUB_CheckVideo(void *hwnd)
-{
- #ifdef _DEBUG
-     SYS_Debug("init video.. (%s)\n", GX.Client->s_DrvName);
- #endif
-    SYS_ASSERT(GX.Client);
-    return GX.Client->Open(hwnd);
-}
-
-static void STUB_CheckControl(void *hwnd)
-{
- #ifdef _DEBUG
-     SYS_Debug("init input..\n");
- #endif
-    sKEY = KEY_SystemGetInterface_STD();
-    sKEY->Open(hwnd);
-
-    sMOU = MSE_SystemGetInterface_STD();
-    sMOU->Open(hwnd);
-
-    sJOY = JOY_SystemGetInterface_STD();
-    sJOY->Open(hwnd, 0);
-
+	sKEY = KEY_SystemGetInterface_STD();
+	sKEY->Open(NULL);
+	sMOU = MSE_SystemGetInterface_STD();
+	sMOU->Open(NULL);
+	sJOY = JOY_SystemGetInterface_STD();
+	sJOY->Open(NULL, 0);
 	RLX.Control.mouse = sMOU;
 	RLX.Control.joystick = sJOY;
 	RLX.Control.keyboard = sKEY;
 
-	return;
-}
+	V3XA_EntryPoint(&RLX);
+	if (!V3XA.Client->Initialize(NULL))
+		V3XA.State |= 1;
+	else
+		V3XA.State &= ~1;
 
-
-static void STUB_Check3D(void *hwnd)
-{
- #ifdef _DEBUG
-     SYS_Debug("init 3d engine..\n");
- #endif
 	GX_KernelAlloc();
-    TRG_Generate();
+	TRG_Generate();
 	V3X_EntryPoint(&RLX);
-    SYS_ASSERT(V3X.Client);
-    V3XKernel_Alloc();
-}
+	SYS_ASSERT(V3X.Client);
+	V3XKernel_Alloc();
 
-static void STUB_CheckSystem(void *hwnd)
-{
- #ifdef _DEBUG
-     SYS_Debug("init system engine..\n");
- #endif
- 	RLX.mm_heap = &MM_heap;
-	RLX.pfGetPixelFormat = RGB_GetPixelFormat;
-	RLX.pfSetPixelFormat = RGB_SetPixelFormat;
-	RLX.pfSmartConverter = RGB_SmartConverter;
-	RLX.pfSetViewPort = GX_SetupViewport;
-	RLX.pGX = &GX;
-	RLX.pV3X = &V3X;
-    sysInitFS();
-
-
-    return;
-}
-
-void STUB_CheckUp(void *hwnd)
-{
-	STUB_CheckSystem(hwnd);
-    STUB_CheckControl(hwnd);
-    STUB_CheckAudio(hwnd);
-    STUB_Check3D(hwnd);
-    STUB_CheckVideo(hwnd);
-
-
-
-    return;
+	SYS_ASSERT(GX.Client);
+	GX.Client->Open(NULL);
 }

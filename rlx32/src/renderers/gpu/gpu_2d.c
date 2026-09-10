@@ -34,6 +34,7 @@ SDL_GPU renderer: 2026 - Peter Lemenkov
 
 #include <string.h>
 #include "gpu_render.h"
+#include "gx_rgb.h"
 #include "v3xdefs.h"
 #include "v3xrend.h"
 
@@ -46,7 +47,7 @@ static void SetVertex(GPU_VERTEX *v, float x, float y, float u, float vv, const 
 
 static void ColorOf(rgb32_t *cl, u_int32_t colour, u_int8_t alpha)
 {
-	g_pRLX->pfGetPixelFormat((rgb24_t *)cl, colour);
+	RGB_GetPixelFormat((rgb24_t *)cl, colour);
 	cl->a = alpha;
 }
 
@@ -160,7 +161,7 @@ static void DrawSprite(GXSPRITE *sp, float x, float y, float lx, float ly, int m
 	if (!tex)
 		return;
 	st.texture = tex;
-	g_pRLX->pfGetPixelFormat((rgb24_t *)&cl, g_pRLX->pGX->csp_cfg.color);
+	RGB_GetPixelFormat((rgb24_t *)&cl, g_pRLX->pGX->csp_cfg.color);
 	cl.a = 255;
 	switch (mode)
 	{

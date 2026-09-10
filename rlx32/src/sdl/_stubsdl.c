@@ -58,10 +58,9 @@ int main(int argc, char *argv[])
   atexit(SDL_Quit);
 
   // Standard main function.
-  STUB_OsStartup(NULL);
+  STUB_OsStartup();
   STUB_Default();
-  STUB_OsCustom(NULL);
-  STUB_CheckUp(NULL);
+  STUB_CheckUp();
   STUB_ReadyToRun();
   STUB_MainCode();
   STUB_Down();

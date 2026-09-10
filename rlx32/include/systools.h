@@ -63,7 +63,6 @@ _RLXEXPORTFUNC    void    RLXAPI   array_free(char **tt);
 _RLXEXPORTFUNC    char    RLXAPI  **array_loadtext(SYS_FILEHANDLE in, int maxy, int maxx);
 
     // File operations
-_RLXEXPORTFUNC    int      RLXAPI  file_exists(const char *filename);
 _RLXEXPORTFUNC    char     RLXAPI *file_searchpathES(char *fileName, const char *pathSearch);
 _RLXEXPORTFUNC    char     RLXAPI *file_name(char *a);
 

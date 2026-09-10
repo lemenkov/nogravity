@@ -29,18 +29,14 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 #define __STUB_H
 
 __extern_c
-	_RLXEXPORTFUNC    int    RLXAPI STUB_OsCustom(char *parms);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_Default(void);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_Warning(char *, ...);
-	_RLXEXPORTFUNC    int    RLXAPI STUB_TaskControl(void);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_QuitRequested(void);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_ReadyToRun(void);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_CheckUp(void *);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_StartUp(void);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_MainCode(void);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_Initialize(void);
-	_RLXEXPORTFUNC    int    RLXAPI STUB_OsStartup(char *parms);
-	_RLXEXPORTFUNC    void   RLXAPI STUB_Down(void);
+	void STUB_OsStartup(void);
+	void STUB_Default(void);
+	int  STUB_TaskControl(void);
+	void STUB_QuitRequested(void);
+	void STUB_ReadyToRun(void);
+	void STUB_CheckUp(void);
+	void STUB_MainCode(void);
+	void STUB_Down(void);
 __end_extern_c
 
 #endif

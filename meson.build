@@ -91,7 +91,6 @@ platform_src = files(
   'rlx32/src/sdl/sysmouse.c',
   'rlx32/src/sdl/sysreg.c',
   'rlx32/src/sdl/systime.c',
-  'rlx32/src/sdl/systool2.c',
 )
 
 renderer_src = files(

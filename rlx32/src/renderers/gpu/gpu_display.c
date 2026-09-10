@@ -1000,7 +1000,7 @@ static void RLXAPI GetDisplayInfo(GXDISPLAYMODEHANDLE mode)
 	SYS_ASSERT(g_pDisplays != NULL);
 	if ((mode < 0) && (g_pDisplays[0].BitsPerPixel != 0))
 		mode = 0;
-	g_pRLX->pfSetViewPort(&g_pRLX->pGX->View, g_pDisplays[mode].lWidth, g_pDisplays[mode].lHeight, 32);
+	GX_SetupViewport(&g_pRLX->pGX->View, g_pDisplays[mode].lWidth, g_pDisplays[mode].lHeight, 32);
 	g_pRLX->pGX->View.ColorMask.RedMaskSize = 8;
 	g_pRLX->pGX->View.ColorMask.GreenMaskSize = 8;
 	g_pRLX->pGX->View.ColorMask.BlueMaskSize = 8;

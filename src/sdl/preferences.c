@@ -37,12 +37,11 @@ Linux/SDL Port: 2005 - Matt Williams
 #include "_stub.h"
 #include "systools.h"
 
-int STUB_OsStartup(char *parms)
+void STUB_OsStartup(void)
 {
 	// Per-user settings directory, created by SDL if needed
 	// (e.g. ~/.local/share/realtech/nogravity on Linux).
 	char *pref = SDL_GetPrefPath("realtech", "nogravity");
-	UNUSED(parms);
 	if (pref)
 	{
 		size_t n = strlen(pref);
@@ -55,11 +54,5 @@ int STUB_OsStartup(char *parms)
 	{
 		snprintf(RLX.IniPath, sizeof(RLX.IniPath), ".");
 	}
-	return 1;
 }
 
-int STUB_OsCustom(char *parms)
-{
-	UNUSED(parms);
-    return 1;
-}

@@ -142,13 +142,32 @@ void filewad_chdir(SYS_WAD *pWad, const char *szNewPath)
 		pWad->s_Path[--n] = 0;
 }
 
+// Plain files: the C library, plus size and existence helpers.
+static int CALLING_C file_size(SYS_FILEHANDLE stream)
+{
+	long curpos = ftell(stream), length;
+	fseek(stream, 0L, SEEK_END);
+	length = ftell(stream);
+	fseek(stream, curpos, SEEK_SET);
+	return (int)length;
+}
+
+static int CALLING_C file_exists(const char *filename)
+{
+	SDL_PathInfo info;
+	return SDL_GetPathInfo(filename, &info) && (info.type == SDL_PATHTYPE_FILE);
+}
+
+SYS_FILEIO FIO_std = {fopen, fclose, fseek, fread, fgetc, fwrite, ftell, feof, fgets, file_size, file_exists};
+
+// Data files: names resolve inside the data directory.
 static int CALLING_C filewad_fexist(const char *szFilename)
 {
 	char name[_MAX_PATH];
 	if (!szFilename || !*szFilename)
 		return 0;
 	filewad_resolve(name, szFilename);
-	return FIO_std.exists(name);
+	return file_exists(name);
 }
 
 static SYS_FILEHANDLE CALLING_C filewad_fopen(const char *lpFilename, const char *mode)
@@ -156,7 +175,7 @@ static SYS_FILEHANDLE CALLING_C filewad_fopen(const char *lpFilename, const char
 	char name[_MAX_PATH];
 	SYS_FILEHANDLE fp;
 	filewad_resolve(name, lpFilename);
-	fp = FIO_std.fopen(name, mode);
+	fp = fopen(name, mode);
 	if (!fp && getenv("NOGRAVITY_TRACE_FILES"))
 		fprintf(stderr, "data: %s (%s) not found\n", lpFilename, name);
 	return fp;
@@ -164,58 +183,10 @@ static SYS_FILEHANDLE CALLING_C filewad_fopen(const char *lpFilename, const char
 
 static int CALLING_C filewad_fclose(SYS_FILEHANDLE fp)
 {
-	return fp ? FIO_std.fclose(fp) : 0;
+	return fp ? fclose(fp) : 0;
 }
 
-static int CALLING_C filewad_fseek(SYS_FILEHANDLE stream, long offset, int whence)
-{
-	return FIO_std.fseek(stream, offset, whence);
-}
-
-static size_t CALLING_C filewad_fread(void *ptr, size_t size, size_t nitems, SYS_FILEHANDLE stream)
-{
-	return FIO_std.fread(ptr, size, nitems, stream);
-}
-
-static int CALLING_C filewad_fgetc(SYS_FILEHANDLE stream)
-{
-	return FIO_std.fgetc(stream);
-}
-
-static long CALLING_C filewad_ftell(SYS_FILEHANDLE stream)
-{
-	return FIO_std.ftell(stream);
-}
-
-static int CALLING_C filewad_eof(SYS_FILEHANDLE stream)
-{
-	return FIO_std.eof(stream);
-}
-
-static char * CALLING_C filewad_fgets(char *s, int n, SYS_FILEHANDLE stream)
-{
-	return FIO_std.fgets(s, n, stream);
-}
-
-static int CALLING_C filewad_fsize(SYS_FILEHANDLE fp)
-{
-	return FIO_std.fsize(fp);
-}
-
-SYS_FILEIO FIO_res =
-{
-	filewad_fopen,
-	filewad_fclose,
-	filewad_fseek,
-	filewad_fread,
-	filewad_fgetc,
-	NULL, // fwrite
-	filewad_ftell,
-	filewad_eof,
-	filewad_fgets,
-	filewad_fsize,
-	filewad_fexist
-};
+SYS_FILEIO FIO_res = {filewad_fopen, filewad_fclose, fseek, fread, fgetc, NULL, ftell, feof, fgets, file_size, filewad_fexist};
 
 void sysInitFS(void)
 {
