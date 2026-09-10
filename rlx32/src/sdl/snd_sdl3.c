@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 1996-2005 realtech VR
+// SPDX-FileCopyrightText: 2026 Peter Lemenkov <lemenkov@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 //-------------------------------------------------------------------------
 /*
 Copyright (C) 1996, 2005 - realtech VR
@@ -82,6 +85,7 @@ typedef struct
 } SND_STREAM;
 
 static SDL_AudioDeviceID	g_Device = 0;
+static SDL_Mutex		*g_StreamLock = NULL;	// the game polls streams from two threads
 static SDL_AudioSpec		g_DeviceSpec;
 static SND_CHANNEL		g_Channels[MAX_CHANNELS];
 static int			g_nChannels = 0;
@@ -219,6 +223,7 @@ static int RLXAPI Initialize(void *hwnd)
 		return -1;
 	}
 	SDL_GetAudioDeviceFormat(g_Device, &g_DeviceSpec, NULL);
+	g_StreamLock = SDL_CreateMutex();
 	memset(g_Channels, 0, sizeof(g_Channels));
 	memset(g_Streams, 0, sizeof(g_Streams));
 	g_nChannels = 0;
@@ -245,6 +250,11 @@ static void RLXAPI Release(void)
 {
 	V3XAStream_ReleaseAll();
 	ChannelClose();
+	if (g_StreamLock)
+	{
+		SDL_DestroyMutex(g_StreamLock);
+		g_StreamLock = NULL;
+	}
 	if (g_Device)
 	{
 		SDL_CloseAudioDevice(g_Device);
@@ -528,7 +538,7 @@ static void StreamClose(SND_STREAM *st)
 	memset(st, 0, sizeof(*st));
 }
 
-int V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop)
+static int Locked_V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop)
 {
 	SND_STREAM *st = NULL;
 	int i;
@@ -572,8 +582,20 @@ int V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop)
 	return 0;
 }
 
+int V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, int loop)
+{
+	if (!g_StreamLock)
+		return Locked_V3XAStream_GetFn(stream, szFilename, loop);
+	SDL_LockMutex(g_StreamLock);
+	{
+		int r = Locked_V3XAStream_GetFn(stream, szFilename, loop);
+		SDL_UnlockMutex(g_StreamLock);
+		return r;
+	}
+}
+
 // Keep the stream fed; returns 1 while playing, 0 once finished.
-int V3XAStream_Poll(V3XA_STREAM handle)
+static int Locked_V3XAStream_Poll(V3XA_STREAM handle)
 {
 	SND_STREAM *st = StreamGet(handle);
 	int frame_bytes, target;
@@ -604,6 +626,18 @@ int V3XAStream_Poll(V3XA_STREAM handle)
 	return st->playing;
 }
 
+int V3XAStream_Poll(V3XA_STREAM handle)
+{
+	if (!g_StreamLock)
+		return Locked_V3XAStream_Poll(handle);
+	SDL_LockMutex(g_StreamLock);
+	{
+		int r = Locked_V3XAStream_Poll(handle);
+		SDL_UnlockMutex(g_StreamLock);
+		return r;
+	}
+}
+
 int V3XAStream_PollAll(void)
 {
 	int i, s = 0;
@@ -612,7 +646,7 @@ int V3XAStream_PollAll(void)
 	return s;
 }
 
-void V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL channel, float volume)
+static void Locked_V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL channel, float volume)
 {
 	SND_STREAM *st = StreamGet(handle);
 	UNUSED(channel);
@@ -620,14 +654,34 @@ void V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL channel, float volume
 		SDL_SetAudioStreamGain(st->stream, volume);
 }
 
-void V3XAStream_Release(V3XA_STREAM handle)
+void V3XAStream_SetVolume(V3XA_STREAM handle, V3XA_CHANNEL channel, float volume)
+{
+	if (!g_StreamLock)
+		Locked_V3XAStream_SetVolume(handle, channel, volume);
+	return;
+	SDL_LockMutex(g_StreamLock);
+	Locked_V3XAStream_SetVolume(handle, channel, volume);
+	SDL_UnlockMutex(g_StreamLock);
+}
+
+static void Locked_V3XAStream_Release(V3XA_STREAM handle)
 {
 	SND_STREAM *st = StreamGet(handle);
 	if (st)
 		StreamClose(st);
 }
 
-void V3XAStream_ReleaseAll(void)
+void V3XAStream_Release(V3XA_STREAM handle)
+{
+	if (!g_StreamLock)
+		Locked_V3XAStream_Release(handle);
+	return;
+	SDL_LockMutex(g_StreamLock);
+	Locked_V3XAStream_Release(handle);
+	SDL_UnlockMutex(g_StreamLock);
+}
+
+static void Locked_V3XAStream_ReleaseAll(void)
 {
 	int i;
 	for (i = 1; i < MAX_STREAMS; i++)
@@ -637,7 +691,17 @@ void V3XAStream_ReleaseAll(void)
 	}
 }
 
-void V3XAStream_Rewind(V3XA_STREAM handle)
+void V3XAStream_ReleaseAll(void)
+{
+	if (!g_StreamLock)
+		Locked_V3XAStream_ReleaseAll();
+	return;
+	SDL_LockMutex(g_StreamLock);
+	Locked_V3XAStream_ReleaseAll();
+	SDL_UnlockMutex(g_StreamLock);
+}
+
+static void Locked_V3XAStream_Rewind(V3XA_STREAM handle)
 {
 	SND_STREAM *st = StreamGet(handle);
 	if (!st)
@@ -650,19 +714,51 @@ void V3XAStream_Rewind(V3XA_STREAM handle)
 	}
 }
 
-void V3XAStream_Stop(V3XA_STREAM handle)
+void V3XAStream_Rewind(V3XA_STREAM handle)
+{
+	if (!g_StreamLock)
+		Locked_V3XAStream_Rewind(handle);
+	return;
+	SDL_LockMutex(g_StreamLock);
+	Locked_V3XAStream_Rewind(handle);
+	SDL_UnlockMutex(g_StreamLock);
+}
+
+static void Locked_V3XAStream_Stop(V3XA_STREAM handle)
 {
 	SND_STREAM *st = StreamGet(handle);
 	if (st)
 		SDL_UnbindAudioStream(st->stream);
 }
 
-int V3XAStream_Start(V3XA_STREAM handle)
+void V3XAStream_Stop(V3XA_STREAM handle)
+{
+	if (!g_StreamLock)
+		Locked_V3XAStream_Stop(handle);
+	return;
+	SDL_LockMutex(g_StreamLock);
+	Locked_V3XAStream_Stop(handle);
+	SDL_UnlockMutex(g_StreamLock);
+}
+
+static int Locked_V3XAStream_Start(V3XA_STREAM handle)
 {
 	SND_STREAM *st = StreamGet(handle);
 	if (!st)
 		return 0;
 	return SDL_BindAudioStream(g_Device, st->stream) ? 1 : 0;
+}
+
+int V3XAStream_Start(V3XA_STREAM handle)
+{
+	if (!g_StreamLock)
+		return Locked_V3XAStream_Start(handle);
+	SDL_LockMutex(g_StreamLock);
+	{
+		int r = Locked_V3XAStream_Start(handle);
+		SDL_UnlockMutex(g_StreamLock);
+		return r;
+	}
 }
 
 //-------------------------------------------------------------------------
