@@ -54,47 +54,6 @@ static void KeyboardRelease(void)
   // Nothing to do.
 }
 
-static char *KeyboardNameScanCode(int scn)
-{
-  static const char *name[] =
-  {
-    "", "ESCAPE", "1", "2", "3", "4", "5", "6",
-    "7", "8", "9", "0", "-", "=", "BACKSPACE", "TAB",
-    "Q", "W", "E", "R", "T", "Y", "U", "I",
-    "O", "P", "[", "]", "RETURN", "CTRL", "A", "S",
-    "D", "F", "G", "H", "J", "K", "L", ";",
-    "'", "~", "LEFT SHIFT", "\\", "Z", "X", "C", "V",
-    "B", "N", "M", ",", ".", "/", "RIGHT SHIFT", "PRINT SCREEN",
-    "ALT", "SPACE", "CAPS LOCK", "F1", "F2", "F3", "F4", "F5",
-    "F6", "F7", "F8", "F9", "F10", "NUM LOCK", "SCROLL LOCK", "KEYPAD 7",
-    "KEYPAD 8", "KEYPAD 9", "KEYPAD -", "KEYPAD 4", "KEYPAD 5", "KEYPAD 6", "KEYPAD +", "KEYPAD 1",
-    "KEYPAD 2", "KEYPAD 3", "KEYPAD 0", "KEYPAD .", "", "", "", "F11",
-    "F12", "", "", "LEFT WINDOWS", "RIGHT WINDOWS", "MENU", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "JOY LEFT", "JOY RIGHT",
-    "JOY UP", "JOY DOWN", "", "", "", "", "", "",
-    "JOY BUTTON 1", "JOY BUTTON 2", "JOY BUTTON 3", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "HOME",
-    "UP", "PAGE UP", "", "LEFT", "", "RIGHT", "", "END",
-    "DOWN", "PAGE DOWN", "INSERT", "DELETE", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-    "", "", "", "", "", "", "", "",
-  };
-  if ((scn < 0) || (scn >= (int)(sizeof(name) / sizeof(name[0]))))
-    return (char *)"";
-  return (char *)name[scn];
-}
 
 // SDL scancodes (USB HID usage ids, layout independent) to the engine's
 // PC scancode set.  Anything not listed is ignored.
@@ -152,6 +111,30 @@ static const u_int8_t g_ScanMap[SDL_SCANCODE_COUNT] =
   [SDL_SCANCODE_LGUI] = s_winleft, [SDL_SCANCODE_RGUI] = s_winright,
   [SDL_SCANCODE_APPLICATION] = s_winapp,
 };
+
+// Name of an engine scancode for the key configuration menu, from SDL's
+// scancode names; the joystick pseudo keys are ours.
+static char *KeyboardNameScanCode(int scn)
+{
+  int i;
+  switch (scn)
+  {
+    case s_joyleft:  return (char *)"JOY LEFT";
+    case s_joyright: return (char *)"JOY RIGHT";
+    case s_joyup:    return (char *)"JOY UP";
+    case s_joydown:  return (char *)"JOY DOWN";
+    case s_joybut1:  return (char *)"JOY BUTTON 1";
+    case s_joybut2:  return (char *)"JOY BUTTON 2";
+    case s_joybut3:  return (char *)"JOY BUTTON 3";
+    default: break;
+  }
+  for (i = 0; scn && (i < SDL_SCANCODE_COUNT); i++)
+  {
+    if (g_ScanMap[i] == scn)
+      return (char *)SDL_GetScancodeName((SDL_Scancode)i);
+  }
+  return (char *)"";
+}
 
 // Scripted key presses for automated runs: NOGRAVITY_TEST_KEYS is a
 // comma separated list of "<milliseconds>:<key>" where key is an SDL

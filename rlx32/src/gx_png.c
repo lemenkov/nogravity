@@ -76,7 +76,7 @@ static void pngx_free(png_structp png_ptr, png_voidp ptr)
 static void pngx_error(png_structp png_ptr, png_const_charp message)
 {
 #ifdef _DEBUG
-	SYS_Msg("!%s", message);
+	SDL_Log("!%s", message);
 #endif
 #if PNG_LIBPNG_VER >= 10400
 	png_longjmp(png_ptr, 1);
@@ -88,7 +88,7 @@ static void pngx_error(png_structp png_ptr, png_const_charp message)
 static void pngx_warning(png_structp png_ptr, png_const_charp message)
 {
 #ifdef _DEBUG
-	SYS_Msg("!%s", message);
+	SDL_Log("!%s", message);
 #endif
 	UNUSED(png_ptr);
 }

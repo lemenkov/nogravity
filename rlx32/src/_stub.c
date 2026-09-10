@@ -60,7 +60,7 @@ STUB_Registry RLX = {
 void STUB_Down(void)
 {
  #ifdef _DEBUG
-     SYS_Debug("Release input devices..\n");
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release input devices..");
  #endif
   	if (sKEY)
 		sKEY->Release();
@@ -72,17 +72,17 @@ void STUB_Down(void)
 	    sMOU->Release();
 
  #ifdef _DEBUG
-     SYS_Debug("Release audio device..\n");
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release audio device..");
  #endif
  	V3XA.Client->Release();
 
  #ifdef _DEBUG
-     SYS_Debug("Release 3d engine..\n");
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release 3d engine..");
  #endif
 	V3XKernel_Release();
 
  #ifdef _DEBUG
-     SYS_Debug("Release 2d engine..\n");
+     SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Release 2d engine..");
  #endif
 
     if (GX.Client)
@@ -98,7 +98,6 @@ void STUB_CheckUp(void)
 	RLX.mm_heap = &MM_heap;
 	RLX.pGX = &GX;
 	RLX.pV3X = &V3X;
-	sysInitFS();
 
 	sKEY = KEY_SystemGetInterface_STD();
 	sKEY->Open(NULL);

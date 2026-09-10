@@ -82,7 +82,6 @@ _RLXEXPORTFUNC		void				RLXAPI	filewad_chdir(SYS_WAD *resource, const char *newp
 _RLXEXPORTFUNC		void				RLXAPI	filewad_resolve(char *dest, const char *filename);
 
 _RLXEXPORTFUNC		void				RLXAPI	sysInitZlib();
-_RLXEXPORTFUNC		void				RLXAPI	sysInitFS();
 
 extern				SYS_FILEIO			FIO_std,
 										FIO_res;

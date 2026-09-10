@@ -152,9 +152,6 @@ typedef FILE * SYS_FILEHANDLE ; /* I/O file handle. */
 
 
 __extern_c
-_RLXEXPORTFUNC void     RLXAPI   SYS_Msg(char *fmt, ...);
-_RLXEXPORTFUNC void     RLXAPI   SYS_Debug(char *fmt, ...);
-_RLXEXPORTFUNC void     RLXAPI   SYS_Error(char *fmt, ...);
 _RLXEXPORTFUNC int      RLXAPI   RLX_ErrorGetCodeString(int error_code);
 __end_extern_c
 

@@ -430,8 +430,7 @@ static void V3XMaterial_LoadTexturesFn(V3XMATERIAL *Mat, char *szFilename, GXSPR
         {
 			char tex[256];
             sprintf(tex, "Texture file not found %s\n%s", szFilename, V3X.Setup.texturePath);
-            SYS_Msg(tex);
-            SYS_Debug(tex);
+            SDL_Log("%s", tex);
         }
         V3X.Setup.warnings|=V3XWARN_MISSINGTEXTURES;
         Mat->info.Texturized = 0;

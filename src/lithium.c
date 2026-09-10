@@ -206,7 +206,7 @@ void STUB_MainCode(void)
 #endif
 
 #ifdef _DEBUG
-    SYS_Debug("Create display mode list ...\n");
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Create display mode list ...");
 #endif
 
 	NG_CreateDisplayList();
@@ -222,14 +222,14 @@ void STUB_MainCode(void)
 	SYS_ASSERT(g_HeapBuffer);
 
 #ifdef _DEBUG
-    SYS_Debug("Allocate %x ...\n", g_HeapSize);
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Allocate %x ...", g_HeapSize);
 #endif
 
     MM_heap.heapalloc(g_HeapBuffer, g_HeapSize);
     MM_heap.active = 0;
 
 #ifdef _DEBUG
-    SYS_Debug("Init console ...\n");
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Init console ...");
 #endif
 
 	// System
@@ -263,7 +263,7 @@ void STUB_MainCode(void)
 	}
 
 #ifdef _DEBUG
-    SYS_Debug("Load preferences, languages and save games ...\n");
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Load preferences, languages and save games ...");
 #endif
 
 	NG_CheckSystems();
@@ -287,7 +287,7 @@ void STUB_MainCode(void)
     if (V3XA.State & 1)
     {
 #ifdef _DEBUG
-	   SYS_Debug("Configure audio...\n");
+	   SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Configure audio...");
 #endif
 		V3XA.Client->ChannelOpen(0, 16);
     }
@@ -300,7 +300,7 @@ void STUB_MainCode(void)
 	MM_heap.reset();
 
 #ifdef _DEBUG
-    SYS_Debug("Run game loop...\n");
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Run game loop...");
 #endif
 
     do
@@ -319,7 +319,7 @@ void STUB_MainCode(void)
 				break;
         }
 #ifdef _DEBUG
-	    SYS_Debug("Menu choice is %d...\n", MenuChoice);
+	    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Menu choice is %d...", MenuChoice);
 #endif
         if (MenuChoice==4)
         {
@@ -377,7 +377,7 @@ void STUB_MainCode(void)
 
 end:
 #ifdef _DEBUG
-    SYS_Debug("Exiting game loop...\n");
+    SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Exiting game loop...");
 #endif
     MM_heap.reset();
     NG_PlayEndGame();
@@ -462,8 +462,11 @@ void STUB_ReadyToRun(void)
 	FIO_wad = OpenGameData(tried, sizeof(tried));
 	if (!FIO_wad)
 	{
-		SYS_Error("Couldn't find the No Gravity game data (voix/soundfx.lst).\nLooked in:%s\n\nPoint NOGRAVITY_DATA at the directory holding the data files.", tried);
-		return ;
+		char msg[1400];
+		snprintf(msg, sizeof(msg), "Couldn't find the No Gravity game data (voix/soundfx.lst).\nLooked in:%s\n\nPoint NOGRAVITY_DATA at the directory holding the data files.", tried);
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s", msg);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "No Gravity", msg, NULL);
+		exit(1);
 	}
 	filewad_setcurrent(FIO_wad);
     g_pGameIO = &FIO_res;

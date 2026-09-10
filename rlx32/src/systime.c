@@ -28,20 +28,14 @@ Prepared for public release: 02/24/2004 - Stephane Denis, realtech VR
 Linux/SDL Port: 2005 - Matt Williams
 */
 //-------------------------------------------------------------------------
-#include <stdio.h>
 #include <SDL3/SDL.h>
 #include "_rlx32.h"
 #include "systime.h"
-
-// Internal clock runs in microseconds.
-static const int64_t g_iFreq = 1000000;
-#define GET_TICK(tmp) *tmp = (int64_t)(SDL_GetTicksNS() / 1000)
 
 // stop timer
 void timer_Stop(SYS_TIMER *tm)
 {
     tm->flags &= ~SYS_TIMER_FLAGS_START;
-    return;
 }
 
 // clear timer
@@ -49,39 +43,29 @@ void timer_Reset(SYS_TIMER *tm)
 {
     tm->iCounter = 0;
     tm->fCounter = 0.f;
-    return;
 }
 
+// Wait until iMinFrame ticks of the iFreq Hz clock have passed since the
+// previous update, then measure the frame time.
 void timer_Update(SYS_TIMER *tm)
 {
-    int64_t ticks_to_wait = tm->iMinFrame ? (int64_t)tm->iMinFrame * g_iFreq / (int64_t)tm->iFreq : (int64_t)0; // in microseconds
-    int64_t ticks_passed;
-	int64_t ticks_left;
-	int64_t ticks_min = g_iFreq * (int64_t)10 / (int64_t)1000;
-
-    do
+    Uint64 wait = tm->iMinFrame ? (Uint64)tm->iMinFrame * SDL_NS_PER_SECOND / (Uint64)tm->iFreq : 0;
+    Uint64 now = SDL_GetTicksNS();
+    if (now < tm->tStart + wait)
     {
-        GET_TICK(&tm->tEnd);
-    	ticks_passed = tm->tEnd - tm->tStart;
-		ticks_left = (int64_t)ticks_to_wait - (int64_t)ticks_passed;
-		if (ticks_left > ticks_min)
-			SDL_Delay(1);
-		else if (ticks_left > 0)
-			SDL_DelayNS(10000); // Release the CPU briefly instead of spinning.
-    }while(ticks_left>=0);
-
-	tm->fFrameDelta = (float)((double)ticks_passed / (double)g_iFreq);
-	tm->fCounter = tm->fFrameDelta * (float) tm->iFreq;
+        SDL_DelayPrecise(tm->tStart + wait - now);
+        now = SDL_GetTicksNS();
+    }
+    tm->fFrameDelta = (float)((double)(now - tm->tStart) / (double)SDL_NS_PER_SECOND);
+    tm->fCounter = tm->fFrameDelta * (float)tm->iFreq;
     tm->iCounter = (int32_t)(tm->fCounter * 65535.f);
-    GET_TICK(&tm->tStart);
-    return;
+    tm->tStart = now;
 }
 
 void timer_Start(SYS_TIMER *tm, int iFreq, int iMinFrame)
 {
-	tm->iFreq = iFreq;
-	tm->iMinFrame = iMinFrame;
-    GET_TICK(&tm->tStart);
+    tm->iFreq = iFreq;
+    tm->iMinFrame = iMinFrame;
+    tm->tStart = SDL_GetTicksNS();
     timer_Update(tm);
-    return;
 }

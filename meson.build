@@ -80,7 +80,6 @@ engine_src = files(
 platform_src = files(
   'rlx32/src/_stubsdl.c',
   'rlx32/src/snd_sdl3.c',
-  'rlx32/src/sysdbg.c',
   'rlx32/src/sysjoy.c',
   'rlx32/src/syskeyb.c',
   'rlx32/src/sysmouse.c',

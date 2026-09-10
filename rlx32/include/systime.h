@@ -40,7 +40,7 @@ typedef struct _sys_timerhandle
 	float		fCounter;	   // <=) floating point coefficient
 	int			iCounter;	   // Fixed point counter
 	int			iMinFrame;	   // Number of frame to skip
-	int64_t		tStart, tEnd;
+	Uint64		tStart;		   // Time of the previous update (SDL ticks, ns)
 }SYS_TIMER;
 
 __extern_c

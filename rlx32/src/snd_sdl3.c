@@ -193,12 +193,12 @@ static int RLXAPI Initialize(void *hwnd)
 
 	if (!SDL_InitSubSystem(SDL_INIT_AUDIO))
 	{
-		SYS_Msg("Audio: %s", SDL_GetError());
+		SDL_Log("Audio: %s", SDL_GetError());
 		return -1;
 	}
 	if (!Sound_Init())
 	{
-		SYS_Msg("Audio: %s", Sound_GetError());
+		SDL_Log("Audio: %s", Sound_GetError());
 		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 		return -1;
 	}
@@ -208,7 +208,7 @@ static int RLXAPI Initialize(void *hwnd)
 	g_Device = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec);
 	if (!g_Device)
 	{
-		SYS_Msg("Audio: %s", SDL_GetError());
+		SDL_Log("Audio: %s", SDL_GetError());
 		Sound_Quit();
 		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 		return -1;
@@ -409,13 +409,13 @@ int V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename)
 	data = ReadFile(szFilename, &size);
 	if (!data)
 	{
-		SYS_Msg("Audio: cannot read %s", szFilename);
+		SDL_Log("Audio: cannot read %s", szFilename);
 		return 0;
 	}
 	sample = Sound_NewSampleFromMem(data, size, FileExtension(szFilename), NULL, STREAM_DECODE_BYTES);
 	if (!sample)
 	{
-		SYS_Msg("Audio: cannot decode %s: %s", szFilename, Sound_GetError());
+		SDL_Log("Audio: cannot decode %s: %s", szFilename, Sound_GetError());
 		SDL_free(data);
 		return 0;
 	}
@@ -426,7 +426,7 @@ int V3XA_Handle_LoadFromFn(V3XA_HANDLE *pHandle, char *szFilename)
 	dst.freq = sample->actual.freq;
 	if (!SDL_ConvertAudioSamples(&sample->actual, (const Uint8 *)sample->buffer, (int)sample->buffer_size, &dst, &pcm, &pcmlen))
 	{
-		SYS_Msg("Audio: cannot convert %s: %s", szFilename, SDL_GetError());
+		SDL_Log("Audio: cannot convert %s: %s", szFilename, SDL_GetError());
 		Sound_FreeSample(sample);
 		SDL_free(data);
 		return 0;
@@ -491,7 +491,7 @@ static int Locked_V3XAStream_GetFn(V3XA_STREAM *stream, const char *szFilename, 
 	st->sample = Sound_NewSampleFromMem(st->filedata, st->filesize, FileExtension(szFilename), NULL, STREAM_DECODE_BYTES);
 	if (!st->sample)
 	{
-		SYS_Msg("Audio: cannot decode %s: %s", szFilename, Sound_GetError());
+		SDL_Log("Audio: cannot decode %s: %s", szFilename, Sound_GetError());
 		SDL_free(st->filedata);
 		st->filedata = NULL;
 		return -22;	// codec error

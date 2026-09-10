@@ -188,6 +188,3 @@ static int CALLING_C filewad_fclose(SYS_FILEHANDLE fp)
 
 SYS_FILEIO FIO_res = {filewad_fopen, filewad_fclose, fseek, fread, fgetc, NULL, ftell, feof, fgets, file_size, filewad_fexist};
 
-void sysInitFS(void)
-{
-}

@@ -112,7 +112,7 @@ void sysConPrint(const char *newmsg, ...)
     va_end (argptr);
 
 #ifdef _DEBUG
-    SYS_Debug("%s\n", msg);
+    SDL_Log("%s", msg);
 #endif
 
 	p = (struct sys_console_item*) malloc (sizeof(struct sys_console_item));

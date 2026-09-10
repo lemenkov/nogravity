@@ -133,25 +133,16 @@ char *GetCF_str2(char *s, ConfigFile *ini)
 static void trimSpace(char *str)
 {
     char    *orgStr = str;
-    while( isspace(*str) ) str++;
+    while( isspace((unsigned char)*str) ) str++;
     memmove(orgStr, str, strlen(str) + 1);
 }
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void flip_string(char *str)
-*
-* DESCRIPTION :
-*
-*/
-static void flip_string(char *str)
+// Strip white space at both ends.
+static void trim(char *str)
 {
-    char str2[256];
-    int i, l=strlen(str);
-    if (l==0) return ;
-    for (i=0;i<l;i++)  str2[i]=str[l-i-1];
-    str2[l]=0;
-    strcpy(str, str2);
-    return;
+    size_t l;
+    trimSpace(str);
+    l = strlen(str);
+    while( l && isspace((unsigned char)str[l - 1]) ) str[--l] = 0;
 }
 /*------------------------------------------------------------------------
 *
@@ -185,10 +176,7 @@ int ReadConfig(char const *fileName, ConfigFile *c_file)
             FIO_cur->fclose(file);
             return -1;
         }
-        trimSpace(str);
-        flip_string(str);
-        trimSpace(str);
-        flip_string(str);
+        trim(str);
         if( strlen(str) < 3 ) continue;
         if( *str == ';' ) continue;     // Comment
         if( *str == '[' )               // New class
@@ -224,10 +212,7 @@ int ReadConfig(char const *fileName, ConfigFile *c_file)
             }
             SDL_strlcpy(C_class->name, str+1, (a) + 1);
             C_class->name[a] = 0;       // Terminate string
-            trimSpace(C_class->name);
-            flip_string(C_class->name);
-            trimSpace(C_class->name);
-            flip_string(C_class->name);
+            trim(C_class->name);
         }
         else
         {
@@ -262,9 +247,7 @@ int ReadConfig(char const *fileName, ConfigFile *c_file)
             *str2 = 0;                  // Strip the data part
             SDL_strlcpy(C_item->name, str, 32);
             C_item->name[31] = 0;
-            flip_string(C_item->name);
-            trimSpace(C_item->name);
-            flip_string(C_item->name);
+            trim(C_item->name);
         }
     }
     FIO_cur->fclose(file);

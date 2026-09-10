@@ -672,7 +672,7 @@ static void NG_CMXToObject(void)
             SDL_strlcpy(name, ORI->name, 32);
 			s = strstr(name, "_");
 #ifdef _DEBUG
-		//	SYS_Debug("%s\n", name);
+		//	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "%s", name);
 #endif
             if (s)
             {
@@ -683,7 +683,7 @@ static void NG_CMXToObject(void)
                 for (Sif=g_pPlayerInfo, j=0;(j<g_SGSettings.maxCase)&&(!Sf);j++, Sif++)
                 {
 #ifdef _DEBUG
-//					SYS_Debug("Compare with %s vs %s\n", name, Sif->Basename);
+//					SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Compare with %s vs %s", name, Sif->Basename);
 #endif
 
                     if (SDL_strcasecmp(name, Sif->Basename)==0)
@@ -706,7 +706,7 @@ static void NG_CMXToObject(void)
 						SYS_ASSERT(g_SGGame.numEnemies<MAX_ENEMYS);
 
 #ifdef _DEBUG
-//						SYS_Debug("Type = %d\n", Sif->Type);
+//						SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Type = %d", Sif->Type);
 #endif
                         switch(Sif->Type)
 						{
@@ -762,7 +762,7 @@ static void NG_CMXToObject(void)
                             case t_PLAYER:
                             OVI->state |= V3XSTATE_HIDDEN;
 #ifdef _DEBUG
-//							SYS_Debug("Cmp with %s\n", g_pShip[g_pCurrentGame->ship].name);
+//							SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Cmp with %s", g_pShip[g_pCurrentGame->ship].name);
 #endif
                             f = 2;
                             if (!numPlayer)

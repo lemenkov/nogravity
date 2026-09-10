@@ -304,7 +304,7 @@ GPU_TEXTURE *GPU_CreateTexture(int w, int h, SDL_GPUTextureFormat format, int mi
 	tex->texture = SDL_CreateGPUTexture(g_Device, &info);
 	if (!tex->texture)
 	{
-		SYS_Msg("Video: cannot create a %dx%d texture: %s", w, h, SDL_GetError());
+		SDL_Log("Video: cannot create a %dx%d texture: %s", w, h, SDL_GetError());
 		SDL_free(tex);
 		return NULL;
 	}
@@ -458,7 +458,7 @@ static SDL_GPUGraphicsPipeline *GetPipeline(const GPU_STATE *state)
 
 	*slot = SDL_CreateGPUGraphicsPipeline(g_Device, &info);
 	if (!*slot)
-		SYS_Msg("Video: cannot create pipeline: %s", SDL_GetError());
+		SDL_Log("Video: cannot create pipeline: %s", SDL_GetError());
 	return *slot;
 }
 
@@ -506,7 +506,7 @@ static int EnsureTargets(Uint32 w, Uint32 h)
 
 	if (!g_ColorTarget || !g_DepthTarget)
 	{
-		SYS_Msg("Video: cannot create render targets: %s", SDL_GetError());
+		SDL_Log("Video: cannot create render targets: %s", SDL_GetError());
 		ReleaseTargets();
 		return 0;
 	}
@@ -530,7 +530,7 @@ static int CreateDevice(void)
 	g_Device = SDL_CreateGPUDevice(formats, SDL_GetHintBoolean("NOGRAVITY_GPU_DEBUG", false), NULL);
 	if (!g_Device)
 	{
-		SYS_Msg("Video: cannot create a GPU device: %s", SDL_GetError());
+		SDL_Log("Video: cannot create a GPU device: %s", SDL_GetError());
 		return 0;
 	}
 	formats = SDL_GetGPUShaderFormats(g_Device);
@@ -538,7 +538,7 @@ static int CreateDevice(void)
 	g_FragmentShader = CreateShader(SDL_GPU_SHADERSTAGE_FRAGMENT, formats);
 	if (!g_VertexShader || !g_FragmentShader)
 	{
-		SYS_Msg("Video: cannot create shaders: %s", SDL_GetError());
+		SDL_Log("Video: cannot create shaders: %s", SDL_GetError());
 		return 0;
 	}
 	g_DepthFormat = SDL_GPU_TEXTUREFORMAT_D16_UNORM;
@@ -625,7 +625,7 @@ static void WritePNG(const char *path, const u_int8_t *rgba, int w, int h)
 	SDL_free(rows);
 	png_destroy_write_struct(&png, &info);
 	fclose(fp);
-	SYS_Msg("Video: frame %d at %u ms: screenshot written to %s", g_FrameCount, (unsigned)SDL_GetTicks(), path);
+	SDL_Log("Video: frame %d at %u ms: screenshot written to %s", g_FrameCount, (unsigned)SDL_GetTicks(), path);
 }
 
 static void Screenshot(void)
@@ -1084,25 +1084,25 @@ static int RLXAPI CreateSurface(int BackBufferCount)
 		g_pSDLWindow = SDL_CreateWindow("No Gravity", w, h, ISFULLSCREEN() ? SDL_WINDOW_FULLSCREEN : 0);
 		if (!g_pSDLWindow)
 		{
-			SYS_Msg("Video: cannot create window: %s", SDL_GetError());
+			SDL_Log("Video: cannot create window: %s", SDL_GetError());
 			return -1;
 		}
 		ConfigureWindow(g_pSDLWindow, w, h);
 		if (!SDL_ClaimWindowForGPUDevice(g_Device, g_pSDLWindow))
 		{
-			SYS_Msg("Video: cannot attach the window to the GPU device: %s", SDL_GetError());
+			SDL_Log("Video: cannot attach the window to the GPU device: %s", SDL_GetError());
 			SDL_DestroyWindow(g_pSDLWindow);
 			g_pSDLWindow = NULL;
 			return -1;
 		}
 		g_VSync = -1;
-		SYS_Msg("Video: %dx%d %s, SDL_GPU (%s)", w, h, ISFULLSCREEN() ? "fullscreen" : "windowed", SDL_GetGPUDeviceDriver(g_Device));
+		SDL_Log("Video: %dx%d %s, SDL_GPU (%s)", w, h, ISFULLSCREEN() ? "fullscreen" : "windowed", SDL_GetGPUDeviceDriver(g_Device));
 	}
 	else
 	{
 		// A mode change keeps the window, the device and every texture.
 		ConfigureWindow(g_pSDLWindow, w, h);
-		SYS_Msg("Video: %dx%d %s", w, h, ISFULLSCREEN() ? "fullscreen" : "windowed");
+		SDL_Log("Video: %dx%d %s", w, h, ISFULLSCREEN() ? "fullscreen" : "windowed");
 	}
 	ApplyVSync();
 	g_pRLX->pGX->Surfaces.maxSurface = BackBufferCount;
