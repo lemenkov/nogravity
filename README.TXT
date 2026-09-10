@@ -48,6 +48,9 @@ Environment variables useful for development:
                                     "3000:Return,8000:Down" (SDL key names)
   NOGRAVITY_GPU_DEBUG=1             enable the SDL_GPU validation layers
   NOGRAVITY_TRACE_FILES=1           report data files that fail to open
+  NOGRAVITY_STAGE=NN                start stage NN (episode, mission: 11 is
+                                    the first mission) instead of the one
+                                    chosen in the menus
 
 ===================================================================
 3. Credits

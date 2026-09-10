@@ -1359,6 +1359,13 @@ void NG_GameStart(void)
 
 	// Level
     start_level = (g_pCurrentGame->episode+1)*10L+(g_pCurrentGame->level[g_pCurrentGame->episode]+1);
+    {
+        // Development hook: NOGRAVITY_STAGE=<episode><mission> (e.g. 11 or 23)
+        // starts that stage whatever the pilot selected.
+        const char *stage = SDL_getenv("NOGRAVITY_STAGE");
+        if (stage && atoi(stage) > 0)
+            start_level = atoi(stage);
+    }
     MM_heap.reset();
 
 	g_cTimer.iMinFrame = g_SGSettings.FrameSkip;
