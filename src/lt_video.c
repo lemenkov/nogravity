@@ -79,7 +79,7 @@ static void NG_FadeInBackground()
 		int k = i == 256-s? 255 : i;
 		if (i == 0)
 			GX.gi.clearBackBuffer();
-		CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(k, k, k, 0) : 255));
+		CSP_Color(RGBA_PixelFormat(k, k, k, 0));
 		GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
 		GX.View.Flip();
 	}
@@ -93,7 +93,7 @@ static void NG_FadeOutBackground()
 	for (i=0;i<255;i+=s)
 	{
 		int k = i == 256-s? 0 : 255 - i;
-		CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(k, k, k, 0) : 255));
+		CSP_Color(RGBA_PixelFormat(k, k, k, 0));
 		GX.csp.zoom_pset(&g_csPicture,0,0,GX.View.lWidth, GX.View.lHeight);
 		GX.View.Flip();
 	}
@@ -104,7 +104,6 @@ void NG_DrawBackgroundPic(char *szFilename, int TrackPlay, int mode)
     GX.View.Flags = GX_CAPS_VSYNC|GX_CAPS_BACKBUFFERINVIDEO;
     mode&=7;
 
-	// NG_ChangeScreenMode(GX.Client->SearchDisplayMode(640, 480, g_SGSettings.ColorDepth));
     NG_InstallHandlers();
 
 	SYS_ASSERT(g_csPicture.data == 0);

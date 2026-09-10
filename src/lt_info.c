@@ -159,7 +159,6 @@ void NG_SaveGameInfo(void)
 		fprintf(in, "ResolutionX=%d\n", (int)g_SGSettings.ResolutionX);
 		fprintf(in, "ResolutionY=%d\n", (int)g_SGSettings.ResolutionY);
 	fprintf(in, "Fullscreen=%d\n", (int)g_SGSettings.Fullscreen);
-        fprintf(in, "ColorDepth=%d\n", g_SGSettings.ColorDepth);
         fprintf(in, "FrameSkip=%d\n", g_SGSettings.FrameSkip);
 		fprintf(in, "Multisampling=%d\n", g_SGSettings.Multisampling);
 		fprintf(in, "VSync=%d\n", g_SGSettings.VerticalSync);
@@ -225,7 +224,6 @@ void NG_ReadGameConfig(void)
         {
             g_SGSettings.ResolutionX = (u_int16_t)GetCF_long("ResolutionX", &iniFile);
 			g_SGSettings.ResolutionY = (u_int16_t)GetCF_long("ResolutionY", &iniFile);
-			g_SGSettings.ColorDepth = (u_int8_t)GetCF_long("ColorDepth", &iniFile);
 
             g_SGSettings.Dithering = (u_int8_t)GetCF_bool("Dithering", &iniFile);
 	    g_SGSettings.Fullscreen = (u_int8_t)GetCF_bool("Fullscreen", &iniFile);
@@ -322,7 +320,6 @@ void NG_ReadGameConfig(void)
         g_SGSettings.Fullscreen = 1;
         g_SGSettings.ResolutionX = 640;
         g_SGSettings.ResolutionY = 480;
-        g_SGSettings.ColorDepth = 32;
         g_SGSettings.TexFiltering = 1;
         g_SGSettings.VisualsFx = 4;
         NG_SaveGameInfo();

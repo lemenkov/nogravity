@@ -41,7 +41,7 @@ typedef struct
 	float		WorldUnit;
 	int32_t		sp_inert, maxCase;
     u_int32_t	player;
-    int			ResolutionX, ResolutionY, ColorDepth;
+    int			ResolutionX, ResolutionY;
     int			ComNumber, ComTime, ComFTime;
     u_int8_t	VolDIG, VolFX, VolMusic;
     u_int8_t Fullscreen;

@@ -146,10 +146,10 @@ typedef int GXDISPLAYMODEHANDLE;
 
 // Video Driver
 typedef struct {
-    GXDISPLAYMODEINFO*(* RLXAPI EnumDisplayList)(int bpp);
+    GXDISPLAYMODEINFO*(* RLXAPI EnumDisplayList)(void);
     void               (* RLXAPI GetDisplayInfo)(GXDISPLAYMODEHANDLE mode);
     int	               (* RLXAPI SetDisplayMode)(GXDISPLAYMODEHANDLE mode);
-    GXDISPLAYMODEHANDLE(* RLXAPI SearchDisplayMode)(int lx, int ly, int bpp);
+    GXDISPLAYMODEHANDLE(* RLXAPI SearchDisplayMode)(int lx, int ly);
     int                (* RLXAPI CreateSurface)(int numberOfSparePages);
     void               (* RLXAPI ReleaseSurfaces)(void);
     void               (* RLXAPI UploadSprite)(GXSPRITE *sp, rgb24_t *colorTable, int bpp);
@@ -178,7 +178,6 @@ typedef struct _gx_graphic_interface
     void  (* CALLING_C drawPixel)(int32_t x, int32_t y, u_int32_t colour);
     void  (* CALLING_C clearBackBuffer)(void);
     void  (* CALLING_C clearVideo)(void);
-    void  (* CALLING_C setPalette)(u_int32_t a, u_int32_t b, void * pal);
 }GXGRAPHICINTERFACE;
 
 #include "gx_csp.h"

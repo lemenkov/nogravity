@@ -70,7 +70,7 @@ static void CALLING_C V3XRENDER_Wired(V3XPOLY *fce)
 {
     int32_t *s=(int32_t*)fce->shade;
     V3XMATERIAL *mat = (V3XMATERIAL*)fce->Mat;
-    u_int32_t cl = mat ? RGB_PixelFormat(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b) : (GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(255, 255, 255, 0) : 255);
+    u_int32_t cl = mat ? RGB_PixelFormat(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b) : RGBA_PixelFormat(255, 255, 255, 0);
     V3XlPTS *pt=(V3XlPTS*)fce->dispTab;
     int i, j=fce->numEdges-1;
 	return;
@@ -250,7 +250,7 @@ void GX_ClippedLine3D(V3XVECTOR *a, V3XVECTOR *b, u_int32_t cl)
     V3XVECTOR d[2];
     if (GX_ClipLine(d+0, d+1, a, b))
     {
-        if (!cl) cl = (GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(255, 255, 255, 0) : 255);
+        if (!cl) cl = RGBA_PixelFormat(255, 255, 255, 0);
         GX.gi.drawAnyLine((int32_t)d[0].x, (int32_t)d[0].y, (int32_t)d[1].x, (int32_t)d[1].y, cl);
         /*
         rgb32_t c[2];
@@ -344,7 +344,7 @@ void CALLING_C V3XRENDER_SpriteAny(V3XPOLY *fce)
 */
 void V3XMaterial_Register(V3XMATERIAL *mat)
 {
-    V3X_GXTexPrimitives *G=NULL, *Gr=NULL, *Gc=NULL;
+    V3X_GXTexPrimitives *G=NULL, *Gr=NULL;
     V3X_GXNonTexPrimitives *Gs=NULL;
 
     int k = mat->info.Shade & 3;
@@ -355,22 +355,12 @@ void V3XMaterial_Register(V3XMATERIAL *mat)
     {
         Gs = V3X.Client->primitive->std;
         Gr = V3X.Client->primitive->Linear256x256x8b;
-        Gc = V3X.Client->primitive->Corrected256x256x8b;
-        // Rendu 'Corrige'
-        if ((mat->info.Perspective)&&(GX.View.BitsPerPixel!=32))
-        {
-            G = V3X.Client->primitive->Corrected256x256x8b;
-        }
-        else
-        {
-            G = Gr;
-            mat->info.Perspective = 0;
-        }
+        G = Gr;
+        mat->info.Perspective = 0;
         if (mat->shift_size)
         {
             G = V3X.Client->primitive->Linear128x128x8b;
             Gr = G;
-            Gc = V3X.Client->primitive->Linear128x128x8b;
         }
     }
 

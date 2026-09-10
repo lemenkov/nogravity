@@ -65,11 +65,6 @@ enum {
     REALCOLOR_RgbReal
 };
 // 8bit fade method
-enum {
-    FADE_Black,      // Fade from/to black color
-    FADE_White         // Fade from/to with color
-};
-
 
 // Functions
 
@@ -80,7 +75,6 @@ _RLXEXPORTFUNC    void    RLXAPI  RGB_GetPixelFormat(rgb24_t *rgb, u_int32_t c);
 _RLXEXPORTFUNC    unsigned   RLXAPI  RGB_SetPixelFormat(int r, int g, int b);    //
 
     // Operation Palette
-_RLXEXPORTFUNC    void    RLXAPI  PAL_fading(     rgb24_t *palfade, int start, int fin, int echelle, int revrse);
 
     // Load color Table
 _RLXEXPORTFUNC    void    RLXAPI  ACT_LoadFn(rgb24_t *pal, char *filename2);
@@ -96,16 +90,8 @@ _RLXEXPORTFUNC    u_int32_t  RLXAPI   RGB_findNearestColor(const rgb24_t *col, c
 _RLXEXPORTFUNC    void    RLXAPI  PAL_SetRedCyanPalette(void);
 
     // 8bit blend palette
-_RLXEXPORTFUNC    void    RLXAPI  REALCOLOR_Reduce(u_int8_t **real, int factor);
-_RLXEXPORTFUNC    int     RLXAPI  REALCOLOR_Simply(u_int8_t **real);
-_RLXEXPORTFUNC    void    RLXAPI  REALCOLOR_Free(u_int8_t **real);
-_RLXEXPORTFUNC    u_int8_t   RLXAPI **REALCOLOR_LoadFn(const char *xpal);
 
     // Fast macro for color fading.
-#define GX_FadeDownPalette(typ)     PAL_fading(GX.ColorTable, 32, 0, 32, typ)
-#define PAL_FadeUp(typ)       PAL_fading(GX.ColorTable, 0, 32, 32, typ)
-#define PAL_Black()           PAL_fading(GX.ColorTable, 0, 0, 32, FADE_Black)
-#define PAL_Full()            PAL_fading(GX.ColorTable, 32, 32, 32, FADE_Black)
 
 #define RASTER_CMDRESET       0xFF
 #define RASTER_CMDBORDER      0x31

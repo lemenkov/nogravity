@@ -902,15 +902,12 @@ static int HasMode(const GXDISPLAYMODEINFO *list, int n, int w, int h)
 	return 0;
 }
 
-// Every fullscreen mode of the primary display, largest first, reported
-// at the requested colour depth.
-static GXDISPLAYMODEINFO RLXAPI *EnumDisplayList(int bpp)
+// Every fullscreen mode of the primary display, largest first.  The
+// renderer always works in 32-bit colour.
+static GXDISPLAYMODEINFO RLXAPI *EnumDisplayList(void)
 {
 	GXDISPLAYMODEINFO *displays;
 	int n;
-
-	if ((bpp != 16) && (bpp != 24) && (bpp != 32))
-		bpp = 32;
 
 	if (g_pDisplays == NULL)
 	{
@@ -926,7 +923,7 @@ static GXDISPLAYMODEINFO RLXAPI *EnumDisplayList(int bpp)
 				continue;
 			g_pDisplays[n].lWidth = (u_int16_t)modes[i]->w;
 			g_pDisplays[n].lHeight = (u_int16_t)modes[i]->h;
-			g_pDisplays[n].BitsPerPixel = (u_int16_t)bpp;
+			g_pDisplays[n].BitsPerPixel = 32;
 			g_pDisplays[n].mode = (short)n;
 			n++;
 		}
@@ -938,7 +935,7 @@ static GXDISPLAYMODEINFO RLXAPI *EnumDisplayList(int bpp)
 			{
 				g_pDisplays[n].lWidth = (u_int16_t)fallback[i][0];
 				g_pDisplays[n].lHeight = (u_int16_t)fallback[i][1];
-				g_pDisplays[n].BitsPerPixel = (u_int16_t)bpp;
+				g_pDisplays[n].BitsPerPixel = 32;
 				g_pDisplays[n].mode = (short)n;
 			}
 		}
@@ -1003,29 +1000,15 @@ static void RLXAPI GetDisplayInfo(GXDISPLAYMODEHANDLE mode)
 	SYS_ASSERT(g_pDisplays != NULL);
 	if ((mode < 0) && (g_pDisplays[0].BitsPerPixel != 0))
 		mode = 0;
-	g_pRLX->pfSetViewPort(&g_pRLX->pGX->View, g_pDisplays[mode].lWidth, g_pDisplays[mode].lHeight, g_pDisplays[mode].BitsPerPixel);
-	if (g_pDisplays[mode].BitsPerPixel == 16)
-	{
-		g_pRLX->pGX->View.ColorMask.RedMaskSize = 5;
-		g_pRLX->pGX->View.ColorMask.GreenMaskSize = 6;
-		g_pRLX->pGX->View.ColorMask.BlueMaskSize = 5;
-		g_pRLX->pGX->View.ColorMask.RsvdMaskSize = 0;
-		g_pRLX->pGX->View.ColorMask.RedFieldPosition = 0;
-		g_pRLX->pGX->View.ColorMask.GreenFieldPosition = 5;
-		g_pRLX->pGX->View.ColorMask.BlueFieldPosition = 11;
-		g_pRLX->pGX->View.ColorMask.RsvdFieldPosition = 16;
-	}
-	else
-	{
-		g_pRLX->pGX->View.ColorMask.RedMaskSize = 8;
-		g_pRLX->pGX->View.ColorMask.GreenMaskSize = 8;
-		g_pRLX->pGX->View.ColorMask.BlueMaskSize = 8;
-		g_pRLX->pGX->View.ColorMask.RsvdMaskSize = (g_pDisplays[mode].BitsPerPixel == 32) ? 8 : 0;
-		g_pRLX->pGX->View.ColorMask.RedFieldPosition = 0;
-		g_pRLX->pGX->View.ColorMask.GreenFieldPosition = 8;
-		g_pRLX->pGX->View.ColorMask.BlueFieldPosition = 16;
-		g_pRLX->pGX->View.ColorMask.RsvdFieldPosition = 24;
-	}
+	g_pRLX->pfSetViewPort(&g_pRLX->pGX->View, g_pDisplays[mode].lWidth, g_pDisplays[mode].lHeight, 32);
+	g_pRLX->pGX->View.ColorMask.RedMaskSize = 8;
+	g_pRLX->pGX->View.ColorMask.GreenMaskSize = 8;
+	g_pRLX->pGX->View.ColorMask.BlueMaskSize = 8;
+	g_pRLX->pGX->View.ColorMask.RsvdMaskSize = 8;
+	g_pRLX->pGX->View.ColorMask.RedFieldPosition = 0;
+	g_pRLX->pGX->View.ColorMask.GreenFieldPosition = 8;
+	g_pRLX->pGX->View.ColorMask.BlueFieldPosition = 16;
+	g_pRLX->pGX->View.ColorMask.RsvdFieldPosition = 24;
 	SetPrimitive();
 	GPU_FakeViewPort();
 }
@@ -1038,13 +1021,13 @@ static int RLXAPI SetDisplayMode(GXDISPLAYMODEHANDLE mode)
 	return 0;
 }
 
-static GXDISPLAYMODEHANDLE RLXAPI SearchDisplayMode(int lx, int ly, int bpp)
+static GXDISPLAYMODEHANDLE RLXAPI SearchDisplayMode(int lx, int ly)
 {
 	GXDISPLAYMODEHANDLE mode;
 	SYS_ASSERT(g_pDisplays != NULL);
 	for (mode = 0; g_pDisplays[mode].BitsPerPixel != 0; mode++)
 	{
-		if ((g_pDisplays[mode].lWidth == lx) && (g_pDisplays[mode].lHeight == ly) && (g_pDisplays[mode].BitsPerPixel == bpp))
+		if ((g_pDisplays[mode].lWidth == lx) && (g_pDisplays[mode].lHeight == ly))
 			break;
 	}
 	if (g_pDisplays[mode].BitsPerPixel == 0)

@@ -211,7 +211,7 @@ void STUB_MainCode(void)
 
 	NG_CreateDisplayList();
 	{
-		int mode = GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY, g_SGSettings.ColorDepth);
+		int mode = GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY);
 		GX.Client->GetDisplayInfo(mode);
 		NG_ChangeScreenMode(mode);
 	}
@@ -495,10 +495,9 @@ static int EnumDisplayMode(char **ModeList)
 {
 	GXDISPLAYMODEINFO *p;
 
-	int colorDepth = g_SGSettings.ColorDepth;
 	int m_nValue = g_SGSettings.DisplayIndex;
 
-    g_pDisplayMode = p = GX.Client->EnumDisplayList(g_SGSettings.ColorDepth);
+    g_pDisplayMode = p = GX.Client->EnumDisplayList();
 
 	if (g_pDisplayMode)
 	{
@@ -522,13 +521,12 @@ static int EnumDisplayMode(char **ModeList)
 			current = g_pDisplayMode;
 			while (current->BitsPerPixel)
 			{
-				if (!((current->BitsPerPixel <= 8) || (current->lWidth<640) || (current->lHeight<480)))
+				if (!((current->lWidth<640) || (current->lHeight<480)))
 				{
 					struct _gx_display_mode_info *f = filtered;
 					while (f<filter)
 					{
-						if ((f->BitsPerPixel == current->BitsPerPixel)
-							&& (f->lWidth == current->lWidth)
+						if ((f->lWidth == current->lWidth)
 							&& (f->lHeight == current->lHeight))
 						{
 							break;
@@ -541,7 +539,7 @@ static int EnumDisplayMode(char **ModeList)
 						*filter = *current;
 
 						if ((current->lWidth==g_SGSettings.ResolutionX)&&
-							(current->lHeight==g_SGSettings.ResolutionY)&&(current->BitsPerPixel==colorDepth))
+							(current->lHeight==g_SGSettings.ResolutionY))
 							pref = n;
 
 						filter++;
@@ -561,12 +559,7 @@ static int EnumDisplayMode(char **ModeList)
 			while(g_pDisplayMode[i].BitsPerPixel)
 			{
 				ModeList[i] = (char*)malloc(32);
-				sprintf(ModeList[i], "%d x %d (%d)",
-					g_pDisplayMode[i].lWidth,
-					g_pDisplayMode[i].lHeight,
-					g_pDisplayMode[i].BitsPerPixel
-
-				);
+				sprintf(ModeList[i], "%d x %d", g_pDisplayMode[i].lWidth, g_pDisplayMode[i].lHeight);
 				i++;
 			}
 
@@ -613,8 +606,6 @@ void NG_ChangeScreenMode(int mode)
         GX.Client->GetDisplayInfo(mode);
     }
 
-	if (GX.View.BitsPerPixel<=8)
-		PAL_Black();
 
 	V3XKernel_RenderClass();
     nCurrentMode = mode;

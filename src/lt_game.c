@@ -2415,7 +2415,7 @@ static void Display_HUD(void)
                     case 2: // glenz
                     if (!g_SGGame.RadarMode)
                     {
-						CSP_Color((GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(255, 255, 255, 0) : 255));
+						CSP_Color(RGBA_PixelFormat(255, 255, 255, 0));
                         GX.csp_cfg.table = g_SGGame.Scene->Layer.lt.additive.table;
                         GX.csp.TrspADD(xxx, but->Y, g_pspHud2->item + 14);
                     }

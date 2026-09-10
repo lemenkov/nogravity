@@ -259,7 +259,6 @@ void NG_FXLoadData(void)
     g_pspFlares = MM_CALLOC(1, GXSPRITEGROUP);
     g_pspFlares->maxItem = 12;
     g_pspFlares->item = MM_CALLOC(g_pspFlares->maxItem, GXSPRITE);
-    g_pspFlares2 = NULL;
     sp = g_pspFlares->item;
     for (i=0;i<g_pspFlares->maxItem;i++, sp++)
     {
@@ -306,9 +305,6 @@ void NG_FXReleaseData()
 		CSPG_Release(g_pspFlares);
 	g_pspFlares = 0;
 
-	if (g_pspFlares2)
-		CSPG_Release(g_pspFlares2);
-	g_pspFlares2 = 0;
     return;
 }
 /*------------------------------------------------------------------------
@@ -407,16 +403,8 @@ void NG_FXFlare(void)
                         g_SGGame.FlashAlpha = (short)(8.f * alphaLevel);
                     }
                     V3XVector_Dif(&direction, &zero, &lightOnView);
-                    if (GX.View.BytePerPixel>1)
-                    {
-                        CSP_Color(RGB_PixelFormat(255, 255, 255));
-                        GX.csp_cfg.alpha = 255;
-                    }
-                    else
-                    {
-                        alphaLevel = MULF32((V3XSCALAR)(g_pspFlares->maxItem - 1), (CST_ONE - alphaLevel));
-                        GX.csp_cfg.table = g_SGGame.Scene->Layer.lt.alpha50.table;
-                    }
+                    CSP_Color(RGB_PixelFormat(255, 255, 255));
+                    GX.csp_cfg.alpha = 255;
                     lenzOnView = lightOnView;
                     if (!sz) sz++;
                     for (j=(int32_t)sz;j!=0;F++, j--)
@@ -425,9 +413,7 @@ void NG_FXFlare(void)
                         int32_t x, y;
                         lenzOnView.x =  lightOnView.x + direction.x * F->pos;
                         lenzOnView.y =  lightOnView.y + direction.y * F->pos;
-                        sp =  (GX.View.BytePerPixel>1)
-                        ?  g_pspFlares->item + MAXLENZ - j
-                        : ((F->type ? g_pspFlares2->item : g_pspFlares->item) + (int32_t)alphaLevel);
+                        sp = g_pspFlares->item + MAXLENZ - j;
                         lensSize.y = (- F->radius * lensSize.z);
                         lensSize.x = (lensSize.y * V3X.ViewPort.Ratio);
                         if (lensSize.x<0) lensSize.x=-lensSize.x;
@@ -789,10 +775,7 @@ SGEffect *NG_FXNew(V3XVECTOR *pos, int type, int lop, SGScript *pInf, int kp, V3
 				p->material.render_clip = V3XRENDER_SpriteAny;
             }
 
-            if (GX.View.BytePerPixel>1)
-			{
-				SYS_ASSERT(p->Sprite);
-			}
+            SYS_ASSERT(p->Sprite);
         }
     }
     return EJ;

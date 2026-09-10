@@ -288,7 +288,6 @@ static void NG_LoadMenuInterface(void)
         SYS_ASSERT(in);
         g_pShipAnims[1] = FLI_Open(in, FLI_USEMEMORY);
 
-        if (GX.View.BytePerPixel>1)
         {
             int i;
             for (i=0;i<3;i++)
@@ -714,10 +713,7 @@ static int NG_RenderingMainMenu(RW_Interface *p, int mode)
 			}
      	}
 
-		if (GX.View.BytePerPixel>1)
-			CSP_Color(NG_PixelFormat(255-i*6, 255-i*5, 255-i*6, 255));
-		else
-			CSP_Color(COLOR_WHITE);
+		CSP_Color(NG_PixelFormat(255-i*6, 255-i*5, 255-i*6, 255));
 
         if (i>=(int32_t)defColor)
             CSP_Color( COLOR_GRAY );
@@ -876,7 +872,6 @@ static void NG_ExecSubMenu(char *name, SGMenu *pMenu,  PFRWCALLBACK  pf)
 
 				if (v==&RLX.Video.Gamma)
 				{
-					PAL_Full();
 					NG_UpdateColor();
 				}
 
@@ -1015,7 +1010,7 @@ static int NG_PlayerRosterMenu(void)
 					if (ret>=0)
 					{
 						ret = val[ret];
-						if (!NG_ExecMainMenu(g_pDeletePlayer, 0, (GX.View.BytePerPixel > 1 ? NG_PixelFormat(255, 255, 255, 0) : 255), 0))
+						if (!NG_ExecMainMenu(g_pDeletePlayer, 0, NG_PixelFormat(255, 255, 255, 0), 0))
 						g_pSaveGames[ret].active=0;
 					}
 					szMenus[m+1]=NULL;
@@ -1077,8 +1072,7 @@ static int NG_SelectBriefing(void)
         for (y=ymin, i=0;i<16;i++, y+=ly)
         {
             int x = GX.View.xmin+(((GX.View.xmax-GX.View.xmin)-CSPG_TxLen(Level->tex[i], g_pFontMenuSml))>>1);
-   			if (GX.View.BytePerPixel>1)
-   				CSP_Color(NG_PixelFormat(255-i*8, 255-i*8, 255-i*8, 255));
+   			CSP_Color(NG_PixelFormat(255-i*8, 255-i*8, 255-i*8, 255));
             CSP_WriteText(Level->tex[i], x, y, g_pFontMenuSml);
 
             // NG_AudioPlaySound(NG_AudioGetByName("message")-1, 0);
@@ -1321,7 +1315,6 @@ static int NG_SelectMap(void)
     g_nShipAnim = 0;
 
     memcpy(GX.ColorTable, GX.ColorTables[1], 768);
-    GX_FadeDownPalette(0);
     MM_heap.pop(id);
 
     g_SGSettings.NextMenu = 66;
@@ -1404,7 +1397,6 @@ static void XCancel(void)
 	NG_AudioStopTrack();
     NG_AudioPlayTrack(Ms_MENU1);
     memcpy(GX.ColorTable, GX.ColorTables[0], 768);
-    PAL_Full();
     return;
 }
 
@@ -1728,7 +1720,7 @@ void NG_DrawHelpFile(GXSPRITEGROUP *Font, int color2, int xz)
                 if ((y0>= GX.View.ymin-LY)&&(y0<=GX.View.ymax))
                 {
                     char *szText = sFile.text[j];
-                    CSP_DrawTextC(szText, xz, y0, color2, (GX.View.BytePerPixel > 1 ? NG_PixelFormat(255, 255, 255, 0) : 255), Font, GX.csp_cfg.put);
+                    CSP_DrawTextC(szText, xz, y0, color2, NG_PixelFormat(255, 255, 255, 0), Font, GX.csp_cfg.put);
                 }
             }
 
@@ -1798,7 +1790,7 @@ int NG_MainMenu(void)
     // Presentation
     GX.View.Flags = GX_CAPS_VSYNC| GX_CAPS_BACKBUFFERINVIDEO;
     filewad_chdir(FIO_wad, "");
-    NG_ChangeScreenMode(GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY, g_SGSettings.ColorDepth));
+    NG_ChangeScreenMode(GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY));
     NG_LoadBackground(".\\menu\\lit_mn01.png", &g_csBackground);
     NG_InstallHandlers();
     g_SGMenuPos.Help = 1;
@@ -1881,7 +1873,6 @@ int NG_MainMenu(void)
         MM_heap.pop(p);
     }
     if (!iItem)
-		GX_FadeDownPalette(0);
 
     GX.Client->ReleaseSprite(&g_csBackground);
     NG_ReleaseMenuInterface();

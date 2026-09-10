@@ -474,40 +474,6 @@ static void RLXAPI v3x_Destroy_TVI(V3XSCENE *pScene, int i)
 }
 /*------------------------------------------------------------------------
 *
-* PROTOTYPE  : V3XSCENE *load_V3XSCENE(char *mode, FlushClass *f);
-*
-* DESCRIPTION :
-*
-*/
-static void v3xtx_load(V3XLAYER_CLITEM *item)
-{
-    if (item->filename[0])
-    {
-		char tex[256];
-        sprintf(tex, "%s.png", item->filename);
-        item->table = REALCOLOR_LoadFn(tex);
-        REALCOLOR_Simply(item->table);
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  static void v3xtx_free(V3XLAYER_CLITEM *item)
-*
-* DESCRIPTION :
-*
-*/
-static void v3xtx_free(V3XLAYER_CLITEM *item)
-{
-    if (item->table)
-    {
-        REALCOLOR_Free(item->table);
-        item->table = NULL;
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
 * PROTOTYPE  :  void RLXAPI V3XScene_Release(V3XSCENE *pScene)
 *
 * DESCRIPTION :
@@ -530,18 +496,6 @@ void RLXAPI V3XScene_Release(V3XSCENE *pScene)
     MM_heap.free(pScene->OVI);
     MM_heap.free(pScene->TRI);
     MM_heap.free(pScene->TVI);
-    if (GX.View.BytePerPixel==1)
-    {
-        v3xtx_free(&layer->lt.alpha50);
-        v3xtx_free(&layer->lt.additive);
-        v3xtx_free(&layer->lt.blur);
-        if (layer->lt.gouraud.table)
-        {
-            REALCOLOR_Free(layer->lt.gouraud.table);
-            MM_heap.free(layer->lt.phong.table);
-            layer->lt.gouraud.table = NULL;
-        }
-    }
     if (layer->bg.bitmap.handle) V3X_CSP_Unload(&layer->bg.bitmap);
     if (layer->lt.palette.table)
     MM_heap.free(layer->lt.palette.table);
@@ -584,7 +538,7 @@ static void RLXAPI V3x_GetRenderBackground(V3XSCENE *pScene)
 */
 void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
 {
-    int i, x, m=MM_heap.active;
+    int i, m=MM_heap.active;
     V3XLAYER *layer = &pScene->Layer;
     V3XORI    *ORI;
     V3X.Setup.warnings &=~ V3XWARN_NOENOUGHSurfaces;
@@ -608,9 +562,7 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
         case V3XBG_NONE:
         break;
         case V3XBG_COLOR:
-        layer->bg.index_color = (GX.View.BytePerPixel==1)
-        ? RGB_findNearestColor((rgb24_t*)&layer->bg.BG_color, GX.ColorClut)
-        : RGB_PixelFormat(layer->bg.BG_color.r, layer->bg.BG_color.g, layer->bg.BG_color.b);
+        layer->bg.index_color = RGB_PixelFormat(layer->bg.BG_color.r, layer->bg.BG_color.g, layer->bg.BG_color.b);
         break;
         case V3XBG_IMG:
         V3x_GetRenderBackground(pScene);
@@ -643,31 +595,6 @@ void V3XScene_LoadTextures(V3XSCENE *pScene, void (*callback)(void *))
         }
     }
 
-    /*
-    *   Charge les Tables realColor
-    */
-    if (!(V3X.Setup.flags&V3XOPTION_TRUECOLOR))
-    {
-        if( GX.View.BytePerPixel==1)
-        {
-            v3xtx_load(&layer->lt.alpha50);
-            v3xtx_load(&layer->lt.additive);
-            v3xtx_load(&layer->lt.blur);
-            v3xtx_load(&layer->lt.gouraud);
-            if (layer->lt.gouraud.table)
-            {
-                if (layer->lt.shift)
-					REALCOLOR_Reduce(layer->lt.gouraud.table, layer->lt.shift);
-                layer->lt.phong.table = (u_int8_t**) MM_heap.malloc(256*sizeof(u_int8_t*));
-                for (i=0;i<128;i++)
-                {
-                    x = (int)sin16(i<<3);
-                    x = MULF32_SQR(MULF32_SQR(MULF32_SQR(x)));
-                    layer->lt.phong.table[i]=layer->lt.gouraud.table[x>>8];
-                }
-            }
-        }
-    }
     GX.ColorClut=NULL;
     V3XViewport_Setup(&V3X.Camera, GX.View);
     V3XMatrix_MeshTransform(&V3X.Camera);

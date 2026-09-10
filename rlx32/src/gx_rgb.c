@@ -66,78 +66,6 @@ u_int32_t static *CreateSquareArray(void)
 
 #define SGN(a)       ((a)==0 ? 0 : (( (a) >0) ? (1) : (-1)))
 
-static void PAL_fadeChannel(rgb24_t *pf, int st, int fi, int start, int fin, rgb48_t *coul, int revrse)
-{
-    u_int8_t *palfade = (u_int8_t*)pf;
-    u_int8_t *Pa2 = (u_int8_t*) GX.ColorTables[0];
-    u_int8_t  mapalet[768];
-    u_int8_t  *mpal, *palf, *Inv=&GX.DefaultColor.r;
-    int32_t   j, i, l, speedfade=SGN(fin-start), k;
-    i=start;
-    do
-    {
-        if (GX.View.BytePerPixel==1)
-        {
-            mpal = mapalet+3*st;
-            palf = palfade+3*st;
-            for (j=st;j<=fi;j++)
-            {
-                unsigned *c;
-                for (c=&coul->rouge, l=0;l<3;l++, mpal++, palf++, c++)
-                {
-                    k=((int32_t)(*palf)*i)/(*c);
-                    switch(revrse) {
-                        case 0:
-                        *mpal= (u_int8_t)k;
-                        break;
-                        case 1:
-                        *mpal= (u_int8_t)((*palf)+ (((Inv[l]-(int32_t)(*palf))*i)/(*c) )) ;
-                        break;
-                        case 2:
-                        *mpal = (u_int8_t)(Inv[l]-k);
-                        break;
-                        default:
-                        *mpal= (u_int8_t)((*palf)+(i*(Pa2[3*j+l]-(*palf))/(*c)));
-                        break;
-                    }
-                }
-            }
-            if (RLX.Video.Gamma)
-            for (j=0;j<768;j++)
-            {
-                k=mapalet[j]+RLX.Video.Gamma*8;
-                if (k>255) k=255;
-                mapalet[j]=(u_int8_t)k;
-            }
-            i+=speedfade;
-            // RGB Texture ambient color
-        }
-        else
-        {
-            unsigned *c = &coul->rouge;
-            u_int8_t    *b = &GX.AmbientColor.r;
-            u_int8_t    *d = &GX.DefaultColor.r;
-            i+=speedfade;
-            for (j=0;j<3;j++, c++, b++, d++)
-            {
-                if (revrse) k = 128+ ((((unsigned)*d-128)*i)/(*c) ) ;
-                else        k = (i<<7)/(unsigned)*c;
-                k+=RLX.Video.Gamma*2;
-                if (k>255) k=255;
-                *b = (u_int8_t)k;
-            }
-        }
-        GX.gi.setPalette((u_int32_t)st, (u_int32_t)(fi-st+1), mapalet+3*st);
-    }while (i!=fin);
-    return;
-}
-void PAL_fading(rgb24_t *palfade, int start, int fin, int echelle, int revrse)
-{
-    rgb48_t coul;
-    coul.bleu=coul.vert=coul.rouge=echelle;
-    PAL_fadeChannel(palfade, 0, 255, start, fin, &coul, revrse);
-    return;
-}
 /*------------------------------------------------------------------------
 *
 * PROTOTYPE  : void ACT_LoadFn(char *filename2, char *mode2, FIO_cur->fopen f)
@@ -285,9 +213,9 @@ u_int8_t *RGB_SmartConverter(void *tgt, rgb24_t *target_pal, int target_bpp, voi
                     for (;i!=0;t++, a++, i--)
                     {
                         const rgb24_t *mp=source_pal + (*a);
-                        t->r = GX.View.ColorMask.RedFieldPosition&&(GX.View.BytePerPixel>=3) ? mp->b : mp->r;
+                        t->r = mp->r;
                         t->g = mp->g;
-                        t->b = GX.View.ColorMask.RedFieldPosition&&(GX.View.BytePerPixel>=3) ? mp->r : mp->b;
+                        t->b = mp->b;
                     }
                 }
                 break;
@@ -533,91 +461,6 @@ u_int32_t RGB_PixelFormatEx(rgb24_t *p)
         default:
         return RGB_PixelFormat((u_int32_t)p->r, (u_int32_t)p->g, (u_int32_t)p->b);
     }
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  : u_int8_t **load_realcolor(char *xpal, char *res)
-*
-* DESCRIPTION :
-*
-*/
-void REALCOLOR_Reduce(u_int8_t **real, int factor)
-{
-    int i, x;
-    if (real==NULL) return;
-    for (i=0;i<256;i++)
-    {
-        x=i>>factor;x<<=factor;
-        if (i!=x)
-        {
-            real[i]=real[x];
-        }
-    }
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  int REALCOLOR_Simply(u_int8_t **real)
-*
-* DESCRIPTION :
-*
-*/
-int REALCOLOR_Simply(u_int8_t **real)
-{
-    int i, j, k, s, good=0;
-    u_int32_t *a, *b;
-    if (real==NULL) return 0;
-    for (i=0;i<255;i++)
-    {
-        for (j=i+1;j<256;j++)
-        {
-            s=0;
-            if (real[i]!=real[j])
-            {
-                for (a=(u_int32_t*)real[i], b=(u_int32_t*)real[j], k=64;k!=0;a++, b++, k--)
-                {
-                    if ((*a)!=(*b)) s=1;
-                }
-                if (s==0)
-                {
-                    real[j]=real[i];
-                    good++;
-                }
-            }
-        }
-    }
-    return good;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  void REALCOLOR_Free(u_int8_t **real)
-*
-* DESCRIPTION :
-*
-*/
-void REALCOLOR_Free(u_int8_t **real)
-{
-    if (real==NULL) return;
-    MM_heap.free(real[0]);
-    MM_heap.free(real);
-    return;
-}
-/*------------------------------------------------------------------------
-*
-* PROTOTYPE  :  u_int8_t **REALCOLOR_LoadFn(char *xpal, char *res)
-*
-* DESCRIPTION :
-*
-*/
-u_int8_t **REALCOLOR_LoadFn(const char *xpal)
-{
-    int i;
-    u_int8_t **pe;
-    GXSPRITE sp;
-    if (!IMG_LoadFn(xpal, &sp)) return NULL;
-    pe = (u_int8_t**) MM_heap.malloc(256*sizeof(u_int8_t*));
-    for(i=0;i<256;i++) pe[i] = sp.data+i*256;
-    return pe;
 }
 // pal: palette de la map, clr : couleur … mixer  mode, alpha, quantize
 /*------------------------------------------------------------------------

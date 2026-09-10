@@ -145,10 +145,6 @@ static void CALLING_C clearVideo(void)
 	GPU_ClearColor();
 }
 
-static void CALLING_C setPalette(u_int32_t a, u_int32_t b, void *pal)
-{
-	UNUSED(a); UNUSED(b); UNUSED(pal);
-}
 
 // ---- sprites --------------------------------------------------------------
 
@@ -254,8 +250,7 @@ GXGRAPHICINTERFACE GI_GPU =
 	drawFilledRect,
 	drawPixel,
 	clearBackBuffer,
-	clearVideo,
-	setPalette
+	clearVideo
 };
 
 GXSPRITEINTERFACE CSP_GPU =

@@ -382,7 +382,7 @@ static void GX_drawGouraudRect(int32_t x, int32_t y, int32_t dx, int32_t dx2, in
         e.r = (u_int8_t)(((int32_t)(d->r - c->r)*i) / dx);
         e.g = (u_int8_t)(((int32_t)(d->g - c->g)*i) / dx);
         e.b = (u_int8_t)(((int32_t)(d->b - c->b)*i) / dx);
-        cl = GX.View.BytePerPixel>1 ? RGB_PixelFormatEx((rgb24_t*)&e) : 0;
+        cl = RGB_PixelFormatEx((rgb24_t*)&e);
         GX.gi.drawVerticalLine(i + x, y, dy, cl);
     }
     return;
@@ -472,7 +472,6 @@ static void NG_DrawExtra(void)
                         Mat->diffuse.r =
                         Mat->diffuse.g =
                         Mat->diffuse.b = 255;
-                        //&&(GX.View.BytePerPixel<4)
                         Mat->alpha  = 128;
                         Mat->RenderID = V3XID_T_TEX;
                         Mat->Render = V3XRCLASS_transp_mapping;
@@ -608,21 +607,12 @@ static void NG_InitGameScene(void)
     sysStrExtChg(g_SGObjects.World.scene_name, g_SGObjects.World.scene_name, "vmx");
     g_SGGame.Scene = V3XScene_GetFromFile(g_SGObjects.World.scene_name);
 
-    // Table Realcolor
-    if (GX.View.BytePerPixel==1)
-    {
-        strcpy(g_SGGame.Scene->Layer.lt.gouraud.filename, "!gouraud");
-        strcpy(g_SGGame.Scene->Layer.lt.alpha50.filename, "!glenz");
-        strcpy(g_SGGame.Scene->Layer.lt.additive.filename, "!glenz2");
-        strcpy(g_SGGame.Scene->Layer.lt.blur.filename, "!blur");
-    }
     // Couleur
     V3X.Setup.flags|=V3XOPTION_COLLISION|V3XOPTION_USESAMELUT;
     g_SGGame.Scene->Layer.lt.shift=4;
 
 	// Customisation NG
-    if (GX.View.BitsPerPixel>8)
-		V3X.Setup.flags|=V3XOPTION_AMBIANT;
+	V3X.Setup.flags|=V3XOPTION_AMBIANT;
 
 	V3X.Light.ambiant = V3X.Light.ambiantMaterial = AmbientLevel[g_pCurrentGame->episode>4 ? 0 : g_pCurrentGame->episode];
 
@@ -633,7 +623,7 @@ static void NG_InitGameScene(void)
     g_SGGame.CI_BLACK = RGB_convert(0, GX.ColorTable);
     g_SGGame.CI_YELLOW = RGB_convert(207, GX.ColorTable);
     g_SGGame.CI_RED = RGB_convert(216, GX.ColorTable);
-    g_SGGame.CI_WHITE = GX.View.BytePerPixel>1 ? (GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(255, 255, 255, 0) : 255) : RGB_convert(211, GX.ColorTable);
+    g_SGGame.CI_WHITE = RGBA_PixelFormat(255, 255, 255, 0);
     g_SGGame.CI_GREEN = RGB_convert(210, GX.ColorTable);
     g_SGGame.CI_BLUE = RGB_convert(195, GX.ColorTable);
     g_SGGame.CI_BLUELIGHT = RGB_convert(192, GX.ColorTable);
@@ -642,7 +632,7 @@ static void NG_InitGameScene(void)
     g_SGGame.pColorRadar[2] = g_SGGame.CI_RED;
     g_SGGame.pColorRadar[3] = g_SGGame.CI_YELLOW;
     g_SGGame.pColorRadar[4] = RGB_convert(220, GX.ColorTable);
-    g_SGGame.pColorRadar[5] = (GX.View.BytePerPixel > 1 ? RGBA_PixelFormat(255, 255, 255, 0) : 255);
+    g_SGGame.pColorRadar[5] = RGBA_PixelFormat(255, 255, 255, 0);
     g_SGGame.pColorRadar[6] = g_SGGame.CI_BLUELIGHT;
     g_SGGame.pColorRadar[7] = g_SGGame.CI_COL2;
 
@@ -1035,7 +1025,7 @@ static void NG_NAVClear(void)
 */
 static void NG_InitDisplay(void)
 {
-	GX.View.DisplayMode = (u_int16_t)GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY, g_SGSettings.ColorDepth);
+	GX.View.DisplayMode = (u_int16_t)GX.Client->SearchDisplayMode(g_SGSettings.ResolutionX, g_SGSettings.ResolutionY);
     GX.View.Flags = 0;
 
 	V3X.Setup.flags|=V3XOPTION_TRUECOLOR;
@@ -1226,10 +1216,6 @@ static void NG_InitGameDisplay(void)
     if (g_SGSettings.Stereo==1)
 		PAL_SetRedCyanPalette();
 
-    if (GX.View.BytePerPixel==1)
-		PAL_Black();
-    else
-		PAL_Full();
 
     NG_InstallHandlers();
     return;

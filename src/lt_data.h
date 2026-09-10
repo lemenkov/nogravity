@@ -38,7 +38,7 @@ extern "C"
 	extern GXSPRITE g_csPicture;
     extern GXSPRITEGROUP *g_pspHud, *g_pspCat, *g_pspHud2, *g_pFont, *g_pSmallFont;
     extern GXSPRITEGROUP *g_pspFX[32], *g_pFontMenuLrg, *g_pFontMenuSml;
-    extern GXSPRITEGROUP *g_pspFlares, *g_pspFlares2, *g_pspDispFont, *g_pspMsg;
+    extern GXSPRITEGROUP *g_pspFlares, *g_pspDispFont, *g_pspMsg;
     extern char **g_pszAnimList;
     extern V3XKEYCAMERA *g_pCamera;
     extern u_int8_t g_ubSampleUsed[32];

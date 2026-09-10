@@ -156,7 +156,7 @@ SGShip g_cShip, g_pShip[3]=
 	 GXSPRITE g_csPicture;
      GXSPRITEGROUP *g_pspHud, *g_pspCat, *g_pspHud2, *g_pFont, *g_pSmallFont;
      GXSPRITEGROUP *g_pspFX[32], *g_pFontMenuLrg, *g_pFontMenuSml;
-     GXSPRITEGROUP *g_pspFlares, *g_pspFlares2, *g_pspDispFont, *g_pspMsg;
+     GXSPRITEGROUP *g_pspFlares, *g_pspDispFont, *g_pspMsg;
      char **g_pszAnimList;
      V3XKEYCAMERA *g_pCamera;
      u_int8_t g_ubSampleUsed[32];
